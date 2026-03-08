@@ -643,10 +643,6 @@
                         <a href="events.php" class="nav-link">Events</a>
                         <a href="contact.php" class="nav-link">Contact</a>
                     </div>
-                    <!-- Admin Login Button -->
-                    <button onclick="openLoginModal()" class="ml-6 px-4 py-2 bg-[#b89a78] text-white rounded-lg text-sm font-medium hover:bg-[#8a735b] transition-colors">
-                        <i class="fas fa-user-shield mr-2"></i>Admin Login
-                    </button>
                 </div>
 
                 <!-- Right side - ONLY toggler (no search, no language) -->
