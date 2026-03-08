@@ -1,0 +1,572 @@
+<!-- Auth Modal - Login Form -->
+<div id="loginModal" class="modal-wrapper hidden">
+    <div class="modal-backdrop" onclick="closeAuthModal()"></div>
+    <div class="modal-container">
+        <button class="modal-close" onclick="closeAuthModal()">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <!-- Login Form -->
+        <div id="loginFormContent" class="modal-content">
+            <div class="modal-logo">
+                <div class="logo-icon">
+                    <span>A</span>
+                </div>
+                <h2>Aora Admin</h2>
+                <p>Luxury Resort & Restaurant</p>
+            </div>
+
+            <div id="modalLoginError" class="modal-error" style="display: none;">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Invalid email or password. Please try again.</span>
+            </div>
+
+            <form id="modalLoginForm" onsubmit="handleModalLogin(event)">
+                <div class="input-group">
+                    <label class="input-label">Email Address</label>
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" class="input-field" placeholder="admin@aora.com" id="modalEmail" required>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label">Password</label>
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" class="input-field" placeholder="••••••••" id="modalPassword" required>
+                    <i class="fas fa-eye password-toggle" onclick="toggleModalPassword()" id="toggleModalPassword"></i>
+                </div>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" checked>
+                        <span>Remember me</span>
+                    </label>
+                    <a class="forgot-link" onclick="showModalResetSection()">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="login-btn" id="modalLoginBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Sign In to Dashboard
+                </button>
+            </form>
+
+            <div class="demo-hint">
+                <i class="fas fa-info-circle"></i>
+                Demo: admin@aora.com / admin123
+            </div>
+        </div>
+
+        <!-- Reset Password Form -->
+        <div id="resetFormContent" class="modal-content hidden">
+            <div class="modal-logo">
+                <div class="logo-icon">
+                    <span>A</span>
+                </div>
+                <h2>Reset Password</h2>
+                <p>Enter your email to receive a reset link</p>
+            </div>
+
+            <div id="modalResetSuccess" class="modal-success" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <span>Password reset link has been sent to your email.</span>
+            </div>
+
+            <div id="modalResetError" class="modal-error" style="display: none;">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Email not found. Please check and try again.</span>
+            </div>
+
+            <form id="modalResetForm" onsubmit="handleModalReset(event)">
+                <div class="input-group">
+                    <label class="input-label">Email Address</label>
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" class="input-field" placeholder="admin@aora.com" id="modalResetEmail" required>
+                </div>
+
+                <button type="submit" class="login-btn" id="modalResetBtn">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Reset Link
+                </button>
+            </form>
+
+            <div class="back-to-login">
+                <a onclick="showModalLoginSection()">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Sign In
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Auth Modal Styles -->
+<style>
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-wrapper.hidden {
+    display: none;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.modal-container {
+    position: relative;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(184, 154, 120, 0.2);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    margin: 1rem;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #8a7a6a;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.2s ease;
+    z-index: 10;
+}
+
+.modal-close:hover {
+    color: #3f352e;
+}
+
+.modal-content {
+    width: 100%;
+}
+
+.modal-content.hidden {
+    display: none;
+}
+
+.modal-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.modal-logo .logo-icon {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(145deg, #b89a78, #8a735b);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: 0 10px 20px -5px rgba(184, 154, 120, 0.4);
+}
+
+.modal-logo .logo-icon span {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+}
+
+.modal-logo h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #3f352e;
+    margin-bottom: 0.25rem;
+}
+
+.modal-logo p {
+    color: #8a7a6a;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.modal-container .input-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+.modal-container .input-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #4b3f35;
+    margin-bottom: 0.5rem;
+}
+
+.modal-container .input-field {
+    width: 100%;
+    padding: 0.875rem 1rem 0.875rem 2.75rem;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #e8dfd5;
+    border-radius: 14px;
+    font-size: 0.95rem;
+    color: #2d241c;
+    transition: all 0.2s ease;
+}
+
+.modal-container .input-field:focus {
+    outline: none;
+    border-color: #b89a78;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(184, 154, 120, 0.1);
+}
+
+.modal-container .input-field::placeholder {
+    color: #b8a99a;
+    font-weight: 300;
+}
+
+.modal-container .input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b89a78;
+    font-size: 1rem;
+}
+
+.modal-container .password-toggle {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b8a99a;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    z-index: 1;
+}
+
+.modal-container .password-toggle:hover {
+    color: #b89a78;
+}
+
+.modal-container .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-container .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.modal-container .remember-me input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #b89a78;
+    border-radius: 4px;
+}
+
+.modal-container .remember-me span {
+    color: #5c524a;
+    font-size: 0.85rem;
+}
+
+.modal-container .forgot-link {
+    color: #b89a78;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modal-container .forgot-link:hover {
+    color: #8a735b;
+    text-decoration: underline;
+}
+
+.modal-container .login-btn {
+    width: 100%;
+    padding: 0.875rem;
+    background: linear-gradient(145deg, #b89a78, #9b7e60);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 16px -6px rgba(184, 154, 120, 0.4);
+}
+
+.modal-container .login-btn:hover {
+    background: linear-gradient(145deg, #a88b6d, #8a735b);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px -8px rgba(184, 154, 120, 0.5);
+}
+
+.modal-container .login-btn i {
+    margin-right: 0.5rem;
+}
+
+.modal-container .modal-error {
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    color: #991b1b;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-container .modal-success {
+    background: #d1fae5;
+    border: 1px solid #a7f3d0;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    color: #065f46;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-container .demo-hint {
+    margin-top: 1.25rem;
+    padding: 0.75rem;
+    background: rgba(184, 154, 120, 0.1);
+    border-radius: 10px;
+    border: 1px dashed rgba(184, 154, 120, 0.3);
+    font-size: 0.75rem;
+    color: #6b5d51;
+    text-align: center;
+}
+
+.modal-container .demo-hint i {
+    color: #b89a78;
+    margin-right: 0.25rem;
+}
+
+.modal-container .back-to-login {
+    text-align: center;
+    margin-top: 1.25rem;
+}
+
+.modal-container .back-to-login a {
+    color: #8a7a6a;
+    font-size: 0.85rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.modal-container .back-to-login a:hover {
+    color: #b89a78;
+}
+
+.modal-container .loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.modal-container .loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    margin-left: -9px;
+    margin-top: -9px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+</style>
+
+<!-- Auth Modal JavaScript -->
+<script>
+function openLoginModal() {
+    var modal = document.getElementById('loginModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function() {
+            var emailField = document.getElementById('modalEmail');
+            if (emailField) emailField.focus();
+        }, 100);
+    }
+}
+
+function closeAuthModal() {
+    var modal = document.getElementById('loginModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+        setTimeout(function() {
+            showModalLoginSection();
+        }, 300);
+    }
+}
+
+function showModalResetSection() {
+    var loginContent = document.getElementById('loginFormContent');
+    var resetContent = document.getElementById('resetFormContent');
+    if (loginContent) loginContent.classList.add('hidden');
+    if (resetContent) resetContent.classList.remove('hidden');
+}
+
+function showModalLoginSection() {
+    var loginContent = document.getElementById('loginFormContent');
+    var resetContent = document.getElementById('resetFormContent');
+    if (loginContent) loginContent.classList.remove('hidden');
+    if (resetContent) resetContent.classList.add('hidden');
+    
+    var loginError = document.getElementById('modalLoginError');
+    var resetSuccess = document.getElementById('modalResetSuccess');
+    var resetError = document.getElementById('modalResetError');
+    if (loginError) loginError.style.display = 'none';
+    if (resetSuccess) resetSuccess.style.display = 'none';
+    if (resetError) resetError.style.display = 'none';
+    
+    var modalEmail = document.getElementById('modalEmail');
+    var modalPassword = document.getElementById('modalPassword');
+    var modalResetEmail = document.getElementById('modalResetEmail');
+    if (modalEmail) modalEmail.value = '';
+    if (modalPassword) modalPassword.value = '';
+    if (modalResetEmail) modalResetEmail.value = '';
+}
+
+function toggleModalPassword() {
+    var passwordInput = document.getElementById('modalPassword');
+    var toggleIcon = document.getElementById('toggleModalPassword');
+    
+    if (passwordInput && toggleIcon) {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+        }
+    }
+}
+
+function handleModalLogin(event) {
+    event.preventDefault();
+    
+    var email = document.getElementById('modalEmail').value;
+    var password = document.getElementById('modalPassword').value;
+    var loginBtn = document.getElementById('modalLoginBtn');
+    var errorMsg = document.getElementById('modalLoginError');
+    
+    if (email === 'admin@aora.com' && password === 'admin123') {
+        if (loginBtn) loginBtn.classList.add('loading');
+        
+        setTimeout(function() {
+            if (loginBtn) loginBtn.classList.remove('loading');
+            window.location.href = 'admin.php';
+        }, 1000);
+    } else {
+        if (errorMsg) errorMsg.style.display = 'flex';
+        
+        var modalContainer = document.querySelector('.modal-container');
+        if (modalContainer) {
+            modalContainer.style.animation = 'shake 0.5s ease';
+            setTimeout(function() {
+                modalContainer.style.animation = '';
+            }, 500);
+        }
+    }
+}
+
+function handleModalReset(event) {
+    event.preventDefault();
+    
+    var email = document.getElementById('modalResetEmail').value;
+    var resetBtn = document.getElementById('modalResetBtn');
+    var successMsg = document.getElementById('modalResetSuccess');
+    var errorMsg = document.getElementById('modalResetError');
+    
+    if (successMsg) successMsg.style.display = 'none';
+    if (errorMsg) errorMsg.style.display = 'none';
+    
+    if (resetBtn) resetBtn.classList.add('loading');
+    
+    setTimeout(function() {
+        if (resetBtn) resetBtn.classList.remove('loading');
+        
+        if (email === 'admin@aora.com') {
+            if (successMsg) successMsg.style.display = 'flex';
+            document.getElementById('modalResetEmail').value = '';
+            
+            setTimeout(function() {
+                if (successMsg) successMsg.style.display = 'none';
+            }, 5000);
+        } else {
+            if (errorMsg) errorMsg.style.display = 'flex';
+        }
+    }, 1000);
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        var modal = document.getElementById('loginModal');
+        if (modal && !modal.classList.contains('hidden')) {
+            closeAuthModal();
+        }
+    }
+});
+
+var modalStyle = document.createElement('style');
+modalStyle.textContent = '@keyframes shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }';
+document.head.appendChild(modalStyle);
+</script>

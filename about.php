@@ -1,4 +1,15 @@
-<!DOCTYPE html>
+<?php include 'header.php'; ?>
+
+<style>
+@media (min-width: 1024px) {
+    section.relative.h-screen { margin-top: 150px; }
+}
+@media (max-width: 1023px) {
+    section.relative.h-screen { margin-top: 80px; }
+}
+</style>
+
+    <!-- Main Content
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -974,5 +985,4 @@
             }
         });
     </script>
-</body>
-</html>
+<?php include 'footer.php'; ?>

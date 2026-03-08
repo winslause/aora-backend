@@ -1,4 +1,17 @@
-<!DOCTYPE html>
+<?php 
+// Start session and include database
+session_start();
+include 'header.php'; 
+?>
+
+<style>
+@media (min-width: 1024px) {
+    section.relative.h-screen, section.relative.h-\[60vh\], section.relative.h-\[70vh\] { margin-top: 150px; }
+}
+@media (max-width: 1023px) {
+    section.relative.h-screen, section.relative.h-\[60vh\], section.relative.h-\[70vh\] { margin-top: 80px; }
+}
+</style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -44,6 +57,11 @@
             100% { background-position: 200% 0; }
         }
         
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         .animate-float {
             animation: float 8s ease-in-out infinite;
         }
@@ -56,6 +74,10 @@
             background: linear-gradient(90deg, transparent, rgba(212, 180, 140, 0.3), transparent);
             background-size: 200% 100%;
             animation: shimmer 3s infinite;
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
         }
         
         /* Reveal animations */
@@ -272,6 +294,106 @@
             transform: translateY(-2px);
         }
         
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #d4b48c;
+            width: 24px;
+            height: 24px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+        }
+        
+        /* View Toggle Button Styles */
+        .view-toggle-btn.active {
+            background: #d4b48c;
+            color: white;
+        }
+        
+        /* Grid View - 1 Column */
+        #roomsGrid.grid-1 {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+        
+        /* Grid View - 2 Columns */
+        #roomsGrid.grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        /* Grid View - 4 Columns (Desktop only) */
+        #roomsGrid.grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+        
+        @media (max-width: 1279px) {
+            #roomsGrid.grid-4 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 1023px) {
+            #roomsGrid.grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 639px) {
+            #roomsGrid.grid-4, #roomsGrid.grid-2, #roomsGrid.grid-1 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* List View Styles - for all devices */
+        #roomsGrid.list-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        #roomsGrid.list-view .room-card {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        #roomsGrid.list-view .room-card > div:first-child {
+            width: 40%;
+            flex-shrink: 0;
+        }
+        
+        #roomsGrid.list-view .room-card > div:first-child .group-hover\\:scale-110 {
+            transform: scale(1);
+        }
+        
+        #roomsGrid.list-view .room-card > div:last-child {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        /* Mobile list view adjustments */
+        @media (max-width: 768px) {
+            #roomsGrid.list-view .room-card {
+                flex-direction: column;
+            }
+            
+            #roomsGrid.list-view .room-card > div:first-child {
+                width: 100%;
+            }
+        }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #d4b48c;
+            width: 24px;
+            height: 24px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .main-image {
@@ -309,13 +431,6 @@
             <!-- Content -->
             <div class="relative z-10 text-left px-6 max-w-7xl mx-auto w-full">
                 <div class="max-w-3xl">
-                    <!-- Breadcrumb -->
-                    <div class="flex items-center gap-2 text-white/60 text-sm mb-4 reveal-left">
-                        <span>Home</span>
-                        <i class="fas fa-chevron-right text-xs"></i>
-                        <span class="text-[#d4b48c]">Rooms & Suites</span>
-                    </div>
-                    
                     <!-- Main Heading -->
                     <h1 class="font-['DM_Serif_Display'] text-6xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-2xl reveal-left" style="transition-delay: 0.2s;">
                         Rooms &<br>
@@ -350,10 +465,10 @@
                     <div class="flex-1 min-w-[200px]">
                         <label class="block text-[#8a735b] text-xs uppercase tracking-wider mb-2">View</label>
                         <div class="flex flex-wrap gap-2">
-                            <button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all">All</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all">Garden</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all">Pool</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all">City</button>
+                            <button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="all">All</button>
+                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="Garden">Garden</button>
+                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="Pool">Pool</button>
+                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="City">City</button>
                         </div>
                     </div>
                     
@@ -361,26 +476,26 @@
                     <div class="flex-1 min-w-[200px]">
                         <label class="block text-[#8a735b] text-xs uppercase tracking-wider mb-2">Bed Type</label>
                         <div class="flex flex-wrap gap-2">
-                            <button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all">All</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all">King</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all">Queen</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all">Twin</button>
+                            <button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="all">All</button>
+                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="King">King</button>
+                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="Queen">Queen</button>
+                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="Twin">Twin</button>
                         </div>
                     </div>
                     
                     <!-- Sort by Price -->
                     <div class="flex-1 min-w-[200px]">
                         <label class="block text-[#8a735b] text-xs uppercase tracking-wider mb-2">Sort by</label>
-                        <select class="w-full px-4 py-2 bg-white border border-[#d4b48c]/30 rounded-full text-sm focus:outline-none focus:border-[#d4b48c]">
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                            <option>Most Popular</option>
-                            <option>Newest</option>
+                        <select id="sortSelect" class="w-full px-4 py-2 bg-white border border-[#d4b48c]/30 rounded-full text-sm focus:outline-none focus:border-[#d4b48c]">
+                            <option value="price_asc">Price: Low to High</option>
+                            <option value="price_high">Price: High to Low</option>
+                            <option value="popular">Most Popular</option>
+                            <option value="newest">Newest</option>
                         </select>
                     </div>
                     
                     <!-- Reset Button -->
-                    <button class="px-6 py-2 text-sm text-[#8a735b] hover:text-[#d4b48c] transition-colors">
+                    <button id="resetFilters" class="px-6 py-2 text-sm text-[#8a735b] hover:text-[#d4b48c] transition-colors">
                         <i class="fas fa-redo-alt mr-2"></i>Reset
                     </button>
                 </div>
@@ -392,355 +507,44 @@
             <div class="max-w-7xl mx-auto">
                 <!-- Room Count -->
                 <div class="flex justify-between items-center mb-8 reveal">
-                    <p class="text-[#8a735b] text-sm">Showing <span class="font-semibold text-[#d4b48c]">8</span> rooms</p>
+                    <p class="text-[#8a735b] text-sm">Showing <span class="font-semibold text-[#d4b48c]" id="roomCount">0</span> rooms</p>
                     <div class="flex gap-2">
-                        <button class="w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all">
-                            <i class="fas fa-grid-2"></i>
+                        <!-- View Toggle Buttons - Desktop: 1, 2, 4 cols + list -->
+                        <button onclick="setView('grid-1')" id="grid1Btn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all" title="1 Column">
+                            <span class="text-xs font-bold">1</span>
                         </button>
-                        <button class="w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all">
+                        <button onclick="setView('grid-2')" id="grid2Btn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all" title="2 Columns">
+                            <span class="text-xs font-bold">2</span>
+                        </button>
+                        <button onclick="setView('grid-4')" id="grid4Btn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all hidden md:flex" title="4 Columns">
+                            <span class="text-xs font-bold">4</span>
+                        </button>
+                        <button onclick="setView('list')" id="listViewBtn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all" title="List View">
                             <i class="fas fa-list"></i>
                         </button>
                     </div>
                 </div>
                 
+                <!-- Loading indicator -->
+                <div id="loadingIndicator" class="hidden flex justify-center items-center py-20">
+                    <div class="loader"></div>
+                    <span class="ml-3 text-[#8a735b]">Loading rooms...</span>
+                </div>
+                
                 <!-- Rooms Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    
-                    <!-- Room 1 - Deluxe Room -->
-                    <div class="room-card group relative rounded-2xl overflow-hidden reveal" style="transition-delay: 0.1s;">
-                        <!-- Image Container -->
-                        <div class="relative h-64 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Deluxe Room" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            
-                            <!-- View Button (Glossy) -->
-                            <button onclick="openModal('deluxe')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
-                                <i class="fas fa-eye mr-2"></i>View
-                            </button>
-                            
-                            <!-- Room Badge -->
-                            <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-[#3f352e]">
-                                <i class="fas fa-star text-[#d4b48c] mr-1"></i> Best Seller
-                            </div>
-                        </div>
-                        
-                        <!-- Room Details -->
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">Deluxe Room</h3>
-                                <div class="text-right">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh 35K</span>
-                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Quick Specs -->
-                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
-                                <span><i class="fas fa-user mr-1"></i> 2 Guests</span>
-                                <span><i class="fas fa-ruler-combined mr-1"></i> 45 m²</span>
-                                <span><i class="fas fa-bed mr-1"></i> King</span>
-                            </div>
-                            
-                            <!-- Amenities Preview -->
-                            <div class="flex gap-3 text-[#8a735b] mb-4">
-                                <i class="fas fa-wifi" title="Free WiFi"></i>
-                                <i class="fas fa-snowflake" title="Air Conditioning"></i>
-                                <i class="fas fa-tv" title="Smart TV"></i>
-                                <i class="fas fa-coffee" title="Coffee Maker"></i>
-                                <i class="fas fa-bath" title="Rain Shower"></i>
-                            </div>
-                            
-                            <!-- Book Button -->
-                            <button onclick="openModal('deluxe')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
-                                Check Availability & Book
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Room 2 - Executive Suite -->
-                    <div class="room-card group relative rounded-2xl overflow-hidden reveal" style="transition-delay: 0.2s;">
-                        <div class="relative h-64 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Executive Suite" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <button onclick="openModal('executive')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
-                                <i class="fas fa-eye mr-2"></i>View
-                            </button>
-                        </div>
-                        
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">Executive Suite</h3>
-                                <div class="text-right">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh 55K</span>
-                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
-                                <span><i class="fas fa-user mr-1"></i> 2 Guests</span>
-                                <span><i class="fas fa-ruler-combined mr-1"></i> 65 m²</span>
-                                <span><i class="fas fa-bed mr-1"></i> King</span>
-                            </div>
-                            
-                            <div class="flex gap-3 text-[#8a735b] mb-4">
-                                <i class="fas fa-wifi"></i>
-                                <i class="fas fa-snowflake"></i>
-                                <i class="fas fa-tv"></i>
-                                <i class="fas fa-glass-cheers"></i>
-                                <i class="fas fa-bath"></i>
-                            </div>
-                            
-                            <button onclick="openModal('executive')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
-                                Check Availability & Book
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Room 3 - Family Villa -->
-                    <div class="room-card group relative rounded-2xl overflow-hidden reveal" style="transition-delay: 0.3s;">
-                        <div class="relative h-64 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80" 
-                                 alt="Family Villa" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <button onclick="openModal('family')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
-                                <i class="fas fa-eye mr-2"></i>View
-                            </button>
-                        </div>
-                        
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">Family Villa</h3>
-                                <div class="text-right">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh 75K</span>
-                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
-                                <span><i class="fas fa-user mr-1"></i> 4 Guests</span>
-                                <span><i class="fas fa-ruler-combined mr-1"></i> 95 m²</span>
-                                <span><i class="fas fa-bed mr-1"></i> 2 King</span>
-                            </div>
-                            
-                            <div class="flex gap-3 text-[#8a735b] mb-4">
-                                <i class="fas fa-wifi"></i>
-                                <i class="fas fa-snowflake"></i>
-                                <i class="fas fa-tv"></i>
-                                <i class="fas fa-utensils"></i>
-                                <i class="fas fa-bath"></i>
-                            </div>
-                            
-                            <button onclick="openModal('family')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
-                                Check Availability & Book
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Room 4 - Presidential Villa -->
-                    <div class="room-card group relative rounded-2xl overflow-hidden reveal" style="transition-delay: 0.4s;">
-                        <div class="relative h-64 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Presidential Villa" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <button onclick="openModal('presidential')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
-                                <i class="fas fa-eye mr-2"></i>View
-                            </button>
-                        </div>
-                        
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">Presidential Villa</h3>
-                                <div class="text-right">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh 150K</span>
-                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
-                                <span><i class="fas fa-user mr-1"></i> 6 Guests</span>
-                                <span><i class="fas fa-ruler-combined mr-1"></i> 200 m²</span>
-                                <span><i class="fas fa-bed mr-1"></i> 3 King</span>
-                            </div>
-                            
-                            <div class="flex gap-3 text-[#8a735b] mb-4">
-                                <i class="fas fa-wifi"></i>
-                                <i class="fas fa-snowflake"></i>
-                                <i class="fas fa-tv"></i>
-                                <i class="fas fa-champagne-glasses"></i>
-                                <i class="fas fa-hot-tub"></i>
-                            </div>
-                            
-                            <button onclick="openModal('presidential')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
-                                Check Availability & Book
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Room 5 - Garden View Room -->
-                    <div class="room-card group relative rounded-2xl overflow-hidden reveal" style="transition-delay: 0.5s;">
-                        <div class="relative h-64 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Garden View Room" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <button onclick="openModal('garden')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
-                                <i class="fas fa-eye mr-2"></i>View
-                            </button>
-                        </div>
-                        
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">Garden View</h3>
-                                <div class="text-right">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh 30K</span>
-                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
-                                <span><i class="fas fa-user mr-1"></i> 2 Guests</span>
-                                <span><i class="fas fa-ruler-combined mr-1"></i> 35 m²</span>
-                                <span><i class="fas fa-bed mr-1"></i> Queen</span>
-                            </div>
-                            
-                            <div class="flex gap-3 text-[#8a735b] mb-4">
-                                <i class="fas fa-wifi"></i>
-                                <i class="fas fa-snowflake"></i>
-                                <i class="fas fa-tv"></i>
-                                <i class="fas fa-leaf"></i>
-                                <i class="fas fa-bath"></i>
-                            </div>
-                            
-                            <button onclick="openModal('garden')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
-                                Check Availability & Book
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Room 6 - Honeymoon Suite -->
-                    <div class="room-card group relative rounded-2xl overflow-hidden reveal" style="transition-delay: 0.6s;">
-                        <div class="relative h-64 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Honeymoon Suite" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <button onclick="openModal('honeymoon')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
-                                <i class="fas fa-eye mr-2"></i>View
-                            </button>
-                        </div>
-                        
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">Honeymoon Suite</h3>
-                                <div class="text-right">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh 65K</span>
-                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
-                                <span><i class="fas fa-user mr-1"></i> 2 Guests</span>
-                                <span><i class="fas fa-ruler-combined mr-1"></i> 55 m²</span>
-                                <span><i class="fas fa-bed mr-1"></i> King</span>
-                            </div>
-                            
-                            <div class="flex gap-3 text-[#8a735b] mb-4">
-                                <i class="fas fa-wifi"></i>
-                                <i class="fas fa-snowflake"></i>
-                                <i class="fas fa-tv"></i>
-                                <i class="fas fa-heart"></i>
-                                <i class="fas fa-champagne-glasses"></i>
-                            </div>
-                            
-                            <button onclick="openModal('honeymoon')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
-                                Check Availability & Book
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Room 7 - Business Suite -->
-                    <div class="room-card group relative rounded-2xl overflow-hidden reveal" style="transition-delay: 0.7s;">
-                        <div class="relative h-64 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1522778526097-ce0a22ceb253?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Business Suite" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <button onclick="openModal('business')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
-                                <i class="fas fa-eye mr-2"></i>View
-                            </button>
-                        </div>
-                        
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">Business Suite</h3>
-                                <div class="text-right">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh 45K</span>
-                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
-                                <span><i class="fas fa-user mr-1"></i> 2 Guests</span>
-                                <span><i class="fas fa-ruler-combined mr-1"></i> 50 m²</span>
-                                <span><i class="fas fa-bed mr-1"></i> King</span>
-                            </div>
-                            
-                            <div class="flex gap-3 text-[#8a735b] mb-4">
-                                <i class="fas fa-wifi"></i>
-                                <i class="fas fa-snowflake"></i>
-                                <i class="fas fa-tv"></i>
-                                <i class="fas fa-laptop"></i>
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            
-                            <button onclick="openModal('business')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
-                                Check Availability & Book
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Room 8 - Penthouse -->
-                    <div class="room-card group relative rounded-2xl overflow-hidden reveal" style="transition-delay: 0.8s;">
-                        <div class="relative h-64 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
-                                 alt="Penthouse" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <button onclick="openModal('penthouse')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
-                                <i class="fas fa-eye mr-2"></i>View
-                            </button>
-                        </div>
-                        
-                        <div class="p-5">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">Sky Penthouse</h3>
-                                <div class="text-right">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh 200K</span>
-                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
-                                <span><i class="fas fa-user mr-1"></i> 4 Guests</span>
-                                <span><i class="fas fa-ruler-combined mr-1"></i> 150 m²</span>
-                                <span><i class="fas fa-bed mr-1"></i> 2 King</span>
-                            </div>
-                            
-                            <div class="flex gap-3 text-[#8a735b] mb-4">
-                                <i class="fas fa-wifi"></i>
-                                <i class="fas fa-snowflake"></i>
-                                <i class="fas fa-tv"></i>
-                                <i class="fas fa-hot-tub"></i>
-                                <i class="fas fa-wine-glass-alt"></i>
-                            </div>
-                            
-                            <button onclick="openModal('penthouse')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
-                                Check Availability & Book
-                            </button>
-                        </div>
-                    </div>
+                <div id="roomsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Rooms will be loaded here dynamically -->
+                </div>
+                
+                <!-- No results message -->
+                <div id="noResults" class="hidden text-center py-20">
+                    <i class="fas fa-bed text-6xl text-[#d4b48c]/30 mb-4"></i>
+                    <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-2">No rooms found</h3>
+                    <p class="text-[#8a735b]">Try adjusting your filters to find available rooms.</p>
                 </div>
                 
                 <!-- Load More -->
-                <div class="text-center mt-16 reveal">
+                <div class="text-center mt-16 reveal" id="loadMoreContainer">
                     <button class="group px-10 py-4 border-2 border-[#d4b48c] text-[#d4b48c] rounded-full hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
                         <span class="flex items-center gap-2">
                             <span>Load More Rooms</span>
@@ -765,283 +569,578 @@
         </div>
     </main>
 
-    <!-- Room Data -->
+    <!-- JavaScript -->
     <script>
-        const roomData = {
-            deluxe: {
-                name: 'Deluxe Room',
-                price: 'KSh 35,000',
-                description: 'Experience elegance in our Deluxe Room, featuring contemporary design with warm earth tones. Perfect for the discerning traveler seeking comfort and style.',
-                size: '45 m²',
-                occupancy: '2 Adults',
-                bedType: 'King',
-                view: 'Garden',
-                amenities: ['Free WiFi', 'Air Conditioning', 'Smart TV', 'Coffee Maker', 'Rain Shower', 'Mini Bar', 'Room Safe', 'Bathrobe & Slippers'],
-                images: [
-                    'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-                    'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            executive: {
-                name: 'Executive Suite',
-                price: 'KSh 55,000',
-                description: 'Our Executive Suite offers spacious luxury with a separate living area, perfect for business travelers or those seeking extra space.',
-                size: '65 m²',
-                occupancy: '2 Adults',
-                bedType: 'King',
-                view: 'Pool',
-                amenities: ['Separate Living Room', 'Panoramic Views', 'Executive Lounge Access', 'Work Desk', 'Espresso Machine', 'Bathrobe & Slippers', 'Premium Toiletries', 'Evening Turndown'],
-                images: [
-                    'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-                    'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            family: {
-                name: 'Family Villa',
-                price: 'KSh 75,000',
-                description: 'Perfect for families, our villa offers two bedrooms, a private garden, and all the comforts of home in a luxurious setting.',
-                size: '95 m²',
-                occupancy: '4 Adults + 2 Children',
-                bedType: '2 King',
-                view: 'Garden',
-                amenities: ['Two Bedrooms', 'Private Garden', 'Full Kitchen', 'Living Room', 'Children\'s Play Area', 'Outdoor Dining', 'BBQ Facilities', 'Laundry Service'],
-                images: [
-                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-                    'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            presidential: {
-                name: 'Presidential Villa',
-                price: 'KSh 150,000',
-                description: 'The pinnacle of luxury. Our Presidential Villa offers unmatched elegance with panoramic views, personal butler service, and exquisite furnishings.',
-                size: '200 m²',
-                occupancy: '6 Adults',
-                bedType: '3 King',
-                view: 'Ocean',
-                amenities: ['Private Terrace', 'Butler Service', 'Jacuzzi', 'Dining Room', 'Wine Cellar', 'Steam Room', 'Home Theater', 'Private Check-in'],
-                images: [
-                    'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-                    'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            garden: {
-                name: 'Garden View Room',
-                price: 'KSh 30,000',
-                description: 'Wake up to lush garden views in this serene room, designed for nature lovers seeking tranquility.',
-                size: '35 m²',
-                occupancy: '2 Adults',
-                bedType: 'Queen',
-                view: 'Garden',
-                amenities: ['Garden View', 'Queen Bed', 'Private Balcony', 'Rain Shower', 'Organic Toiletries', 'Tea/Coffee', 'Ceiling Fan', 'Mosquito Nets'],
-                images: [
-                    'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-                    'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            honeymoon: {
-                name: 'Honeymoon Suite',
-                price: 'KSh 65,000',
-                description: 'Designed for romance, this suite features intimate settings, a private balcony with sunset views, and special amenities for couples.',
-                size: '55 m²',
-                occupancy: '2 Adults',
-                bedType: 'King',
-                view: 'Sunset',
-                amenities: ['King Bed', 'Sunset Balcony', 'Champagne on Arrival', 'Rose Petal Turndown', 'Double Vanity', 'Deep Soaking Tub', 'Candlelit Dining', 'Couples Massage'],
-                images: [
-                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-                    'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            business: {
-                name: 'Business Suite',
-                price: 'KSh 45,000',
-                description: 'Optimized for the modern professional, featuring a dedicated workspace and all the tech amenities needed for productivity.',
-                size: '50 m²',
-                occupancy: '2 Adults',
-                bedType: 'King',
-                view: 'City',
-                amenities: ['Work Desk', 'Ergonomic Chair', 'High-speed Internet', 'Printer Access', 'Conference Phone', 'Stationery Set', 'Complimentary Printing', 'Meeting Space'],
-                images: [
-                    'https://images.unsplash.com/photo-1522778526097-ce0a22ceb253?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-                    'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            penthouse: {
-                name: 'Sky Penthouse',
-                price: 'KSh 200,000',
-                description: 'The ultimate expression of luxury living, occupying the entire top floor with 360° views and unparalleled amenities.',
-                size: '150 m²',
-                occupancy: '4 Adults',
-                bedType: '2 King',
-                view: 'Panoramic',
-                amenities: ['Rooftop Terrace', 'Private Pool', 'Hot Tub', 'Outdoor Kitchen', 'Panoramic Views', 'Private Elevator', 'Wine Room', 'Personal Chef'],
-                images: [
-                    'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-                    'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80',
-                    'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            }
-        };
-
+        // Global variables
+        let currentViewFilter = 'all';
+        let currentBedFilter = 'all';
+        let currentSort = 'price_asc';
+        let currentViewMode = localStorage.getItem('viewMode') || 'grid-2'; // Default to 2 columns
+        
+        // Get minimum date (today)
+        const today = new Date().toISOString().split('T')[0];
+        
+        // Load rooms on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRooms();
+            applyViewMode();
+        });
+        
+        // Filter button functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filterType = this.dataset.filter;
+                const filterValue = this.dataset.value;
+                
+                // Remove active class from siblings in same group
+                const parent = this.parentNode;
+                parent.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Update filter values
+                if (filterType === 'view') {
+                    currentViewFilter = filterValue;
+                } else if (filterType === 'bed') {
+                    currentBedFilter = filterValue;
+                }
+                
+                // Reload rooms
+                loadRooms();
+            });
+        });
+        
+        // Sort select change
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            currentSort = this.value;
+            loadRooms();
+        });
+        
+        // Reset filters
+        document.getElementById('resetFilters').addEventListener('click', function() {
+            currentViewFilter = 'all';
+            currentBedFilter = 'all';
+            currentSort = 'price_asc';
+            
+            // Reset buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.value === 'all') {
+                    btn.classList.add('active');
+                }
+            });
+            
+            document.getElementById('sortSelect').value = 'price_asc';
+            
+            loadRooms();
+        });
+        
+        // Load rooms from database via AJAX
+        function loadRooms() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const roomsGrid = document.getElementById('roomsGrid');
+            const noResults = document.getElementById('noResults');
+            
+            loadingIndicator.classList.remove('hidden');
+            roomsGrid.innerHTML = '';
+            noResults.classList.add('hidden');
+            document.getElementById('loadMoreContainer').classList.add('hidden');
+            
+            const formData = new FormData();
+            formData.append('action', 'get_rooms');
+            formData.append('view', currentViewFilter);
+            formData.append('bed', currentBedFilter);
+            formData.append('sort', currentSort);
+            
+            fetch('api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                loadingIndicator.classList.add('hidden');
+                
+                if (data.success && data.rooms.length > 0) {
+                    document.getElementById('roomCount').textContent = data.rooms.length;
+                    renderRooms(data.rooms);
+                    document.getElementById('loadMoreContainer').classList.remove('hidden');
+                } else {
+                    noResults.classList.remove('hidden');
+                    document.getElementById('roomCount').textContent = '0';
+                }
+            })
+            .catch(error => {
+                loadingIndicator.classList.add('hidden');
+                console.error('Error loading rooms:', error);
+                noResults.classList.remove('hidden');
+            });
+        }
+        
+        // Render rooms to the grid
+        function renderRooms(rooms) {
+            const roomsGrid = document.getElementById('roomsGrid');
+            roomsGrid.classList.remove('grid-1', 'grid-2', 'grid-4', 'list-view');
+            roomsGrid.classList.add(currentViewMode);
+            
+            rooms.forEach((room, index) => {
+                const badge = room.badge ? `<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-[#3f352e]">
+                    <i class="fas fa-star text-[#d4b48c] mr-1"></i> ${room.badge}
+                </div>` : '';
+                
+                const roomCard = `
+                    <div class="room-card group relative rounded-2xl overflow-hidden reveal" style="transition-delay: ${index * 0.1}s;">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="${room.images[0]}" 
+                                 alt="${room.name}" 
+                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                            
+                            <button onclick="openModal('${room.room_type}')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
+                                <i class="fas fa-eye mr-2"></i>View
+                            </button>
+                            
+                            ${badge}
+                        </div>
+                        
+                        <div class="p-5">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">${room.name}</h3>
+                                <div class="text-right">
+                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh ${parseInt(room.price).toLocaleString()}</span>
+                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
+                                <span><i class="fas fa-user mr-1"></i> ${room.occupancy}</span>
+                                <span><i class="fas fa-ruler-combined mr-1"></i> ${room.size}</span>
+                                <span><i class="fas fa-bed mr-1"></i> ${room.bed_type}</span>
+                            </div>
+                            
+                            <div class="flex gap-3 text-[#8a735b] mb-4">
+                                ${room.amenities.slice(0, 5).map(amenity => {
+                                    let icon = 'fa-check';
+                                    if (amenity.toLowerCase().includes('wifi')) icon = 'fa-wifi';
+                                    else if (amenity.toLowerCase().includes('air')) icon = 'fa-snowflake';
+                                    else if (amenity.toLowerCase().includes('tv')) icon = 'fa-tv';
+                                    else if (amenity.toLowerCase().includes('bath')) icon = 'fa-bath';
+                                    else if (amenity.toLowerCase().includes('coffee')) icon = 'fa-coffee';
+                                    return `<i class="fas ${icon}" title="${amenity}"></i>`;
+                                }).join('')}
+                            </div>
+                            
+                            <button onclick="openModal('${room.room_type}')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
+                                Check Availability & Book
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                roomsGrid.innerHTML += roomCard;
+            });
+            
+            // Trigger reveal animation
+            setTimeout(() => {
+                reveal();
+            }, 100);
+        }
+        
         // Modal Functions
         function openModal(roomType) {
-            const room = roomData[roomType];
-            if (!room) return;
-            
             const modal = document.getElementById('roomModal');
             const modalContent = document.getElementById('modalContent');
             
-            // Generate gallery HTML
-            let galleryHTML = `
-                <div class="grid lg:grid-cols-2 gap-8">
-                    <!-- Left Column - Gallery -->
-                    <div>
-                        <!-- Main Image -->
-                        <div class="relative">
-                            <img id="mainImage" src="${room.images[0]}" alt="${room.name}" class="main-image">
-                            <!-- Auto-carousel indicator (subtle) -->
-                            <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-[#3f352e]">
-                                <i class="fas fa-play-circle text-[#d4b48c] mr-1"></i> Auto-rotating
-                            </div>
-                        </div>
-                        
-                        <!-- Thumbnails -->
-                        <div class="thumbnail-container mt-4">
-                            ${room.images.map((img, index) => `
-                                <img src="${img}" alt="Thumbnail ${index + 1}" class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeImage(this, '${img}')">
-                            `).join('')}
-                        </div>
-                    </div>
-                    
-                    <!-- Right Column - Details -->
-                    <div>
-                        <h2 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3f352e] mb-2">${room.name}</h2>
-                        
-                        <!-- Price -->
-                        <div class="flex items-center gap-3 mb-6">
-                            <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-3xl">${room.price}</span>
-                            <span class="text-[#8a735b] text-xs">per night</span>
-                        </div>
-                        
-                        <!-- Quick Specs -->
-                        <div class="grid grid-cols-2 gap-4 mb-6 p-4 bg-white/60 rounded-xl">
-                            <div>
-                                <p class="text-[#8a735b] text-xs uppercase">Size</p>
-                                <p class="text-[#3f352e] font-medium">${room.size}</p>
-                            </div>
-                            <div>
-                                <p class="text-[#8a735b] text-xs uppercase">Occupancy</p>
-                                <p class="text-[#3f352e] font-medium">${room.occupancy}</p>
-                            </div>
-                            <div>
-                                <p class="text-[#8a735b] text-xs uppercase">Bed Type</p>
-                                <p class="text-[#3f352e] font-medium">${room.bedType}</p>
-                            </div>
-                            <div>
-                                <p class="text-[#8a735b] text-xs uppercase">View</p>
-                                <p class="text-[#3f352e] font-medium">${room.view}</p>
-                            </div>
-                        </div>
-                        
-                        <!-- Description -->
-                        <p class="text-[#5c524a] mb-6 leading-relaxed">${room.description}</p>
-                        
-                        <!-- Amenities -->
-                        <h3 class="font-['Cormorant_Garamond'] text-xl text-[#3f352e] mb-3">Amenities</h3>
-                        <div class="grid grid-cols-2 gap-2 mb-8">
-                            ${room.amenities.map(amenity => `
-                                <div class="flex items-center gap-2">
-                                    <i class="fas fa-check-circle text-[#d4b48c] text-xs"></i>
-                                    <span class="text-[#5c524a] text-sm">${amenity}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                        
-                        <!-- Check Availability Form -->
-                        <h3 class="font-['Cormorant_Garamond'] text-xl text-[#3f352e] mb-3">Check Availability</h3>
-                        <form class="availability-form space-y-4">
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-[#8a735b] text-xs uppercase mb-1">Check-in</label>
-                                    <input type="date" class="w-full px-4 py-2 rounded-lg bg-white">
-                                </div>
-                                <div>
-                                    <label class="block text-[#8a735b] text-xs uppercase mb-1">Check-out</label>
-                                    <input type="date" class="w-full px-4 py-2 rounded-lg bg-white">
-                                </div>
-                            </div>
-                            
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-[#8a735b] text-xs uppercase mb-1">Adults</label>
-                                    <select class="w-full px-4 py-2 rounded-lg bg-white">
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-[#8a735b] text-xs uppercase mb-1">Children</label>
-                                    <select class="w-full px-4 py-2 rounded-lg bg-white">
-                                        <option>0</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-[#8a735b] text-xs uppercase mb-1">Special Requests</label>
-                                <textarea rows="2" class="w-full px-4 py-2 rounded-lg bg-white" placeholder="Any special requirements..."></textarea>
-                            </div>
-                            
-                            <button type="submit" class="w-full py-3 bg-[#d4b48c] text-white rounded-lg hover:bg-[#b89a78] transition-colors">
-                                Check Availability
-                            </button>
-                        </form>
-                    </div>
+            // Show loading in modal
+            modalContent.innerHTML = `
+                <div class="flex justify-center items-center py-20">
+                    <div class="loader"></div>
+                    <span class="ml-3 text-[#8a735b]">Loading room details...</span>
                 </div>
             `;
             
-            modalContent.innerHTML = galleryHTML;
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
             
-            // Start auto-carousel
-            startAutoCarousel(room.images);
+            // Fetch room details
+            const formData = new FormData();
+            formData.append('action', 'get_room');
+            formData.append('room_type', roomType);
+            
+            fetch('api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const room = data.room;
+                    
+                    // Generate gallery HTML
+                    let galleryHTML = `
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <!-- Left Column - Gallery -->
+                            <div>
+                                <div class="relative">
+                                    <img id="mainImage" src="${room.images[0]}" alt="${room.name}" class="main-image">
+                                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-[#3f352e]">
+                                        <i class="fas fa-play-circle text-[#d4b48c] mr-1"></i> Auto-rotating
+                                    </div>
+                                </div>
+                                
+                                <div class="thumbnail-container mt-4">
+                                    ${room.images.map((img, index) => `
+                                        <img src="${img}" alt="Thumbnail ${index + 1}" class="thumbnail ${index === 0 ? 'active' : ''}" onclick="changeImage(this, '${img}')">
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <!-- Right Column - Details -->
+                            <div>
+                                <h2 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3f352e] mb-2">${room.name}</h2>
+                                
+                                <div class="flex items-center gap-3 mb-6">
+                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-3xl">KSh ${parseInt(room.price).toLocaleString()}</span>
+                                    <span class="text-[#8a735b] text-xs">per night</span>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4 mb-6 p-4 bg-white/60 rounded-xl">
+                                    <div>
+                                        <p class="text-[#8a735b] text-xs uppercase">Size</p>
+                                        <p class="text-[#3f352e] font-medium">${room.size}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[#8a735b] text-xs uppercase">Occupancy</p>
+                                        <p class="text-[#3f352e] font-medium">${room.occupancy}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[#8a735b] text-xs uppercase">Bed Type</p>
+                                        <p class="text-[#3f352e] font-medium">${room.bed_type}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[#8a735b] text-xs uppercase">View</p>
+                                        <p class="text-[#3f352e] font-medium">${room.view}</p>
+                                    </div>
+                                </div>
+                                
+                                <p class="text-[#5c524a] mb-6 leading-relaxed">${room.description}</p>
+                                
+                                <h3 class="font-['Cormorant_Garamond'] text-xl text-[#3f352e] mb-3">Amenities</h3>
+                                <div class="grid grid-cols-2 gap-2 mb-8">
+                                    ${room.amenities.map(amenity => `
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-check-circle text-[#d4b48c] text-xs"></i>
+                                            <span class="text-[#5c524a] text-sm">${amenity}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                
+                                <!-- Check Availability Form -->
+                                <h3 class="font-['Cormorant_Garamond'] text-xl text-[#3f352e] mb-3">Check Availability</h3>
+                                <form id="availabilityForm" class="availability-form space-y-4" onsubmit="checkAvailability(event, '${room.room_type}')">
+                                    <input type="hidden" id="roomType" value="${room.room_type}">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-[#8a735b] text-xs uppercase mb-1">Check-in</label>
+                                            <input type="date" id="checkIn" class="w-full px-4 py-2 rounded-lg bg-white" min="${today}" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-[#8a735b] text-xs uppercase mb-1">Check-out</label>
+                                            <input type="date" id="checkOut" class="w-full px-4 py-2 rounded-lg bg-white" min="${today}" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-[#8a735b] text-xs uppercase mb-1">Adults</label>
+                                            <select id="adults" class="w-full px-4 py-2 rounded-lg bg-white">
+                                                <option value="1">1</option>
+                                                <option value="2" selected>2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-[#8a735b] text-xs uppercase mb-1">Children</label>
+                                            <select id="children" class="w-full px-4 py-2 rounded-lg bg-white">
+                                                <option value="0" selected>0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <label class="block text-[#8a735b] text-xs uppercase mb-1">Special Requests</label>
+                                        <textarea id="specialRequests" rows="2" class="w-full px-4 py-2 rounded-lg bg-white" placeholder="Any special requirements..."></textarea>
+                                    </div>
+                                    
+                                    <button type="submit" id="checkAvailabilityBtn" class="w-full py-3 bg-[#d4b48c] text-white rounded-lg hover:bg-[#b89a78] transition-colors flex items-center justify-center">
+                                        <span>Check Availability</span>
+                                    </button>
+                                </form>
+                                
+                                <!-- Availability Result Container -->
+                                <div id="availabilityResult" class="mt-4"></div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    modalContent.innerHTML = galleryHTML;
+                    
+                    // Start auto-carousel
+                    startAutoCarousel(room.images);
+                } else {
+                    modalContent.innerHTML = `
+                        <div class="text-center py-10">
+                            <i class="fas fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
+                            <p class="text-[#8a735b]">${data.message}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading room:', error);
+                modalContent.innerHTML = `
+                    <div class="text-center py-10">
+                        <i class="fas fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
+                        <p class="text-[#8a735b]">Error loading room details. Please try again.</p>
+                    </div>
+                `;
+            });
+        }
+        
+        // Check availability function
+        function checkAvailability(event, roomType) {
+            event.preventDefault();
+            
+            const checkIn = document.getElementById('checkIn').value;
+            const checkOut = document.getElementById('checkOut').value;
+            const adults = document.getElementById('adults').value;
+            const children = document.getElementById('children').value;
+            const specialRequests = document.getElementById('specialRequests').value;
+            const resultContainer = document.getElementById('availabilityResult');
+            const btn = document.getElementById('checkAvailabilityBtn');
+            
+            // Validate dates
+            if (!checkIn || !checkOut) {
+                resultContainer.innerHTML = `
+                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-red-600 text-sm"><i class="fas fa-exclamation-circle mr-2"></i>Please select check-in and check-out dates.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Show loader
+            btn.disabled = true;
+            btn.innerHTML = `
+                <div class="loader mr-2"></div>
+                <span>Checking availability...</span>
+            `;
+            
+            const formData = new FormData();
+            formData.append('action', 'check_availability');
+            formData.append('room_type', roomType);
+            formData.append('check_in', checkIn);
+            formData.append('check_out', checkOut);
+            
+            fetch('api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Check Availability</span>`;
+                
+                if (data.booked) {
+                    // Room is booked, show alternatives
+                    let alternativesHTML = `
+                        <div class="p-4 bg-orange-50 border border-orange-200 rounded-lg mb-4">
+                            <p class="text-orange-700 text-sm"><i class="fas fa-calendar-times mr-2"></i>${data.message}</p>
+                        </div>
+                        <h4 class="font-['Cormorant_Garamond'] text-lg text-[#3f352e] mb-3">Available Alternatives</h4>
+                        <div class="space-y-3">
+                    `;
+                    
+                    if (data.alternatives && data.alternatives.length > 0) {
+                        data.alternatives.forEach(alt => {
+                            alternativesHTML += `
+                                <div class="flex items-center gap-4 p-3 bg-white rounded-lg border border-[#d4b48c]/20 cursor-pointer hover:border-[#d4b48c] transition-all" onclick="openModal('${alt.room_type}')">
+                                    <img src="${alt.images[0]}" alt="${alt.name}" class="w-16 h-16 object-cover rounded-lg">
+                                    <div class="flex-1">
+                                        <h5 class="text-[#3f352e] font-medium">${alt.name}</h5>
+                                        <p class="text-[#d4b48c] font-['DM_Serif_Display']">KSh ${parseInt(alt.price).toLocaleString()}/night</p>
+                                    </div>
+                                    <button class="px-3 py-1 bg-[#d4b48c] text-white text-xs rounded-full">Book</button>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        alternativesHTML += `
+                            <p class="text-[#8a735b] text-sm">No alternative rooms available for these dates. Please try different dates.</p>
+                        `;
+                    }
+                    
+                    alternativesHTML += `</div>`;
+                    resultContainer.innerHTML = alternativesHTML;
+                } else if (data.available) {
+                    // Room is available, show booking option
+                    const room = data.room;
+                    const totalPrice = data.total_price;
+                    const nights = data.nights;
+                    
+                    resultContainer.innerHTML = `
+                        <div class="p-4 bg-green-50 border border-green-200 rounded-lg mb-4">
+                            <p class="text-green-700 text-sm"><i class="fas fa-check-circle mr-2"></i>This room is available for your selected dates! Please proceed with your booking</p>
+                            <p class="text-[#8a735b] text-xs mt-1">${nights} night${nights > 1 ? 's' : ''} - KSh ${totalPrice.toLocaleString()}</p>
+                        </div>
+                        
+                        <!-- Guest Details for Booking -->
+                        <div class="bg-white p-4 rounded-lg border border-[#d4b48c]/20">
+                            <h4 class="font-['Cormorant_Garamond'] text-lg text-[#3f352e] mb-3">Complete Your Booking</h4>
+                            <form id="bookingForm" onsubmit="confirmBooking(event, '${room.room_type}')">
+                                <input type="hidden" id="bookingRoomType" value="${room.room_type}">
+                                <input type="hidden" id="bookingCheckIn" value="${checkIn}">
+                                <input type="hidden" id="bookingCheckOut" value="${checkOut}">
+                                <input type="hidden" id="bookingAdults" value="${adults}">
+                                <input type="hidden" id="bookingChildren" value="${children}">
+                                <input type="hidden" id="bookingSpecialRequests" value="${specialRequests}">
+                                
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-[#8a735b] text-xs uppercase mb-1">Full Name *</label>
+                                        <input type="text" id="guestName" class="w-full px-4 py-2 rounded-lg bg-white border border-[#d4b48c]/30" placeholder="Enter your full name" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[#8a735b] text-xs uppercase mb-1">Email Address *</label>
+                                        <input type="email" id="guestEmail" class="w-full px-4 py-2 rounded-lg bg-white border border-[#d4b48c]/30" placeholder="Enter your email" required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[#8a735b] text-xs uppercase mb-1">Phone Number</label>
+                                        <input type="tel" id="guestPhone" class="w-full px-4 py-2 rounded-lg bg-white border border-[#d4b48c]/30" placeholder="Enter your phone number">
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 p-3 bg-[#f5efe8] rounded-lg">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-[#8a735b]">Room (${nights} night${nights > 1 ? 's' : ''})</span>
+                                        <span class="text-[#3f352e]">KSh ${totalPrice.toLocaleString()}</span>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" id="confirmBookingBtn" class="w-full mt-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center">
+                                    <i class="fas fa-check mr-2"></i>
+                                    <span>Confirm Booking</span>
+                                </button>
+                            </form>
+                        </div>
+                    `;
+                } else {
+                    resultContainer.innerHTML = `
+                        <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <p class="text-red-600 text-sm"><i class="fas fa-exclamation-circle mr-2"></i>${data.message}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                btn.disabled = false;
+                btn.innerHTML = `<span>Check Availability</span>`;
+                console.error('Error checking availability:', error);
+                resultContainer.innerHTML = `
+                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-red-600 text-sm"><i class="fas fa-exclamation-circle mr-2"></i>Error checking availability. Please try again.</p>
+                    </div>
+                `;
+            });
+        }
+        
+        // Confirm booking function
+        function confirmBooking(event, roomType) {
+            event.preventDefault();
+            
+            const guestName = document.getElementById('guestName').value;
+            const guestEmail = document.getElementById('guestEmail').value;
+            const guestPhone = document.getElementById('guestPhone').value;
+            const checkIn = document.getElementById('bookingCheckIn').value;
+            const checkOut = document.getElementById('bookingCheckOut').value;
+            const adults = document.getElementById('bookingAdults').value;
+            const children = document.getElementById('bookingChildren').value;
+            const specialRequests = document.getElementById('bookingSpecialRequests').value;
+            
+            const btn = document.getElementById('confirmBookingBtn');
+            const resultContainer = document.getElementById('availabilityResult');
+            
+            // Show loader
+            btn.disabled = true;
+            btn.innerHTML = `
+                <div class="loader mr-2"></div>
+                <span>Processing booking...</span>
+            `;
+            
+            const formData = new FormData();
+            formData.append('action', 'create_booking');
+            formData.append('room_type', roomType);
+            formData.append('guest_name', guestName);
+            formData.append('guest_email', guestEmail);
+            formData.append('guest_phone', guestPhone);
+            formData.append('check_in', checkIn);
+            formData.append('check_out', checkOut);
+            formData.append('adults', adults);
+            formData.append('children', children);
+            formData.append('special_requests', specialRequests);
+            
+            fetch('api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fas fa-check mr-2"></i><span>Confirm Booking</span>`;
+                
+                if (data.success) {
+                    // Show success message
+                    resultContainer.innerHTML = `
+                        <div class="text-center py-6">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-check text-3xl text-green-600"></i>
+                            </div>
+                            <h4 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-2">Booking Confirmed!</h4>
+                            <p class="text-[#8a735b] mb-4">Your booking has been successfully confirmed.</p>
+                            <div class="bg-white p-4 rounded-lg border border-[#d4b48c]/20 text-left mb-4">
+                                <p class="text-sm text-[#8a735b]"><strong>Booking ID:</strong> #${data.booking.booking_id}</p>
+                                <p class="text-sm text-[#8a735b]"><strong>Room:</strong> ${data.room.name}</p>
+                                <p class="text-sm text-[#8a735b]"><strong>Check-in:</strong> ${checkIn}</p>
+                                <p class="text-sm text-[#8a735b]"><strong>Check-out:</strong> ${checkOut}</p>
+                                <p class="text-sm text-[#8a735b]"><strong>Total:</strong> KSh ${data.booking.total_price.toLocaleString()}</p>
+                            </div>
+                            <p class="text-sm text-[#8a735b]">A confirmation email has been sent to ${guestEmail}</p>
+                            <button onclick="closeModal()" class="mt-4 px-6 py-2 bg-[#d4b48c] text-white rounded-full hover:bg-[#b89a78] transition-colors">
+                                Close
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    resultContainer.innerHTML = `
+                        <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <p class="text-red-600 text-sm"><i class="fas fa-exclamation-circle mr-2"></i>${data.message}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fas fa-check mr-2"></i><span>Confirm Booking</span>`;
+                console.error('Error creating booking:', error);
+                resultContainer.innerHTML = `
+                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-red-600 text-sm"><i class="fas fa-exclamation-circle mr-2"></i>Error creating booking. Please try again.</p>
+                    </div>
+                `;
+            });
         }
         
         function closeModal() {
@@ -1057,16 +1156,13 @@
         
         // Change main image when thumbnail clicked
         function changeImage(thumbnail, src) {
-            // Update main image
             document.getElementById('mainImage').src = src;
             
-            // Update active thumbnail
             document.querySelectorAll('.thumbnail').forEach(thumb => {
                 thumb.classList.remove('active');
             });
             thumbnail.classList.add('active');
             
-            // Stop auto-carousel when user manually selects
             if (window.carouselInterval) {
                 clearInterval(window.carouselInterval);
             }
@@ -1076,7 +1172,6 @@
         function startAutoCarousel(images) {
             let currentIndex = 0;
             
-            // Clear any existing interval
             if (window.carouselInterval) {
                 clearInterval(window.carouselInterval);
             }
@@ -1087,7 +1182,6 @@
                 if (mainImage) {
                     mainImage.src = images[currentIndex];
                     
-                    // Update active thumbnail
                     const thumbnails = document.querySelectorAll('.thumbnail');
                     thumbnails.forEach((thumb, index) => {
                         if (index === currentIndex) {
@@ -1097,7 +1191,7 @@
                         }
                     });
                 }
-            }, 4000); // Change every 4 seconds
+            }, 4000);
         }
         
         // Close modal with Escape key
@@ -1114,19 +1208,46 @@
             }
         });
         
-        // Filter button functionality
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                // Remove active class from siblings in same group
-                const parent = this.parentNode;
-                parent.querySelectorAll('.filter-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-        });
+        // View toggle functions
+        function setView(viewMode) {
+            currentViewMode = viewMode;
+            localStorage.setItem('viewMode', viewMode);
+            
+            // Update all button states
+            document.getElementById('grid1Btn').classList.remove('active');
+            document.getElementById('grid2Btn').classList.remove('active');
+            document.getElementById('grid4Btn').classList.remove('active');
+            document.getElementById('listViewBtn').classList.remove('active');
+            
+            // Add active class to selected button
+            if (viewMode === 'grid-1') {
+                document.getElementById('grid1Btn').classList.add('active');
+            } else if (viewMode === 'grid-2') {
+                document.getElementById('grid2Btn').classList.add('active');
+            } else if (viewMode === 'grid-4') {
+                document.getElementById('grid4Btn').classList.add('active');
+            } else if (viewMode === 'list') {
+                document.getElementById('listViewBtn').classList.add('active');
+            }
+            
+            // Apply view mode to grid
+            const roomsGrid = document.getElementById('roomsGrid');
+            roomsGrid.classList.remove('grid-1', 'grid-2', 'grid-4', 'list-view');
+            roomsGrid.classList.add(viewMode);
+        }
         
-        // Reveal on scroll
+        function applyViewMode() {
+            // Check if we're on mobile
+            const isMobile = window.innerWidth < 768;
+            const isTablet = window.innerWidth < 1024;
+            
+            // If saved view is grid-4 but we're on tablet/mobile, default to grid-2
+            if (currentViewMode === 'grid-4' && isTablet) {
+                currentViewMode = 'grid-2';
+            }
+            
+            setView(currentViewMode);
+        }
         function reveal() {
             const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
             
@@ -1146,3 +1267,4 @@
     </script>
 </body>
 </html>
+<?php include 'footer.php'; ?>

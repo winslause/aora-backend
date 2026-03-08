@@ -1,801 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aora45 - Hero Section</title>
-    <!-- Tailwind via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts for Luxury Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<?php 
+require_once 'database.php';
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            background: #0a0a0a;
-        }
+// Get amenities for index page - limit to 6
+$indexAmenities = getAllAmenities($pdo);
+$indexAmenities = array_slice($indexAmenities, 0, 6);
 
-        /* Elegant, subtle skeuomorphic effects */
-        .navbar-skeu {
-            background: #ffffff;
-            border-bottom: 1px solid #e0d6cc;
-            box-shadow: 0 4px 20px -8px rgba(90, 60, 40, 0.15);
-        }
-
-        .nav-link {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 500;
-            color: #5c524a;
-            letter-spacing: 0.3px;
-            position: relative;
-            transition: all 0.2s ease;
-            padding: 0.5rem 0;
-            margin: 0 0.75rem;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            opacity: 0.85;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%) scaleX(0);
-            width: 70%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #b8a084, #8a735b, #b8a084, transparent);
-            transition: transform 0.25s ease;
-        }
-
-        .nav-link:hover {
-            color: #3f352e;
-            opacity: 1;
-        }
-
-        .nav-link:hover::after {
-            transform: translateX(-50%) scaleX(1);
-        }
-
-        /* Active nav link */
-        .nav-link.active {
-            color: #3f352e;
-            opacity: 1;
-            font-weight: 600;
-        }
-        .nav-link.active::after {
-            transform: translateX(-50%) scaleX(1);
-        }
-
-        /* Unique Toggler Animation - refined */
-        .toggler-skeu {
-            width: 44px;
-            height: 44px;
-            background: #ffffff;
-            border: 1px solid #d6cbbc;
-            border-radius: 50%;
-            box-shadow: 0 4px 10px -3px rgba(100, 70, 40, 0.1);
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            transition: all 0.2s ease;
-            position: relative;
-            z-index: 100;
-        }
-
-        .toggler-skeu:hover {
-            background: #faf7f2;
-            border-color: #c4b2a0;
-            box-shadow: 0 6px 14px -4px rgba(100, 70, 40, 0.15);
-        }
-
-        .toggler-bar {
-            width: 20px;
-            height: 2px;
-            background: #8a7a6a;
-            border-radius: 2px;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .toggler-skeu.open .toggler-bar:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-            width: 22px;
-            background: #6b5b4b;
-        }
-
-        .toggler-skeu.open .toggler-bar:nth-child(2) {
-            opacity: 0;
-            transform: scale(0);
-        }
-
-        .toggler-skeu.open .toggler-bar:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-            width: 22px;
-            background: #6b5b4b;
-        }
-
-        /* Mobile menu - elegant */
-        .mobile-menu-skeu {
-            background: #ffffff;
-            border: 1px solid #e2d7cd;
-            border-radius: 12px;
-            box-shadow: 0 20px 30px -12px rgba(70, 50, 30, 0.2);
-            padding: 1rem 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .mobile-nav-link {
-            font-family: 'Montserrat', sans-serif;
-            color: #5c524a;
-            padding: 0.875rem 1.25rem;
-            border-bottom: 1px solid #eee7e0;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-        }
-
-        .mobile-nav-link i {
-            color: #b09b88;
-            width: 24px;
-            font-size: 1rem;
-            margin-right: 12px;
-        }
-
-        .mobile-nav-link:hover {
-            background: #faf5ef;
-            color: #3f352e;
-            padding-left: 1.75rem;
-        }
-
-        .mobile-nav-link:hover i {
-            color: #8a735b;
-        }
-
-        .mobile-nav-link:last-child {
-            border-bottom: none;
-        }
-
-        /* Logo styling */
-        .logo-container {
-            filter: drop-shadow(0 2px 4px rgba(100, 70, 40, 0.1));
-        }
-
-        /* Gold accent line */
-        .gold-accent {
-            background: linear-gradient(90deg, transparent, #d4b48c, #b89a78, #d4b48c, transparent);
-            height: 1px;
-            width: 60px;
-            margin: 4px 0 2px;
-        }
-
-        /* Desktop spacing container */
-        .nav-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 0.75rem 2rem;
-        }
-
-        /* Large space between logo and nav items */
-        .nav-spacer {
-            flex: 2;
-            min-width: 100px;
-        }
-
-        /* For desktop, create even spacing */
-        .desktop-nav-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            flex: 1;
-        }
-
-        /* Reduced number of nav items - consolidated */
-        .desktop-nav {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Responsive adjustments */
-        @media (min-width: 1024px) {
-            .nav-container {
-                padding: 0.75rem 3rem;
-            }
-        }
-
-        @media (min-width: 1280px) {
-            .nav-container {
-                padding: 1rem 5rem;
-            }
-        }
-
-        /* Elegant top bar */
-        .top-bar {
-            background: #f8f3ed;
-            border-bottom: 1px solid #e8dfd5;
-            color: #7a6b5e;
-            font-size: 0.8rem;
-            padding: 0.5rem 0;
-            transition: height 0.3s ease, padding 0.3s ease, opacity 0.3s ease, border-bottom 0.3s ease;
-            height: auto;
-            overflow: visible;
-        }
-
-        /* Hero Section - Full Viewport */
-        .hero-section {
-            height: calc(100vh - 150px);
-            min-height: 600px;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-            margin-top: 150px;
-            box-sizing: border-box;
-        }
-        
-        @media (max-width: 1023px) {
-            .hero-section {
-                margin-top: 80px;
-                height: calc(100vh - 80px);
-            }
-        }
-
-        /* Container for the cinematic photo experience */
-        .cinema-showcase {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Individual image frame */
-        .cinema-frame {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            animation: cinemaCycle 60s infinite; /* Slower cycle - 60 seconds total */
-            overflow: hidden;
-        }
-
-        .cinema-frame:nth-child(1) {
-            animation-delay: 0s;
-        }
-        .cinema-frame:nth-child(2) {
-            animation-delay: 10s;
-        }
-        .cinema-frame:nth-child(3) {
-            animation-delay: 20s;
-        }
-        .cinema-frame:nth-child(4) {
-            animation-delay: 30s;
-        }
-        .cinema-frame:nth-child(5) {
-            animation-delay: 40s;
-        }
-        .cinema-frame:nth-child(6) {
-            animation-delay: 50s;
-        }
-
-        /* Image styling with cinematic pan and zoom */
-        .cinema-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            animation: cinematicMove 60s infinite;
-            filter: brightness(0.75) saturate(1.1);
-            transform-origin: center center;
-        }
-
-        .cinema-frame:nth-child(1) .cinema-image {
-            animation-delay: 0s;
-        }
-        .cinema-frame:nth-child(2) .cinema-image {
-            animation-delay: 10s;
-        }
-        .cinema-frame:nth-child(3) .cinema-image {
-            animation-delay: 20s;
-        }
-        .cinema-frame:nth-child(4) .cinema-image {
-            animation-delay: 30s;
-        }
-        .cinema-frame:nth-child(5) .cinema-image {
-            animation-delay: 40s;
-        }
-        .cinema-frame:nth-child(6) .cinema-image {
-            animation-delay: 50s;
-        }
-
-        /* Frame transition - longer display time */
-        @keyframes cinemaCycle {
-            0% {
-                opacity: 0;
-            }
-            2% {
-                opacity: 1;
-            }
-            16% {
-                opacity: 1; /* Shows for about 14% of cycle */
-            }
-            18% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-
-        /* Cinematic pan and zoom effect - like a showroom */
-        @keyframes cinematicMove {
-            0% {
-                transform: scale(1) translate(0, 0);
-            }
-            10% {
-                transform: scale(1.08) translate(-2%, -1%);
-            }
-            20% {
-                transform: scale(1.12) translate(3%, 2%);
-            }
-            30% {
-                transform: scale(1.05) translate(-1%, 3%);
-            }
-            40% {
-                transform: scale(1.15) translate(2%, -2%);
-            }
-            50% {
-                transform: scale(1.1) translate(-3%, -1%);
-            }
-            60% {
-                transform: scale(1.18) translate(1%, 2%);
-            }
-            70% {
-                transform: scale(1.08) translate(3%, -2%);
-            }
-            80% {
-                transform: scale(1.13) translate(-2%, 1%);
-            }
-            90% {
-                transform: scale(1.07) translate(1%, -1%);
-            }
-            100% {
-                transform: scale(1) translate(0, 0);
-            }
-        }
-
-        /* Light Blue Overlay - very subtle */
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, rgba(135, 206, 235, 0.12) 0%, rgba(173, 216, 230, 0.08) 100%);
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        /* Content Container */
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 2rem;
-        }
-
-        /* Main Card Container - transparent */
-        .experience-card {
-            position: relative;
-            width: min(800px, 90%);
-            min-height: 350px;
-            background: transparent;
-            border: none;
-            border-radius: 0;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: none;
-        }
-
-        /* Arrow Container - Directional Pad Layout - wider spacing */
-        .card-arrows {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            grid-template-rows: auto 1fr auto;
-            gap: 1.5rem 4rem;
-            width: 100%;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Arrow items - no background, just icon */
-        .arrow-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            padding: 1rem;
-        }
-
-        .arrow-item i {
-            font-size: 2.5rem;
-            color: #d4af37;
-            transition: all 0.4s ease;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-        }
-
-        /* Hover effects */
-        .arrow-item:hover i {
-            color: #f4d03f;
-            transform: scale(1.15);
-            text-shadow: 0 0 30px rgba(244, 208, 63, 0.6);
-        }
-
-        /* Individual arrow positions */
-        .arrow-item.up {
-            grid-column: 2;
-            grid-row: 1;
-        }
-        .arrow-item.up:hover i {
-            transform: translateY(-3px) scale(1.15);
-        }
-
-        .arrow-item.left {
-            grid-column: 1;
-            grid-row: 2;
-        }
-        .arrow-item.left:hover i {
-            transform: translateX(-3px) scale(1.15);
-        }
-
-        .arrow-item.right {
-            grid-column: 3;
-            grid-row: 2;
-        }
-        .arrow-item.right:hover i {
-            transform: translateX(3px) scale(1.15);
-        }
-
-        .arrow-item.down {
-            grid-column: 2;
-            grid-row: 3;
-        }
-        .arrow-item.down:hover i {
-            transform: translateY(3px) scale(1.15);
-        }
-
-        /* Center text container */
-        .arrow-center-text {
-            grid-column: 2;
-            grid-row: 2;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 1rem 0;
-        }
-
-        /* Center title - Unearth Timeless Luxury at Aora45 */
-        .center-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 400;
-            letter-spacing: 0.08em;
-            color: #fff;
-            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            line-height: 1.2;
-            margin-bottom: 0.5rem;
-        }
-
-        .center-title .brand {
-            display: block;
-            font-family: 'DM Serif Display', serif;
-            font-size: clamp(2.5rem, 7vw, 5rem);
-            color: #d4af37;
-            margin-top: 0.5rem;
-            letter-spacing: 0.15em;
-            text-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
-        }
-
-        /* Subtitle below */
-        .center-subtitle {
-            font-family: 'Montserrat', sans-serif;
-            font-size: clamp(0.7rem, 1.5vw, 1rem);
-            font-weight: 300;
-            letter-spacing: 0.35em;
-            color: rgba(255, 255, 255, 0.85);
-            text-transform: uppercase;
-            margin-top: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .experience-card {
-                min-height: 280px;
-                padding: 1.5rem;
-                width: 100%;
-            }
-            
-            .card-arrows {
-                gap: 1rem 2.5rem;
-            }
-            
-            .arrow-item i {
-                font-size: 2rem;
-            }
-            
-            /* Center hero content on mobile */
-            .hero-content {
-                padding: 1rem;
-                text-align: center;
-                align-items: center;
-            }
-            
-            .arrow-center-text {
-                text-align: center;
-                grid-column: 2;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .experience-card {
-                min-height: 220px;
-                padding: 1rem;
-            }
-            
-            .card-arrows {
-                gap: 0.75rem 2rem;
-            }
-            
-            .arrow-item i {
-                font-size: 1.5rem;
-            }
-            
-            .center-subtitle {
-                font-size: 0.6rem;
-                letter-spacing: 0.2em;
-            }
-        }
-
-        /* Subtle gradient overlay at bottom */
-        .hero-gradient {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 150px;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
-            z-index: 5;
-            pointer-events: none;
-        }
-    </style>
-</head>
-<body>
-    <!-- Header/Navbar Component -->
-    <header class="w-full fixed top-0 left-0 right-0 z-50">
-        <!-- Top Bar - very subtle, elegant -->
-        <div class="top-bar hidden md:block">
-            <div class="container mx-auto px-6 flex justify-between items-center">
-                <div class="flex items-center space-x-6">
-                    <span class="flex items-center"><i class="fas fa-map-pin mr-2 text-[#b09b88] text-xs"></i> Nairobi, Kenya 00100</span>
-                    <span class="flex items-center"><i class="far fa-clock mr-2 text-[#b09b88] text-xs"></i> Check-in: 2PM | Check-out: 12PM</span>
-                </div>
-                <div class="flex items-center space-x-5">
-                    <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-pinterest-p"></i></a>
-                    <span class="text-[#b09b88]">|</span>
-                    <span class="flex items-center"><i class="fas fa-phone-alt mr-2 text-[#b09b88] text-xs"></i> +960 123-4567</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Navbar -->
-        <nav class="navbar-skeu w-full py-2 md:py-3 relative z-50">
-            <div class="nav-container">
-                
-                <!-- Logo with resort name - left side -->
-                <div class="logo-container flex items-center">
-                    <img src="logo1.png" alt="Aora45 Resort" class="h-20 md:h-24 w-auto" onerror="this.src='https://placehold.co/180x70/f5efe8/8a735b?text=AORA'">
-                    <div class="ml-3">
-                        <h1 class="font-['Playfair_Display'] text-3xl md:text-4xl font-medium text-[#4a3f37] tracking-wide">Aora45</h1>
-                        <div class="gold-accent"></div>
-                        <p class="text-xs tracking-[0.25em] text-[#9a8a78] font-light mt-0.5">RESORT & RESTAURANT</p>
-                    </div>
-                </div>
-
-                <!-- LARGE BLANK SPACE between logo and HOME (as requested) -->
-                <div class="nav-spacer"></div>
-
-                <!-- Desktop Navigation - right side with consolidated items -->
-                <div class="hidden lg:flex desktop-nav-wrapper">
-                    <div class="desktop-nav">
-                        <a href="index.php" class="nav-link active">Home</a>
-                        <a href="rooms.php" class="nav-link">Rooms</a>
-                        <a href="restaurant.php" class="nav-link">Restaurant</a>
-                        <a href="events.php" class="nav-link">Events</a>
-                        <a href="contact.php" class="nav-link">Contact</a>
-                    </div>
-                </div>
-
-                <!-- Right side - ONLY toggler (no search, no language) -->
-                <div class="flex items-center">
-                    <!-- Mobile: Only the toggler (no extra icons) -->
-                    <button id="menuToggler" class="toggler-skeu lg:hidden" aria-label="Menu">
-                        <span class="toggler-bar"></span>
-                        <span class="toggler-bar"></span>
-                        <span class="toggler-bar"></span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Menu (hidden by default) -->
-            <div id="mobileMenu" class="mobile-menu-skeu lg:hidden mx-4 mt-2 hidden">
-                <div class="flex flex-col">
-                    <a href="index.php" class="mobile-nav-link"><i class="fas fa-home"></i>Home</a>
-                    <a href="rooms.php" class="mobile-nav-link"><i class="fas fa-bed"></i>Rooms & Suites</a>
-                    <a href="restaurant.php" class="mobile-nav-link"><i class="fas fa-utensils"></i>Restaurant</a>
-                    <a href="amenities.php" class="mobile-nav-link"><i class="fas fa-spa"></i>Amenities</a>
-                    <a href="gallery.php" class="mobile-nav-link"><i class="fas fa-images"></i>Gallery</a>
-                    <a href="events.php" class="mobile-nav-link"><i class="fas fa-glass-cheers"></i>Events</a>
-                    <a href="offers.php" class="mobile-nav-link"><i class="fas fa-tag"></i>Offers</a>
-                    <a href="about.php" class="mobile-nav-link"><i class="fas fa-info-circle"></i>About</a>
-                    <a href="contact.php" class="mobile-nav-link"><i class="fas fa-envelope"></i>Contact</a>
-                    
-                    <!-- Mobile menu extras -->
-                    <div class="mt-4 pt-4 border-t border-[#eee7e0] px-4">
-                        <div class="flex items-center justify-between text-sm text-[#7a6b5e] mb-3">
-                            <span><i class="fas fa-phone-alt mr-2 text-[#b09b88]"></i>+254 123-4567</span>
-                            <span><i class="fas fa-envelope mr-2 text-[#b09b88]"></i>info@Aora45.com</span>
-                        </div>
-                        <div class="flex justify-center space-x-5 py-2 text-[#b09b88]">
-                            <a href="#" class="hover:text-[#5c4a38]"><i class="fab fa-instagram fa-lg"></i></a>
-                            <a href="#" class="hover:text-[#5c4a38]"><i class="fab fa-facebook-f fa-lg"></i></a>
-                            <a href="#" class="hover:text-[#5c4a38]"><i class="fab fa-pinterest fa-lg"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Simple script for toggler animation and scroll behavior -->
-    <script>
-        (function() {
-            const toggler = document.getElementById('menuToggler');
-            const mobileMenu = document.getElementById('mobileMenu');
-            
-            if (toggler && mobileMenu) {
-                toggler.addEventListener('click', function() {
-                    this.classList.toggle('open');
-                    
-                    if (mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.remove('hidden');
-                        mobileMenu.style.animation = 'slideDown 0.25s ease-out';
-                    } else {
-                        mobileMenu.style.animation = 'slideUp 0.2s ease-out';
-                        setTimeout(() => {
-                            mobileMenu.classList.add('hidden');
-                        }, 200);
-                    }
-                });
-            }
-            
-            // Scroll behavior: Hide top-bar on desktop when scrolling
-            const topBar = document.querySelector('.top-bar');
-            const mainNav = document.querySelector('.navbar-skeu');
-            
-            if (topBar && mainNav) {
-                let lastScrollY = window.scrollY;
-                let ticking = false;
-                
-                function updateTopBarOnScroll() {
-                    // Only apply on desktop (lg and above - 1024px)
-                    if (window.innerWidth >= 1024) {
-                        const currentScrollY = window.scrollY;
-                        
-                        // When scrolling down past 10px, hide the top-bar
-                        if (currentScrollY > 10) {
-                            topBar.style.height = '0';
-                            topBar.style.padding = '0';
-                            topBar.style.borderBottom = '0';
-                            topBar.style.overflow = 'hidden';
-                            topBar.style.opacity = '0';
-                        } else {
-                            // When at top, show the top-bar
-                            topBar.style.height = '';
-                            topBar.style.padding = '';
-                            topBar.style.borderBottom = '';
-                            topBar.style.overflow = '';
-                            topBar.style.opacity = '1';
-                        }
-                        
-                        lastScrollY = currentScrollY;
-                    } else {
-                        // On mobile/tablet, reset to default state
-                        topBar.style.height = '';
-                        topBar.style.padding = '';
-                        topBar.style.borderBottom = '';
-                        topBar.style.overflow = '';
-                        topBar.style.opacity = '1';
-                    }
-                    
-                    ticking = false;
-                }
-                
-                window.addEventListener('scroll', function() {
-                    if (!ticking) {
-                        window.requestAnimationFrame(updateTopBarOnScroll);
-                        ticking = true;
-                    }
-                });
-                
-                // Also check on resize
-                window.addEventListener('resize', function() {
-                    updateTopBarOnScroll();
-                });
-            }
-        })();
-    </script>
-
-    <!-- Animations -->
-    <style>
-        @keyframes slideDown {
-            0% { opacity: 0; transform: translateY(-8px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideUp {
-            0% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-8px); }
-        }
-        
-        .container {
-            max-width: 1440px;
-            margin: 0 auto;
-        }
-
-        /* Very subtle texture overlay - barely visible */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.45" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.03 0"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.2"/></svg>');
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.25;
-        }
-    </style>
+include 'header.php'; ?>
 
     <!-- Hero Section Only -->
     <section class="hero-section">
@@ -962,446 +172,43 @@
         <div class="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-[#1a2a32] to-transparent z-20 pointer-events-none"></div>
         <div class="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-[#1a2a32] to-transparent z-20 pointer-events-none"></div>
         
-        <!-- Cards Slider - Using CSS animation for seamless uniform movement -->
+        <!-- Loading indicator -->
+        <div id="indexLoadingIndicator" class="flex justify-center items-center py-20">
+            <div class="loader"></div>
+            <span class="ml-3 text-white/60">Loading rooms...</span>
+        </div>
+        
+        <!-- Cards Slider - Loaded dynamically from database -->
         <div class="slider-container overflow-hidden py-4" style="mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);">
             <div class="slider-track flex gap-0" id="roomSlider">
-                <!-- Card 1 - Deluxe Room -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Deluxe Room" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 3K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Deluxe Room</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Elegant room with city views, king-size bed, and modern amenities.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs" title="Free WiFi"></i>
-                                <i class="fas fa-snowflake text-xs" title="Air Conditioning"></i>
-                                <i class="fas fa-tv text-xs" title="Smart TV"></i>
-                                <i class="fas fa-coffee text-xs" title="Coffee Maker"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('deluxe')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
+                <!-- Placeholder slides for loading state - will be replaced by dynamic content -->
+                <div class="slide flex-none w-full md:w-1/3 px-2">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 h-full animate-pulse">
+                        <div class="relative h-48 bg-white/10"></div>
+                        <div class="p-4 space-y-3">
+                            <div class="h-6 bg-white/10 rounded w-3/4"></div>
+                            <div class="h-4 bg-white/10 rounded w-1/2"></div>
+                            <div class="h-10 bg-white/10 rounded-full"></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Card 2 - Executive Suite -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Executive Suite" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 5K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Executive Suite</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Spacious suite with separate living area and exclusive lounge access.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs"></i>
-                                <i class="fas fa-snowflake text-xs"></i>
-                                <i class="fas fa-tv text-xs"></i>
-                                <i class="fas fa-glass-cheers text-xs" title="Mini Bar"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('executive')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
+                <div class="slide flex-none w-full md:w-1/3 px-2">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 h-full animate-pulse">
+                        <div class="relative h-48 bg-white/10"></div>
+                        <div class="p-4 space-y-3">
+                            <div class="h-6 bg-white/10 rounded w-3/4"></div>
+                            <div class="h-4 bg-white/10 rounded w-1/2"></div>
+                            <div class="h-10 bg-white/10 rounded-full"></div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Card 3 - Family Villa -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80" 
-                                 alt="Family Villa" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 7K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Family Villa</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Two-bedroom villa with private garden and family-friendly amenities.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs"></i>
-                                <i class="fas fa-snowflake text-xs"></i>
-                                <i class="fas fa-tv text-xs"></i>
-                                <i class="fas fa-utensils text-xs" title="Kitchen"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('family')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4 - Presidential Suite -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Presidential Suite" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 110K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Presidential Suite</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Ultimate luxury with private terrace and butler service.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs"></i>
-                                <i class="fas fa-snowflake text-xs"></i>
-                                <i class="fas fa-tv text-xs"></i>
-                                <i class="fas fa-champagne-glasses text-xs" title="Champagne"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('presidential')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 5 - Garden View Room -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Garden View Room" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 30K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Garden View Room</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="far fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Serene room overlooking lush gardens.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs"></i>
-                                <i class="fas fa-snowflake text-xs"></i>
-                                <i class="fas fa-tv text-xs"></i>
-                                <i class="fas fa-leaf text-xs" title="Garden View"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('garden')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 6 - Honeymoon Suite -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Honeymoon Suite" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 5K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Honeymoon Suite</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Romantic retreat with king bed and private balcony.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs"></i>
-                                <i class="fas fa-snowflake text-xs"></i>
-                                <i class="fas fa-tv text-xs"></i>
-                                <i class="fas fa-heart text-xs" title="Romantic Setup"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('honeymoon')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 7 - Business Suite -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1522778526097-ce0a22ceb253?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Business Suite" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 4K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Business Suite</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="far fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Designed for professionals with work desk.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs"></i>
-                                <i class="fas fa-snowflake text-xs"></i>
-                                <i class="fas fa-tv text-xs"></i>
-                                <i class="fas fa-laptop text-xs" title="Work Desk"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('business')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 8 - Sky Penthouse -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
-                                 alt="Penthouse" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 150K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Sky Penthouse</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Top-floor residence with private rooftop terrace.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs"></i>
-                                <i class="fas fa-snowflake text-xs"></i>
-                                <i class="fas fa-tv text-xs"></i>
-                                <i class="fas fa-hot-tub text-xs" title="Hot Tub"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('penthouse')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Duplicate cards for seamless infinite loop effect -->
-                <!-- Duplicate: Deluxe Room (for seamless transition back to start) -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Deluxe Room" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 3K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Deluxe Room</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Elegant room with city views, king-size bed, and modern amenities.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs" title="Free WiFi"></i>
-                                <i class="fas fa-snowflake text-xs" title="Air Conditioning"></i>
-                                <i class="fas fa-tv text-xs" title="Smart TV"></i>
-                                <i class="fas fa-coffee text-xs" title="Coffee Maker"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('deluxe')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Duplicate: Executive Suite -->
-                <div class="slide flex-none w-1/3 px-2">
-                    <div class="accommodation-card group relative bg-white/10 backdrop-blur-xl rounded-xl overflow-hidden border border-white/20 shadow-[0_15px_30px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.7)] transition-all duration-500 hover:-translate-y-1">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Executive Suite" 
-                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                            <div class="absolute bottom-3 right-3 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/30">
-                                <span class="text-white font-['Montserrat'] font-light text-xs">FROM</span>
-                                <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-base ml-1">KSh 5K</span>
-                                <span class="text-white/80 text-[10px]">/night</span>
-                            </div>
-                        </div>
-                        
-                        <div class="p-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Executive Suite</h3>
-                                <div class="flex text-[#d4b48c]">
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                    <i class="fas fa-star text-[10px]"></i>
-                                </div>
-                            </div>
-                            
-                            <p class="text-white/70 text-xs mb-3 line-clamp-2">Spacious suite with separate living area and exclusive lounge access.</p>
-                            
-                            <div class="flex gap-2 mb-4 text-white/60">
-                                <i class="fas fa-wifi text-xs"></i>
-                                <i class="fas fa-snowflake text-xs"></i>
-                                <i class="fas fa-tv text-xs"></i>
-                                <i class="fas fa-glass-cheers text-xs" title="Mini Bar"></i>
-                            </div>
-                            
-                            <button onclick="openRoomModal('executive')" class="inline-flex items-center gap-2 text-[#d4b48c] hover:text-white transition-colors duration-300 group/link text-xs">
-                                <span class="text-[10px] uppercase tracking-wider font-medium">View Details</span>
-                                <i class="fas fa-arrow-right text-[10px] group-hover/link:translate-x-1 transition-transform"></i>
-                            </button>
+                <div class="slide flex-none w-full md:w-1/3 px-2">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 h-full animate-pulse">
+                        <div class="relative h-48 bg-white/10"></div>
+                        <div class="p-4 space-y-3">
+                            <div class="h-6 bg-white/10 rounded w-3/4"></div>
+                            <div class="h-4 bg-white/10 rounded w-1/2"></div>
+                            <div class="h-10 bg-white/10 rounded-full"></div>
                         </div>
                     </div>
                 </div>
@@ -1438,6 +245,22 @@
 </section>
 
 <style>
+/* Loader styles */
+.loader {
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top: 3px solid #d4b48c;
+    width: 24px;
+    height: 24px;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 /* Slideshow styles */
 .slider-container {
     width: 100%;
@@ -1559,93 +382,107 @@
 </style>
 
 <script>
-// Room data for modal
-const roomData = {
-    deluxe: {
-        name: 'Deluxe Room',
-        price: 'KSh 3,000',
-        description: 'Experience elegance in our Deluxe Room, featuring contemporary design with warm earth tones. Perfect for the discerning traveler seeking comfort and style.',
-        amenities: ['King-size bed', 'City view', 'Smart TV', 'Mini bar', 'Rain shower', 'Free WiFi', 'Coffee maker', 'Room safe'],
-        size: '45 m²',
-        occupancy: '2 Adults',
-        image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-    },
-    executive: {
-        name: 'Executive Suite',
-        price: 'KSh 5,000',
-        description: 'Our Executive Suite offers spacious luxury with a separate living area, perfect for business travelers or those seeking extra space.',
-        amenities: ['Separate living room', 'Panoramic views', 'Executive lounge access', 'Work desk', 'Espresso machine', 'Bathrobe & slippers', 'Premium toiletries', 'Evening turndown'],
-        size: '65 m²',
-        occupancy: '2 Adults',
-        image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-    },
-    family: {
-        name: 'Family Villa',
-        price: 'KSh 7,000',
-        description: 'Perfect for families, our villa offers two bedrooms, a private garden, and all the comforts of home in a luxurious setting.',
-        amenities: ['Two bedrooms', 'Private garden', 'Full kitchen', 'Living room', 'Children\'s play area', 'Outdoor dining', 'BBQ facilities', 'Laundry service'],
-        size: '95 m²',
-        occupancy: '4 Adults + 2 Children',
-        image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80'
-    },
-    presidential: {
-        name: 'Presidential Suite',
-        price: 'KSh 10,000',
-        description: 'The pinnacle of luxury. Our Presidential Suite offers unmatched elegance with panoramic views, personal butler service, and exquisite furnishings.',
-        amenities: ['Private terrace', 'Butler service', 'Jacuzzi', 'Dining room', 'Wine cellar', 'Steam room', 'Home theater', 'Private check-in'],
-        size: '150 m²',
-        occupancy: '2 Adults',
-        image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-    },
-    garden: {
-        name: 'Garden View Room',
-        price: 'KSh 3,000',
-        description: 'Wake up to lush garden views in this serene room, designed for nature lovers seeking tranquility.',
-        amenities: ['Garden view', 'Queen bed', 'Private balcony', 'Rain shower', 'Organic toiletries', 'Tea/coffee', 'Ceiling fan', 'Mosquito nets'],
-        size: '35 m²',
-        occupancy: '2 Adults',
-        image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-    },
-    honeymoon: {
-        name: 'Honeymoon Suite',
-        price: 'KSh 6,000',
-        description: 'Designed for romance, this suite features intimate settings, a private balcony with sunset views, and special amenities for couples.',
-        amenities: ['King bed', 'Sunset balcony', 'Champagne on arrival', 'Rose petal turndown', 'Double vanity', 'Deep soaking tub', 'Candlelit dining', 'Couples massage'],
-        size: '55 m²',
-        occupancy: '2 Adults',
-        image: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-    },
-    business: {
-        name: 'Business Suite',
-        price: 'KSh 4,000',
-        description: 'Optimized for the modern professional, featuring a dedicated workspace and all the tech amenities needed for productivity.',
-        amenities: ['Work desk', 'Ergonomic chair', 'High-speed internet', 'Printer access', 'Conference phone', 'Stationery set', 'Complimentary printing', 'Meeting space'],
-        size: '50 m²',
-        occupancy: '2 Adults',
-        image: 'https://images.unsplash.com/photo-1522778526097-ce0a22ceb253?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-    },
-    penthouse: {
-        name: 'Sky Penthouse',
-        price: 'KSh 5,000',
-        description: 'The ultimate expression of luxury living, occupying the entire top floor with 360° views and unparalleled amenities.',
-        amenities: ['Rooftop terrace', 'Private pool', 'Hot tub', 'Outdoor kitchen', 'Panoramic views', 'Private elevator', 'Wine room', 'Personal chef'],
-        size: '200 m²',
-        occupancy: '4 Adults',
-        image: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80'
-    }
-};
+// Global variables for rooms data
+let roomsData = [];
+let totalOriginalCards = 0;
+const today = new Date().toISOString().split('T')[0];
 
-// Slideshow functionality - Seamless infinite loop with duplicate cards for smooth transition
+// Load rooms from database on page load
 document.addEventListener('DOMContentLoaded', function() {
+    loadRoomsFromDatabase();
+});
+
+// Function to load rooms from API
+function loadRoomsFromDatabase() {
+    const loadingIndicator = document.getElementById('indexLoadingIndicator');
+    const sliderTrack = document.getElementById('roomSlider');
+    
+    if (!loadingIndicator || !sliderTrack) return;
+    
+    const formData = new FormData();
+    formData.append('action', 'get_rooms');
+    formData.append('limit', '8');
+    
+    fetch('api.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        loadingIndicator.style.display = 'none';
+        
+        if (data.success && data.rooms.length > 0) {
+            roomsData = data.rooms;
+            totalOriginalCards = roomsData.length;
+            renderRoomCards(roomsData);
+            initSlideshow();
+        } else {
+            // Fallback to hardcoded data if no rooms in database
+            sliderTrack.innerHTML = '<p class="text-white/60 text-center py-10">No rooms available at the moment.</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error loading rooms:', error);
+        loadingIndicator.style.display = 'none';
+        sliderTrack.innerHTML = '<p class="text-white/60 text-center py-10">Error loading rooms. Please refresh the page.</p>';
+    });
+}
+
+// Function to render room cards
+function renderRoomCards(rooms) {
+    const sliderTrack = document.getElementById('roomSlider');
+    if (!sliderTrack) return;
+    
+    let cardsHTML = '';
+    
+    rooms.forEach((room, index) => {
+        const price = parseInt(room.price).toLocaleString();
+        const roomType = room.room_type;
+        const image = room.images && room.images.length > 0 ? room.images[0] : 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80';
+        
+        cardsHTML += `
+            <div class="slide flex-none w-full md:w-1/3 px-2" data-room-type="${roomType}">
+                <div class="accommodation-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300 h-full">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${image}" alt="${room.name}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-3 left-3">
+                            <span class="text-white font-['Cormorant_Garamond'] text-lg">${room.name}</span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh ${price}</span>
+                            <span class="text-white/60 text-xs">/ night</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-white/70 text-xs mb-3">
+                            <span><i class="fas fa-user mr-1"></i> ${room.occupancy}</span>
+                            <span><i class="fas fa-ruler-combined mr-1"></i> ${room.size}</span>
+                        </div>
+                        <button onclick="openRoomModal('${roomType}')" class="w-full py-2.5 bg-[#d4b48c] text-[#1a2a32] rounded-full text-sm font-medium hover:bg-[#c4a47c] transition-colors">
+                            Check Availability & Book
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    // Duplicate cards for seamless infinite loop
+    sliderTrack.innerHTML = cardsHTML + cardsHTML;
+}
+
+// Initialize slideshow functionality
+function initSlideshow() {
     const sliderTrack = document.querySelector('.slider-track');
     const slides = document.querySelectorAll('.slide');
     const container = document.querySelector('.slider-container');
     
+    if (!sliderTrack || !slides.length) return;
+    
     // Configuration - check on load and resize
     let isMobile = window.innerWidth < 768;
     let slidesPerView = isMobile ? 1 : 3;
-    const totalOriginalCards = 8; // 8 unique cards
-    const totalSlides = slides.length; // Total including duplicates
     
     let currentIndex = 0;
     let autoPlayInterval;
@@ -1702,10 +539,8 @@ document.addEventListener('DOMContentLoaded', function() {
         currentIndex += slidesPerView;
         
         // When we reach the duplicate cards section, seamlessly reset to beginning
-        // This creates the illusion of infinite scrolling
         if (currentIndex >= totalOriginalCards) {
-            // Just let it continue to show duplicates - they'll animate naturally from right
-            // The transition will be smooth like any other slide change
+            // Just let it continue to show duplicates
         }
         
         updateSlider(currentIndex);
@@ -1713,10 +548,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // After showing duplicates and completing animation, check if we need to reset
         if (currentIndex >= totalOriginalCards) {
             isAnimating = true;
-            // Wait for animation to complete, then instantly reset to 0 (but user won't notice because duplicates look same as start)
             setTimeout(() => {
                 sliderTrack.style.transition = 'none';
-                currentIndex = currentIndex - totalOriginalCards; // Reset to position 0 but visually identical
+                currentIndex = currentIndex - totalOriginalCards;
                 sliderTrack.style.transform = `translateX(${-(currentIndex * getSlideWidth())}px)`;
                 
                 // Force reflow
@@ -1734,7 +568,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start auto-play
     function startAutoPlay() {
         if (autoPlayInterval) clearInterval(autoPlayInterval);
-        // Faster interval on mobile (3 seconds) for 1 card at a time
         autoPlayInterval = setInterval(nextSlide, isMobile ? 3000 : 5000);
     }
     
@@ -1795,78 +628,370 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Initialize
-    if (slides.length) {
-        createDots();
-        setTimeout(() => {
-            updateSlider(0, false);
-            startAutoPlay();
-        }, 100);
-    }
-});
+    createDots();
+    setTimeout(() => {
+        updateSlider(0, false);
+        startAutoPlay();
+    }, 100);
+}
 
-// Modal functions
+// Modal functions - with check availability and booking
 function openRoomModal(roomType) {
-    const room = roomData[roomType];
-    if (!room) return;
-    
     const modal = document.getElementById('roomModal');
     const modalContent = document.getElementById('modalContent');
     
+    if (!modal || !modalContent) return;
+    
+    // Show loading
     modalContent.innerHTML = `
-        <div class="grid md:grid-cols-2 gap-4">
-            <div class="relative h-56 md:h-full rounded-lg overflow-hidden">
-                <img src="${room.image}" alt="${room.name}" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-            </div>
-            
-            <div class="text-white">
-                <div class="flex items-center justify-between mb-3">
-                    <h2 class="font-['Cormorant_Garamond'] text-2xl text-white">${room.name}</h2>
-                    <div class="flex text-[#d4b48c]">
-                        <i class="fas fa-star text-xs"></i>
-                        <i class="fas fa-star text-xs"></i>
-                        <i class="fas fa-star text-xs"></i>
-                        <i class="fas fa-star text-xs"></i>
-                        <i class="fas fa-star text-xs"></i>
-                    </div>
-                </div>
-                
-                <div class="flex items-center gap-3 mb-4">
-                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">${room.price}</span>
-                    <span class="text-white/60 text-xs">/ night</span>
-                    <span class="text-white/40">|</span>
-                    <span class="text-white/80 text-xs">${room.size}</span>
-                    <span class="text-white/40">|</span>
-                    <span class="text-white/80 text-xs">${room.occupancy}</span>
-                </div>
-                
-                <p class="text-white/80 text-sm mb-4 leading-relaxed">${room.description}</p>
-                
-                <h3 class="font-['Cormorant_Garamond'] text-lg text-white mb-2">Amenities</h3>
-                <div class="grid grid-cols-2 gap-2 mb-6">
-                    ${room.amenities.map(amenity => `
-                        <div class="flex items-center gap-2 text-white/70">
-                            <i class="fas fa-check-circle text-[#d4b48c] text-[10px]"></i>
-                            <span class="text-xs">${amenity}</span>
-                        </div>
-                    `).join('')}
-                </div>
-                
-                <div class="flex gap-3">
-                    <button onclick="closeRoomModal()" class="flex-1 px-5 py-2.5 bg-[#d4b48c] text-[#1a2a32] rounded-full text-sm font-medium hover:bg-[#c4a47c] transition-colors">
-                        Check Availability
-                    </button>
-                    <button onclick="closeRoomModal()" class="px-5 py-2.5 border border-white/20 rounded-full text-sm hover:bg-white/10 transition-colors">
-                        Close
-                    </button>
-                </div>
-            </div>
+        <div class="flex justify-center items-center py-20">
+            <div class="loader"></div>
+            <span class="ml-3 text-white/60">Loading room details...</span>
         </div>
     `;
     
     modal.style.display = 'flex';
     modal.classList.add('show');
     document.body.style.overflow = 'hidden';
+    
+    // Fetch room details from API
+    const formData = new FormData();
+    formData.append('action', 'get_room');
+    formData.append('room_type', roomType);
+    
+    fetch('api.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const room = data.room;
+            const price = parseInt(room.price).toLocaleString();
+            const image = room.images && room.images.length > 0 ? room.images[0] : 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80';
+            
+            modalContent.innerHTML = `
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="relative h-56 md:h-full rounded-lg overflow-hidden">
+                        <img src="${image}" alt="${room.name}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+                    
+                    <div class="text-white">
+                        <div class="flex items-center justify-between mb-3">
+                            <h2 class="font-['Cormorant_Garamond'] text-2xl text-white">${room.name}</h2>
+                            <div class="flex text-[#d4b48c]">
+                                <i class="fas fa-star text-xs"></i>
+                                <i class="fas fa-star text-xs"></i>
+                                <i class="fas fa-star text-xs"></i>
+                                <i class="fas fa-star text-xs"></i>
+                                <i class="fas fa-star text-xs"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh ${price}</span>
+                            <span class="text-white/60 text-xs">/ night</span>
+                            <span class="text-white/40">|</span>
+                            <span class="text-white/80 text-xs">${room.size}</span>
+                            <span class="text-white/40">|</span>
+                            <span class="text-white/80 text-xs">${room.occupancy}</span>
+                        </div>
+                        
+                        <p class="text-white/80 text-sm mb-4 leading-relaxed">${room.description}</p>
+                        
+                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white mb-2">Amenities</h3>
+                        <div class="grid grid-cols-2 gap-2 mb-6">
+                            ${room.amenities.map(amenity => `
+                                <div class="flex items-center gap-2 text-white/70">
+                                    <i class="fas fa-check-circle text-[#d4b48c] text-[10px]"></i>
+                                    <span class="text-xs">${amenity}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <!-- Check Availability Form -->
+                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white mb-3">Check Availability</h3>
+                        <form id="indexAvailabilityForm" class="space-y-3" onsubmit="checkAvailabilityIndex(event, '${room.room_type}')">
+                            <input type="hidden" id="indexRoomType" value="${room.room_type}">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-white/60 text-xs uppercase mb-1">Check-in</label>
+                                    <input type="date" id="indexCheckIn" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white" min="${today}" required>
+                                </div>
+                                <div>
+                                    <label class="block text-white/60 text-xs uppercase mb-1">Check-out</label>
+                                    <input type="date" id="indexCheckOut" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white" min="${today}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-white/60 text-xs uppercase mb-1">Adults</label>
+                                    <select id="indexAdults" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+                                        <option value="1">1</option>
+                                        <option value="2" selected>2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-white/60 text-xs uppercase mb-1">Children</label>
+                                    <select id="indexChildren" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
+                                        <option value="0" selected>0</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" id="indexCheckBtn" class="w-full px-5 py-2.5 bg-[#d4b48c] text-[#1a2a32] rounded-full text-sm font-medium hover:bg-[#c4a47c] transition-colors">
+                                Check Availability
+                            </button>
+                        </form>
+                        
+                        <!-- Availability Result Container -->
+                        <div id="indexAvailabilityResult" class="mt-4"></div>
+                    </div>
+                </div>
+            `;
+        } else {
+            modalContent.innerHTML = `
+                <div class="text-center py-10">
+                    <i class="fas fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
+                    <p class="text-white/60">${data.message}</p>
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        console.error('Error loading room:', error);
+        modalContent.innerHTML = `
+            <div class="text-center py-10">
+                <i class="fas fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
+                <p class="text-white/60">Error loading room details. Please try again.</p>
+            </div>
+        `;
+    });
+}
+
+// Check availability function for index page
+function checkAvailabilityIndex(event, roomType) {
+    event.preventDefault();
+    
+    const checkIn = document.getElementById('indexCheckIn').value;
+    const checkOut = document.getElementById('indexCheckOut').value;
+    const adults = document.getElementById('indexAdults').value;
+    const children = document.getElementById('indexChildren').value;
+    const resultContainer = document.getElementById('indexAvailabilityResult');
+    const btn = document.getElementById('indexCheckBtn');
+    
+    // Validate dates
+    if (!checkIn || !checkOut) {
+        resultContainer.innerHTML = `
+            <div class="p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                <p class="text-red-300 text-xs"><i class="fas fa-exclamation-circle mr-2"></i>Please select check-in and check-out dates.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Show loader
+    btn.disabled = true;
+    btn.innerHTML = `<div class="loader mr-2 inline-block"></div><span>Checking...</span>`;
+    
+    const formData = new FormData();
+    formData.append('action', 'check_availability');
+    formData.append('room_type', roomType);
+    formData.append('check_in', checkIn);
+    formData.append('check_out', checkOut);
+    
+    fetch('api.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = `Check Availability`;
+        
+        if (data.booked) {
+            // Room is booked, show alternatives
+            let alternativesHTML = `
+                <div class="p-3 bg-orange-500/20 border border-orange-500/30 rounded-lg mb-3">
+                    <p class="text-orange-300 text-xs"><i class="fas fa-calendar-times mr-2"></i>${data.message}</p>
+                </div>
+                <h4 class="text-white text-sm mb-2">Available Alternatives</h4>
+                <div class="space-y-2 max-h-40 overflow-y-auto">
+            `;
+            
+            if (data.alternatives && data.alternatives.length > 0) {
+                data.alternatives.forEach(alt => {
+                    const altPrice = parseInt(alt.price).toLocaleString();
+                    const altImage = alt.images && alt.images.length > 0 ? alt.images[0] : 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80';
+                    alternativesHTML += `
+                        <div class="flex items-center gap-2 p-2 bg-white/5 rounded-lg cursor-pointer hover:bg-white/10" onclick="openRoomModal('${alt.room_type}')">
+                            <img src="${altImage}" alt="${alt.name}" class="w-10 h-10 object-cover rounded">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-white text-xs truncate">${alt.name}</p>
+                                <p class="text-[#d4b48c] text-xs">KSh ${altPrice}/night</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                alternativesHTML += `<p class="text-white/60 text-xs">No alternative rooms available.</p>`;
+            }
+            
+            alternativesHTML += `</div>`;
+            resultContainer.innerHTML = alternativesHTML;
+        } else if (data.available) {
+            // Room is available, show booking option
+            const room = data.room;
+            const totalPrice = data.total_price;
+            const nights = data.nights;
+            
+            resultContainer.innerHTML = `
+                <div class="p-3 bg-green-500/20 border border-green-500/30 rounded-lg mb-3">
+                    <p class="text-green-300 text-xs"><i class="fas fa-check-circle mr-2"></i>Room available! Please complete your booking.</p>
+                    <p class="text-white/60 text-xs mt-1">${nights} night${nights > 1 ? 's' : ''} - KSh ${totalPrice.toLocaleString()}</p>
+                </div>
+                
+                <!-- Guest Details for Booking -->
+                <div class="bg-white/5 p-3 rounded-lg">
+                    <h4 class="text-white text-sm mb-2">Complete Your Booking</h4>
+                    <form id="indexBookingForm" onsubmit="confirmBookingIndex(event, '${room.room_type}', ${totalPrice})">
+                        <input type="hidden" id="indexBookingRoomType" value="${room.room_type}">
+                        <input type="hidden" id="indexBookingCheckIn" value="${checkIn}">
+                        <input type="hidden" id="indexBookingCheckOut" value="${checkOut}">
+                        <input type="hidden" id="indexBookingAdults" value="${adults}">
+                        <input type="hidden" id="indexBookingChildren" value="${children}">
+                        
+                        <div class="space-y-2">
+                            <div>
+                                <label class="block text-white/60 text-xs uppercase mb-1">Full Name *</label>
+                                <input type="text" id="indexGuestName" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/40" placeholder="Enter your full name" required>
+                            </div>
+                            <div>
+                                <label class="block text-white/60 text-xs uppercase mb-1">Email *</label>
+                                <input type="email" id="indexGuestEmail" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/40" placeholder="Enter your email" required>
+                            </div>
+                            <div>
+                                <label class="block text-white/60 text-xs uppercase mb-1">Phone</label>
+                                <input type="tel" id="indexGuestPhone" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/40" placeholder="Enter your phone">
+                            </div>
+                            <div>
+                                <label class="block text-white/60 text-xs uppercase mb-1">Special Requests</label>
+                                <textarea id="indexSpecialRequests" rows="2" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/40" placeholder="Any special requirements..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" id="indexConfirmBtn" class="w-full mt-3 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors">
+                            <i class="fas fa-check mr-2"></i>Confirm Booking
+                        </button>
+                    </form>
+                </div>
+            `;
+        } else {
+            resultContainer.innerHTML = `
+                <div class="p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                    <p class="text-red-300 text-xs"><i class="fas fa-exclamation-circle mr-2"></i>${data.message}</p>
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        btn.disabled = false;
+        btn.innerHTML = `Check Availability`;
+        console.error('Error checking availability:', error);
+        resultContainer.innerHTML = `
+            <div class="p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                <p class="text-red-300 text-xs"><i class="fas fa-exclamation-circle mr-2"></i>Error. Please try again.</p>
+            </div>
+        `;
+    });
+}
+
+// Confirm booking function for index page
+function confirmBookingIndex(event, roomType, totalPrice) {
+    event.preventDefault();
+    
+    const guestName = document.getElementById('indexGuestName').value;
+    const guestEmail = document.getElementById('indexGuestEmail').value;
+    const guestPhone = document.getElementById('indexGuestPhone').value;
+    const specialRequests = document.getElementById('indexSpecialRequests').value;
+    const checkIn = document.getElementById('indexBookingCheckIn').value;
+    const checkOut = document.getElementById('indexBookingCheckOut').value;
+    const adults = document.getElementById('indexBookingAdults').value;
+    const children = document.getElementById('indexBookingChildren').value;
+    
+    const btn = document.getElementById('indexConfirmBtn');
+    const resultContainer = document.getElementById('indexAvailabilityResult');
+    
+    // Show loader
+    btn.disabled = true;
+    btn.innerHTML = `<div class="loader mr-2 inline-block"></div><span>Processing...</span>`;
+    
+    const formData = new FormData();
+    formData.append('action', 'create_booking');
+    formData.append('room_type', roomType);
+    formData.append('guest_name', guestName);
+    formData.append('guest_email', guestEmail);
+    formData.append('guest_phone', guestPhone);
+    formData.append('check_in', checkIn);
+    formData.append('check_out', checkOut);
+    formData.append('adults', adults);
+    formData.append('children', children);
+    formData.append('special_requests', specialRequests);
+    
+    fetch('api.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-check mr-2"></i>Confirm Booking`;
+        
+        if (data.success) {
+            resultContainer.innerHTML = `
+                <div class="text-center py-4">
+                    <div class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-check text-xl text-green-400"></i>
+                    </div>
+                    <h4 class="text-white font-['Cormorant_Garamond'] text-xl mb-1">Booking Confirmed!</h4>
+                    <p class="text-white/60 text-xs mb-3">Your booking has been confirmed.</p>
+                    <div class="bg-white/5 p-3 rounded-lg text-left text-xs mb-3">
+                        <p class="text-white/80"><strong>Booking ID:</strong> #${data.booking.booking_id}</p>
+                        <p class="text-white/80"><strong>Check-in:</strong> ${checkIn}</p>
+                        <p class="text-white/80"><strong>Check-out:</strong> ${checkOut}</p>
+                        <p class="text-white/80"><strong>Total:</strong> KSh ${data.booking.total_price.toLocaleString()}</p>
+                    </div>
+                    <p class="text-white/60 text-xs mb-3">Confirmation sent to ${guestEmail}</p>
+                    <button onclick="closeRoomModal()" class="px-5 py-2 bg-[#d4b48c] text-[#1a2a32] rounded-full text-xs hover:bg-[#c4a47c]">
+                        Close
+                    </button>
+                </div>
+            `;
+        } else {
+            resultContainer.innerHTML = `
+                <div class="p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                    <p class="text-red-300 text-xs"><i class="fas fa-exclamation-circle mr-2"></i>${data.message}</p>
+                </div>
+            `;
+        }
+    })
+    .catch(error => {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fas fa-check mr-2"></i>Confirm Booking`;
+        console.error('Error creating booking:', error);
+        resultContainer.innerHTML = `
+            <div class="p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
+                <p class="text-red-300 text-xs"><i class="fas fa-exclamation-circle mr-2"></i>Error. Please try again.</p>
+            </div>
+        `;
+    });
 }
 
 function closeRoomModal() {
@@ -2151,8 +1276,20 @@ document.addEventListener('keydown', function(e) {
 
         <!-- Icon Grid - 3x2 Layout with Animation -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            
-            <!-- Amenity Card 1 - Spa -->
+            <?php foreach ($indexAmenities as $index => $amenity): ?>
+            <?php 
+            // Define unique colors for each amenity based on index
+            $colors = [
+                ['from' => '#d4b48c', 'to' => '#8a735b'],
+                ['from' => '#4a90a0', 'to' => '#2c5f73'],
+                ['from' => '#b87333', 'to' => '#8b5a2b'],
+                ['from' => '#e6b87e', 'to' => '#c9a87c'],
+                ['from' => '#5f6b7a', 'to' => '#3a4452'],
+                ['from' => '#e9b56b', 'to' => '#c99a5c']
+            ];
+            $color = $colors[$index % count($colors)];
+            ?>
+            <!-- Amenity Card - Dynamic -->
             <div class="amenity-card group relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.4)]">
                 <!-- Card Glow Effect on Hover -->
                 <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#d4b48c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
@@ -2160,8 +1297,10 @@ document.addEventListener('keydown', function(e) {
                 <!-- Icon Container with Animated Background -->
                 <div class="relative mb-6">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#d4b48c]/20 to-[#5f8a9f]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#8a735b] flex items-center justify-center shadow-[0_10px_20px_-5px_rgba(212,180,140,0.3)]">
-                            <i class="fas fa-spa text-2xl text-white"></i>
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[<?php echo $color['from']; ?>] to-[<?php echo $color['to']; ?>] flex items-center justify-center shadow-[0_10px_20px_-5px_rgba(212,180,140,0.3)] overflow-hidden">
+                            <img src="<?php echo htmlspecialchars($amenity['image']); ?>" 
+                                 alt="<?php echo htmlspecialchars($amenity['name']); ?>" 
+                                 class="w-full h-full object-cover">
                         </div>
                     </div>
                     
@@ -2170,127 +1309,18 @@ document.addEventListener('keydown', function(e) {
                 </div>
                 
                 <!-- Content -->
-                <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2 group-hover:text-[#d4b48c] transition-colors duration-300">Spa Sanctuary</h3>
-                <p class="text-[#a5b9c4] text-sm leading-relaxed mb-4">Traditional Kenyan treatments with modern wellness techniques</p>
+                <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2 group-hover:text-[<?php echo $color['from']; ?>] transition-colors duration-300"><?php echo htmlspecialchars($amenity['name']); ?></h3>
+                <p class="text-[#a5b9c4] text-sm leading-relaxed mb-4"><?php echo htmlspecialchars($amenity['description']); ?></p>
                 
                 <!-- Decorative Line -->
-                <div class="w-12 h-px bg-gradient-to-r from-[#d4b48c] to-transparent group-hover:w-20 transition-all duration-500"></div>
+                <div class="w-12 h-px bg-gradient-to-r from-[<?php echo $color['from']; ?>] to-transparent group-hover:w-20 transition-all duration-500"></div>
                 
-                <!-- Floating Particles (Spa specific) -->
+                <!-- Floating Particles -->
                 <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <i class="fas fa-leaf text-[#d4b48c]/30 text-xs animate-float"></i>
+                    <i class="fas fa-leaf text-[<?php echo $color['from']; ?>]/30 text-xs animate-float"></i>
                 </div>
             </div>
-
-            <!-- Amenity Card 2 - Infinity Pool -->
-            <div class="amenity-card group relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.4)]">
-                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#d4b48c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                
-                <div class="relative mb-6">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#d4b48c]/20 to-[#5f8a9f]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2c5f73] flex items-center justify-center shadow-[0_10px_20px_-5px_rgba(74,144,160,0.3)]">
-                            <i class="fas fa-water text-2xl text-white"></i>
-                        </div>
-                    </div>
-                    <div class="absolute inset-0 rounded-full border-2 border-[#4a90a0]/0 group-hover:border-[#4a90a0]/30 group-hover:scale-150 transition-all duration-700 opacity-0 group-hover:opacity-100"></div>
-                </div>
-                
-                <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2 group-hover:text-[#4a90a0] transition-colors duration-300">Infinity Pool</h3>
-                <p class="text-[#a5b9c4] text-sm leading-relaxed mb-4">Skyline views overlooking Nairobi's lush landscape</p>
-                <div class="w-12 h-px bg-gradient-to-r from-[#4a90a0] to-transparent group-hover:w-20 transition-all duration-500"></div>
-                
-                <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <i class="fas fa-water text-[#4a90a0]/30 text-xs animate-float-delay"></i>
-                </div>
-            </div>
-
-            <!-- Amenity Card 3 - Fitness Pavilion -->
-            <div class="amenity-card group relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.4)]">
-                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#d4b48c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                
-                <div class="relative mb-6">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#d4b48c]/20 to-[#5f8a9f]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#b87333] to-[#8b5a2b] flex items-center justify-center shadow-[0_10px_20px_-5px_rgba(184,115,51,0.3)]">
-                            <i class="fas fa-dumbbell text-2xl text-white"></i>
-                        </div>
-                    </div>
-                    <div class="absolute inset-0 rounded-full border-2 border-[#b87333]/0 group-hover:border-[#b87333]/30 group-hover:scale-150 transition-all duration-700 opacity-0 group-hover:opacity-100"></div>
-                </div>
-                
-                <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2 group-hover:text-[#b87333] transition-colors duration-300">Fitness Pavilion</h3>
-                <p class="text-[#a5b9c4] text-sm leading-relaxed mb-4">State-of-the-art equipment with personal trainers</p>
-                <div class="w-12 h-px bg-gradient-to-r from-[#b87333] to-transparent group-hover:w-20 transition-all duration-500"></div>
-                
-                <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <i class="fas fa-heartbeat text-[#b87333]/30 text-xs animate-float"></i>
-                </div>
-            </div>
-
-            <!-- Amenity Card 4 - Private Beach Access -->
-            <div class="amenity-card group relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.4)]">
-                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#d4b48c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                
-                <div class="relative mb-6">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#d4b48c]/20 to-[#5f8a9f]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#e6b87e] to-[#c9a87c] flex items-center justify-center shadow-[0_10px_20px_-5px_rgba(230,184,126,0.3)]">
-                            <i class="fas fa-umbrella-beach text-2xl text-white"></i>
-                        </div>
-                    </div>
-                    <div class="absolute inset-0 rounded-full border-2 border-[#e6b87e]/0 group-hover:border-[#e6b87e]/30 group-hover:scale-150 transition-all duration-700 opacity-0 group-hover:opacity-100"></div>
-                </div>
-                
-                <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2 group-hover:text-[#e6b87e] transition-colors duration-300">Private Beach Access</h3>
-                <p class="text-[#a5b9c4] text-sm leading-relaxed mb-4">Exclusive shuttle to our private lakefront beach</p>
-                <div class="w-12 h-px bg-gradient-to-r from-[#e6b87e] to-transparent group-hover:w-20 transition-all duration-500"></div>
-                
-                <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <i class="fas fa-sun text-[#e6b87e]/30 text-xs animate-float-delay"></i>
-                </div>
-            </div>
-
-            <!-- Amenity Card 5 - Business Lounge -->
-            <div class="amenity-card group relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.4)]">
-                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#d4b48c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                
-                <div class="relative mb-6">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#d4b48c]/20 to-[#5f8a9f]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#5f6b7a] to-[#3a4452] flex items-center justify-center shadow-[0_10px_20px_-5px_rgba(95,107,122,0.3)]">
-                            <i class="fas fa-briefcase text-2xl text-white"></i>
-                        </div>
-                    </div>
-                    <div class="absolute inset-0 rounded-full border-2 border-[#5f6b7a]/0 group-hover:border-[#5f6b7a]/30 group-hover:scale-150 transition-all duration-700 opacity-0 group-hover:opacity-100"></div>
-                </div>
-                
-                <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2 group-hover:text-[#a5b9c4] transition-colors duration-300">Business Lounge</h3>
-                <p class="text-[#a5b9c4] text-sm leading-relaxed mb-4">Executive workspace with conference facilities</p>
-                <div class="w-12 h-px bg-gradient-to-r from-[#5f6b7a] to-transparent group-hover:w-20 transition-all duration-500"></div>
-                
-                <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <i class="fas fa-chart-line text-[#5f6b7a]/30 text-xs animate-float"></i>
-                </div>
-            </div>
-
-            <!-- Amenity Card 6 - Kids' Club -->
-            <div class="amenity-card group relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.4)]">
-                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#d4b48c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                
-                <div class="relative mb-6">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#d4b48c]/20 to-[#5f8a9f]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#e9b56b] to-[#c99a5c] flex items-center justify-center shadow-[0_10px_20px_-5px_rgba(233,181,107,0.3)]">
-                            <i class="fas fa-child text-2xl text-white"></i>
-                        </div>
-                    </div>
-                    <div class="absolute inset-0 rounded-full border-2 border-[#e9b56b]/0 group-hover:border-[#e9b56b]/30 group-hover:scale-150 transition-all duration-700 opacity-0 group-hover:opacity-100"></div>
-                </div>
-                
-                <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2 group-hover:text-[#e9b56b] transition-colors duration-300">Kids' Club</h3>
-                <p class="text-[#a5b9c4] text-sm leading-relaxed mb-4">Supervised activities with Kenyan cultural experiences</p>
-                <div class="w-12 h-px bg-gradient-to-r from-[#e9b56b] to-transparent group-hover:w-20 transition-all duration-500"></div>
-                
-                <div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <i class="fas fa-puzzle-piece text-[#e9b56b]/30 text-xs animate-float-delay"></i>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
         <!-- Bottom Call to Action -->
@@ -3862,22 +2892,8 @@ document.addEventListener('keydown', function(e) {
 
 
 
-<!-- Footer Section - Unique Framed Design with Background Image -->
-<footer class="relative py-16 px-6 overflow-hidden">
-    <!-- Background Image -->
-    <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-             alt="African sunset landscape" 
-             class="w-full h-full object-cover">
-        <!-- Very light overlay to soften but not hide -->
-        <div class="absolute inset-0 bg-black/10"></div>
-    </div>
+<?php include 'footer.php'; ?>
 
-    <!-- Main Container -->
-    <div class="max-w-7xl mx-auto relative z-10">
-        <!-- Light Green Shading Container - Wraps all content with equal empty space around -->
-        <!-- Using very light green with low opacity to let background show through -->
-        <div class="bg-[#e8f3e9]/70 backdrop-blur-[2px] p-8 md:p-12 lg:p-16 rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)] border border-white/50">
             
             <!-- Footer Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
@@ -4101,7 +3117,5 @@ document.addEventListener('keydown', function(e) {
         .absolute.inset-0.z-0 img {
             filter: brightness(1.1) saturate(1.05);
         }
-    </style>
-</footer>
-</body>
-</html>
+
+

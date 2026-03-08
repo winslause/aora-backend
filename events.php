@@ -1,4 +1,39 @@
-<!DOCTYPE html>
+<?php 
+include 'header.php';
+
+// Include database connection
+include 'database.php';
+
+// Get all event venues from database
+$eventVenues = getAllEventVenues($pdo);
+
+// Handle form submission
+$inquirySuccess = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted'])) {
+    $inquiryData = [
+        'venue_id' => isset($_POST['venue_id']) ? $_POST['venue_id'] : NULL,
+        'event_type' => $_POST['event_type'],
+        'guest_name' => $_POST['guest_name'],
+        'guest_email' => $_POST['guest_email'],
+        'guest_phone' => $_POST['guest_phone'],
+        'event_date' => $_POST['event_date'],
+        'guest_count' => $_POST['guest_count'],
+        'message' => $_POST['message']
+    ];
+    
+    $result = createEventInquiry($pdo, $inquiryData);
+    $inquirySuccess = true;
+}
+?>
+
+<style>
+@media (min-width: 1024px) {
+    section.relative.h-screen { margin-top: 150px; }
+}
+@media (max-width: 1023px) {
+    section.relative.h-screen { margin-top: 80px; }
+}
+</style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -604,138 +639,95 @@
                 
                 <!-- Spaces Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    
-                    <!-- The Grand Ballroom -->
-                    <div class="space-card rounded-2xl overflow-hidden reveal" style="transition-delay: 0.1s;">
-                        <div class="card-image relative h-64">
-                            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Grand Ballroom" 
-                                 class="w-full h-full object-cover">
-                            <div class="capacity-badge">
-                                <i class="fas fa-users mr-2"></i>Up to 200 guests
-                            </div>
-                        </div>
-                        
-                        <div class="p-6">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">The Grand Ballroom</h3>
-                            
-                            <div class="space-y-2 mb-4">
-                                <div class="feature-item">
-                                    <i class="fas fa-ruler-combined"></i>
-                                    <span>450 m² • Column-free</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-chandelier"></i>
-                                    <span>Crystal chandeliers</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-music"></i>
-                                    <span>Built-in sound system</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-glass-cheers"></i>
-                                    <span>Private bar and lounge</span>
+                    <?php if (!empty($eventVenues)): ?>
+                        <?php foreach ($eventVenues as $index => $venue): ?>
+                        <?php $features = json_decode($venue['features'], true); ?>
+                        <div class="space-card rounded-2xl overflow-hidden reveal" style="transition-delay: <?php echo $index * 0.1; ?>s;">
+                            <div class="card-image relative h-64">
+                                <img src="<?php echo htmlspecialchars($venue['image']); ?>" 
+                                     alt="<?php echo htmlspecialchars($venue['name']); ?>" 
+                                     class="w-full h-full object-cover">
+                                <div class="capacity-badge">
+                                    <i class="fas fa-users mr-2"></i><?php echo htmlspecialchars($venue['capacity']); ?>
                                 </div>
                             </div>
                             
-                            <p class="text-[#8a735b] text-sm mb-4">
-                                Our most elegant space, perfect for grand weddings and galas.
-                            </p>
-                            
-                            <button onclick="openInquiryForm('ballroom')" class="text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm flex items-center gap-2 group">
-                                <span>Inquire</span>
-                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- The Beachfront Lawn -->
-                    <div class="space-card rounded-2xl overflow-hidden reveal" style="transition-delay: 0.2s;">
-                        <div class="card-image relative h-64">
-                            <img src="https://images.unsplash.com/photo-1523438885200-e635ba2c371e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Beachfront Lawn" 
-                                 class="w-full h-full object-cover">
-                            <div class="capacity-badge">
-                                <i class="fas fa-users mr-2"></i>Up to 150 guests
+                            <div class="p-6">
+                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3"><?php echo htmlspecialchars($venue['name']); ?></h3>
+                                
+                                <div class="space-y-2 mb-4">
+                                    <?php if (!empty($venue['size'])): ?>
+                                    <div class="feature-item">
+                                        <i class="fas fa-ruler-combined"></i>
+                                        <span><?php echo htmlspecialchars($venue['size']); ?></span>
+                                    </div>
+                                    <?php endif; ?>
+                                    <?php if (!empty($features) && is_array($features)): ?>
+                                        <?php foreach (array_slice($features, 0, 3) as $feature): ?>
+                                        <div class="feature-item">
+                                            <i class="fas fa-check-circle"></i>
+                                            <span><?php echo htmlspecialchars($feature); ?></span>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                                
+                                <p class="text-[#8a735b] text-sm mb-4">
+                                    <?php echo htmlspecialchars($venue['description']); ?>
+                                </p>
+                                
+                                <button onclick="openInquiryForm('<?php echo htmlspecialchars($venue['slug']); ?>')" class="text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm flex items-center gap-2 group">
+                                    <span>Send Inquiry</span>
+                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                                </button>
                             </div>
                         </div>
-                        
-                        <div class="p-6">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">The Beachfront Lawn</h3>
-                            
-                            <div class="space-y-2 mb-4">
-                                <div class="feature-item">
-                                    <i class="fas fa-tree"></i>
-                                    <span>500 m² • Ocean views</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-umbrella-beach"></i>
-                                    <span>Private beach access</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-campground"></i>
-                                    <span>Luxury tents available</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-fire"></i>
-                                    <span>Sunset bonfire setup</span>
-                                </div>
-                            </div>
-                            
-                            <p class="text-[#8a735b] text-sm mb-4">
-                                Outdoor paradise for beach weddings and sunset celebrations.
-                            </p>
-                            
-                            <button onclick="openInquiryForm('beachfront')" class="text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm flex items-center gap-2 group">
-                                <span>Inquire</span>
-                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- The Boardroom -->
-                    <div class="space-card rounded-2xl overflow-hidden reveal" style="transition-delay: 0.3s;">
-                        <div class="card-image relative h-64">
-                            <img src="https://images.unsplash.com/photo-1431540015161-0bf86838fb31?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="The Boardroom" 
-                                 class="w-full h-full object-cover">
-                            <div class="capacity-badge">
-                                <i class="fas fa-users mr-2"></i>Up to 20 guests
-                            </div>
-                        </div>
-                        
-                        <div class="p-6">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">The Boardroom</h3>
-                            
-                            <div class="space-y-2 mb-4">
-                                <div class="feature-item">
-                                    <i class="fas fa-ruler-combined"></i>
-                                    <span>80 m² • Executive setting</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-video"></i>
-                                    <span>4K video conferencing</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-wifi"></i>
-                                    <span>Dedicated high-speed internet</span>
-                                </div>
-                                <div class="feature-item">
-                                    <i class="fas fa-coffee"></i>
-                                    <span>Private catering available</span>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <!-- Fallback if no venues in database -->
+                        <div class="space-card rounded-2xl overflow-hidden reveal">
+                            <div class="card-image relative h-64">
+                                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                                     alt="Grand Ballroom" 
+                                     class="w-full h-full object-cover">
+                                <div class="capacity-badge">
+                                    <i class="fas fa-users mr-2"></i>Up to 200 guests
                                 </div>
                             </div>
                             
-                            <p class="text-[#8a735b] text-sm mb-4">
-                                Intimate space for board meetings and executive retreats.
-                            </p>
-                            
-                            <button onclick="openInquiryForm('boardroom')" class="text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm flex items-center gap-2 group">
-                                <span>Inquire</span>
-                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                            </button>
+                            <div class="p-6">
+                                <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">The Grand Ballroom</h3>
+                                
+                                <div class="space-y-2 mb-4">
+                                    <div class="feature-item">
+                                        <i class="fas fa-ruler-combined"></i>
+                                        <span>450 m² • Column-free</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-chandelier"></i>
+                                        <span>Crystal chandeliers</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-music"></i>
+                                        <span>Built-in sound system</span>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-glass-cheers"></i>
+                                        <span>Private bar and lounge</span>
+                                    </div>
+                                </div>
+                                
+                                <p class="text-[#8a735b] text-sm mb-4">
+                                    Our most elegant space, perfect for grand weddings and galas.
+                                </p>
+                                
+                                <button onclick="openInquiryForm('ballroom')" class="text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm flex items-center gap-2 group">
+                                    <span>Send Inquiry</span>
+                                    <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
@@ -759,20 +751,32 @@
                     </p>
                 </div>
                 
+                <!-- Success Message -->
+                <?php if ($inquirySuccess): ?>
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-8 text-center">
+                    <i class="fas fa-check-circle text-4xl text-green-500 mb-4"></i>
+                    <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-2">Thank You for Your Inquiry!</h3>
+                    <p class="text-[#8a735b]">Our events team will contact you within 24 hours.</p>
+                </div>
+                <?php endif; ?>
+                
                 <!-- Form -->
                 <div class="bg-[#f4ede5] p-8 md:p-12 reveal">
-                    <form class="inquiry-form space-y-8" id="eventInquiryForm" onsubmit="submitInquiry(event)">
+                    <form class="inquiry-form space-y-8" id="eventInquiryForm" method="POST" action="#inquiry">
+                        <input type="hidden" name="inquiry_submitted" value="1">
+                        <input type="hidden" id="venueId" name="venue_id" value="">
+                        
                         <div class="grid md:grid-cols-2 gap-8">
                             <!-- Name -->
                             <div>
                                 <label>Your Name</label>
-                                <input type="text" placeholder="John Kim" required>
+                                <input type="text" name="guest_name" placeholder="John Kim" required>
                             </div>
                             
                             <!-- Email -->
                             <div>
                                 <label>Email Address</label>
-                                <input type="email" placeholder="john@example.com" required>
+                                <input type="email" name="guest_email" placeholder="john@example.com" required>
                             </div>
                         </div>
                         
@@ -780,7 +784,7 @@
                             <!-- Event Type -->
                             <div>
                                 <label>Event Type</label>
-                                <select id="eventTypeSelect" required>
+                                <select id="eventTypeSelect" name="event_type" required>
                                     <option value="" disabled selected>Select event type</option>
                                     <option value="wedding">Wedding</option>
                                     <option value="corporate">Corporate Event</option>
@@ -792,7 +796,7 @@
                             <!-- Date -->
                             <div>
                                 <label>Preferred Date</label>
-                                <input type="date" required>
+                                <input type="date" name="event_date" required>
                             </div>
                         </div>
                         
@@ -800,7 +804,7 @@
                             <!-- Guest Count -->
                             <div>
                                 <label>Expected Guests</label>
-                                <select required>
+                                <select name="guest_count" required>
                                     <option value="" disabled selected>Select range</option>
                                     <option>1-20 guests</option>
                                     <option>21-50 guests</option>
@@ -814,14 +818,14 @@
                             <!-- Phone -->
                             <div>
                                 <label>Phone Number</label>
-                                <input type="tel" placeholder="+254 XXX XXX" required>
+                                <input type="tel" name="guest_phone" placeholder="+254 XXX XXX" required>
                             </div>
                         </div>
                         
                         <!-- Message -->
                         <div>
                             <label>Tell us about your event</label>
-                            <textarea rows="4" placeholder="Share your vision, special requirements, and any questions..."></textarea>
+                            <textarea name="message" rows="4" placeholder="Share your vision, special requirements, and any questions..."></textarea>
                         </div>
                         
                         <!-- Submit Button -->
@@ -842,23 +846,50 @@
     </main>
 
     <script>
+        // Map venue slugs to IDs
+        const venueSlugToId = {
+            'grand-ballroom': 1,
+            'beachfront': 2,
+            'boardroom': 3,
+            'garden-pavilion': 4,
+            'rooftop': 5,
+            'conference': 6,
+            'wedding': null,
+            'corporate': null,
+            'ballroom': 1,
+            'beachfront-lawn': 2
+        };
+        
         // Function to open inquiry form with pre-selected event type
         function openInquiryForm(eventType) {
+            // Set the venue_id if it's a venue slug
+            const venueIdInput = document.getElementById('venueId');
+            if (venueSlugToId.hasOwnProperty(eventType)) {
+                venueIdInput.value = venueSlugToId[eventType] || '';
+            }
+            
             const formSection = document.getElementById('eventInquiryForm');
             formSection.scrollIntoView({ behavior: 'smooth' });
             
             // Pre-select the event type in dropdown
             const eventSelect = document.getElementById('eventTypeSelect');
             if (eventSelect) {
-                eventSelect.value = eventType;
+                // Map venue types to event types
+                const venueToEventType = {
+                    'grand-ballroom': 'wedding',
+                    'beachfront': 'wedding',
+                    'boardroom': 'corporate',
+                    'garden-pavilion': 'private',
+                    'rooftop': 'private',
+                    'conference': 'corporate'
+                };
+                
+                if (venueToEventType[eventType]) {
+                    eventSelect.value = venueToEventType[eventType];
+                } else if (eventType === 'wedding' || eventType === 'corporate' || eventType === 'private' || eventType === 'other') {
+                    eventSelect.value = eventType;
+                }
             }
-        }
-        
-        // Form submission handler
-        function submitInquiry(event) {
-            event.preventDefault();
-            alert('Thank you for your inquiry! Our events team will contact you within 24 hours.');
-            event.target.reset();
         }
         
         // Reveal on scroll
@@ -888,6 +919,15 @@
                 });
             });
         });
+        
+        // Handle URL hash for inquiry section
+        if (window.location.hash === '#inquiry' || window.location.hash === '#eventInquiryForm') {
+            setTimeout(() => {
+                const form = document.getElementById('eventInquiryForm');
+                if (form) {
+                    form.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 100);
+        }
     </script>
-</body>
-</html>
+<?php include 'footer.php'; ?>

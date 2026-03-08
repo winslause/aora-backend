@@ -1,0 +1,17 @@
+[08-Mar-2026 16:12:15 Europe/Berlin] Restaurant reservation data: Array
+(
+    [table_type_id] => 1
+    [reservation_date] => 2026-03-08
+    [reservation_time] => 21:11
+    [num_guests] => 3
+    [first_name] => Winslause
+    [last_name] => Winslause
+    [email] => wenbusale383@gmail.com
+    [phone] => +254769525570
+    [occasion] => Date Night
+    [selected_items] => Coastal Seafood Platter - KSh 4,500, Mandazi & Masala Chai - KSh 850, Tasting Menu (7 Courses) - KSh 8,500, Passion Fruit Panna Cotta - KSh 1,400
+    [special_requests] => test
+)
+
+[08-Mar-2026 16:12:45 Europe/Berlin] Restaurant Reservation #1 - Email to guest: Sent
+[08-Mar-2026 16:12:45 Europe/Berlin] Restaurant Reservation #1 - Email to admin: Sent

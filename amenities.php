@@ -1,4 +1,40 @@
-<!DOCTYPE html>
+<?php 
+// Include database connection
+require_once 'database.php';
+
+// Get amenity categories with their amenities from database
+$amenityCategories = getAllAmenityCategories($pdo);
+
+// Convert to JavaScript object for modal functionality
+$amenitiesJS = [];
+foreach ($amenityCategories as $category) {
+    foreach ($category['amenities'] as $amenity) {
+        $features = json_decode($amenity['features'], true);
+        $gallery = json_decode($amenity['gallery'], true);
+        $amenitiesJS[$amenity['slug']] = [
+            'name' => $amenity['name'],
+            'description' => $amenity['description'],
+            'longDescription' => $amenity['long_description'],
+            'features' => $features,
+            'hours' => $amenity['hours'],
+            'phone' => $amenity['phone'],
+            'image' => $amenity['image'],
+            'gallery' => $gallery
+        ];
+    }
+}
+?>
+
+<?php include 'header.php'; ?>
+
+<style>
+@media (min-width: 1024px) {
+    section.relative.h-screen { margin-top: 150px; }
+}
+@media (max-width: 1023px) {
+    section.relative.h-screen { margin-top: 80px; }
+}
+</style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -424,8 +460,16 @@
             </div>
         </section>
 
-        <!-- ===== WELLNESS SECTION ===== -->
-        <section class="relative py-24 px-6 bg-[#fcf8f3] overflow-hidden">
+        <!-- ===== AMENITY CATEGORIES FROM DATABASE ===== -->
+        <?php 
+        $bgClasses = ['bg-[#fcf8f3]', 'bg-[#f4ede5]', 'bg-[#fcf8f3]', 'bg-[#f4ede5]'];
+        $i = 0;
+        
+        foreach ($amenityCategories as $category): 
+            $bgClass = $bgClasses[$i % count($bgClasses)];
+            $i++;
+        ?>
+        <section class="relative py-24 px-6 <?php echo $bgClass; ?> overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
                 <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
@@ -434,301 +478,43 @@
             <div class="max-w-7xl mx-auto relative z-10">
                 <!-- Category Title -->
                 <div class="mb-12 reveal-left">
-                    <h2 class="category-title">Wellness</h2>
-                    <p class="text-[#8a735b] text-sm max-w-2xl">Rejuvenate your body and soul in our sanctuary of wellbeing.</p>
-                </div>
-                
-                <!-- Amenities Grid - No Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    
-                    <!-- Spa -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.1s;" onclick="openModal('spa')">
-                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Spa" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-spa"></i>
-                            </div>
-                            <h3 class="amenity-title">The Sanctuary Spa</h3>
-                            <p class="amenity-brief">Traditional Kenyan treatments, steam rooms, and relaxation areas</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Fitness Pavilion -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.2s;" onclick="openModal('fitness')">
-                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Fitness Pavilion" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-dumbbell"></i>
-                            </div>
-                            <h3 class="amenity-title">Fitness Pavilion</h3>
-                            <p class="amenity-brief">State-of-the-art equipment with personal training available</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Sauna -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.3s;" onclick="openModal('sauna')">
-                        <img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Sauna" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-hot-tub"></i>
-                            </div>
-                            <h3 class="amenity-title">Finnish Sauna</h3>
-                            <p class="amenity-brief">Traditional dry sauna with cold plunge pool</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Yoga Pavilion -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.4s;" onclick="openModal('yoga')">
-                        <img src="https://images.unsplash.com/photo-1545389336-cf0905564355?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Yoga Pavilion" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-om"></i>
-                            </div>
-                            <h3 class="amenity-title">Yoga Pavilion</h3>
-                            <p class="amenity-brief">Daily classes overlooking the gardens</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== LEISURE SECTION ===== -->
-        <section class="relative py-24 px-6 bg-[#f4ede5] overflow-hidden">
-            <!-- Simple Background -->
-            <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-            </div>
-            
-            <div class="max-w-7xl mx-auto relative z-10">
-                <!-- Category Title -->
-                <div class="mb-12 reveal-left">
-                    <h2 class="category-title">Leisure</h2>
-                    <p class="text-[#8a735b] text-sm max-w-2xl">Where relaxation meets recreation in breathtaking settings.</p>
+                    <h2 class="category-title"><?php echo htmlspecialchars($category['name']); ?></h2>
+                    <p class="text-[#8a735b] text-sm max-w-2xl"><?php echo htmlspecialchars($category['description']); ?></p>
                 </div>
                 
                 <!-- Amenities Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    
-                    <!-- Infinity Pool -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.1s;" onclick="openModal('pool')">
-                        <img src="https://images.unsplash.com/photo-1576016801232-0b41b9c7d8b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Infinity Pool" 
+                <?php 
+                $colClass = 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';
+                if ($category['name'] === 'Business & Events') {
+                    $colClass = 'grid-cols-1 md:grid-cols-3';
+                }
+                ?>
+                <div class="grid <?php echo $colClass; ?> gap-6">
+                    <?php 
+                    $delay = 0.1;
+                    foreach ($category['amenities'] as $amenity): 
+                    ?>
+                    <div class="amenity-item reveal" style="transition-delay: <?php echo $delay; ?>s;" onclick="openModal('<?php echo htmlspecialchars($amenity['slug']); ?>')">
+                        <img src="<?php echo htmlspecialchars($amenity['image']); ?>" 
+                             alt="<?php echo htmlspecialchars($amenity['name']); ?>" 
                              class="amenity-image">
                         <div class="amenity-overlay"></div>
                         <div class="amenity-content">
                             <div class="amenity-icon">
-                                <i class="fas fa-water"></i>
+                                <i class="fas <?php echo htmlspecialchars($amenity['icon']); ?>"></i>
                             </div>
-                            <h3 class="amenity-title">Infinity Pool</h3>
-                            <p class="amenity-brief">Overlooking Nairobi's skyline with poolside service</p>
+                            <h3 class="amenity-title"><?php echo htmlspecialchars($amenity['name']); ?></h3>
+                            <p class="amenity-brief"><?php echo htmlspecialchars($amenity['description']); ?></p>
                         </div>
                     </div>
-                    
-                    <!-- Private Beach -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.2s;" onclick="openModal('beach')">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80" 
-                             alt="Private Beach" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-umbrella-beach"></i>
-                            </div>
-                            <h3 class="amenity-title">Private Beach</h3>
-                            <p class="amenity-brief">Exclusive lakefront access with cabanas</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Game Room -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.3s;" onclick="openModal('game')">
-                        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
-                             alt="Game Room" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-gamepad"></i>
-                            </div>
-                            <h3 class="amenity-title">The Game Room</h3>
-                            <p class="amenity-brief">Billiards, table tennis, and classic arcade games</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Library -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.4s;" onclick="openModal('library')">
-                        <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Library" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-book-open"></i>
-                            </div>
-                            <h3 class="amenity-title">The Reading Room</h3>
-                            <p class="amenity-brief">Curated collection of African literature and art books</p>
-                        </div>
-                    </div>
+                    <?php 
+                    $delay += 0.1;
+                    endforeach; 
+                    ?>
                 </div>
             </div>
         </section>
-
-        <!-- ===== BUSINESS & EVENTS SECTION ===== -->
-        <section class="relative py-24 px-6 bg-[#fcf8f3] overflow-hidden">
-            <!-- Simple Background -->
-            <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-            </div>
-            
-            <div class="max-w-7xl mx-auto relative z-10">
-                <!-- Category Title -->
-                <div class="mb-12 reveal-left">
-                    <h2 class="category-title">Business & Events</h2>
-                    <p class="text-[#8a735b] text-sm max-w-2xl">Exceptional spaces for productive meetings and memorable celebrations.</p>
-                </div>
-                
-                <!-- Amenities Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    
-                    <!-- Conference Halls -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.1s;" onclick="openModal('conference')">
-                        <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" 
-                             alt="Conference Halls" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <h3 class="amenity-title">Conference Halls</h3>
-                            <p class="amenity-brief">Multiple venues with capacity up to 200 guests</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Business Center -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.2s;" onclick="openModal('business-center')">
-                        <img src="https://images.unsplash.com/photo-1497366754035-f200968a6a72?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" 
-                             alt="Business Center" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-briefcase"></i>
-                            </div>
-                            <h3 class="amenity-title">Business Center</h3>
-                            <p class="amenity-brief">Private workstations, printing, and high-speed internet</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Banquet Spaces -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.3s;" onclick="openModal('banquet')">
-                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Banquet Spaces" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-glass-cheers"></i>
-                            </div>
-                            <h3 class="amenity-title">Banquet Spaces</h3>
-                            <p class="amenity-brief">Elegant venues for weddings and galas</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== SERVICES SECTION ===== -->
-        <section class="relative py-24 px-6 bg-[#f4ede5] overflow-hidden">
-            <!-- Simple Background -->
-            <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-            </div>
-            
-            <div class="max-w-7xl mx-auto relative z-10">
-                <!-- Category Title -->
-                <div class="mb-12 reveal-left">
-                    <h2 class="category-title">Services</h2>
-                    <p class="text-[#8a735b] text-sm max-w-2xl">Thoughtful touches that make your stay effortless.</p>
-                </div>
-                
-                <!-- Services Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    
-                    <!-- 24/7 Concierge -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.1s;" onclick="openModal('concierge')">
-                        <img src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Concierge" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-concierge-bell"></i>
-                            </div>
-                            <h3 class="amenity-title">24/7 Concierge</h3>
-                            <p class="amenity-brief">Your wishes, our command, anytime day or night</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Airport Transfers -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.2s;" onclick="openModal('airport')">
-                        <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Airport Transfers" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-car"></i>
-                            </div>
-                            <h3 class="amenity-title">Airport Transfers</h3>
-                            <p class="amenity-brief">Luxury vehicles with professional drivers</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Laundry -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.3s;" onclick="openModal('laundry')">
-                        <img src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
-                             alt="Laundry" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-tshirt"></i>
-                            </div>
-                            <h3 class="amenity-title">Laundry Service</h3>
-                            <p class="amenity-brief">Same-day service with eco-friendly products</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Free WiFi -->
-                    <div class="amenity-item reveal" style="transition-delay: 0.4s;" onclick="openModal('wifi')">
-                        <img src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Free WiFi" 
-                             class="amenity-image">
-                        <div class="amenity-overlay"></div>
-                        <div class="amenity-content">
-                            <div class="amenity-icon">
-                                <i class="fas fa-wifi"></i>
-                            </div>
-                            <h3 class="amenity-title">Free WiFi</h3>
-                            <p class="amenity-brief">High-speed internet throughout the property</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <?php endforeach; ?>
 
         <!-- ===== CLOSING NOTE ===== -->
         <section class="relative py-20 px-6 bg-[#2c3e4a] overflow-hidden">
@@ -762,331 +548,9 @@
         </div>
     </div>
 
-    <!-- Amenity Data -->
+    <!-- Amenity Data from Database -->
     <script>
-        const amenityData = {
-            spa: {
-                name: 'The Sanctuary Spa',
-                description: 'A haven of tranquility inspired by ancient Kenyan healing traditions.',
-                longDescription: 'Our award-winning spa offers a journey of sensory renewal. Drawing from traditional Swahili and Maasai wellness practices, each treatment is designed to restore balance and harmony.',
-                features: [
-                    '6 treatment rooms including couples suite',
-                    'Traditional Kenyan massage techniques',
-                    'Organic, locally-sourced products',
-                    'Steam room and sauna',
-                    'Relaxation lounge with herbal teas',
-                    'Private outdoor meditation garden'
-                ],
-                hours: 'Daily 9:00 AM - 9:00 PM',
-                phone: 'Extension 7301',
-                image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1540555700478-4be289fbe518?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1600334109169-5f31d8289c2a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1600334089842-5b3a9d4f8f8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            fitness: {
-                name: 'Fitness Pavilion',
-                description: 'State-of-the-art fitness center with panoramic views.',
-                longDescription: 'Our spacious fitness pavilion features the latest equipment from Technogym, offering everything from cardio to strength training. Personal trainers are available for customized workout plans.',
-                features: [
-                    'Cardio cinema with personal screens',
-                    'Strength training area',
-                    'Free weights up to 50kg',
-                    'Yoga mats and accessories',
-                    'Personal training available',
-                    'Complimentary towels and water'
-                ],
-                hours: 'Open 24/7',
-                phone: 'Extension 7302',
-                image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1540496905036-5937c10647cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1570829460005-c840387bb1ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1532384748853-8f54a8f476e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            sauna: {
-                name: 'Finnish Sauna',
-                description: 'Traditional dry sauna experience.',
-                longDescription: 'Experience the authentic Finnish sauna tradition. Our cedar-lined sauna reaches the perfect temperature for deep relaxation, followed by a refreshing plunge in the cold pool.',
-                features: [
-                    'Traditional dry sauna (80-100°C)',
-                    'Cold plunge pool',
-                    'Relaxation lounge',
-                    'Herbal tea station',
-                    'Outdoor cooling area',
-                    'Private changing rooms'
-                ],
-                hours: 'Daily 7:00 AM - 10:00 PM',
-                phone: 'Extension 7303',
-                image: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1545389336-cf0905564355?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            yoga: {
-                name: 'Yoga Pavilion',
-                description: 'Find your balance in nature.',
-                longDescription: 'Our open-air yoga pavilion overlooks the lush gardens, providing the perfect setting for morning sun salutations or evening restorative practice. Join our daily classes or book a private session.',
-                features: [
-                    'Daily group classes',
-                    'Private sessions available',
-                    'All mats and props provided',
-                    'Meditation cushions',
-                    'Outdoor deck with garden views',
-                    'Workshops with guest teachers'
-                ],
-                hours: 'Classes: 7:30 AM & 5:30 PM',
-                phone: 'Extension 7304',
-                image: 'https://images.unsplash.com/photo-1545389336-cf0905564355?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1545389336-cf0905564355?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2072&q=80',
-                    'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            pool: {
-                name: 'Infinity Pool',
-                description: 'Skyline views meet serene waters.',
-                longDescription: 'Perched overlooking Nairobi\'s skyline, our infinity pool offers a breathtaking setting for relaxation. Lounge on sunbeds, enjoy poolside service, or take a refreshing dip at sunset.',
-                features: [
-                    'Heated infinity edge pool',
-                    'Sun loungers and cabanas',
-                    'Poolside food and beverage service',
-                    'Towels and sunscreen provided',
-                    'Adult-only hours 4-6 PM',
-                    'Evening swim-up events'
-                ],
-                hours: 'Daily 7:00 AM - 9:00 PM',
-                phone: 'Extension 7305',
-                image: 'https://images.unsplash.com/photo-1576016801232-0b41b9c7d8b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1576016801232-0b41b9c7d8b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80'
-                ]
-            },
-            beach: {
-                name: 'Private Beach',
-                description: 'Exclusive lakefront paradise.',
-                longDescription: 'Escape to our private beach, a tranquil oasis away from the city. With powdery sand, clear waters, and attentive service, it\'s the perfect spot for a day of relaxation.',
-                features: [
-                    'Private cabanas with waiter service',
-                    'Water sports equipment available',
-                    'Beach bar serving cocktails',
-                    'Fresh towel service',
-                    'Sunset bonfires on request',
-                    'Complimentary sunscreen'
-                ],
-                hours: 'Daily 8:00 AM - 6:00 PM',
-                phone: 'Extension 7306',
-                image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80',
-                    'https://images.unsplash.com/photo-1590523278191-995cbcda646b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1596178065887-1198b6148b2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            game: {
-                name: 'The Game Room',
-                description: 'Fun and games for all ages.',
-                longDescription: 'Our game room is the perfect place to unwind and have fun. Challenge friends to billiards, test your skills at table tennis, or enjoy classic arcade games.',
-                features: [
-                    'Professional billiards table',
-                    'Table tennis',
-                    'Classic arcade machines',
-                    'Board games collection',
-                    'Large screen for sports',
-                    'Snack and beverage bar'
-                ],
-                hours: 'Daily 10:00 AM - 11:00 PM',
-                phone: 'Extension 7307',
-                image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-                    'https://images.unsplash.com/photo-1522252234503-e356532cafd5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2025&q=80',
-                    'https://images.unsplash.com/photo-1589578527966-3895e6e46b9f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            library: {
-                name: 'The Reading Room',
-                description: 'A quiet sanctuary for book lovers.',
-                longDescription: 'Our curated library offers a peaceful retreat with a focus on African literature, art, and culture. Comfortable seating, natural light, and a selection of teas create the perfect reading environment.',
-                features: [
-                    'Curated collection of 2,000+ books',
-                    'Focus on African authors',
-                    'Art and photography volumes',
-                    'Daily newspapers',
-                    'Comfortable reading chairs',
-                    'Complimentary tea and coffee'
-                ],
-                hours: 'Daily 8:00 AM - 10:00 PM',
-                phone: 'Extension 7308',
-                image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            conference: {
-                name: 'Conference Halls',
-                description: 'Professional spaces for productive meetings.',
-                longDescription: 'Our versatile conference halls are equipped with the latest technology and can accommodate events from intimate board meetings to large conferences. Our dedicated events team ensures every detail is perfect.',
-                features: [
-                    'Multiple venues (20-200 capacity)',
-                    'High-speed WiFi',
-                    'Built-in AV equipment',
-                    'Natural light in all rooms',
-                    'Customizable layouts',
-                    'Catering available'
-                ],
-                hours: 'By arrangement',
-                phone: 'Extension 7309',
-                image: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80',
-                    'https://images.unsplash.com/photo-1497366754035-f200968a6a72?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80',
-                    'https://images.unsplash.com/photo-1431540015161-0bf86838fb31?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            'business-center': {
-                name: 'Business Center',
-                description: 'Everything you need to stay productive.',
-                longDescription: 'Our fully equipped business center provides a professional environment for getting work done. From private workstations to printing services, we have you covered.',
-                features: [
-                    'Private workstations',
-                    'High-speed printing and scanning',
-                    'Conference call facilities',
-                    'Secretarial services available',
-                    'Complimentary coffee and tea',
-                    'Office supplies available'
-                ],
-                hours: 'Open 24/7',
-                phone: 'Extension 7310',
-                image: 'https://images.unsplash.com/photo-1497366754035-f200968a6a72?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1497366754035-f200968a6a72?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80',
-                    'https://images.unsplash.com/photo-1497215842964-222b430dc094?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1504384764586-bb4cdc1707b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            banquet: {
-                name: 'Banquet Spaces',
-                description: 'Celebrate in style.',
-                longDescription: 'From intimate gatherings to grand celebrations, our elegant banquet spaces provide the perfect backdrop. Our culinary team creates custom menus, and our event planners handle every detail.',
-                features: [
-                    'Multiple venues with various capacities',
-                    'Custom catering menus',
-                    'Dedicated event coordinator',
-                    'Built-in sound and lighting',
-                    'Dance floor available',
-                    'Valet parking for guests'
-                ],
-                hours: 'By arrangement',
-                phone: 'Extension 7311',
-                image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            concierge: {
-                name: '24/7 Concierge',
-                description: 'Your personal assistant, always available.',
-                longDescription: 'Our dedicated concierge team is available around the clock to fulfill your requests—whether arranging dinner reservations, booking excursions, or securing hard-to-get tickets.',
-                features: [
-                    'Restaurant reservations',
-                    'Excursion and tour bookings',
-                    'Transportation arrangements',
-                    'Special occasion planning',
-                    'Spa appointment scheduling',
-                    'Local recommendations'
-                ],
-                hours: '24 hours, 7 days a week',
-                phone: 'Extension 0 or 7312',
-                image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            airport: {
-                name: 'Airport Transfers',
-                description: 'Luxury transportation to and from the airport.',
-                longDescription: 'Begin and end your journey in comfort with our professional airport transfer service. Our fleet of luxury vehicles and experienced drivers ensure a seamless experience.',
-                features: [
-                    'Luxury sedan and SUV options',
-                    'Professional, uniformed drivers',
-                    'Meet and greet service',
-                    'Complimentary bottled water',
-                    'Real-time flight tracking',
-                    'Child seats available'
-                ],
-                hours: 'Available 24/7 (advance booking required)',
-                phone: 'Extension 7313',
-                image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1568605117036-5fe5e7fa0ce2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1556189250-72ba954cfc2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            laundry: {
-                name: 'Laundry Service',
-                description: 'Impeccable care for your garments.',
-                longDescription: 'Our professional laundry and dry cleaning service ensures your clothes receive the same attention to detail as every other aspect of your stay. Same-day service available.',
-                features: [
-                    'Same-day service (request before 10 AM)',
-                    'Dry cleaning available',
-                    'Pressing service',
-                    'Eco-friendly products',
-                    'Garment bags provided',
-                    'Delicate item specialists'
-                ],
-                hours: 'Daily 7:00 AM - 7:00 PM',
-                phone: 'Extension 7314',
-                image: 'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-                    'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            wifi: {
-                name: 'Complimentary WiFi',
-                description: 'Stay connected throughout your stay.',
-                longDescription: 'High-speed wireless internet is available throughout the property, from your room to the pool deck. Perfect for streaming, video calls, or catching up on work.',
-                features: [
-                    'High-speed fiber connection',
-                    'Coverage throughout property',
-                    'Multiple device connections',
-                    'Secure network',
-                    'No data caps',
-                    'Technical support available'
-                ],
-                hours: '24/7',
-                phone: 'Extension 7315 for assistance',
-                image: 'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1573164713988-2485fc5648d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80',
-                    'https://images.unsplash.com/photo-1573164713988-2485fc5648d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80'
-                ]
-            }
-        };
+        const amenityData = <?php echo json_encode($amenitiesJS); ?>;
 
         function openModal(amenityKey) {
             const amenity = amenityData[amenityKey];
@@ -1098,6 +562,16 @@
             // Generate gallery HTML
             const galleryHTML = amenity.gallery.map(img => `
                 <img src="${img}" alt="${amenity.name}" onclick="this.parentNode.previousElementSibling.src = this.src">
+            `).join('');
+            
+            // Generate features HTML
+            const featuresHTML = amenity.features.map(feature => `
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <span class="text-[#5c524a] text-sm">${feature}</span>
+                </div>
             `).join('');
             
             modalContent.innerHTML = `
@@ -1133,14 +607,7 @@
                         <!-- Features -->
                         <h3 class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a] mb-3">Features</h3>
                         <div class="space-y-1 mb-6">
-                            ${amenity.features.map(feature => `
-                                <div class="feature-item">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <span class="text-[#5c524a] text-sm">${feature}</span>
-                                </div>
-                            `).join('')}
+                            ${featuresHTML}
                         </div>
                         
                         <!-- Reserve/Inquiry Button -->
@@ -1198,5 +665,4 @@
         window.addEventListener('scroll', reveal);
         window.addEventListener('load', reveal);
     </script>
-</body>
-</html>
+<?php include 'footer.php'; ?>

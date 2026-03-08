@@ -1,4 +1,13 @@
-<!DOCTYPE html>
+<?php include 'header.php'; ?>
+
+<style>
+@media (min-width: 1024px) {
+    section.relative.h-screen { margin-top: 150px; }
+}
+@media (max-width: 1023px) {
+    section.relative.h-screen { margin-top: 80px; }
+}
+</style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1215,5 +1224,4 @@
         window.addEventListener('scroll', reveal);
         window.addEventListener('load', reveal);
     </script>
-</body>
-</html>
+<?php include 'footer.php'; ?>

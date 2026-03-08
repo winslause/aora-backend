@@ -1,4 +1,19 @@
-<!DOCTYPE html>
+<?php 
+include 'header.php';
+
+// Get table types for special dining experiences
+include 'database.php';
+$diningExperiences = getAllTableTypes($pdo);
+?>
+
+<style>
+@media (min-width: 1024px) {
+    section.relative.h-screen { margin-top: 150px; }
+}
+@media (max-width: 1023px) {
+    section.relative.h-screen { margin-top: 80px; }
+}
+</style>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -698,65 +713,58 @@
                     <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
                 </div>
                 
-                <!-- Experiences Grid - No Cards, Just Text and Images -->
+                <!-- Experiences Grid - Loaded from Database -->
                 <div class="space-y-20">
-                    
-                    <!-- Experience 1 - Chef's Table -->
-                    <div class="grid lg:grid-cols-2 gap-12 items-center reveal-left">
+                    <?php 
+                    $delay = 0.1;
+                    foreach ($diningExperiences as $index => $experience): 
+                        $isEven = $index % 2 === 0;
+                    ?>
+                    <div class="grid lg:grid-cols-2 gap-12 items-center <?php echo $isEven ? 'reveal-left' : 'reveal-right'; ?>" style="transition-delay: <?php echo $delay; ?>s;">
+                        <?php if ($isEven): ?>
                         <div>
                             <div class="relative h-[400px] overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80" 
-                                     alt="Chef's Table" 
+                                <img src="<?php echo htmlspecialchars($experience['image']); ?>" 
+                                     alt="<?php echo htmlspecialchars($experience['name']); ?>" 
                                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
                             </div>
                         </div>
                         <div>
-                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-4">The Chef's Table</h3>
+                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-4"><?php echo htmlspecialchars($experience['name']); ?></h3>
                             <div class="w-16 h-px bg-[#b89a78] mb-6"></div>
                             <p class="text-[#5c524a] text-lg leading-relaxed mb-6">
-                                An intimate 8-course journey seated at the kitchen pass. Watch our culinary team create magic while the chef personally explains each dish's inspiration and technique.
+                                <?php echo htmlspecialchars($experience['description']); ?>
                             </p>
-                            <p class="text-[#8a735b] text-sm">Available Thursday-Sunday | Max 6 guests</p>
+                            <p class="text-[#8a735b] text-sm mb-6"><i class="fas fa-users mr-2"></i>Maximum <?php echo intval($experience['max_people']); ?> guests per table</p>
+                            <button style="display: none;" onclick="reserveExperience('<?php echo htmlspecialchars($experience['name']); ?>')" class="reserve-button px-6 py-3 text-white uppercase tracking-wider text-sm">
+                                Reserve This Experience
+                            </button>
                         </div>
-                    </div>
-                    
-                    <!-- Experience 2 - Private Dining -->
-                    <div class="grid lg:grid-cols-2 gap-12 items-center reveal-right">
+                        <?php else: ?>
                         <div class="lg:order-2">
                             <div class="relative h-[400px] overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                     alt="Private Dining" 
+                                <img src="<?php echo htmlspecialchars($experience['image']); ?>" 
+                                     alt="<?php echo htmlspecialchars($experience['name']); ?>" 
                                      class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
                             </div>
                         </div>
                         <div class="lg:order-1">
-                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-4">Private Dining Room</h3>
+                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-4"><?php echo htmlspecialchars($experience['name']); ?></h3>
                             <div class="w-16 h-px bg-[#b89a78] mb-6"></div>
                             <p class="text-[#5c524a] text-lg leading-relaxed mb-6">
-                                Host up to 16 guests in our elegant private dining room. Featuring a dedicated menu, personal waiter, and wine pairing options.
+                                <?php echo htmlspecialchars($experience['description']); ?>
                             </p>
-                            <p class="text-[#8a735b] text-sm">Available daily | Ideal for celebrations</p>
+                            <p class="text-[#8a735b] text-sm mb-6"><i class="fas fa-users mr-2"></i>Maximum <?php echo intval($experience['max_people']); ?> guests per table</p>
+                            <button style="display: none;" onclick="reserveExperience('<?php echo htmlspecialchars($experience['name']); ?>')" class="reserve-button px-6 py-3 text-white uppercase tracking-wider text-sm">
+                                Reserve This Experience
+                            </button>
                         </div>
+                        <?php endif; ?>
                     </div>
-                    
-                    <!-- Experience 3 - Garden Terrace -->
-                    <div class="grid lg:grid-cols-2 gap-12 items-center reveal-left">
-                        <div>
-                            <div class="relative h-[400px] overflow-hidden">
-                                <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
-                                     alt="Garden Terrace" 
-                                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
-                            </div>
-                        </div>
-                        <div>
-                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-4">Garden Terrace</h3>
-                            <div class="w-16 h-px bg-[#b89a78] mb-6"></div>
-                            <p class="text-[#5c524a] text-lg leading-relaxed mb-6">
-                                Al fresco dining under the stars. Surrounded by lush gardens and ambient lighting, enjoy our signature menu in Nairobi's most romantic setting.
-                            </p>
-                            <p class="text-[#8a735b] text-sm">Weather permitting | Evenings only</p>
-                        </div>
-                    </div>
+                    <?php 
+                        $delay += 0.1;
+                    endforeach; 
+                    ?>
                 </div>
             </div>
         </section>
@@ -773,7 +781,7 @@
                 <!-- Section Header -->
                 <div class="text-center mb-12 reveal">
                     <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Reserve Your Table</span>
-                    <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Join Us for Dinner</h2>
+                    <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Join Us for Our Meals</h2>
                     <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
                 </div>
                 
@@ -790,16 +798,7 @@
                             <!-- Time -->
                             <div>
                                 <label class="block mb-2">Time</label>
-                                <select required>
-                                    <option value="">Select time</option>
-                                    <option>12:30 PM</option>
-                                    <option>1:00 PM</option>
-                                    <option>1:30 PM</option>
-                                    <option>7:00 PM</option>
-                                    <option>7:30 PM</option>
-                                    <option>8:00 PM</option>
-                                    <option>8:30 PM</option>
-                                </select>
+                                <input type="time" id="reservationTime" required>
                             </div>
                         </div>
                         
@@ -807,7 +806,7 @@
                             <!-- Guests -->
                             <div>
                                 <label class="block mb-2">Number of Guests</label>
-                                <select required>
+                                <select id="numGuests" required>
                                     <option value="">Select</option>
                                     <option>1 Guest</option>
                                     <option>2 Guests</option>
@@ -820,16 +819,11 @@
                                 </select>
                             </div>
                             
-                            <!-- Occasion -->
+                            <!-- Table Type -->
                             <div>
-                                <label class="block mb-2">Occasion (Optional)</label>
-                                <select>
-                                    <option value="">Select</option>
-                                    <option>Birthday</option>
-                                    <option>Anniversary</option>
-                                    <option>Business</option>
-                                    <option>Date Night</option>
-                                    <option>Other</option>
+                                <label class="block mb-2">Table Type</label>
+                                <select id="tableType" required>
+                                    <option value="">Select table preference</option>
                                 </select>
                             </div>
                         </div>
@@ -858,15 +852,38 @@
                             </div>
                         </div>
                         
+                        <!-- Occasion -->
+                        <div>
+                            <label class="block mb-2">Occasion (Optional)</label>
+                            <select id="occasion">
+                                <option value="">Select</option>
+                                <option>Birthday</option>
+                                <option>Anniversary</option>
+                                <option>Business</option>
+                                <option>Date Night</option>
+                                <option>Normal Meal</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        
                         <!-- Special Requests -->
                         <div>
                             <label class="block mb-2">Special Requests</label>
                             <textarea rows="3" placeholder="Dietary restrictions, allergies, or special notes..."></textarea>
                         </div>
                         
+                        <!-- Pre-order Menu Items -->
+                        <div>
+                            <label class="block mb-2">Pre-order Menu Items (Optional)</label>
+                            <p class="text-[#8a735b] text-xs mb-4">Select items you'd like to pre-order for your visit</p>
+                            <div id="menuItemsCheckboxes" class="max-h-64 overflow-y-auto border border-[#b89a78]/20 rounded-lg p-4 bg-white/50">
+                                <p class="text-[#8a735b] text-sm text-center py-4">Loading menu items...</p>
+                            </div>
+                        </div>
+                        
                         <!-- Submit Button -->
                         <div class="text-center pt-4">
-                            <button type="submit" class="reserve-button px-12 py-4 text-white uppercase tracking-wider text-sm">
+                            <button type="button" onclick="submitReservation()" class="reserve-button px-12 py-4 text-white uppercase tracking-wider text-sm">
                                 Reserve Now
                             </button>
                         </div>
@@ -1070,11 +1087,303 @@
         window.addEventListener('scroll', reveal);
         window.addEventListener('load', reveal);
         
-        // Form submission
+        // Load menu items on page load
+        loadMenuItemsForCheckboxes();
+        loadTableTypes();
+        
+        // Form submission function
+        function submitReservation() {
+            const form = document.querySelector('.reservation-form');
+            if (!form) {
+                showMessage('Form not found!', 'error');
+                return;
+            }
+            
+            // Get form values with proper selectors
+            const date = form.querySelector('input[type="date"]')?.value || '';
+            const time = form.querySelector('input[type="time"]')?.value || '';
+            const guests = form.querySelector('#numGuests')?.value || '';
+            const tableTypeId = form.querySelector('#tableType')?.value || '';
+            const firstName = form.querySelector('input[type="text"]')?.value || '';
+            const lastName = form.querySelector('input[type="text"]')?.value || '';
+            const email = form.querySelector('input[type="email"]')?.value || '';
+            const phone = form.querySelector('input[type="tel"]')?.value || '';
+            const occasion = form.querySelector('#occasion')?.value || '';
+            const specialRequests = form.querySelector('textarea')?.value || '';
+            
+            // Debug: Log values
+            console.log('Form values:', { date, time, guests, tableTypeId, firstName, lastName, email, phone });
+            
+            // Validation - check all required fields
+            if (!date) {
+                showMessage('Please select a date', 'error');
+                return;
+            }
+            if (!time) {
+                showMessage('Please select a time', 'error');
+                return;
+            }
+            if (!guests) {
+                showMessage('Please select number of guests', 'error');
+                return;
+            }
+            if (!tableTypeId) {
+                showMessage('Please select a table type', 'error');
+                return;
+            }
+            if (!firstName) {
+                showMessage('Please enter your first name', 'error');
+                return;
+            }
+            if (!lastName) {
+                showMessage('Please enter your last name', 'error');
+                return;
+            }
+            if (!email) {
+                showMessage('Please enter your email', 'error');
+                return;
+            }
+            if (!phone) {
+                showMessage('Please enter your phone number', 'error');
+                return;
+            }
+            
+            // Get selected menu items
+            const selectedItems = [];
+            document.querySelectorAll('.menu-item-checkbox:checked').forEach(checkbox => {
+                selectedItems.push(checkbox.value);
+            });
+            
+            const formData = new FormData();
+            formData.append('action', 'create_restaurant_reservation');
+            formData.append('table_type_id', tableTypeId);
+            formData.append('reservation_date', date);
+            formData.append('reservation_time', time);
+            formData.append('num_guests', guests);
+            formData.append('first_name', firstName);
+            formData.append('last_name', lastName);
+            formData.append('email', email);
+            formData.append('phone', phone);
+            formData.append('occasion', occasion);
+            formData.append('selected_items', selectedItems.join(', '));
+            formData.append('special_requests', specialRequests);
+            
+            // Show loader
+            showLoader();
+            
+            fetch('api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideLoader();
+                
+                if (data.success) {
+                    showMessage('Thank you! Your reservation has been confirmed. Check your email for confirmation details.', 'success');
+                    form.reset();
+                    // Uncheck all checkboxes
+                    document.querySelectorAll('.menu-item-checkbox').forEach(cb => cb.checked = false);
+                } else {
+                    showMessage('Error: ' + data.message, 'error');
+                }
+            })
+            .catch(error => {
+                hideLoader();
+                console.error('Error:', error);
+                showMessage('An error occurred. Please try again.', 'error');
+            });
+        }
+        
+        // Show message function (replaces alert)
+        function showMessage(message, type) {
+            // Remove existing message if any
+            const existingMsg = document.getElementById('formMessage');
+            if (existingMsg) existingMsg.remove();
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.id = 'formMessage';
+            msgDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10000;padding:15px 30px;border-radius:8px;font-weight:500;max-width:90%;word-wrap:break-word;';
+            
+            if (type === 'success') {
+                msgDiv.style.background = '#10b981';
+                msgDiv.style.color = 'white';
+            } else {
+                msgDiv.style.background = '#ef4444';
+                msgDiv.style.color = 'white';
+            }
+            
+            msgDiv.innerHTML = message;
+            document.body.appendChild(msgDiv);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => msgDiv.remove(), 5000);
+        }
+        
+        // Show loader function
+        function showLoader() {
+            // Remove existing loader if any
+            const existingLoader = document.getElementById('formLoader');
+            if (existingLoader) return;
+            
+            const loader = document.createElement('div');
+            loader.id = 'formLoader';
+            loader.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;justify-content:center;align-items:center;flex-direction:column;';
+            loader.innerHTML = `
+                <div style="text-align:center;">
+                    <div style="width:60px;height:60px;border:4px solid #f3f3f3;border-top:4px solid #b89a78;border-radius:50%;animation:spin 1s linear infinite;"></div>
+                    <p style="color:white;margin-top:20px;font-size:18px;">Submitting your reservation...</p>
+                </div>
+                <style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>
+            `;
+            document.body.appendChild(loader);
+        }
+        
+        // Hide loader function
+        function hideLoader() {
+            const loader = document.getElementById('formLoader');
+            if (loader) loader.remove();
+        }
+        
+        // Also keep the form submit handler as backup
         document.querySelector('.reservation-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you! Your reservation request has been sent. We\'ll confirm within 2 hours.');
+            submitReservation();
         });
+        
+        // Load menu items for checkboxes on page load
+        function loadMenuItemsForCheckboxes() {
+            const formData = new FormData();
+            formData.append('action', 'get_menu_items');
+            
+            fetch('api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    renderMenuItemCheckboxes(data.items);
+                }
+            })
+            .catch(error => console.error('Error loading menu items:', error));
+        }
+        
+        function renderMenuItemCheckboxes(items) {
+            const container = document.getElementById('menuItemsCheckboxes');
+            if (!container) return;
+            
+            // Group items by category
+            const groupedItems = {};
+            items.forEach(item => {
+                const category = item.category_name || 'Other';
+                if (!groupedItems[category]) {
+                    groupedItems[category] = [];
+                }
+                groupedItems[category].push(item);
+            });
+            
+            let html = '';
+            for (const [category, categoryItems] of Object.entries(groupedItems)) {
+                html += `<div class="mb-4">`;
+                html += `<h4 class="text-[#8a735b] text-xs uppercase mb-2 font-semibold">${category}</h4>`;
+                html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-2">`;
+                
+                categoryItems.forEach(item => {
+                    const price = parseFloat(item.price).toLocaleString();
+                    html += `
+                        <label class="flex items-center gap-2 p-2 border border-[#b89a78]/20 rounded-lg hover:bg-[#f4ede5] cursor-pointer transition-colors">
+                            <input type="checkbox" class="menu-item-checkbox" value="${item.name} - KSh ${price}">
+                            <span class="text-[#5c524a] text-sm">${item.name}</span>
+                            <span class="text-[#b89a78] text-xs ml-auto">KSh ${price}</span>
+                        </label>
+                    `;
+                });
+                
+                html += `</div>`;
+                html += `</div>`;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        // Function to reserve dining experience
+        function reserveExperience(experienceTitle) {
+            document.querySelector('.reservation-form').scrollIntoView({ behavior: 'smooth' });
+            // Pre-fill occasion with experience name
+            const occasionSelect = document.querySelector('#occasion');
+            if (occasionSelect) {
+                occasionSelect.value = experienceTitle;
+            }
+        }
+        
+        // Load table types on page load
+        function loadTableTypes() {
+            const formData = new FormData();
+            formData.append('action', 'get_table_types');
+            
+            fetch('api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    renderTableTypeSelect(data.table_types);
+                } else {
+                    // Fallback to default options if API fails
+                    renderTableTypeSelectFallback();
+                }
+            })
+            .catch(error => {
+                console.error('Error loading table types:', error);
+                // Fallback to default options
+                renderTableTypeSelectFallback();
+            });
+        }
+        
+        function renderTableTypeSelectFallback() {
+            const select = document.getElementById('tableType');
+            if (!select) return;
+            
+            // Clear existing options except the first one
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+            
+            // Default fallback options
+            const fallbackOptions = [
+                { id: 1, name: "The Chef's Table", max_people: 6 },
+                { id: 2, name: 'Private Dining Room', max_people: 16 },
+                { id: 3, name: 'Garden Terrace', max_people: 12 },
+                { id: 4, name: 'Main Dining', max_people: 8 },
+                { id: 5, name: 'Window Seat', max_people: 4 },
+                { id: 6, name: 'Bar Area', max_people: 4 }
+            ];
+            
+            fallbackOptions.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.id;
+                option.textContent = `${type.name} (Max ${type.max_people} guests)`;
+                select.appendChild(option);
+            });
+        }
+        
+        function renderTableTypeSelect(tableTypes) {
+            const select = document.getElementById('tableType');
+            if (!select) return;
+            
+            // Clear existing options except the first one
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+            
+            tableTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type.id;
+                option.textContent = `${type.name} (Max ${type.max_people} guests)`;
+                select.appendChild(option);
+            });
+        }
     </script>
-</body>
-</html>
+<?php include 'footer.php'; ?>
