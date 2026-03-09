@@ -793,6 +793,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                                 </select>
                             </div>
                             
+                            <!-- Venue -->
+                            <div>
+                                <label>Preferred Venue</label>
+                                <select id="venueSelect" name="venue_id">
+                                    <option value="">Select a venue (optional)</option>
+                                    <?php if (!empty($eventVenues)): ?>
+                                        <?php foreach ($eventVenues as $venue): ?>
+                                            <option value="<?php echo htmlspecialchars($venue['id']); ?>"><?php echo htmlspecialchars($venue['name']); ?></option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                            
                             <!-- Date -->
                             <div>
                                 <label>Preferred Date</label>
@@ -864,8 +877,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         function openInquiryForm(eventType) {
             // Set the venue_id if it's a venue slug
             const venueIdInput = document.getElementById('venueId');
+            const venueSelect = document.getElementById('venueSelect');
+            
             if (venueSlugToId.hasOwnProperty(eventType)) {
-                venueIdInput.value = venueSlugToId[eventType] || '';
+                const venueId = venueSlugToId[eventType];
+                venueIdInput.value = venueId || '';
+                // Also set the dropdown if venueId exists
+                if (venueId && venueSelect) {
+                    venueSelect.value = venueId;
+                }
             }
             
             const formSection = document.getElementById('eventInquiryForm');
@@ -891,6 +911,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                 }
             }
         }
+        
+        // Handle venue dropdown change
+        document.addEventListener('DOMContentLoaded', function() {
+            const venueSelect = document.getElementById('venueSelect');
+            const venueIdInput = document.getElementById('venueId');
+            
+            if (venueSelect && venueIdInput) {
+                venueSelect.addEventListener('change', function() {
+                    // When user selects a venue from dropdown, update the hidden field
+                    venueIdInput.value = this.value;
+                });
+            }
+        });
         
         // Reveal on scroll
         function reveal() {

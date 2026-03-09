@@ -17,7 +17,7 @@ try {
 // Create rooms table if not exists
 $createRoomsTable = "CREATE TABLE IF NOT EXISTS rooms (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    room_type VARCHAR(50) NOT NULL UNIQUE,
+    room_type VARCHAR(50) NOT NULL,
     name VARCHAR(100) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
@@ -33,6 +33,120 @@ $createRoomsTable = "CREATE TABLE IF NOT EXISTS rooms (
 )";
 
 $pdo->exec($createRoomsTable);
+
+// Check if room_type column has UNIQUE constraint and remove it
+try {
+    // First, try to drop any unique index on room_type (if exists)
+    $pdo->exec("ALTER TABLE rooms DROP INDEX room_type");
+} catch (PDOException $e) {
+    // Ignore if the index doesn't exist
+}
+
+try {
+    // Then modify the column to ensure it has no unique constraint
+    $pdo->exec("ALTER TABLE rooms MODIFY room_type VARCHAR(50) NOT NULL");
+} catch (PDOException $e) {
+    // Ignore if the constraint doesn't exist or other error
+}
+
+// Create room_types table if not exists
+$createRoomTypesTable = "CREATE TABLE IF NOT EXISTS room_types (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    slug VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT,
+    display_order INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$pdo->exec($createRoomTypesTable);
+
+// Create room_views table if not exists
+$createRoomViewsTable = "CREATE TABLE IF NOT EXISTS room_views (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    display_order INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$pdo->exec($createRoomViewsTable);
+
+// Create bed_types table if not exists
+$createBedTypesTable = "CREATE TABLE IF NOT EXISTS bed_types (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    display_order INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$pdo->exec($createBedTypesTable);
+
+// Insert default room views if empty
+$stmt = $pdo->query("SELECT COUNT(*) as count FROM room_views");
+$result = $stmt->fetch();
+
+if ($result['count'] == 0) {
+    $roomViews = [
+        ['name' => 'Garden', 'display_order' => 1],
+        ['name' => 'Pool', 'display_order' => 2],
+        ['name' => 'City', 'display_order' => 3],
+        ['name' => 'Ocean', 'display_order' => 4],
+        ['name' => 'Sunset', 'display_order' => 5],
+        ['name' => 'Panoramic', 'display_order' => 6]
+    ];
+    
+    $viewStmt = $pdo->prepare("INSERT INTO room_views (name, display_order) VALUES (:name, :display_order)");
+    foreach ($roomViews as $view) {
+        $viewStmt->execute($view);
+    }
+}
+
+// Insert default bed types if empty
+$stmt = $pdo->query("SELECT COUNT(*) as count FROM bed_types");
+$result = $stmt->fetch();
+
+if ($result['count'] == 0) {
+    $bedTypes = [
+        ['name' => 'King', 'display_order' => 1],
+        ['name' => 'Queen', 'display_order' => 2],
+        ['name' => 'Twin', 'display_order' => 3],
+        ['name' => '2 King', 'display_order' => 4],
+        ['name' => '3 King', 'display_order' => 5]
+    ];
+    
+    $bedStmt = $pdo->prepare("INSERT INTO bed_types (name, display_order) VALUES (:name, :display_order)");
+    foreach ($bedTypes as $bed) {
+        $bedStmt->execute($bed);
+    }
+}
+
+// Insert default room types if empty
+$stmt = $pdo->query("SELECT COUNT(*) as count FROM room_types");
+$result = $stmt->fetch();
+
+if ($result['count'] == 0) {
+    $roomTypes = [
+        ['name' => 'Deluxe', 'slug' => 'deluxe', 'description' => 'Elegant contemporary rooms with warm earth tones', 'display_order' => 1],
+        ['name' => 'Executive Suite', 'slug' => 'executive', 'description' => 'Spacious luxury with separate living area', 'display_order' => 2],
+        ['name' => 'Family Villa', 'slug' => 'family', 'description' => 'Perfect for families with multiple bedrooms', 'display_order' => 3],
+        ['name' => 'Presidential Villa', 'slug' => 'presidential', 'description' => 'The pinnacle of luxury living', 'display_order' => 4],
+        ['name' => 'Garden View', 'slug' => 'garden', 'description' => 'Serene rooms overlooking lush gardens', 'display_order' => 5],
+        ['name' => 'Honeymoon Suite', 'slug' => 'honeymoon', 'description' => 'Romantic settings for couples', 'display_order' => 6],
+        ['name' => 'Business Suite', 'slug' => 'business', 'description' => 'Optimized for the modern professional', 'display_order' => 7],
+        ['name' => 'Sky Penthouse', 'slug' => 'penthouse', 'description' => 'Ultimate luxury with panoramic views', 'display_order' => 8]
+    ];
+    
+    $typeStmt = $pdo->prepare("INSERT INTO room_types (name, slug, description, display_order) VALUES (:name, :slug, :description, :display_order)");
+    foreach ($roomTypes as $type) {
+        $typeStmt->execute($type);
+    }
+}
+
+// Function to get all room types
+function getAllRoomTypes($pdo) {
+    $stmt = $pdo->query("SELECT * FROM room_types WHERE is_active = 1 ORDER BY display_order ASC");
+    return $stmt->fetchAll();
+}
 
 // Create bookings table
 $createBookingsTable = "CREATE TABLE IF NOT EXISTS bookings (
@@ -436,8 +550,13 @@ function insertRooms($pdo) {
     }
 }
 
-// Run the insert function
-insertRooms($pdo);
+// Run the insert function only if rooms table is empty
+$stmt = $pdo->query("SELECT COUNT(*) as count FROM rooms");
+$result = $stmt->fetch();
+
+if ($result['count'] == 0) {
+    insertRooms($pdo);
+}
 
 // Function to get all rooms
 function getAllRooms($pdo, $viewFilter = null, $bedFilter = null, $sort = 'price_asc', $limit = null) {
@@ -487,8 +606,15 @@ function getLatestRooms($pdo, $limit = 8) {
 
 // Function to get a single room
 function getRoomByType($pdo, $roomType) {
-    $stmt = $pdo->prepare("SELECT * FROM rooms WHERE room_type = :room_type AND is_active = 1");
+    $stmt = $pdo->prepare("SELECT * FROM rooms WHERE room_type = :room_type AND is_active = 1 ORDER BY id ASC LIMIT 1");
     $stmt->execute([':room_type' => $roomType]);
+    return $stmt->fetch();
+}
+
+// Function to get a room by ID
+function getRoomById($pdo, $roomId) {
+    $stmt = $pdo->prepare("SELECT * FROM rooms WHERE id = :id AND is_active = 1");
+    $stmt->execute([':id' => $roomId]);
     return $stmt->fetch();
 }
 
@@ -897,5 +1023,214 @@ function getAllAmenities($pdo) {
 function getAmenityBySlug($pdo, $slug) {
     $stmt = $pdo->prepare("SELECT a.*, ac.name as category_name FROM amenities a LEFT JOIN amenity_categories ac ON a.category_id = ac.id WHERE a.slug = :slug AND a.is_active = 1");
     $stmt->execute([':slug' => $slug]);
+    return $stmt->fetch();
+}
+
+// Function to get all room views
+function getAllRoomViews($pdo) {
+    $stmt = $pdo->query("SELECT * FROM room_views WHERE is_active = 1 ORDER BY display_order ASC");
+    return $stmt->fetchAll();
+}
+
+// Function to add a new room view
+function addRoomView($pdo, $name, $display_order = 0) {
+    $stmt = $pdo->prepare("INSERT INTO room_views (name, display_order) VALUES (:name, :display_order)");
+    $stmt->execute([':name' => $name, ':display_order' => $display_order]);
+    return $pdo->lastInsertId();
+}
+
+// Function to delete a room view
+function deleteRoomView($pdo, $id) {
+    $stmt = $pdo->prepare("UPDATE room_views SET is_active = 0 WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+}
+
+// Function to get all bed types
+function getAllBedTypes($pdo) {
+    $stmt = $pdo->query("SELECT * FROM bed_types WHERE is_active = 1 ORDER BY display_order ASC");
+    return $stmt->fetchAll();
+}
+
+// Function to add a new bed type
+function addBedType($pdo, $name, $display_order = 0) {
+    $stmt = $pdo->prepare("INSERT INTO bed_types (name, display_order) VALUES (:name, :display_order)");
+    $stmt->execute([':name' => $name, ':display_order' => $display_order]);
+    return $pdo->lastInsertId();
+}
+
+// Function to delete a bed type
+function deleteBedType($pdo, $id) {
+    $stmt = $pdo->prepare("UPDATE bed_types SET is_active = 0 WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+}
+
+// Create gallery_albums table if not exists
+$createGalleryAlbumsTable = "CREATE TABLE IF NOT EXISTS gallery_albums (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    slug VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT,
+    cover_image VARCHAR(255),
+    icon VARCHAR(50),
+    photo_count INT DEFAULT 0,
+    display_order INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+
+$pdo->exec($createGalleryAlbumsTable);
+
+// Create gallery_images table if not exists
+$createGalleryImagesTable = "CREATE TABLE IF NOT EXISTS gallery_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    album_id INT NOT NULL,
+    src VARCHAR(255) NOT NULL,
+    caption VARCHAR(255),
+    category VARCHAR(50),
+    grid_size ENUM('regular', 'wide', 'tall', 'large') DEFAULT 'regular',
+    display_order INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (album_id) REFERENCES gallery_albums(id)
+)";
+
+$pdo->exec($createGalleryImagesTable);
+
+// Create gallery_video table if not exists
+$createGalleryVideoTable = "CREATE TABLE IF NOT EXISTS gallery_video (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    thumbnail VARCHAR(255),
+    video_url VARCHAR(255),
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+
+$pdo->exec($createGalleryVideoTable);
+
+// Insert default gallery data if tables are empty
+$stmt = $pdo->query("SELECT COUNT(*) as count FROM gallery_albums");
+$result = $stmt->fetch();
+
+if ($result['count'] == 0) {
+    // Insert albums
+    $albums = [
+        ['title' => 'Rooms & Suites', 'slug' => 'rooms', 'description' => 'Experience luxury and comfort in our carefully designed accommodations.', 'cover_image' => 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'icon' => 'fa-bed', 'photo_count' => 12, 'display_order' => 1],
+        ['title' => 'Restaurant', 'slug' => 'restaurant', 'description' => 'Culinary artistry in an elegant setting.', 'cover_image' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'icon' => 'fa-utensils', 'photo_count' => 10, 'display_order' => 2],
+        ['title' => 'Amenities', 'slug' => 'amenities', 'description' => 'World-class facilities for your relaxation and enjoyment.', 'cover_image' => 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'icon' => 'fa-spa', 'photo_count' => 14, 'display_order' => 3],
+        ['title' => 'Surroundings', 'slug' => 'surroundings', 'description' => 'The natural beauty that surrounds Aora.', 'cover_image' => 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'icon' => 'fa-mountain', 'photo_count' => 8, 'display_order' => 4]
+    ];
+    
+    $albumStmt = $pdo->prepare("INSERT INTO gallery_albums (title, slug, description, cover_image, icon, photo_count, display_order) VALUES (:title, :slug, :description, :cover_image, :icon, :photo_count, :display_order)");
+    foreach ($albums as $album) {
+        $albumStmt->execute($album);
+    }
+    
+    // Insert images for each album
+    $images = [
+        // Rooms album (album_id = 1)
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Deluxe Room with King Bed', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 1],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Executive Suite Living Area', 'category' => 'rooms', 'grid_size' => 'wide', 'display_order' => 2],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Presidential Villa Bedroom', 'category' => 'rooms', 'grid_size' => 'tall', 'display_order' => 3],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80', 'caption' => 'Family Villa Living Room', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 4],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Garden View Room', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 5],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Honeymoon Suite', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 6],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1522778526097-ce0a22ceb253?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Business Suite', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 7],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', 'caption' => 'Sky Penthouse', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 8],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Suite Bathroom', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 9],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Room Details', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 10],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Suite View', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 11],
+        ['album_id' => 1, 'src' => 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Villa Terrace', 'category' => 'rooms', 'grid_size' => 'regular', 'display_order' => 12],
+        
+        // Restaurant album (album_id = 2)
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Main Dining Room', 'category' => 'restaurant', 'grid_size' => 'regular', 'display_order' => 1],
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80', 'caption' => "Chef's Table", 'category' => 'restaurant', 'grid_size' => 'wide', 'display_order' => 2],
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80', 'caption' => 'Nyama Choma', 'category' => 'restaurant', 'grid_size' => 'tall', 'display_order' => 3],
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Private Dining', 'category' => 'restaurant', 'grid_size' => 'regular', 'display_order' => 4],
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Swahili Pilau', 'category' => 'restaurant', 'grid_size' => 'regular', 'display_order' => 5],
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Coastal Seafood', 'category' => 'restaurant', 'grid_size' => 'regular', 'display_order' => 6],
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Samaki wa Kupaka', 'category' => 'restaurant', 'grid_size' => 'regular', 'display_order' => 7],
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1604411245846-3a7035a6b2e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Mandazi & Chai', 'category' => 'restaurant', 'grid_size' => 'regular', 'display_order' => 8],
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2127&q=80', 'caption' => 'Tropical Fruits', 'category' => 'restaurant', 'grid_size' => 'regular', 'display_order' => 9],
+        ['album_id' => 2, 'src' => 'https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', 'caption' => 'Garden Terrace', 'category' => 'restaurant', 'grid_size' => 'regular', 'display_order' => 10],
+        
+        // Amenities album (album_id = 3)
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Sanctuary Spa', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 1],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1576016801232-0b41b9c7d8b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Infinity Pool', 'category' => 'amenities', 'grid_size' => 'wide', 'display_order' => 2],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Fitness Pavilion', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 3],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1545389336-cf0905564355?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Yoga Pavilion', 'category' => 'amenities', 'grid_size' => 'tall', 'display_order' => 4],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Sauna', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 5],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80', 'caption' => 'Private Beach', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 6],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', 'caption' => 'Game Room', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 7],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Library', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 8],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80', 'caption' => 'Conference Hall', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 9],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1497366754035-f200968a6a72?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80', 'caption' => 'Business Center', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 10],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Banquet Space', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 11],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Concierge', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 12],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Airport Transfer', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 13],
+        ['album_id' => 3, 'src' => 'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', 'caption' => 'Laundry Service', 'category' => 'amenities', 'grid_size' => 'regular', 'display_order' => 14],
+        
+        // Surroundings album (album_id = 4)
+        ['album_id' => 4, 'src' => 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Sunset Over Nairobi', 'category' => 'surroundings', 'grid_size' => 'regular', 'display_order' => 1],
+        ['album_id' => 4, 'src' => 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Kenyan Landscape', 'category' => 'surroundings', 'grid_size' => 'regular', 'display_order' => 2],
+        ['album_id' => 4, 'src' => 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Local Wildlife', 'category' => 'surroundings', 'grid_size' => 'wide', 'display_order' => 3],
+        ['album_id' => 4, 'src' => 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Ocean Sunset', 'category' => 'surroundings', 'grid_size' => 'regular', 'display_order' => 4],
+        ['album_id' => 4, 'src' => 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', 'caption' => 'Safari Adventure', 'category' => 'surroundings', 'grid_size' => 'regular', 'display_order' => 5],
+        ['album_id' => 4, 'src' => 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80', 'caption' => 'Traditional Village', 'category' => 'surroundings', 'grid_size' => 'regular', 'display_order' => 6],
+        ['album_id' => 4, 'src' => 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Forest Trail', 'category' => 'surroundings', 'grid_size' => 'regular', 'display_order' => 7],
+        ['album_id' => 4, 'src' => 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'caption' => 'Mountain View', 'category' => 'surroundings', 'grid_size' => 'regular', 'display_order' => 8]
+    ];
+    
+    $imageStmt = $pdo->prepare("INSERT INTO gallery_images (album_id, src, caption, category, grid_size, display_order) VALUES (:album_id, :src, :caption, :category, :grid_size, :display_order)");
+    foreach ($images as $image) {
+        $imageStmt->execute($image);
+    }
+    
+    // Insert video
+    $videoStmt = $pdo->prepare("INSERT INTO gallery_video (title, description, thumbnail, video_url) VALUES (:title, :description, :thumbnail, :video_url)");
+    $videoStmt->execute([
+        'title' => 'The Aora Experience',
+        'description' => 'Experience the magic of Aora—where luxury meets the wild heart of Kenya.',
+        'thumbnail' => 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+        'video_url' => 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1'
+    ]);
+}
+
+// Function to get all gallery albums
+function getAllGalleryAlbums($pdo) {
+    $stmt = $pdo->query("SELECT * FROM gallery_albums WHERE is_active = 1 ORDER BY display_order ASC");
+    return $stmt->fetchAll();
+}
+
+// Function to get gallery album by slug
+function getGalleryAlbumBySlug($pdo, $slug) {
+    $stmt = $pdo->prepare("SELECT * FROM gallery_albums WHERE slug = :slug AND is_active = 1");
+    $stmt->execute([':slug' => $slug]);
+    return $stmt->fetch();
+}
+
+// Function to get gallery images by album slug
+function getGalleryImagesByAlbumSlug($pdo, $slug) {
+    $stmt = $pdo->prepare("SELECT gi.* FROM gallery_images gi 
+                            INNER JOIN gallery_albums ga ON gi.album_id = ga.id 
+                            WHERE ga.slug = :slug AND gi.is_active = 1 
+                            ORDER BY gi.display_order ASC");
+    $stmt->execute([':slug' => $slug]);
+    return $stmt->fetchAll();
+}
+
+// Function to get all gallery images
+function getAllGalleryImages($pdo) {
+    $stmt = $pdo->query("SELECT gi.*, ga.slug as album_slug FROM gallery_images gi 
+                            INNER JOIN gallery_albums ga ON gi.album_id = ga.id 
+                            WHERE gi.is_active = 1 
+                            ORDER BY ga.display_order ASC, gi.display_order ASC");
+    return $stmt->fetchAll();
+}
+
+// Function to get gallery video
+function getGalleryVideo($pdo) {
+    $stmt = $pdo->query("SELECT * FROM gallery_video WHERE is_active = 1 LIMIT 1");
     return $stmt->fetch();
 }

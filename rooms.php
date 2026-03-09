@@ -448,12 +448,12 @@ include 'header.php';
             </div>
             
             <!-- Scroll Indicator -->
-            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
+            <!-- <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
                 <span class="text-white/60 text-xs uppercase tracking-widest">Explore</span>
                 <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
                     <div class="w-1 h-2 bg-white/60 rounded-full mt-2 animate-bounce"></div>
                 </div>
-            </div>
+            </div> -->
         </section>
 
         <!-- ===== FILTER BAR SECTION ===== -->
@@ -464,22 +464,16 @@ include 'header.php';
                     <!-- Filter by View -->
                     <div class="flex-1 min-w-[200px]">
                         <label class="block text-[#8a735b] text-xs uppercase tracking-wider mb-2">View</label>
-                        <div class="flex flex-wrap gap-2">
+                        <div class="flex flex-wrap gap-2" id="viewFilters">
                             <button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="all">All</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="Garden">Garden</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="Pool">Pool</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="City">City</button>
                         </div>
                     </div>
                     
                     <!-- Filter by Bed Type -->
                     <div class="flex-1 min-w-[200px]">
                         <label class="block text-[#8a735b] text-xs uppercase tracking-wider mb-2">Bed Type</label>
-                        <div class="flex flex-wrap gap-2">
+                        <div class="flex flex-wrap gap-2" id="bedFilters">
                             <button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="all">All</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="King">King</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="Queen">Queen</button>
-                            <button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="Twin">Twin</button>
                         </div>
                     </div>
                     
@@ -584,32 +578,75 @@ include 'header.php';
         document.addEventListener('DOMContentLoaded', function() {
             loadRooms();
             applyViewMode();
+            loadFilterOptions();
         });
         
-        // Filter button functionality
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const filterType = this.dataset.filter;
-                const filterValue = this.dataset.value;
-                
-                // Remove active class from siblings in same group
-                const parent = this.parentNode;
-                parent.querySelectorAll('.filter-btn').forEach(b => {
-                    b.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // Update filter values
-                if (filterType === 'view') {
-                    currentViewFilter = filterValue;
-                } else if (filterType === 'bed') {
-                    currentBedFilter = filterValue;
+        // Load filter options from database
+        function loadFilterOptions() {
+            const formData = new FormData();
+            formData.append('action', 'get_filter_options');
+            
+            fetch('api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Populate view filters
+                    const viewFilters = document.getElementById('viewFilters');
+                    let viewHTML = '<button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="all">All</button>';
+                    data.views.forEach(view => {
+                        viewHTML += `<button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="${view.name}">${view.name}</button>`;
+                    });
+                    viewFilters.innerHTML = viewHTML;
+                    
+                    // Re-attach event listeners to new filter buttons
+                    attachFilterListeners();
+                    
+                    // Populate bed type filters
+                    const bedFilters = document.getElementById('bedFilters');
+                    let bedHTML = '<button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="all">All</button>';
+                    data.bed_types.forEach(bed => {
+                        bedHTML += `<button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="${bed.name}">${bed.name}</button>`;
+                    });
+                    bedFilters.innerHTML = bedHTML;
+                    
+                    // Re-attach event listeners to new filter buttons
+                    attachFilterListeners();
                 }
-                
-                // Reload rooms
-                loadRooms();
+            })
+            .catch(error => {
+                console.error('Error loading filter options:', error);
             });
-        });
+        }
+        
+        // Attach filter button listeners
+        function attachFilterListeners() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filterType = this.dataset.filter;
+                    const filterValue = this.dataset.value;
+                    
+                    // Remove active class from siblings in same group
+                    const parent = this.parentNode;
+                    parent.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Update filter values
+                    if (filterType === 'view') {
+                        currentViewFilter = filterValue;
+                    } else if (filterType === 'bed') {
+                        currentBedFilter = filterValue;
+                    }
+                    
+                    // Reload rooms
+                    loadRooms();
+                });
+            });
+        }
         
         // Sort select change
         document.getElementById('sortSelect').addEventListener('change', function() {
@@ -695,7 +732,7 @@ include 'header.php';
                                  alt="${room.name}" 
                                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                             
-                            <button onclick="openModal('${room.room_type}')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
+                            <button onclick="openModal('${room.id}')" class="view-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-8 py-3 rounded-full text-[#3f352e] font-medium text-sm uppercase tracking-wider shadow-lg">
                                 <i class="fas fa-eye mr-2"></i>View
                             </button>
                             
@@ -729,7 +766,7 @@ include 'header.php';
                                 }).join('')}
                             </div>
                             
-                            <button onclick="openModal('${room.room_type}')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
+                            <button onclick="openModal('${room.id}')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
                                 Check Availability & Book
                             </button>
                         </div>
@@ -746,9 +783,14 @@ include 'header.php';
         }
         
         // Modal Functions
-        function openModal(roomType) {
+        function openModal(roomIdOrType) {
             const modal = document.getElementById('roomModal');
             const modalContent = document.getElementById('modalContent');
+            
+            // Determine if we're using room_id or room_type
+            const isNumeric = /^[0-9]+$/.test(roomIdOrType);
+            const roomId = isNumeric ? parseInt(roomIdOrType) : 0;
+            const roomType = isNumeric ? '' : roomIdOrType;
             
             // Show loading in modal
             modalContent.innerHTML = `
@@ -764,7 +806,11 @@ include 'header.php';
             // Fetch room details
             const formData = new FormData();
             formData.append('action', 'get_room');
-            formData.append('room_type', roomType);
+            if (roomId > 0) {
+                formData.append('room_id', roomId);
+            } else {
+                formData.append('room_type', roomType);
+            }
             
             fetch('api.php', {
                 method: 'POST',
@@ -836,7 +882,8 @@ include 'header.php';
                                 
                                 <!-- Check Availability Form -->
                                 <h3 class="font-['Cormorant_Garamond'] text-xl text-[#3f352e] mb-3">Check Availability</h3>
-                                <form id="availabilityForm" class="availability-form space-y-4" onsubmit="checkAvailability(event, '${room.room_type}')">
+                                <form id="availabilityForm" class="availability-form space-y-4" onsubmit="checkAvailability(event, '${room.id}', '${room.room_type}')">
+                                    <input type="hidden" id="roomId" value="${room.id}">
                                     <input type="hidden" id="roomType" value="${room.room_type}">
                                     <div class="grid grid-cols-2 gap-4">
                                         <div>
@@ -911,8 +958,13 @@ include 'header.php';
         }
         
         // Check availability function
-        function checkAvailability(event, roomType) {
+        function checkAvailability(event, roomId, roomType) {
             event.preventDefault();
+            
+            // Get room_id from hidden field if not passed as parameter
+            const roomIdInput = document.getElementById('roomId');
+            const effectiveRoomId = roomIdInput ? roomIdInput.value : roomId;
+            const effectiveRoomType = roomType;
             
             const checkIn = document.getElementById('checkIn').value;
             const checkOut = document.getElementById('checkOut').value;
@@ -941,7 +993,10 @@ include 'header.php';
             
             const formData = new FormData();
             formData.append('action', 'check_availability');
-            formData.append('room_type', roomType);
+            if (effectiveRoomId) {
+                formData.append('room_id', effectiveRoomId);
+            }
+            formData.append('room_type', effectiveRoomType);
             formData.append('check_in', checkIn);
             formData.append('check_out', checkOut);
             
@@ -967,7 +1022,7 @@ include 'header.php';
                     if (data.alternatives && data.alternatives.length > 0) {
                         data.alternatives.forEach(alt => {
                             alternativesHTML += `
-                                <div class="flex items-center gap-4 p-3 bg-white rounded-lg border border-[#d4b48c]/20 cursor-pointer hover:border-[#d4b48c] transition-all" onclick="openModal('${alt.room_type}')">
+                                <div class="flex items-center gap-4 p-3 bg-white rounded-lg border border-[#d4b48c]/20 cursor-pointer hover:border-[#d4b48c] transition-all" onclick="openModal('${alt.id}')">
                                     <img src="${alt.images[0]}" alt="${alt.name}" class="w-16 h-16 object-cover rounded-lg">
                                     <div class="flex-1">
                                         <h5 class="text-[#3f352e] font-medium">${alt.name}</h5>
@@ -1000,7 +1055,8 @@ include 'header.php';
                         <!-- Guest Details for Booking -->
                         <div class="bg-white p-4 rounded-lg border border-[#d4b48c]/20">
                             <h4 class="font-['Cormorant_Garamond'] text-lg text-[#3f352e] mb-3">Complete Your Booking</h4>
-                            <form id="bookingForm" onsubmit="confirmBooking(event, '${room.room_type}')">
+                            <form id="bookingForm" onsubmit="confirmBooking(event, '${room.id}', '${room.room_type}')">
+                                <input type="hidden" id="bookingRoomId" value="${room.id}">
                                 <input type="hidden" id="bookingRoomType" value="${room.room_type}">
                                 <input type="hidden" id="bookingCheckIn" value="${checkIn}">
                                 <input type="hidden" id="bookingCheckOut" value="${checkOut}">
@@ -1058,8 +1114,13 @@ include 'header.php';
         }
         
         // Confirm booking function
-        function confirmBooking(event, roomType) {
+        function confirmBooking(event, roomId, roomType) {
             event.preventDefault();
+            
+            // Get room_id from hidden field if not passed as parameter
+            const roomIdInput = document.getElementById('bookingRoomId');
+            const effectiveRoomId = roomIdInput ? roomIdInput.value : roomId;
+            const effectiveRoomType = roomType;
             
             const guestName = document.getElementById('guestName').value;
             const guestEmail = document.getElementById('guestEmail').value;
@@ -1082,7 +1143,10 @@ include 'header.php';
             
             const formData = new FormData();
             formData.append('action', 'create_booking');
-            formData.append('room_type', roomType);
+            if (effectiveRoomId) {
+                formData.append('room_id', effectiveRoomId);
+            }
+            formData.append('room_type', effectiveRoomType);
             formData.append('guest_name', guestName);
             formData.append('guest_email', guestEmail);
             formData.append('guest_phone', guestPhone);

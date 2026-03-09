@@ -26,7 +26,7 @@ try {
     // Create rooms table
     $pdo->exec("CREATE TABLE IF NOT EXISTS rooms (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        room_type VARCHAR(50) NOT NULL UNIQUE,
+        room_type VARCHAR(50) NOT NULL,
         name VARCHAR(100) NOT NULL,
         description TEXT,
         price DECIMAL(10,2) NOT NULL,

@@ -483,12 +483,25 @@
                 // Show loading state
                 loginBtn.classList.add('btn-loading');
                 
-                // Simulate API call
-                setTimeout(() => {
-                    loginBtn.classList.remove('btn-loading');
-                    // Redirect to admin dashboard
-                    window.location.href = 'admin.php';
-                }, 1000);
+                // Create form and submit to admin_login.php via POST to create session
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'admin_login.php';
+                
+                const emailInput = document.createElement('input');
+                emailInput.type = 'hidden';
+                emailInput.name = 'email';
+                emailInput.value = email;
+                
+                const passwordInput = document.createElement('input');
+                passwordInput.type = 'hidden';
+                passwordInput.name = 'password';
+                passwordInput.value = password;
+                
+                form.appendChild(emailInput);
+                form.appendChild(passwordInput);
+                document.body.appendChild(form);
+                form.submit();
             } else {
                 // Show error message
                 errorMsg.classList.remove('hidden');

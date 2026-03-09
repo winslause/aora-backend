@@ -15,3 +15,52 @@
 
 [08-Mar-2026 16:12:45 Europe/Berlin] Restaurant Reservation #1 - Email to guest: Sent
 [08-Mar-2026 16:12:45 Europe/Berlin] Restaurant Reservation #1 - Email to admin: Sent
+[09-Mar-2026 19:17:10 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[08S01]: Communication link failure: 1153 Got a packet bigger than 'max_allowed_packet' bytes in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:242
+Stack trace:
+#0 C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php(242): PDOStatement->execute(Array)
+#1 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 242
+[09-Mar-2026 19:17:14 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[08S01]: Communication link failure: 1153 Got a packet bigger than 'max_allowed_packet' bytes in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:242
+Stack trace:
+#0 C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php(242): PDOStatement->execute(Array)
+#1 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 242
+[09-Mar-2026 19:17:34 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[08S01]: Communication link failure: 1153 Got a packet bigger than 'max_allowed_packet' bytes in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:242
+Stack trace:
+#0 C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php(242): PDOStatement->execute(Array)
+#1 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 242
+[09-Mar-2026 19:17:46 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[08S01]: Communication link failure: 1153 Got a packet bigger than 'max_allowed_packet' bytes in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:242
+Stack trace:
+#0 C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php(242): PDOStatement->execute(Array)
+#1 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 242
+[09-Mar-2026 19:17:47 Europe/Berlin] PHP Fatal error:  Uncaught PDOException: SQLSTATE[08S01]: Communication link failure: 1153 Got a packet bigger than 'max_allowed_packet' bytes in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:242
+Stack trace:
+#0 C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php(242): PDOStatement->execute(Array)
+#1 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 242
+[09-Mar-2026 19:22:43 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function checkAdminSession() in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:231
+Stack trace:
+#0 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 231
+[09-Mar-2026 19:22:45 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function checkAdminSession() in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:231
+Stack trace:
+#0 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 231
+[09-Mar-2026 19:22:51 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function checkAdminSession() in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:231
+Stack trace:
+#0 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 231
+[09-Mar-2026 19:22:56 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function checkAdminSession() in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:231
+Stack trace:
+#0 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 231
+[09-Mar-2026 19:24:42 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function checkAdminSession() in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:231
+Stack trace:
+#0 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 231
+[09-Mar-2026 19:24:47 Europe/Berlin] PHP Fatal error:  Uncaught Error: Call to undefined function checkAdminSession() in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php:219
+Stack trace:
+#0 {main}
+  thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 219

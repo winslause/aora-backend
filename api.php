@@ -333,15 +333,21 @@ switch ($action) {
         break;
         
     case 'get_room':
-        // Get room type from request - support both GET and POST
+        // Get room by ID or room_type from request - support both GET and POST
+        $roomId = isset($_GET['room_id']) ? intval($_GET['room_id']) : (isset($_POST['room_id']) ? intval($_POST['room_id']) : 0);
         $roomType = isset($_GET['room_type']) ? $_GET['room_type'] : (isset($_POST['room_type']) ? $_POST['room_type'] : '');
         
-        if (empty($roomType)) {
-            echo json_encode(['success' => false, 'message' => 'Room type is required']);
-            break;
+        $room = null;
+        
+        // First try to get by ID (prioritize ID for unique room selection)
+        if ($roomId > 0) {
+            $room = getRoomById($pdo, $roomId);
         }
         
-        $room = getRoomByType($pdo, $roomType);
+        // Fall back to room_type if no ID provided or room not found
+        if (!$room && !empty($roomType)) {
+            $room = getRoomByType($pdo, $roomType);
+        }
         
         if (!$room) {
             echo json_encode(['success' => false, 'message' => 'Room not found']);
@@ -356,11 +362,12 @@ switch ($action) {
         
     case 'check_availability':
         // Get parameters from request - support POST only (FormData)
+        $roomId = isset($_POST['room_id']) ? intval($_POST['room_id']) : 0;
         $roomType = isset($_POST['room_type']) ? $_POST['room_type'] : '';
         $checkIn = isset($_POST['check_in']) ? $_POST['check_in'] : '';
         $checkOut = isset($_POST['check_out']) ? $_POST['check_out'] : '';
         
-        if (empty($roomType) || empty($checkIn) || empty($checkOut)) {
+        if ((empty($roomId) && empty($roomType)) || empty($checkIn) || empty($checkOut)) {
             echo json_encode(['success' => false, 'message' => 'All fields are required']);
             break;
         }
@@ -380,8 +387,14 @@ switch ($action) {
             break;
         }
         
-        // Get the room
-        $room = getRoomByType($pdo, $roomType);
+        // Get the room by ID or type
+        $room = null;
+        if ($roomId > 0) {
+            $room = getRoomById($pdo, $roomId);
+        }
+        if (!$room && !empty($roomType)) {
+            $room = getRoomByType($pdo, $roomType);
+        }
         
         if (!$room) {
             echo json_encode(['success' => false, 'message' => 'Room not found']);
@@ -423,8 +436,10 @@ switch ($action) {
         
     case 'create_booking':
         // Get parameters from request
+        $roomId = isset($_POST['room_id']) ? intval($_POST['room_id']) : 0;
+        $roomType = isset($_POST['room_type']) ? $_POST['room_type'] : '';
         $data = [
-            'room_type' => isset($_POST['room_type']) ? $_POST['room_type'] : '',
+            'room_type' => $roomType,
             'guest_name' => isset($_POST['guest_name']) ? $_POST['guest_name'] : '',
             'guest_email' => isset($_POST['guest_email']) ? $_POST['guest_email'] : '',
             'guest_phone' => isset($_POST['guest_phone']) ? $_POST['guest_phone'] : '',
@@ -436,7 +451,7 @@ switch ($action) {
         ];
         
         // Validate required fields
-        if (empty($data['room_type']) || empty($data['guest_name']) || empty($data['guest_email']) || 
+        if ((empty($roomId) && empty($roomType)) || empty($data['guest_name']) || empty($data['guest_email']) || 
             empty($data['check_in']) || empty($data['check_out'])) {
             echo json_encode(['success' => false, 'message' => 'Please fill in all required fields']);
             break;
@@ -448,8 +463,14 @@ switch ($action) {
             break;
         }
         
-        // Check availability again before booking
-        $room = getRoomByType($pdo, $data['room_type']);
+        // Get the room by ID or type
+        $room = null;
+        if ($roomId > 0) {
+            $room = getRoomById($pdo, $roomId);
+        }
+        if (!$room && !empty($roomType)) {
+            $room = getRoomByType($pdo, $roomType);
+        }
         
         if (!$room) {
             echo json_encode(['success' => false, 'message' => 'Room not found']);
@@ -588,6 +609,83 @@ switch ($action) {
         $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 6;
         $amenities = getAmenitiesForIndex($pdo, $limit);
         echo json_encode(['success' => true, 'amenities' => $amenities]);
+        break;
+        
+    // Room Views API
+    case 'get_room_views':
+        $views = getAllRoomViews($pdo);
+        echo json_encode(['success' => true, 'views' => $views]);
+        break;
+        
+    case 'add_room_view':
+        $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+        $display_order = isset($_POST['display_order']) ? intval($_POST['display_order']) : 0;
+        
+        if (empty($name)) {
+            echo json_encode(['success' => false, 'message' => 'View name is required']);
+            break;
+        }
+        
+        try {
+            $id = addRoomView($pdo, $name, $display_order);
+            echo json_encode(['success' => true, 'message' => 'View added successfully', 'id' => $id]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'View already exists or error occurred']);
+        }
+        break;
+        
+    case 'delete_room_view':
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        
+        if ($id == 0) {
+            echo json_encode(['success' => false, 'message' => 'Invalid view ID']);
+            break;
+        }
+        
+        deleteRoomView($pdo, $id);
+        echo json_encode(['success' => true, 'message' => 'View deleted successfully']);
+        break;
+        
+    // Bed Types API
+    case 'get_bed_types':
+        $bedTypes = getAllBedTypes($pdo);
+        echo json_encode(['success' => true, 'bed_types' => $bedTypes]);
+        break;
+        
+    case 'add_bed_type':
+        $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+        $display_order = isset($_POST['display_order']) ? intval($_POST['display_order']) : 0;
+        
+        if (empty($name)) {
+            echo json_encode(['success' => false, 'message' => 'Bed type name is required']);
+            break;
+        }
+        
+        try {
+            $id = addBedType($pdo, $name, $display_order);
+            echo json_encode(['success' => true, 'message' => 'Bed type added successfully', 'id' => $id]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Bed type already exists or error occurred']);
+        }
+        break;
+        
+    case 'delete_bed_type':
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        
+        if ($id == 0) {
+            echo json_encode(['success' => false, 'message' => 'Invalid bed type ID']);
+            break;
+        }
+        
+        deleteBedType($pdo, $id);
+        echo json_encode(['success' => true, 'message' => 'Bed type deleted successfully']);
+        break;
+        
+    // Get filter options for rooms page
+    case 'get_filter_options':
+        $views = getAllRoomViews($pdo);
+        $bedTypes = getAllBedTypes($pdo);
+        echo json_encode(['success' => true, 'views' => $views, 'bed_types' => $bedTypes]);
         break;
         
     default:

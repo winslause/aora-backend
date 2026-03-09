@@ -1,4 +1,18 @@
-<?php include 'header.php'; ?>
+<?php 
+include 'database.php';
+
+// Get gallery data from database
+$galleryAlbums = getAllGalleryAlbums($pdo);
+$galleryImages = getAllGalleryImages($pdo);
+$galleryVideo = getGalleryVideo($pdo);
+
+// Organize images by album for modal
+$albumImages = [];
+foreach ($galleryAlbums as $album) {
+    $albumImages[$album['slug']] = getGalleryImagesByAlbumSlug($pdo, $album['slug']);
+}
+
+include 'header.php'; ?>
 
 <style>
 @media (min-width: 1024px) {
@@ -620,58 +634,20 @@
                 
                 <!-- Albums Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    
-                    <!-- Album 1 - Rooms -->
-                    <div class="album-cover reveal" style="transition-delay: 0.1s;" onclick="openAlbum('rooms')">
-                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Rooms Album">
+                    <?php foreach($galleryAlbums as $index => $album): ?>
+                    <!-- Album - <?php echo htmlspecialchars($album['title']); ?> -->
+                    <div class="album-cover reveal" style="transition-delay: <?php echo $index * 0.1; ?>s;" onclick="openAlbum('<?php echo htmlspecialchars($album['slug']); ?>')">
+                        <img src="<?php echo htmlspecialchars($album['cover_image']); ?>" 
+                             alt="<?php echo htmlspecialchars($album['title']); ?>">
                         <div class="album-overlay">
                             <div class="album-icon">
-                                <i class="fas fa-bed"></i>
+                                <i class="fas <?php echo htmlspecialchars($album['icon']); ?>"></i>
                             </div>
-                            <h3 class="album-title">Rooms & Suites</h3>
-                            <p class="album-count">12 photos</p>
+                            <h3 class="album-title"><?php echo htmlspecialchars($album['title']); ?></h3>
+                            <p class="album-count"><?php echo $album['photo_count']; ?> photos</p>
                         </div>
                     </div>
-                    
-                    <!-- Album 2 - Restaurant -->
-                    <div class="album-cover reveal" style="transition-delay: 0.2s;" onclick="openAlbum('restaurant')">
-                        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Restaurant Album">
-                        <div class="album-overlay">
-                            <div class="album-icon">
-                                <i class="fas fa-utensils"></i>
-                            </div>
-                            <h3 class="album-title">Restaurant</h3>
-                            <p class="album-count">10 photos</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Album 3 - Amenities -->
-                    <div class="album-cover reveal" style="transition-delay: 0.3s;" onclick="openAlbum('amenities')">
-                        <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Amenities Album">
-                        <div class="album-overlay">
-                            <div class="album-icon">
-                                <i class="fas fa-spa"></i>
-                            </div>
-                            <h3 class="album-title">Amenities</h3>
-                            <p class="album-count">14 photos</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Album 4 - Surroundings -->
-                    <div class="album-cover reveal" style="transition-delay: 0.4s;" onclick="openAlbum('surroundings')">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Surroundings Album">
-                        <div class="album-overlay">
-                            <div class="album-icon">
-                                <i class="fas fa-mountain"></i>
-                            </div>
-                            <h3 class="album-title">Surroundings</h3>
-                            <p class="album-count">8 photos</p>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -681,10 +657,9 @@
             <div class="max-w-7xl mx-auto">
                 <div class="flex flex-wrap justify-center gap-3 reveal">
                     <button class="filter-btn active px-6 py-3 border border-[#b89a78] text-sm uppercase tracking-wider rounded-full" data-filter="all">All</button>
-                    <button class="filter-btn px-6 py-3 border border-[#b89a78]/30 text-sm uppercase tracking-wider rounded-full hover:bg-[#b89a78] hover:text-white transition-all" data-filter="rooms">Rooms</button>
-                    <button class="filter-btn px-6 py-3 border border-[#b89a78]/30 text-sm uppercase tracking-wider rounded-full hover:bg-[#b89a78] hover:text-white transition-all" data-filter="restaurant">Restaurant</button>
-                    <button class="filter-btn px-6 py-3 border border-[#b89a78]/30 text-sm uppercase tracking-wider rounded-full hover:bg-[#b89a78] hover:text-white transition-all" data-filter="amenities">Amenities</button>
-                    <button class="filter-btn px-6 py-3 border border-[#b89a78]/30 text-sm uppercase tracking-wider rounded-full hover:bg-[#b89a78] hover:text-white transition-all" data-filter="surroundings">Surroundings</button>
+                    <?php foreach($galleryAlbums as $album): ?>
+                    <button class="filter-btn px-6 py-3 border border-[#b89a78]/30 text-sm uppercase tracking-wider rounded-full hover:bg-[#b89a78] hover:text-white transition-all" data-filter="<?php echo htmlspecialchars($album['slug']); ?>"><?php echo htmlspecialchars($album['title']); ?></button>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -694,250 +669,33 @@
             <div class="max-w-7xl mx-auto">
                 <!-- Masonry Grid -->
                 <div class="masonry-grid" id="galleryGrid">
+                    <?php 
+                    // Group images by category for masonry layout
+                    $categoryOrder = ['rooms', 'restaurant', 'amenities', 'surroundings'];
+                    $sizes = ['regular', 'wide', 'tall', 'regular', 'wide', 'regular', 'tall', 'regular'];
+                    $sizeIndex = 0;
                     
-                    <!-- Rooms Category Images (with unique card design) -->
-                    <div class="masonry-item gallery-card" data-category="rooms">
+                    foreach($galleryImages as $image): 
+                        $gridClass = 'gallery-card';
+                        if ($image['grid_size'] === 'wide') $gridClass .= ' wide';
+                        if ($image['grid_size'] === 'tall') $gridClass .= ' tall';
+                        if ($image['grid_size'] === 'large') $gridClass .= ' large';
+                    ?>
+                    <div class="masonry-item <?php echo $gridClass; ?>" data-category="<?php echo htmlspecialchars($image['category']); ?>">
                         <div class="film-perforation left"></div>
                         <div class="film-perforation right"></div>
                         <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Deluxe Room" 
+                            <img src="<?php echo htmlspecialchars($image['src']); ?>" 
+                                 alt="<?php echo htmlspecialchars($image['caption']); ?>" 
                                  class="w-full h-64 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Deluxe Room with King Bed')">
+                                 onclick="openLightbox('<?php echo htmlspecialchars($image['src']); ?>', '<?php echo htmlspecialchars($image['caption']); ?>')">
                             <div class="card-overlay">
-                                <h4 class="card-title">Deluxe Room</h4>
+                                <h4 class="card-title"><?php echo htmlspecialchars($image['caption']); ?></h4>
                             </div>
                         </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Room 101 • King Bed</p>
+                        <p class="text-[#8a735b] text-xs px-2 pb-2"><?php echo htmlspecialchars($image['caption']); ?></p>
                     </div>
-                    
-                    <div class="masonry-item gallery-card wide" data-category="rooms">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Executive Suite" 
-                                 class="w-full h-80 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Executive Suite Living Area')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Executive Suite</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Suite 205 • Separate Living Area</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card tall" data-category="rooms">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Presidential Villa" 
-                                 class="w-full h-96 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Presidential Villa Bedroom')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Presidential Villa</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Villa 1 • Private Terrace</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card" data-category="rooms">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80" 
-                                 alt="Family Villa" 
-                                 class="w-full h-64 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80', 'Family Villa Living Room')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Family Villa</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Villa 3 • Garden View</p>
-                    </div>
-                    
-                    <!-- Restaurant Category Images -->
-                    <div class="masonry-item gallery-card" data-category="restaurant">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Main Dining Room" 
-                                 class="w-full h-64 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Main Dining Room')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Main Dining Room</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Fine Dining • 80 Seats</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card wide" data-category="restaurant">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80" 
-                                 alt="Chef's Table" 
-                                 class="w-full h-80 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80', 'Chef\'s Table Experience')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Chef's Table</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Intimate Dining • 6 Guests</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card tall" data-category="restaurant">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" 
-                                 alt="Nyama Choma" 
-                                 class="w-full h-96 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80', 'Nyama Choma - Signature Dish')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Nyama Choma</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Signature Dish • Grilled Perfection</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card" data-category="restaurant">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Private Dining" 
-                                 class="w-full h-64 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Private Dining Room')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Private Dining</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Exclusive • 16 Guests</p>
-                    </div>
-                    
-                    <!-- Amenities Category Images -->
-                    <div class="masonry-item gallery-card" data-category="amenities">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Spa" 
-                                 class="w-full h-64 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'The Sanctuary Spa')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Sanctuary Spa</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Wellness • Treatment Rooms</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card wide" data-category="amenities">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1576016801232-0b41b9c7d8b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Infinity Pool" 
-                                 class="w-full h-80 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1576016801232-0b41b9c7d8b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Infinity Pool')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Infinity Pool</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Leisure • City Views</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card" data-category="amenities">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Fitness Pavilion" 
-                                 class="w-full h-64 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Fitness Pavilion')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Fitness Pavilion</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">24/7 • State-of-the-art</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card tall" data-category="amenities">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1545389336-cf0905564355?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Yoga Pavilion" 
-                                 class="w-full h-96 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1545389336-cf0905564355?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Yoga Pavilion')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Yoga Pavilion</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Daily Classes • Garden Views</p>
-                    </div>
-                    
-                    <!-- Surroundings Category Images -->
-                    <div class="masonry-item gallery-card" data-category="surroundings">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Sunset" 
-                                 class="w-full h-64 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Sunset Over Nairobi')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Nairobi Sunset</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Evening Views</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card" data-category="surroundings">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Landscape" 
-                                 class="w-full h-64 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Kenyan Landscape')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Kenyan Landscape</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Surrounding Beauty</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card wide" data-category="surroundings">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Wildlife" 
-                                 class="w-full h-80 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Local Wildlife')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Local Wildlife</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Giraffes in the Wild</p>
-                    </div>
-                    
-                    <div class="masonry-item gallery-card" data-category="surroundings">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Sunset Ocean" 
-                                 class="w-full h-64 object-cover"
-                                 onclick="openLightbox('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'Ocean Sunset')">
-                            <div class="card-overlay">
-                                <h4 class="card-title">Indian Ocean</h4>
-                            </div>
-                        </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2">Coastal Views</p>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -954,14 +712,14 @@
                 <!-- Section Header -->
                 <div class="text-center mb-12 reveal">
                     <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Featured</span>
-                    <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">The Aora Experience</h2>
+                    <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light"><?php echo $galleryVideo ? htmlspecialchars($galleryVideo['title']) : 'The Aora Experience'; ?></h2>
                     <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- Video Container -->
                 <div class="video-container relative aspect-video w-full reveal">
                     <!-- Thumbnail Image (will be replaced by iframe on play) -->
-                    <img id="videoThumbnail" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                    <img id="videoThumbnail" src="<?php echo $galleryVideo ? htmlspecialchars($galleryVideo['thumbnail']) : 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'; ?>" 
                          alt="Video Thumbnail" 
                          class="w-full h-full object-cover">
                     
@@ -981,7 +739,7 @@
                 
                 <!-- Video Caption -->
                 <p class="text-center text-[#8a735b] text-sm mt-4 italic reveal" style="transition-delay: 0.2s;">
-                    Experience the magic of Aora—where luxury meets the wild heart of Kenya.
+                    <?php echo $galleryVideo ? htmlspecialchars($galleryVideo['description']) : 'Experience the magic of Aora—where luxury meets the wild heart of Kenya.'; ?>
                 </p>
             </div>
         </section>
@@ -1022,77 +780,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
     
     <script>
-        // Album data
-        const albumData = {
-            rooms: {
-                title: 'Rooms & Suites',
-                description: 'Experience luxury and comfort in our carefully designed accommodations.',
-                photos: [
-                    { src: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Deluxe Room with King Bed' },
-                    { src: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Executive Suite Living Area' },
-                    { src: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Presidential Villa Bedroom' },
-                    { src: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80', caption: 'Family Villa Living Room' },
-                    { src: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Garden View Room' },
-                    { src: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Honeymoon Suite' },
-                    { src: 'https://images.unsplash.com/photo-1522778526097-ce0a22ceb253?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Business Suite' },
-                    { src: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', caption: 'Sky Penthouse' },
-                    { src: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Suite Bathroom' },
-                    { src: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Room Details' },
-                    { src: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Suite View' },
-                    { src: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Villa Terrace' }
-                ]
-            },
-            restaurant: {
-                title: 'Restaurant',
-                description: 'Culinary artistry in an elegant setting.',
-                photos: [
-                    { src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Main Dining Room' },
-                    { src: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80', caption: "Chef's Table" },
-                    { src: 'https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80', caption: 'Nyama Choma' },
-                    { src: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Private Dining' },
-                    { src: 'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Swahili Pilau' },
-                    { src: 'https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Coastal Seafood' },
-                    { src: 'https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Samaki wa Kupaka' },
-                    { src: 'https://images.unsplash.com/photo-1604411245846-3a7035a6b2e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Mandazi & Chai' },
-                    { src: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2127&q=80', caption: 'Tropical Fruits' },
-                    { src: 'https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', caption: 'Garden Terrace' }
-                ]
-            },
-            amenities: {
-                title: 'Amenities',
-                description: 'World-class facilities for your relaxation and enjoyment.',
-                photos: [
-                    { src: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Sanctuary Spa' },
-                    { src: 'https://images.unsplash.com/photo-1576016801232-0b41b9c7d8b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Infinity Pool' },
-                    { src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Fitness Pavilion' },
-                    { src: 'https://images.unsplash.com/photo-1545389336-cf0905564355?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Yoga Pavilion' },
-                    { src: 'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Sauna' },
-                    { src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2073&q=80', caption: 'Private Beach' },
-                    { src: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', caption: 'Game Room' },
-                    { src: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Library' },
-                    { src: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80', caption: 'Conference Hall' },
-                    { src: 'https://images.unsplash.com/photo-1497366754035-f200968a6a72?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80', caption: 'Business Center' },
-                    { src: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Banquet Space' },
-                    { src: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Concierge' },
-                    { src: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Airport Transfer' },
-                    { src: 'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', caption: 'Laundry Service' }
-                ]
-            },
-            surroundings: {
-                title: 'Surroundings',
-                description: 'The natural beauty that surrounds Aora.',
-                photos: [
-                    { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Sunset Over Nairobi' },
-                    { src: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Kenyan Landscape' },
-                    { src: 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Local Wildlife' },
-                    { src: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Ocean Sunset' },
-                    { src: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80', caption: 'Safari Adventure' },
-                    { src: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80', caption: 'Traditional Village' },
-                    { src: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Forest Trail' },
-                    { src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', caption: 'Mountain View' }
-                ]
-            }
-        };
+        // Album data from database
+        const albumData = <?php echo json_encode(array_combine(array_column($galleryAlbums, 'slug'), array_map(function($album) use ($albumImages) {
+            return [
+                'title' => $album['title'],
+                'description' => $album['description'],
+                'photos' => array_map(function($img) {
+                    return [
+                        'src' => $img['src'],
+                        'caption' => $img['caption']
+                    ];
+                }, $albumImages[$album['slug']])
+            ];
+        }, $galleryAlbums))); ?>;
 
         // Filter functionality
         document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -1187,9 +887,9 @@
             thumbnail.style.display = 'none';
             playBtn.style.display = 'none';
             
-            // Show and play video (using YouTube embed as example)
+            // Show and play video (using YouTube embed from database)
             player.classList.remove('hidden');
-            player.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1'; // Replace with actual resort video
+            player.src = '<?php echo $galleryVideo ? htmlspecialchars($galleryVideo['video_url']) : 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1'; ?>';
         }
 
         // Close modal with Escape key

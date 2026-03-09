@@ -1,0 +1,406 @@
+<?php
+// Get dashboard stats
+$stmt = $pdo->query("SELECT 
+    (SELECT COUNT(*) FROM bookings) as total_bookings,
+    (SELECT COUNT(*) FROM bookings WHERE status = 'pending') as pending_bookings,
+    (SELECT COUNT(*) FROM bookings WHERE status = 'confirmed') as confirmed_bookings,
+    (SELECT COALESCE(SUM(total_price), 0) FROM bookings WHERE status = 'confirmed') as total_revenue,
+    (SELECT COUNT(*) FROM rooms) as total_rooms,
+    (SELECT COUNT(*) FROM amenities) as total_amenities,
+    (SELECT COUNT(*) FROM event_inquiries) as total_inquiries,
+    (SELECT COUNT(*) FROM event_inquiries WHERE status = 'pending') as pending_inquiries
+");
+$stats = $stmt->fetch();
+
+// Get recent bookings
+$recentBookings = $pdo->query("SELECT b.*, r.name as room_name FROM bookings b 
+    LEFT JOIN rooms r ON b.room_id = r.id 
+    ORDER BY b.created_at DESC LIMIT 5")->fetchAll();
+
+// Get recent inquiries
+$recentInquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries e 
+    LEFT JOIN event_venues v ON e.venue_id = v.id 
+    ORDER BY e.created_at DESC LIMIT 5")->fetchAll();
+
+// Get all rooms
+$rooms = $pdo->query("SELECT * FROM rooms ORDER BY price ASC")->fetchAll();
+
+// Get all amenities
+$amenities = $pdo->query("SELECT a.*, ac.name as category_name FROM amenities a 
+    LEFT JOIN amenity_categories ac ON a.category_id = ac.id 
+    ORDER BY ac.display_order ASC, a.display_order ASC")->fetchAll();
+
+// Get all bookings
+$bookings = $pdo->query("SELECT b.*, r.name as room_name, r.room_type FROM bookings b 
+    LEFT JOIN rooms r ON b.room_id = r.id 
+    ORDER BY b.created_at DESC")->fetchAll();
+
+// Get all event inquiries
+$inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries e 
+    LEFT JOIN event_venues v ON e.venue_id = v.id 
+    ORDER BY e.created_at DESC")->fetchAll();
+?>
+
+<?php if ($current_tab == 'dashboard'): ?>
+<!-- Dashboard Content -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    <div class="stat-card admin-card p-6">
+        <div class="flex items-center justify-between mb-2">
+            <div class="w-12 h-12 bg-[#fef7f0] rounded-lg flex items-center justify-center">
+                <i class="fas fa-calendar-check text-2xl text-[#b89a78]"></i>
+            </div>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800"><?php echo $stats['total_bookings']; ?></h3>
+        <p class="text-sm text-gray-500">Total Bookings</p>
+    </div>
+
+    <div class="stat-card admin-card p-6">
+        <div class="flex items-center justify-between mb-2">
+            <div class="w-12 h-12 bg-[#fef7f0] rounded-lg flex items-center justify-center">
+                <i class="fas fa-dollar-sign text-2xl text-[#b89a78]"></i>
+            </div>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800">KSh <?php echo number_format($stats['total_revenue'], 0); ?></h3>
+        <p class="text-sm text-gray-500">Total Revenue</p>
+    </div>
+
+    <div class="stat-card admin-card p-6">
+        <div class="flex items-center justify-between mb-2">
+            <div class="w-12 h-12 bg-[#fef7f0] rounded-lg flex items-center justify-center">
+                <i class="fas fa-bed text-2xl text-[#b89a78]"></i>
+            </div>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800"><?php echo $stats['total_rooms']; ?></h3>
+        <p class="text-sm text-gray-500">Total Rooms</p>
+    </div>
+
+    <div class="stat-card admin-card p-6">
+        <div class="flex items-center justify-between mb-2">
+            <div class="w-12 h-12 bg-[#fef7f0] rounded-lg flex items-center justify-center">
+                <i class="fas fa-envelope text-2xl text-[#b89a78]"></i>
+            </div>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800"><?php echo $stats['pending_inquiries']; ?></h3>
+        <p class="text-sm text-gray-500">Pending Inquiries</p>
+    </div>
+</div>
+
+<!-- Recent Bookings & Inquiries -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div class="admin-card p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-800">Recent Bookings</h3>
+            <a href="?tab=bookings" class="text-sm text-[#b89a78] hover:underline">View all</a>
+        </div>
+        <div class="space-y-4">
+            <?php if (empty($recentBookings)): ?>
+                <p class="text-gray-500 text-sm">No bookings yet</p>
+            <?php else: ?>
+                <?php foreach ($recentBookings as $booking): ?>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center gap-3">
+                        <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($booking['guest_name']); ?>&background=b89a78&color=fff" class="w-10 h-10 rounded-full">
+                        <div>
+                            <p class="font-medium text-sm"><?php echo htmlspecialchars($booking['guest_name']); ?></p>
+                            <p class="text-xs text-gray-500"><?php echo htmlspecialchars($booking['room_name'] ?? 'N/A'); ?></p>
+                        </div>
+                    </div>
+                    <span class="status-badge <?php echo $booking['status']; ?>"><?php echo ucfirst($booking['status']); ?></span>
+                </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="admin-card p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold text-gray-800">Recent Event Inquiries</h3>
+            <a href="?tab=events" class="text-sm text-[#b89a78] hover:underline">View all</a>
+        </div>
+        <div class="space-y-4">
+            <?php if (empty($recentInquiries)): ?>
+                <p class="text-gray-500 text-sm">No inquiries yet</p>
+            <?php else: ?>
+                <?php foreach ($recentInquiries as $inquiry): ?>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-[#b89a78]/10 rounded-full flex items-center justify-center">
+                            <i class="fas fa-calendar-alt text-[#b89a78]"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-sm"><?php echo htmlspecialchars($inquiry['guest_name']); ?></p>
+                            <p class="text-xs text-gray-500"><?php echo htmlspecialchars($inquiry['event_type']); ?></p>
+                        </div>
+                    </div>
+                    <span class="status-badge <?php echo $inquiry['status']; ?>"><?php echo ucfirst($inquiry['status']); ?></span>
+                </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Links -->
+<div class="admin-card p-6">
+    <h3 class="font-semibold text-gray-800 mb-4">Quick Actions</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="?tab=rooms" class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-[#b89a78] transition-colors">
+            <i class="fas fa-plus-circle text-2xl text-[#b89a78] mb-2"></i>
+            <span class="text-sm font-medium">Add Room</span>
+        </a>
+        <a href="?tab=amenities" class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-[#b89a78] transition-colors">
+            <i class="fas fa-plus-circle text-2xl text-[#b89a78] mb-2"></i>
+            <span class="text-sm font-medium">Add Amenity</span>
+        </a>
+        <a href="?tab=bookings" class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-[#b89a78] transition-colors">
+            <i class="fas fa-calendar-check text-2xl text-[#b89a78] mb-2"></i>
+            <span class="text-sm font-medium">View Bookings</span>
+        </a>
+        <a href="?tab=events" class="flex flex-col items-center p-4 border border-gray-200 rounded-lg hover:border-[#b89a78] transition-colors">
+            <i class="fas fa-envelope text-2xl text-[#b89a78] mb-2"></i>
+            <span class="text-sm font-medium">View Inquiries</span>
+        </a>
+    </div>
+</div>
+
+<?php elseif ($current_tab == 'rooms'): ?>
+<!-- Room Management Content -->
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Room Management</h3>
+        <button onclick="openRoomModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Room
+        </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Room Name</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Size</th>
+                    <th>Occupancy</th>
+                    <th>View</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="roomsTableBody">
+                <?php foreach ($rooms as $room): 
+                    $amenities_arr = json_decode($room['amenities'], true);
+                ?>
+                <tr>
+                    <td class="font-medium"><?php echo htmlspecialchars($room['name']); ?></td>
+                    <td><?php echo htmlspecialchars($room['room_type']); ?></td>
+                    <td>KSh <?php echo number_format($room['price']); ?></td>
+                    <td><?php echo htmlspecialchars($room['size'] ?? '-'); ?></td>
+                    <td><?php echo htmlspecialchars($room['occupancy'] ?? '-'); ?></td>
+                    <td><?php echo htmlspecialchars($room['view'] ?? '-'); ?></td>
+                    <td>
+                        <button onclick='openRoomModal(<?php echo json_encode($room); ?>)' class="text-[#b89a78] hover:text-[#8a735b] mr-3">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteRoom(<?php echo $room['id']; ?>)" class="text-gray-400 hover:text-red-500">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php elseif ($current_tab == 'amenities'): ?>
+<!-- Amenities Management Content -->
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Amenities Management</h3>
+        <button onclick="openAmenityModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Amenity
+        </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Amenity</th>
+                    <th>Category</th>
+                    <th>Hours</th>
+                    <th>Contact</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="amenitiesTableBody">
+                <?php foreach ($amenities as $amenity): 
+                    $features = json_decode($amenity['features'], true);
+                ?>
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-[#fef7f0] rounded-lg flex items-center justify-center">
+                                <i class="fas <?php echo htmlspecialchars($amenity['icon'] ?? 'fa-concierge-bell'); ?> text-[#b89a78]"></i>
+                            </div>
+                            <span class="font-medium"><?php echo htmlspecialchars($amenity['name']); ?></span>
+                        </div>
+                    </td>
+                    <td><?php echo htmlspecialchars($amenity['category_name'] ?? '-'); ?></td>
+                    <td><?php echo htmlspecialchars($amenity['hours'] ?? '-'); ?></td>
+                    <td><?php echo htmlspecialchars($amenity['phone'] ?? '-'); ?></td>
+                    <td>
+                        <button onclick='openAmenityModal(<?php echo htmlspecialchars(json_encode($amenity)); ?>)' class="text-[#b89a78] hover:text-[#8a735b] mr-3">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteAmenity(<?php echo $amenity['id']; ?>)" class="text-gray-400 hover:text-red-500">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php elseif ($current_tab == 'bookings'): ?>
+<!-- Bookings Management Content -->
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Bookings Management</h3>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Guest Name</th>
+                    <th>Email</th>
+                    <th>Room</th>
+                    <th>Check-in</th>
+                    <th>Check-out</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="bookingsTableBody">
+                <?php foreach ($bookings as $booking): ?>
+                <tr>
+                    <td class="font-medium">#BK-<?php echo str_pad($booking['id'], 4, '0', STR_PAD_LEFT); ?></td>
+                    <td><?php echo htmlspecialchars($booking['guest_name']); ?></td>
+                    <td><?php echo htmlspecialchars($booking['guest_email']); ?></td>
+                    <td><?php echo htmlspecialchars($booking['room_name'] ?? 'N/A'); ?></td>
+                    <td><?php echo $booking['check_in']; ?></td>
+                    <td><?php echo $booking['check_out']; ?></td>
+                    <td>
+                        <span class="status-badge <?php echo $booking['status']; ?>"><?php echo ucfirst($booking['status']); ?></span>
+                    </td>
+                    <td>
+                        <button onclick="updateBookingStatus(<?php echo $booking['id']; ?>, 'confirmed')" class="text-green-600 hover:text-green-800 mr-2" title="Confirm">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button onclick="updateBookingStatus(<?php echo $booking['id']; ?>, 'cancelled')" class="text-red-600 hover:text-red-800 mr-2" title="Cancel">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button onclick="openEmailModal(<?php echo $booking['id']; ?>, null, 'booking')" class="text-[#b89a78] hover:text-[#8a735b] mr-2" title="Send Email">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                        <button onclick="deleteBooking(<?php echo $booking['id']; ?>)" class="text-gray-400 hover:text-red-500" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php elseif ($current_tab == 'events'): ?>
+<!-- Event Management Content -->
+
+<!-- Event Venues Section -->
+<div class="admin-card p-6 mb-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Event Venues</h3>
+        <button onclick="openEventVenueModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Venue
+        </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Venue</th>
+                    <th>Capacity</th>
+                    <th>Size</th>
+                    <th>Order</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="eventVenuesTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Event Enquiries Section -->
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Event Enquiries</h3>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Inquiry ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Event Type</th>
+                    <th>Venue</th>
+                    <th>Date</th>
+                    <th>Guests</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="inquiriesTableBody">
+                <?php foreach ($inquiries as $inquiry): ?>
+                <tr>
+                    <td class="font-medium">#INQ-<?php echo str_pad($inquiry['id'], 4, '0', STR_PAD_LEFT); ?></td>
+                    <td><?php echo htmlspecialchars($inquiry['guest_name']); ?></td>
+                    <td><?php echo htmlspecialchars($inquiry['guest_email']); ?></td>
+                    <td><?php echo htmlspecialchars($inquiry['event_type']); ?></td>
+                    <td><?php echo htmlspecialchars($inquiry['venue_name'] ?? 'Not specified'); ?></td>
+                    <td><?php echo $inquiry['event_date']; ?></td>
+                    <td><?php echo htmlspecialchars($inquiry['guest_count'] ?? '-'); ?></td>
+                    <td>
+                        <span class="status-badge <?php echo $inquiry['status']; ?>"><?php echo ucfirst($inquiry['status']); ?></span>
+                    </td>
+                    <td>
+                        <button onclick="updateInquiryStatus(<?php echo $inquiry['id']; ?>, 'contacted')" class="text-blue-600 hover:text-blue-800 mr-2" title="Mark Contacted">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button onclick="updateInquiryStatus(<?php echo $inquiry['id']; ?>, 'confirmed')" class="text-green-600 hover:text-green-800 mr-2" title="Confirm">
+                            <i class="fas fa-check-circle"></i>
+                        </button>
+                        <button onclick="openEmailModal(null, <?php echo $inquiry['id']; ?>, 'inquiry')" class="text-[#b89a78] hover:text-[#8a735b] mr-2" title="Send Email">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                        <button onclick="deleteInquiry(<?php echo $inquiry['id']; ?>)" class="text-gray-400 hover:text-red-500" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php endif; ?>
