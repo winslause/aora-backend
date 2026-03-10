@@ -1059,6 +1059,265 @@ switch ($action) {
         ]);
         break;
     
+    // ==================== GALLERY MANAGEMENT ====================
+    
+    // Get all gallery albums
+    case 'get_all_gallery_albums':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT * FROM gallery_albums ORDER BY display_order ASC");
+        $albums = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'albums' => $albums]);
+        break;
+    
+    // Add gallery album
+    case 'add_gallery_album':
+        checkAdminSession();
+        $title = $_POST['title'];
+        $slug = strtolower(str_replace(' ', '-', $title));
+        $description = $_POST['description'] ?? '';
+        $cover_image = $_POST['cover_image'] ?? '';
+        $icon = $_POST['icon'] ?? 'fa-images';
+        $photo_count = $_POST['photo_count'] ?? 0;
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        try {
+            $stmt = $pdo->prepare("INSERT INTO gallery_albums (title, slug, description, cover_image, icon, photo_count, display_order) VALUES (:title, :slug, :description, :cover_image, :icon, :photo_count, :display_order)");
+            $stmt->execute(['title' => $title, 'slug' => $slug, 'description' => $description, 'cover_image' => $cover_image, 'icon' => $icon, 'photo_count' => $photo_count, 'display_order' => $display_order]);
+            echo json_encode(['success' => true, 'message' => 'Album added successfully', 'id' => $pdo->lastInsertId()]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error adding album']);
+        }
+        break;
+    
+    // Update gallery album
+    case 'update_gallery_album':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $title = $_POST['title'];
+        $slug = strtolower(str_replace(' ', '-', $title));
+        $description = $_POST['description'] ?? '';
+        $cover_image = $_POST['cover_image'] ?? '';
+        $icon = $_POST['icon'] ?? 'fa-images';
+        $photo_count = $_POST['photo_count'] ?? 0;
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        try {
+            $stmt = $pdo->prepare("UPDATE gallery_albums SET title = :title, slug = :slug, description = :description, cover_image = :cover_image, icon = :icon, photo_count = :photo_count, display_order = :display_order WHERE id = :id");
+            $stmt->execute(['title' => $title, 'slug' => $slug, 'description' => $description, 'cover_image' => $cover_image, 'icon' => $icon, 'photo_count' => $photo_count, 'display_order' => $display_order, 'id' => $id]);
+            echo json_encode(['success' => true, 'message' => 'Album updated successfully']);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error updating album']);
+        }
+        break;
+    
+    // Delete gallery album
+    case 'delete_gallery_album':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("UPDATE gallery_albums SET is_active = 0 WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Album deleted successfully']);
+        break;
+    
+    // Get all gallery images
+    case 'get_all_gallery_images':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT gi.*, ga.title as album_title, ga.slug as album_slug FROM gallery_images gi INNER JOIN gallery_albums ga ON gi.album_id = ga.id ORDER BY ga.display_order ASC, gi.display_order ASC");
+        $images = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'images' => $images]);
+        break;
+    
+    // Add gallery image
+    case 'add_gallery_image':
+        checkAdminSession();
+        $album_id = $_POST['album_id'];
+        $src = $_POST['src'] ?? '';
+        $caption = $_POST['caption'] ?? '';
+        $category = $_POST['category'] ?? '';
+        $grid_size = $_POST['grid_size'] ?? 'regular';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        $stmt = $pdo->prepare("INSERT INTO gallery_images (album_id, src, caption, category, grid_size, display_order) VALUES (:album_id, :src, :caption, :category, :grid_size, :display_order)");
+        $stmt->execute(['album_id' => $album_id, 'src' => $src, 'caption' => $caption, 'category' => $category, 'grid_size' => $grid_size, 'display_order' => $display_order]);
+        
+        // Update album photo count
+        $pdo->exec("UPDATE gallery_albums SET photo_count = photo_count + 1 WHERE id = " . intval($album_id));
+        
+        echo json_encode(['success' => true, 'message' => 'Image added successfully', 'id' => $pdo->lastInsertId()]);
+        break;
+    
+    // Update gallery image
+    case 'update_gallery_image':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $album_id = $_POST['album_id'];
+        $src = $_POST['src'] ?? '';
+        $caption = $_POST['caption'] ?? '';
+        $category = $_POST['category'] ?? '';
+        $grid_size = $_POST['grid_size'] ?? 'regular';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        $stmt = $pdo->prepare("UPDATE gallery_images SET album_id = :album_id, src = :src, caption = :caption, category = :category, grid_size = :grid_size, display_order = :display_order WHERE id = :id");
+        $stmt->execute(['album_id' => $album_id, 'src' => $src, 'caption' => $caption, 'category' => $category, 'grid_size' => $grid_size, 'display_order' => $display_order, 'id' => $id]);
+        
+        echo json_encode(['success' => true, 'message' => 'Image updated successfully']);
+        break;
+    
+    // Delete gallery image
+    case 'delete_gallery_image':
+        checkAdminSession();
+        $id = $_POST['id'];
+        
+        // Get album_id before deleting
+        $stmt = $pdo->query("SELECT album_id FROM gallery_images WHERE id = " . intval($id));
+        $image = $stmt->fetch();
+        
+        $stmt = $pdo->prepare("UPDATE gallery_images SET is_active = 0 WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        
+        // Update album photo count
+        if ($image) {
+            $pdo->exec("UPDATE gallery_albums SET photo_count = GREATEST(photo_count - 1, 0) WHERE id = " . intval($image['album_id']));
+        }
+        
+        echo json_encode(['success' => true, 'message' => 'Image deleted successfully']);
+        break;
+    
+    // Get all gallery videos
+    case 'get_all_gallery_videos':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT * FROM gallery_video ORDER BY id ASC");
+        $videos = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'videos' => $videos]);
+        break;
+    
+    // Add gallery video
+    case 'add_gallery_video':
+        checkAdminSession();
+        $title = $_POST['title'];
+        $description = $_POST['description'] ?? '';
+        $thumbnail = $_POST['thumbnail'] ?? '';
+        $video_url = $_POST['video_url'] ?? '';
+        
+        $stmt = $pdo->prepare("INSERT INTO gallery_video (title, description, thumbnail, video_url) VALUES (:title, :description, :thumbnail, :video_url)");
+        $stmt->execute(['title' => $title, 'description' => $description, 'thumbnail' => $thumbnail, 'video_url' => $video_url]);
+        
+        echo json_encode(['success' => true, 'message' => 'Video added successfully', 'id' => $pdo->lastInsertId()]);
+        break;
+    
+    // Update gallery video
+    case 'update_gallery_video':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $title = $_POST['title'];
+        $description = $_POST['description'] ?? '';
+        $thumbnail = $_POST['thumbnail'] ?? '';
+        $video_url = $_POST['video_url'] ?? '';
+        
+        $stmt = $pdo->prepare("UPDATE gallery_video SET title = :title, description = :description, thumbnail = :thumbnail, video_url = :video_url WHERE id = :id");
+        $stmt->execute(['title' => $title, 'description' => $description, 'thumbnail' => $thumbnail, 'video_url' => $video_url, 'id' => $id]);
+        
+        echo json_encode(['success' => true, 'message' => 'Video updated successfully']);
+        break;
+    
+    // Delete gallery video
+    case 'delete_gallery_video':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("UPDATE gallery_video SET is_active = 0 WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Video deleted successfully']);
+        break;
+    
+    // ==================== OFFERS MANAGEMENT ====================
+    
+    // Get all offers
+    case 'get_all_offers_admin':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT * FROM offers ORDER BY display_order ASC");
+        $offers = $stmt->fetchAll();
+        foreach ($offers as &$offer) {
+            $offer['inclusions'] = json_decode($offer['inclusions'], true);
+        }
+        echo json_encode(['success' => true, 'offers' => $offers]);
+        break;
+    
+    // Add offer
+    case 'add_offer':
+        checkAdminSession();
+        $title = $_POST['title'];
+        $slug = strtolower(str_replace(' ', '-', $title));
+        $subtitle = $_POST['subtitle'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $price = $_POST['price'] ?? '';
+        $price_label = $_POST['price_label'] ?? '';
+        $icon = $_POST['icon'] ?? 'fa-gift';
+        $icon_color = $_POST['icon_color'] ?? '#b89a78';
+        $image1 = $_POST['image1'] ?? '';
+        $image2 = $_POST['image2'] ?? '';
+        $image3 = $_POST['image3'] ?? '';
+        $image4 = $_POST['image4'] ?? '';
+        $image5 = $_POST['image5'] ?? '';
+        $inclusions = $_POST['inclusions'] ?? '[]';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        try {
+            $stmt = $pdo->prepare("INSERT INTO offers (title, slug, subtitle, description, price, price_label, icon, icon_color, image1, image2, image3, image4, image5, inclusions, display_order) VALUES (:title, :slug, :subtitle, :description, :price, :price_label, :icon, :icon_color, :image1, :image2, :image3, :image4, :image5, :inclusions, :display_order)");
+            $stmt->execute([
+                'title' => $title, 'slug' => $slug, 'subtitle' => $subtitle, 'description' => $description,
+                'price' => $price, 'price_label' => $price_label, 'icon' => $icon, 'icon_color' => $icon_color,
+                'image1' => $image1, 'image2' => $image2, 'image3' => $image3, 'image4' => $image4, 'image5' => $image5,
+                'inclusions' => $inclusions, 'display_order' => $display_order
+            ]);
+            echo json_encode(['success' => true, 'message' => 'Offer added successfully', 'id' => $pdo->lastInsertId()]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error adding offer']);
+        }
+        break;
+    
+    // Update offer
+    case 'update_offer':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $title = $_POST['title'];
+        $slug = strtolower(str_replace(' ', '-', $title));
+        $subtitle = $_POST['subtitle'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $price = $_POST['price'] ?? '';
+        $price_label = $_POST['price_label'] ?? '';
+        $icon = $_POST['icon'] ?? 'fa-gift';
+        $icon_color = $_POST['icon_color'] ?? '#b89a78';
+        $image1 = $_POST['image1'] ?? '';
+        $image2 = $_POST['image2'] ?? '';
+        $image3 = $_POST['image3'] ?? '';
+        $image4 = $_POST['image4'] ?? '';
+        $image5 = $_POST['image5'] ?? '';
+        $inclusions = $_POST['inclusions'] ?? '[]';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        try {
+            $stmt = $pdo->prepare("UPDATE offers SET title = :title, slug = :slug, subtitle = :subtitle, description = :description, price = :price, price_label = :price_label, icon = :icon, icon_color = :icon_color, image1 = :image1, image2 = :image2, image3 = :image3, image4 = :image4, image5 = :image5, inclusions = :inclusions, display_order = :display_order WHERE id = :id");
+            $stmt->execute([
+                'title' => $title, 'slug' => $slug, 'subtitle' => $subtitle, 'description' => $description,
+                'price' => $price, 'price_label' => $price_label, 'icon' => $icon, 'icon_color' => $icon_color,
+                'image1' => $image1, 'image2' => $image2, 'image3' => $image3, 'image4' => $image4, 'image5' => $image5,
+                'inclusions' => $inclusions, 'display_order' => $display_order, 'id' => $id
+            ]);
+            echo json_encode(['success' => true, 'message' => 'Offer updated successfully']);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error updating offer']);
+        }
+        break;
+    
+    // Delete offer
+    case 'delete_offer':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("UPDATE offers SET is_active = 0 WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Offer deleted successfully']);
+        break;
+    
     default:
         echo json_encode(['success' => false, 'message' => 'Invalid action']);
 }

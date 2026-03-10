@@ -81,6 +81,43 @@ include 'header.php'; ?>
             100% { opacity: 1; transform: scale(1); }
         }
         
+        /* Gallery Item Entrance Animation */
+        .masonry-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            border-radius: 1rem;
+            box-shadow: 0 15px 30px -10px rgba(0,0,0,0.2);
+            opacity: 0;
+            animation: galleryFadeIn 0.8s ease-out forwards;
+        }
+        
+        @keyframes galleryFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Staggered animation delays */
+        .masonry-item:nth-child(1) { animation-delay: 0.1s; }
+        .masonry-item:nth-child(2) { animation-delay: 0.15s; }
+        .masonry-item:nth-child(3) { animation-delay: 0.2s; }
+        .masonry-item:nth-child(4) { animation-delay: 0.25s; }
+        .masonry-item:nth-child(5) { animation-delay: 0.3s; }
+        .masonry-item:nth-child(6) { animation-delay: 0.35s; }
+        .masonry-item:nth-child(7) { animation-delay: 0.4s; }
+        .masonry-item:nth-child(8) { animation-delay: 0.45s; }
+        .masonry-item:nth-child(9) { animation-delay: 0.5s; }
+        .masonry-item:nth-child(10) { animation-delay: 0.55s; }
+        .masonry-item:nth-child(11) { animation-delay: 0.6s; }
+        .masonry-item:nth-child(12) { animation-delay: 0.65s; }
+        
         .animate-float {
             animation: float 8s ease-in-out infinite;
         }
@@ -182,86 +219,97 @@ include 'header.php'; ?>
             border-color: #b89a78;
         }
         
-        /* Masonry Grid */
+        /* Gallery Grid - Mobile: 1-2-1-2 pattern, Desktop: 4 columns */
         .masonry-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 12px;
         }
         
-        .masonry-item {
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            opacity: 1;
-            transform: scale(1);
-            animation: scaleIn 0.5s ease forwards;
+        /* Full width items span entire row (2 columns on mobile) */
+        .masonry-item.mobile-full-width {
+            grid-column: span 2;
         }
         
-        .masonry-item.hide {
-            opacity: 0;
-            transform: scale(0.8);
-            pointer-events: none;
-            position: absolute;
+        /* Half width items span 1 column each */
+        .masonry-item.mobile-half-width {
+            grid-column: span 1;
         }
         
+        /* Image styling */
         .masonry-item img {
             width: 100%;
-            height: 100%;
+            height: 250px;
             object-fit: cover;
             transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
         .masonry-item:hover img {
-            transform: scale(1.08);
+            transform: scale(1.1);
         }
         
-        /* Unique Card Design - Floating Film Strip Style */
-        .gallery-card {
-            position: relative;
-            background: white;
-            padding: 12px;
-            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(184, 154, 120, 0.2);
+        /* Mobile: 2 columns */
+        @media (max-width: 767px) {
+            .masonry-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+            .masonry-item img { height: 180px; }
+            .album-gallery { grid-template-columns: repeat(2, 1fr); }
         }
         
-        .gallery-card::before {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            bottom: 5px;
-            border: 1px dashed rgba(184, 154, 120, 0.3);
-            pointer-events: none;
-            transition: all 0.3s ease;
+        /* Desktop: 4 columns with large/wide/tall sizing */
+        @media (min-width: 768px) {
+            .masonry-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 16px;
+            }
+            
+            /* Reset mobile classes on desktop */
+            .masonry-item.mobile-full-width,
+            .masonry-item.mobile-half-width {
+                grid-column: auto;
+            }
+            
+            /* Desktop sizing */
+            .masonry-item.large,
+            .masonry-item:first-child {
+                grid-column: span 2;
+                grid-row: span 2;
+            }
+            
+            .masonry-item.wide,
+            .masonry-item:nth-child(4n) {
+                grid-column: span 2;
+            }
+            
+            .masonry-item.tall,
+            .masonry-item:nth-child(3n) {
+                grid-row: span 2;
+            }
+            
+            .masonry-item img {
+                height: 100%;
+            }
         }
         
-        .gallery-card:hover {
-            transform: translateY(-8px) rotate(0.5deg);
-            box-shadow: 0 30px 50px -15px rgba(0,0,0,0.3);
+        /* Responsive */
+        @media (max-width: 480px) {
+            .album-gallery { grid-template-columns: 1fr; }
+            .play-button { width: 60px; height: 60px; }
+            .play-button i { font-size: 1.5rem; }
         }
         
-        .gallery-card:hover::before {
-            border-color: rgba(184, 154, 120, 0.6);
-            top: 8px;
-            left: 8px;
-            right: 8px;
-            bottom: 8px;
-        }
-        
-        .gallery-card .card-image {
+        /* Gallery Item - Floating Style with Hover Effects */
+        .gallery-item {
             position: relative;
             overflow: hidden;
-            margin-bottom: 10px;
+            transition: all 0.5s ease;
         }
         
-        .gallery-card .card-overlay {
+        .gallery-item .item-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            background: linear-gradient(to top, rgba(63, 53, 46, 0.6), transparent);
             opacity: 0;
             transition: opacity 0.4s ease;
             display: flex;
@@ -269,11 +317,11 @@ include 'header.php'; ?>
             padding: 1.5rem;
         }
         
-        .gallery-card:hover .card-overlay {
+        .gallery-item:hover .item-overlay {
             opacity: 1;
         }
         
-        .gallery-card .card-title {
+        .gallery-item .item-title {
             font-family: 'Cormorant Garamond', serif;
             color: white;
             font-size: 1.2rem;
@@ -281,30 +329,43 @@ include 'header.php'; ?>
             transition: transform 0.4s ease;
         }
         
-        .gallery-card:hover .card-title {
+        .gallery-item:hover .item-title {
             transform: translateY(0);
         }
         
-        .gallery-card .film-perforation {
+        /* Decorative Corner Accents */
+        .gallery-item::before {
+            content: '';
             position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 8px;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 5px,
-                rgba(184, 154, 120, 0.2) 5px,
-                rgba(184, 154, 120, 0.2) 10px
-            );
+            top: 16px;
+            right: 16px;
+            width: 48px;
+            height: 48px;
+            border-top: 2px solid rgba(255,255,255,0);
+            border-right: 2px solid rgba(255,255,255,0);
+            transition: all 0.5s ease 0.15s;
+            z-index: 10;
         }
         
-        .gallery-card .film-perforation.left {
-            left: 0;
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            width: 48px;
+            height: 48px;
+            border-bottom: 2px solid rgba(255,255,255,0);
+            border-left: 2px solid rgba(255,255,255,0);
+            transition: all 0.5s ease 0.15s;
+            z-index: 10;
         }
         
-        .gallery-card .film-perforation.right {
-            right: 0;
+        .gallery-item:hover::before {
+            border-color: rgba(255,255,255,0.6);
+        }
+        
+        .gallery-item:hover::after {
+            border-color: rgba(255,255,255,0.6);
         }
         
         /* Album Cover - Unique Design */
@@ -511,58 +572,10 @@ include 'header.php'; ?>
         }
         
         /* Responsive */
-        @media (max-width: 1024px) {
-            .masonry-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .masonry-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-            }
-            
-            .album-gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .album-title {
-                font-size: 1.5rem;
-            }
-        }
-        
         @media (max-width: 480px) {
-            .masonry-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .album-gallery {
-                grid-template-columns: 1fr;
-            }
-            
-            .play-button {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .play-button i {
-                font-size: 1.5rem;
-            }
-        }
-        
-        /* Masonry item size variations */
-        .masonry-item.wide {
-            grid-column: span 2;
-        }
-        
-        .masonry-item.tall {
-            grid-row: span 2;
-        }
-        
-        .masonry-item.large {
-            grid-column: span 2;
-            grid-row: span 2;
+            .album-gallery { grid-template-columns: 1fr; }
+            .play-button { width: 60px; height: 60px; }
+            .play-button i { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -652,13 +665,13 @@ include 'header.php'; ?>
             </div>
         </section>
 
-        <!-- ===== FILTER BUTTONS ===== -->
-        <section class="py-12 px-6 bg-[#f4ede5] overflow-hidden">
+        <!-- ===== GALLERY LABELS ===== -->
+        <section class="py-8 px-6 bg-[#f4ede5] overflow-hidden">
             <div class="max-w-7xl mx-auto">
-                <div class="flex flex-wrap justify-center gap-3 reveal">
-                    <button class="filter-btn active px-6 py-3 border border-[#b89a78] text-sm uppercase tracking-wider rounded-full" data-filter="all">All</button>
+                <div class="flex flex-wrap justify-center gap-6 reveal">
+                    <span onclick="openAlbum('all')" class="font-['Cormorant_Garamond'] text-lg text-[#b89a78] border-b-2 border-[#b89a78] pb-1 cursor-pointer hover:text-[#8a735b] transition-colors">All Moments</span>
                     <?php foreach($galleryAlbums as $album): ?>
-                    <button class="filter-btn px-6 py-3 border border-[#b89a78]/30 text-sm uppercase tracking-wider rounded-full hover:bg-[#b89a78] hover:text-white transition-all" data-filter="<?php echo htmlspecialchars($album['slug']); ?>"><?php echo htmlspecialchars($album['title']); ?></button>
+                    <span onclick="openAlbum('<?php echo htmlspecialchars($album['slug']); ?>')" class="font-['Cormorant_Garamond'] text-lg text-[#8a735b] hover:text-[#b89a78] transition-colors cursor-pointer"><?php switch($album['slug']) { case 'rooms': echo 'Luxury Stays'; break; case 'restaurant': echo 'Culinary Art'; break; case 'amenities': echo 'World-Class'; break; case 'surroundings': echo 'Natural Beauty'; break; default: echo htmlspecialchars($album['title']); } ?></span>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -667,33 +680,42 @@ include 'header.php'; ?>
         <!-- ===== MASONRY IMAGE GRID ===== -->
         <section class="relative py-16 px-6 bg-[#fcf8f3] overflow-hidden">
             <div class="max-w-7xl mx-auto">
-                <!-- Masonry Grid -->
+                <!-- Gallery Grid - Mobile: 1,2,1,2 pattern - Desktop: 4 columns -->
                 <div class="masonry-grid" id="galleryGrid">
                     <?php 
-                    // Group images by category for masonry layout
-                    $categoryOrder = ['rooms', 'restaurant', 'amenities', 'surroundings'];
-                    $sizes = ['regular', 'wide', 'tall', 'regular', 'wide', 'regular', 'tall', 'regular'];
-                    $sizeIndex = 0;
-                    
-                    foreach($galleryImages as $image): 
-                        $gridClass = 'gallery-card';
-                        if ($image['grid_size'] === 'wide') $gridClass .= ' wide';
-                        if ($image['grid_size'] === 'tall') $gridClass .= ' tall';
-                        if ($image['grid_size'] === 'large') $gridClass .= ' large';
+                    // Pattern for mobile: 1 full width, 2 half width, 1 full width, 2 half width...
+                    // Using 3-item groups: [full], [half, half], [full], [half, half]...
+                    foreach($galleryImages as $index => $image): 
+                        // Pattern: index % 3 = 0 (full), 1 (half), 2 (half)
+                        $isFullWidth = ($index % 3 === 0);
+                        
+                        // Desktop: use large/wide/tall classes
+                        $gridClass = '';
+                        $roundedClass = 'rounded-2xl';
+                        
+                        if ($index === 0 || $image['grid_size'] === 'large') {
+                            $gridClass = 'large';
+                            $roundedClass = 'rounded-3xl';
+                        } elseif (($index + 1) % 4 === 0 || $image['grid_size'] === 'wide') {
+                            $gridClass = 'wide';
+                        } elseif (($index + 1) % 3 === 0 || $image['grid_size'] === 'tall') {
+                            $gridClass = 'tall';
+                        }
+                        
+                        // Mobile wrapper class
+                        $wrapperClass = $isFullWidth ? 'mobile-full-width' : 'mobile-half-width';
                     ?>
-                    <div class="masonry-item <?php echo $gridClass; ?>" data-category="<?php echo htmlspecialchars($image['category']); ?>">
-                        <div class="film-perforation left"></div>
-                        <div class="film-perforation right"></div>
-                        <div class="card-image">
-                            <img src="<?php echo htmlspecialchars($image['src']); ?>" 
-                                 alt="<?php echo htmlspecialchars($image['caption']); ?>" 
-                                 class="w-full h-64 object-cover"
-                                 onclick="openLightbox('<?php echo htmlspecialchars($image['src']); ?>', '<?php echo htmlspecialchars($image['caption']); ?>')">
-                            <div class="card-overlay">
-                                <h4 class="card-title"><?php echo htmlspecialchars($image['caption']); ?></h4>
-                            </div>
+                    <div class="masonry-item gallery-item <?php echo $gridClass; ?> <?php echo $roundedClass; ?> <?php echo $wrapperClass; ?>" 
+                         data-category="<?php echo htmlspecialchars($image['category']); ?>"
+                         data-src="<?php echo htmlspecialchars($image['src']); ?>"
+                         data-caption="<?php echo htmlspecialchars($image['caption']); ?>"
+                         onclick="openLightbox(this.dataset.src, this.dataset.caption)">
+                        <img src="<?php echo htmlspecialchars($image['src']); ?>" 
+                             alt="<?php echo htmlspecialchars($image['caption']); ?>" 
+                             class="w-full h-full object-cover">
+                        <div class="item-overlay">
+                            <span class="item-title"><?php echo htmlspecialchars($image['caption']); ?></span>
                         </div>
-                        <p class="text-[#8a735b] text-xs px-2 pb-2"><?php echo htmlspecialchars($image['caption']); ?></p>
                     </div>
                     <?php endforeach; ?>
                 </div>
@@ -776,8 +798,21 @@ include 'header.php'; ?>
         </div>
     </div>
 
-    <!-- Lightbox script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    <!-- ===== IMAGE LIGHTBOX MODAL ===== -->
+    <div id="imageModal" class="fixed inset-0 z-[2000] hidden flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/95" onclick="closeImageModal()"></div>
+        <button onclick="closeImageModal()" class="absolute top-4 right-4 z-[2001] w-12 h-12 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full flex items-center justify-center transition-all">
+            <i class="fas fa-times text-white text-xl"></i>
+        </button>
+        <div class="relative z-[2001] max-w-[90vw] max-h-[90vh] flex items-center justify-center">
+            <img id="modalImage" src="" alt="" class="max-w-full max-h-[85vh] object-contain">
+        </div>
+        <div id="modalCaption" class="absolute bottom-8 left-0 right-0 z-[2001] text-center px-4">
+            <p class="text-white/90 font-['Cormorant_Garamond'] text-xl"></p>
+        </div>
+    </div>
+
+    <!-- Lightbox script (for reference only, we use custom modal now) -->
     
     <script>
         // Album data from database
@@ -823,20 +858,44 @@ include 'header.php'; ?>
                 }, 100);
             });
         });
+        
+        // Add click handlers for masonry items - backup for onclick
+        document.querySelectorAll('.masonry-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const src = this.dataset.src;
+                const caption = this.dataset.caption;
+                if (src) {
+                    openLightbox(src, caption);
+                }
+            });
+        });
 
-        // Open lightbox function (for gallery images)
+        // Open image in custom modal (for gallery images and album images)
         function openLightbox(src, caption) {
-            // You can implement a custom lightbox or use the existing one
-            // For simplicity, we'll use Lightbox2 if available
-            if (window.lightbox) {
-                window.lightbox.open({
-                    href: src,
-                    title: caption
-                });
-            } else {
-                // Fallback - open in new tab
-                window.open(src, '_blank');
-            }
+            // Don't close album modal - let both modals coexist with image on top
+            
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            
+            if (!modal || !modalImg) return;
+            
+            modalImg.src = src;
+            modalCaption.querySelector('p').textContent = caption || '';
+            
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close image modal
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            if (!modal) return;
+            
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
         // Open album modal
@@ -896,6 +955,7 @@ include 'header.php'; ?>
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeAlbumModal();
+                closeImageModal();
             }
         });
         
@@ -903,6 +963,13 @@ include 'header.php'; ?>
         document.getElementById('albumModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeAlbumModal();
+            }
+        });
+        
+        // Close image modal when clicking outside
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
             }
         });
 

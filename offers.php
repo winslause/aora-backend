@@ -1,4 +1,10 @@
-<?php include 'header.php'; ?>
+<?php 
+require_once 'database.php';
+
+// Get all offers from database
+$allOffers = getAllOffers($pdo);
+
+include 'header.php'; ?>
 
 <style>
 @media (min-width: 1024px) {

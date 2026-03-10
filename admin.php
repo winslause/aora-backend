@@ -90,6 +90,8 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             <a href="?tab=amenities" class="sidebar-link <?php echo $current_tab == 'amenities' ? 'active' : ''; ?>"><i class="fas fa-concierge-bell"></i> Amenities</a>
             <a href="?tab=bookings" class="sidebar-link <?php echo $current_tab == 'bookings' ? 'active' : ''; ?>"><i class="fas fa-calendar-check"></i> Bookings</a>
             <a href="?tab=events" class="sidebar-link <?php echo $current_tab == 'events' ? 'active' : ''; ?>"><i class="fas fa-calendar-alt"></i> Events</a>
+            <a href="?tab=gallery" class="sidebar-link <?php echo $current_tab == 'gallery' ? 'active' : ''; ?>"><i class="fas fa-images"></i> Gallery</a>
+            <a href="?tab=offers" class="sidebar-link <?php echo $current_tab == 'offers' ? 'active' : ''; ?>"><i class="fas fa-gift"></i> Offers</a>
             <a href="admin_login.php?logout=1" class="sidebar-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
@@ -119,6 +121,8 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 <a href="?tab=amenities" class="sidebar-link <?php echo $current_tab == 'amenities' ? 'active' : ''; ?>"><i class="fas fa-concierge-bell"></i> Amenities</a>
                 <a href="?tab=bookings" class="sidebar-link <?php echo $current_tab == 'bookings' ? 'active' : ''; ?>"><i class="fas fa-calendar-check"></i> Bookings</a>
                 <a href="?tab=events" class="sidebar-link <?php echo $current_tab == 'events' ? 'active' : ''; ?>"><i class="fas fa-calendar-alt"></i> Events</a>
+                <a href="?tab=gallery" class="sidebar-link <?php echo $current_tab == 'gallery' ? 'active' : ''; ?>"><i class="fas fa-images"></i> Gallery</a>
+                <a href="?tab=offers" class="sidebar-link <?php echo $current_tab == 'offers' ? 'active' : ''; ?>"><i class="fas fa-gift"></i> Offers</a>
                 
                 <div class="px-4 mt-6 mb-4">
                     <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Account</p>
@@ -154,6 +158,8 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                                 case 'amenities': echo 'Amenities Management'; break;
                                 case 'bookings': echo 'Bookings Management'; break;
                                 case 'events': echo 'Events Management'; break;
+                                case 'gallery': echo 'Gallery Management'; break;
+                                case 'offers': echo 'Offers Management'; break;
                                 default: echo 'Dashboard Overview';
                             }
                             ?>
@@ -585,6 +591,221 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     <button type="submit" class="admin-btn-primary flex-1">
                         <i class="fas fa-save mr-2"></i>Save Venue
                     </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gallery Album Modal -->
+    <div id="galleryAlbumModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="galleryAlbumModalTitle" class="text-xl font-semibold">Add New Album</h3>
+                <button onclick="closeGalleryAlbumModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="galleryAlbumForm">
+                <input type="hidden" id="galleryAlbumId">
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Album Title</label>
+                    <input type="text" id="galleryAlbumTitle" class="admin-input" placeholder="e.g., Our Rooms" required>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="galleryAlbumDescription" class="admin-input" rows="2" placeholder="Brief description..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image URL</label>
+                    <input type="url" id="galleryAlbumCover" class="admin-input" placeholder="https://example.com/image.jpg">
+                    <div id="previewGalleryAlbumCover" class="mt-2"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Icon (FontAwesome class)</label>
+                    <input type="text" id="galleryAlbumIcon" class="admin-input" value="fa-images" placeholder="fa-images">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Photo Count</label>
+                    <input type="number" id="galleryAlbumCount" class="admin-input" value="0" min="0">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                    <input type="number" id="galleryAlbumOrder" class="admin-input" value="0">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeGalleryAlbumModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Album</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gallery Image Modal -->
+    <div id="galleryImageModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="galleryImageModalTitle" class="text-xl font-semibold">Add New Image</h3>
+                <button onclick="closeGalleryImageModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="galleryImageForm">
+                <input type="hidden" id="galleryImageId">
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Album</label>
+                    <select id="galleryImageAlbum" class="admin-input" required>
+                        <option value="">Select Album</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+                    <input type="url" id="galleryImageSrc" class="admin-input" placeholder="https://example.com/image.jpg" required>
+                    <div id="previewGalleryImage" class="mt-2"></div>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Caption</label>
+                    <input type="text" id="galleryImageCaption" class="admin-input" placeholder="Image caption">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <input type="text" id="galleryImageCategory" class="admin-input" placeholder="e.g., Interior">
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Grid Size</label>
+                    <select id="galleryImageSize" class="admin-input">
+                        <option value="regular">Regular</option>
+                        <option value="wide">Wide</option>
+                        <option value="tall">Tall</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                    <input type="number" id="galleryImageOrder" class="admin-input" value="0">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeGalleryImageModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Image</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gallery Video Modal -->
+    <div id="galleryVideoModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="galleryVideoModalTitle" class="text-xl font-semibold">Add New Video</h3>
+                <button onclick="closeGalleryVideoModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="galleryVideoForm">
+                <input type="hidden" id="galleryVideoId">
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Video Title</label>
+                    <input type="text" id="galleryVideoTitle" class="admin-input" placeholder="Video title" required>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="galleryVideoDescription" class="admin-input" rows="2" placeholder="Video description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Thumbnail URL</label>
+                    <input type="url" id="galleryVideoThumbnail" class="admin-input" placeholder="https://example.com/thumbnail.jpg">
+                    <div id="previewGalleryVideoThumb" class="mt-2"></div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Video URL</label>
+                    <input type="url" id="galleryVideoUrl" class="admin-input" placeholder="https://www.youtube.com/watch?v=..." required>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeGalleryVideoModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Video</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Offer Modal -->
+    <div id="offerModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="offerModalTitle" class="text-xl font-semibold">Add New Offer</h3>
+                <button onclick="closeOfferModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="offerForm">
+                <input type="hidden" id="offerId">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Offer Title</label>
+                        <input type="text" id="offerTitle" class="admin-input" placeholder="e.g., Summer Getaway" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Subtitle</label>
+                        <input type="text" id="offerSubtitle" class="admin-input" placeholder="e.g., 3 Days, 2 Nights">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price (KSh)</label>
+                        <input type="number" id="offerPrice" class="admin-input" placeholder="50000">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price Label</label>
+                        <input type="text" id="offerPriceLabel" class="admin-input" placeholder="e.g., Per Person">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                        <input type="text" id="offerIcon" class="admin-input" value="fa-gift">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Icon Color</label>
+                        <input type="color" id="offerIconColor" class="admin-input h-12" value="#b89a78">
+                    </div>
+                    <div class="mb-3 col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea id="offerDescription" class="admin-input" rows="2" placeholder="Offer description"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Images (5 required) -->
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Images (5 images)</label>
+                    <div class="grid grid-cols-5 gap-2">
+                        <div>
+                            <input type="url" id="offerImage1" class="admin-input text-xs" placeholder="Image 1 URL">
+                            <div id="previewOfferImage1" class="mt-1"></div>
+                        </div>
+                        <div>
+                            <input type="url" id="offerImage2" class="admin-input text-xs" placeholder="Image 2 URL">
+                            <div id="previewOfferImage2" class="mt-1"></div>
+                        </div>
+                        <div>
+                            <input type="url" id="offerImage3" class="admin-input text-xs" placeholder="Image 3 URL">
+                            <div id="previewOfferImage3" class="mt-1"></div>
+                        </div>
+                        <div>
+                            <input type="url" id="offerImage4" class="admin-input text-xs" placeholder="Image 4 URL">
+                            <div id="previewOfferImage4" class="mt-1"></div>
+                        </div>
+                        <div>
+                            <input type="url" id="offerImage5" class="admin-input text-xs" placeholder="Image 5 URL">
+                            <div id="previewOfferImage5" class="mt-1"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Inclusions (one per line)</label>
+                    <textarea id="offerInclusions" class="admin-input" rows="4" placeholder="Breakfast included&#10;Free WiFi&#10;Spa access"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                    <input type="number" id="offerOrder" class="admin-input" value="0">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeOfferModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Offer</button>
                 </div>
             </form>
         </div>
@@ -2021,7 +2242,449 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 loadEventVenues();
                 loadEventInquiries();
             }
+            if (currentTab === 'gallery') {
+                loadGalleryAlbums();
+                loadGalleryImages();
+                loadGalleryVideos();
+            }
+            if (currentTab === 'offers') {
+                loadOffers();
+            }
         });
+
+        // ==================== GALLERY MANAGEMENT ====================
+
+        // Gallery Album Modal
+        function openGalleryAlbumModal(album = null) {
+            if (album) {
+                document.getElementById('galleryAlbumModalTitle').textContent = 'Edit Album';
+                document.getElementById('galleryAlbumId').value = album.id;
+                document.getElementById('galleryAlbumTitle').value = album.title || '';
+                document.getElementById('galleryAlbumDescription').value = album.description || '';
+                document.getElementById('galleryAlbumCover').value = album.cover_image || '';
+                document.getElementById('galleryAlbumIcon').value = album.icon || 'fa-images';
+                document.getElementById('galleryAlbumCount').value = album.photo_count || 0;
+                document.getElementById('galleryAlbumOrder').value = album.display_order || 0;
+                if (album.cover_image) {
+                    document.getElementById('previewGalleryAlbumCover').innerHTML = `<img src="${album.cover_image}" class="w-full h-32 object-cover rounded">`;
+                }
+            } else {
+                document.getElementById('galleryAlbumModalTitle').textContent = 'Add New Album';
+                document.getElementById('galleryAlbumForm').reset();
+                document.getElementById('galleryAlbumId').value = '';
+                document.getElementById('previewGalleryAlbumCover').innerHTML = '';
+            }
+            document.getElementById('galleryAlbumModal').classList.add('open');
+        }
+
+        function closeGalleryAlbumModal() {
+            document.getElementById('galleryAlbumModal').classList.remove('open');
+        }
+
+        document.getElementById('galleryAlbumForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            const id = document.getElementById('galleryAlbumId').value;
+            formData.append('action', id ? 'update_gallery_album' : 'add_gallery_album');
+            if (id) formData.append('id', id);
+            formData.append('title', document.getElementById('galleryAlbumTitle').value);
+            formData.append('description', document.getElementById('galleryAlbumDescription').value);
+            formData.append('cover_image', document.getElementById('galleryAlbumCover').value);
+            formData.append('icon', document.getElementById('galleryAlbumIcon').value);
+            formData.append('photo_count', document.getElementById('galleryAlbumCount').value);
+            formData.append('display_order', document.getElementById('galleryAlbumOrder').value);
+
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    closeGalleryAlbumModal();
+                    loadGalleryAlbums();
+                }
+            });
+        });
+
+        function loadGalleryAlbums() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_gallery_albums');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('galleryAlbumsTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.albums.map(album => `
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <img src="${album.cover_image || 'https://via.placeholder.com/50x50'}" class="w-12 h-12 object-cover rounded">
+                                        <span class="font-medium">${album.title}</span>
+                                    </div>
+                                </td>
+                                <td>${album.photo_count || 0}</td>
+                                <td>${album.display_order || 0}</td>
+                                <td>${album.is_active == 1 ? '<span class="status-badge confirmed">Active</span>' : '<span class="status-badge cancelled">Inactive</span>'}</td>
+                                <td>
+                                    <button onclick='openGalleryAlbumModal(${JSON.stringify(album).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
+                                    <button onclick="deleteGalleryAlbum(${album.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            });
+        }
+
+        function deleteGalleryAlbum(id) {
+            if (confirm('Are you sure you want to delete this album?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_gallery_album');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadGalleryAlbums();
+                });
+            }
+        }
+
+        // Gallery Image Modal
+        function openGalleryImageModal(image = null) {
+            // Load albums first
+            const formData = new FormData();
+            formData.append('action', 'get_all_gallery_albums');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const select = document.getElementById('galleryImageAlbum');
+                    select.innerHTML = '<option value="">Select Album</option>' + 
+                        data.albums.map(album => `<option value="${album.id}">${album.title}</option>`).join('');
+                }
+            });
+
+            if (image) {
+                document.getElementById('galleryImageModalTitle').textContent = 'Edit Image';
+                document.getElementById('galleryImageId').value = image.id;
+                document.getElementById('galleryImageAlbum').value = image.album_id || '';
+                document.getElementById('galleryImageSrc').value = image.src || '';
+                document.getElementById('galleryImageCaption').value = image.caption || '';
+                document.getElementById('galleryImageCategory').value = image.category || '';
+                document.getElementById('galleryImageSize').value = image.grid_size || 'regular';
+                document.getElementById('galleryImageOrder').value = image.display_order || 0;
+                if (image.src) {
+                    document.getElementById('previewGalleryImage').innerHTML = `<img src="${image.src}" class="w-full h-32 object-cover rounded">`;
+                }
+            } else {
+                document.getElementById('galleryImageModalTitle').textContent = 'Add New Image';
+                document.getElementById('galleryImageForm').reset();
+                document.getElementById('galleryImageId').value = '';
+                document.getElementById('previewGalleryImage').innerHTML = '';
+            }
+            document.getElementById('galleryImageModal').classList.add('open');
+        }
+
+        function closeGalleryImageModal() {
+            document.getElementById('galleryImageModal').classList.remove('open');
+        }
+
+        document.getElementById('galleryImageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            const id = document.getElementById('galleryImageId').value;
+            formData.append('action', id ? 'update_gallery_image' : 'add_gallery_image');
+            if (id) formData.append('id', id);
+            formData.append('album_id', document.getElementById('galleryImageAlbum').value);
+            formData.append('src', document.getElementById('galleryImageSrc').value);
+            formData.append('caption', document.getElementById('galleryImageCaption').value);
+            formData.append('category', document.getElementById('galleryImageCategory').value);
+            formData.append('grid_size', document.getElementById('galleryImageSize').value);
+            formData.append('display_order', document.getElementById('galleryImageOrder').value);
+
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    closeGalleryImageModal();
+                    loadGalleryImages();
+                }
+            });
+        });
+
+        function loadGalleryImages() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_gallery_images');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('galleryImagesTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.images.map(image => `
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <img src="${image.src || 'https://via.placeholder.com/50x50'}" class="w-12 h-12 object-cover rounded">
+                                    </div>
+                                </td>
+                                <td>${image.album_title || 'N/A'}</td>
+                                <td>${image.caption || '-'}</td>
+                                <td>${image.category || '-'}</td>
+                                <td>${image.display_order || 0}</td>
+                                <td>
+                                    <button onclick='openGalleryImageModal(${JSON.stringify(image).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
+                                    <button onclick="deleteGalleryImage(${image.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            });
+        }
+
+        function deleteGalleryImage(id) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_gallery_image');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadGalleryImages();
+                });
+            }
+        }
+
+        // Gallery Video Modal
+        function openGalleryVideoModal(video = null) {
+            if (video) {
+                document.getElementById('galleryVideoModalTitle').textContent = 'Edit Video';
+                document.getElementById('galleryVideoId').value = video.id;
+                document.getElementById('galleryVideoTitle').value = video.title || '';
+                document.getElementById('galleryVideoDescription').value = video.description || '';
+                document.getElementById('galleryVideoThumbnail').value = video.thumbnail || '';
+                document.getElementById('galleryVideoUrl').value = video.video_url || '';
+                if (video.thumbnail) {
+                    document.getElementById('previewGalleryVideoThumb').innerHTML = `<img src="${video.thumbnail}" class="w-full h-32 object-cover rounded">`;
+                }
+            } else {
+                document.getElementById('galleryVideoModalTitle').textContent = 'Add New Video';
+                document.getElementById('galleryVideoForm').reset();
+                document.getElementById('galleryVideoId').value = '';
+                document.getElementById('previewGalleryVideoThumb').innerHTML = '';
+            }
+            document.getElementById('galleryVideoModal').classList.add('open');
+        }
+
+        function closeGalleryVideoModal() {
+            document.getElementById('galleryVideoModal').classList.remove('open');
+        }
+
+        document.getElementById('galleryVideoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            const id = document.getElementById('galleryVideoId').value;
+            formData.append('action', id ? 'update_gallery_video' : 'add_gallery_video');
+            if (id) formData.append('id', id);
+            formData.append('title', document.getElementById('galleryVideoTitle').value);
+            formData.append('description', document.getElementById('galleryVideoDescription').value);
+            formData.append('thumbnail', document.getElementById('galleryVideoThumbnail').value);
+            formData.append('video_url', document.getElementById('galleryVideoUrl').value);
+
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    closeGalleryVideoModal();
+                    loadGalleryVideos();
+                }
+            });
+        });
+
+        function loadGalleryVideos() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_gallery_videos');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('galleryVideosTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.videos.map(video => `
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <img src="${video.thumbnail || 'https://via.placeholder.com/50x50'}" class="w-16 h-12 object-cover rounded">
+                                        <span class="font-medium">${video.title}</span>
+                                    </div>
+                                </td>
+                                <td>${video.description ? video.description.substring(0, 50) + '...' : '-'}</td>
+                                <td>${video.is_active == 1 ? '<span class="status-badge confirmed">Active</span>' : '<span class="status-badge cancelled">Inactive</span>'}</td>
+                                <td>
+                                    <button onclick='openGalleryVideoModal(${JSON.stringify(video).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
+                                    <button onclick="deleteGalleryVideo(${video.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            });
+        }
+
+        function deleteGalleryVideo(id) {
+            if (confirm('Are you sure you want to delete this video?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_gallery_video');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadGalleryVideos();
+                });
+            }
+        }
+
+        // ==================== OFFERS MANAGEMENT ====================
+
+        function openOfferModal(offer = null) {
+            if (offer) {
+                document.getElementById('offerModalTitle').textContent = 'Edit Offer';
+                document.getElementById('offerId').value = offer.id;
+                document.getElementById('offerTitle').value = offer.title || '';
+                document.getElementById('offerSubtitle').value = offer.subtitle || '';
+                document.getElementById('offerDescription').value = offer.description || '';
+                document.getElementById('offerPrice').value = offer.price || '';
+                document.getElementById('offerPriceLabel').value = offer.price_label || '';
+                document.getElementById('offerIcon').value = offer.icon || 'fa-gift';
+                document.getElementById('offerIconColor').value = offer.icon_color || '#b89a78';
+                document.getElementById('offerOrder').value = offer.display_order || 0;
+                
+                // Load images
+                document.getElementById('offerImage1').value = offer.image1 || '';
+                document.getElementById('offerImage2').value = offer.image2 || '';
+                document.getElementById('offerImage3').value = offer.image3 || '';
+                document.getElementById('offerImage4').value = offer.image4 || '';
+                document.getElementById('offerImage5').value = offer.image5 || '';
+                
+                // Show previews
+                for (let i = 1; i <= 5; i++) {
+                    const imgUrl = offer['image' + i];
+                    if (imgUrl) {
+                        document.getElementById('previewOfferImage' + i).innerHTML = `<img src="${imgUrl}" class="w-full h-20 object-cover rounded">`;
+                    }
+                }
+                
+                // Load inclusions
+                const inclusions = offer.inclusions || [];
+                document.getElementById('offerInclusions').value = inclusions.join('\n');
+            } else {
+                document.getElementById('offerModalTitle').textContent = 'Add New Offer';
+                document.getElementById('offerForm').reset();
+                document.getElementById('offerId').value = '';
+                for (let i = 1; i <= 5; i++) {
+                    document.getElementById('previewOfferImage' + i).innerHTML = '';
+                }
+            }
+            document.getElementById('offerModal').classList.add('open');
+        }
+
+        function closeOfferModal() {
+            document.getElementById('offerModal').classList.remove('open');
+        }
+
+        document.getElementById('offerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Parse inclusions from textarea (one per line)
+            const inclusionsText = document.getElementById('offerInclusions').value;
+            const inclusions = inclusionsText.split('\n').map(line => line.trim()).filter(line => line !== '');
+            
+            const formData = new FormData();
+            const id = document.getElementById('offerId').value;
+            formData.append('action', id ? 'update_offer' : 'add_offer');
+            if (id) formData.append('id', id);
+            formData.append('title', document.getElementById('offerTitle').value);
+            formData.append('subtitle', document.getElementById('offerSubtitle').value);
+            formData.append('description', document.getElementById('offerDescription').value);
+            formData.append('price', document.getElementById('offerPrice').value);
+            formData.append('price_label', document.getElementById('offerPriceLabel').value);
+            formData.append('icon', document.getElementById('offerIcon').value);
+            formData.append('icon_color', document.getElementById('offerIconColor').value);
+            formData.append('image1', document.getElementById('offerImage1').value);
+            formData.append('image2', document.getElementById('offerImage2').value);
+            formData.append('image3', document.getElementById('offerImage3').value);
+            formData.append('image4', document.getElementById('offerImage4').value);
+            formData.append('image5', document.getElementById('offerImage5').value);
+            formData.append('inclusions', JSON.stringify(inclusions));
+            formData.append('display_order', document.getElementById('offerOrder').value);
+
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    closeOfferModal();
+                    loadOffers();
+                }
+            });
+        });
+
+        function loadOffers() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_offers_admin');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('offersTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.offers.map(offer => {
+                            const inclusions = Array.isArray(offer.inclusions) ? offer.inclusions : [];
+                            const imageCount = [offer.image1, offer.image2, offer.image3, offer.image4, offer.image5].filter(Boolean).length;
+                            return `
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-3">
+                                            <img src="${offer.image1 || 'https://via.placeholder.com/50x50'}" class="w-12 h-12 object-cover rounded">
+                                            <span class="font-medium">${offer.title}</span>
+                                        </div>
+                                    </td>
+                                    <td>${offer.subtitle || '-'}</td>
+                                    <td>${offer.price ? 'KSh ' + parseInt(offer.price).toLocaleString() : '-'}</td>
+                                    <td>${imageCount}/5</td>
+                                    <td>${inclusions.length}</td>
+                                    <td>${offer.display_order || 0}</td>
+                                    <td>
+                                        <button onclick='openOfferModal(${JSON.stringify(offer).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
+                                        <button onclick="deleteOffer(${offer.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('');
+                    }
+                }
+            });
+        }
+
+        function deleteOffer(id) {
+            if (confirm('Are you sure you want to delete this offer?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_offer');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadOffers();
+                });
+            }
+        }
     </script>
 </body>
 </html>

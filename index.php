@@ -5,6 +5,12 @@ require_once 'database.php';
 $indexAmenities = getAllAmenities($pdo);
 $indexAmenities = array_slice($indexAmenities, 0, 6);
 
+// Get visual stories for index page
+$visualStories = getAllVisualStories($pdo);
+
+// Get offers for index page
+$indexOffers = getAllOffers($pdo);
+
 include 'header.php'; ?>
 
     <!-- Hero Section Only -->
@@ -1492,30 +1498,46 @@ document.addEventListener('keydown', function(e) {
         <!-- Offers Container - NO CARDS, Unique Layered Design -->
         <div class="flex flex-col lg:flex-row gap-8 lg:gap-0 lg:divide-x lg:divide-white/20">
             
-            <!-- Offer 1 - The Honeymoon Escape -->
+            <?php foreach ($indexOffers as $offerIndex => $offer): ?>
+            <?php 
+            // Parse inclusions from JSON
+            $inclusions = json_decode($offer['inclusions'], true);
+            if (!is_array($inclusions)) {
+                $inclusions = [];
+            }
+            // Get all 5 images
+            $offerImages = [];
+            if ($offer['image1']) $offerImages[] = $offer['image1'];
+            if ($offer['image2']) $offerImages[] = $offer['image2'];
+            if ($offer['image3']) $offerImages[] = $offer['image3'];
+            if ($offer['image4']) $offerImages[] = $offer['image4'];
+            if ($offer['image5']) $offerImages[] = $offer['image5'];
+            $mainImage = !empty($offerImages) ? $offerImages[0] : 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80';
+            ?>
+            <!-- Offer <?php echo $offerIndex + 1; ?> - <?php echo htmlspecialchars($offer['title']); ?> -->
             <div class="offer-item relative flex-1 px-0 lg:px-8 py-8 lg:py-0 group/offer">
                 <div class="relative flex flex-col items-center lg:items-start text-center lg:text-left">
                     
                     <!-- Decorative Element - Floating Ring -->
-                    <div class="absolute -top-10 -left-10 w-40 h-40 border border-[#d4b48c]/20 rounded-full group-hover/offer:scale-150 transition-transform duration-1000 opacity-0 group-hover/offer:opacity-100"></div>
+                    <div class="absolute -top-10 <?php echo $offerIndex % 2 === 0 ? '-left-10' : '-right-10'; ?> w-40 h-40 border border-[<?php echo $offer['icon_color']; ?>]/20 rounded-full group-hover/offer:scale-150 transition-transform duration-1000 opacity-0 group-hover/offer:opacity-100"></div>
                     
                     <!-- Offer Icon/Symbol - Unique Shape (Not a Card) -->
                     <div class="relative mb-6">
-                        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-[#d4b48c]/30 to-[#8a735b]/30 backdrop-blur-sm flex items-center justify-center border border-white/20 group-hover/offer:scale-110 transition-transform duration-500">
-                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#b89a78] flex items-center justify-center shadow-[0_20px_30px_-10px_rgba(0,0,0,0.3)]">
-                                <i class="fas fa-heart text-3xl text-white"></i>
+                        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-[<?php echo $offer['icon_color']; ?>]/30 to-[<?php echo $offer['icon_color']; ?>]//30 backdrop-blur-sm flex items-center justify-center border border-white/20 group-hover/offer:scale-110 transition-transform duration-500">
+                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[<?php echo $offer['icon_color']; ?>] to-[<?php echo $offer['icon_color']; ?>] flex items-center justify-center shadow-[0_20px_30px_-10px_rgba(0,0,0,0.3)]">
+                                <i class="fas <?php echo $offer['icon']; ?> text-3xl text-white"></i>
                             </div>
                         </div>
                         
                         <!-- Animated Rings -->
-                        <div class="absolute inset-0 rounded-full border-2 border-[#d4b48c] opacity-0 group-hover/offer:opacity-100 animate-ping-slow"></div>
-                        <div class="absolute -inset-4 rounded-full border border-[#d4b48c]/40 opacity-0 group-hover/offer:opacity-50 animate-pulse-slower"></div>
+                        <div class="absolute inset-0 rounded-full border-2 border-[<?php echo $offer['icon_color']; ?>] opacity-0 group-hover/offer:opacity-100 animate-ping-slow"></div>
+                        <div class="absolute -inset-4 rounded-full border border-[<?php echo $offer['icon_color']; ?>]/40 opacity-0 group-hover/offer:opacity-50 animate-pulse-slower"></div>
                     </div>
                     
                     <!-- Offer Image - Integrated into design, not as card -->
                     <div class="relative w-full h-48 md:h-56 mb-6 overflow-hidden rounded-2xl shadow-[0_20px_30px_-10px_rgba(0,0,0,0.5)]">
-                        <img src="https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/17/0a/08/34.jpg" 
-                             alt="Honeymoon Escape" 
+                        <img src="<?php echo htmlspecialchars($mainImage); ?>" 
+                             alt="<?php echo htmlspecialchars($offer['title']); ?>" 
                              class="w-full h-full object-cover transition-transform duration-7000 group-hover/offer:scale-110">
                         
                         <!-- Gradient Overlay on Image Only -->
@@ -1523,44 +1545,38 @@ document.addEventListener('keydown', function(e) {
                         
                         <!-- Floating Price Tag -->
                         <div class="absolute top-4 right-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
-                            <span class="text-white font-['DM_Serif_Display'] text-lg">KSh 85K</span>
-                            <span class="text-white/60 text-xs ml-1">/couple</span>
+                            <span class="text-white font-['DM_Serif_Display'] text-lg">KSh <?php echo htmlspecialchars($offer['price']); ?></span>
+                            <span class="text-white/60 text-xs ml-1"><?php echo htmlspecialchars($offer['price_label']); ?></span>
                         </div>
                     </div>
                     
                     <!-- Offer Content - No Card Background -->
                     <div class="relative">
                         <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-3 drop-shadow-lg">
-                            The Honeymoon Escape
+                            <?php echo htmlspecialchars($offer['title']); ?>
                         </h3>
                         
                         <!-- Decorative Underline -->
-                        <div class="w-16 h-0.5 bg-gradient-to-r from-[#d4b48c] to-transparent mx-auto lg:mx-0 mb-4 group-hover/offer:w-24 transition-all duration-500"></div>
+                        <div class="w-16 h-0.5 bg-gradient-to-r from-[<?php echo $offer['icon_color']; ?>] to-transparent mx-auto lg:mx-0 mb-4 group-hover/offer:w-24 transition-all duration-500"></div>
                         
                         <p class="text-white/80 text-sm leading-relaxed mb-6 max-w-xs mx-auto lg:mx-0">
-                            Celebrate your love with a romantic 4-day getaway including candlelit dinners, couples' spa treatments, and sunset safari.
+                            <?php echo htmlspecialchars($offer['description']); ?>
                         </p>
                         
                         <!-- Inclusions List - Unique Styling -->
                         <div class="space-y-2 mb-8">
+                            <?php foreach ($inclusions as $inclusion): ?>
                             <div class="flex items-center gap-2 text-white/70">
-                                <i class="fas fa-check-circle text-[#d4b48c] text-xs"></i>
-                                <span class="text-xs">Private villa with plunge pool</span>
+                                <i class="fas fa-check-circle text-[<?php echo $offer['icon_color']; ?>] text-xs"></i>
+                                <span class="text-xs"><?php echo htmlspecialchars($inclusion); ?></span>
                             </div>
-                            <div class="flex items-center gap-2 text-white/70">
-                                <i class="fas fa-check-circle text-[#d4b48c] text-xs"></i>
-                                <span class="text-xs">Sunset champagne safari</span>
-                            </div>
-                            <div class="flex items-center gap-2 text-white/70">
-                                <i class="fas fa-check-circle text-[#d4b48c] text-xs"></i>
-                                <span class="text-xs">Couples massage & rose petal turndown</span>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                         
                         <!-- Claim Offer Button - Unique Design -->
-                        <button class="group/btn relative inline-flex items-center gap-4 px-8 py-3 bg-transparent border border-white/30 text-white rounded-full overflow-hidden hover:border-[#d4b48c] transition-colors duration-300">
+                        <button class="group/btn relative inline-flex items-center gap-4 px-8 py-3 bg-transparent border border-white/30 text-white rounded-full overflow-hidden hover:border-[<?php echo $offer['icon_color']; ?>] transition-colors duration-300">
                             <!-- Background Slide Animation -->
-                            <span class="absolute inset-0 bg-gradient-to-r from-[#d4b48c] to-[#b89a78] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
+                            <span class="absolute inset-0 bg-gradient-to-r from-[<?php echo $offer['icon_color']; ?>] to-[<?php echo $offer['icon_color']; ?>] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
                             
                             <!-- Button Content -->
                             <span class="relative z-10 text-sm uppercase tracking-wider flex items-center gap-2">
@@ -1569,145 +1585,13 @@ document.addEventListener('keydown', function(e) {
                             </span>
                             
                             <!-- Corner Accents -->
-                            <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#d4b48c] opacity-0 group-hover/btn:opacity-100 transition-opacity"></span>
-                            <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#d4b48c] opacity-0 group-hover/btn:opacity-100 transition-opacity"></span>
+                            <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[<?php echo $offer['icon_color']; ?>] opacity-0 group-hover/btn:opacity-100 transition-opacity"></span>
+                            <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[<?php echo $offer['icon_color']; ?>] opacity-0 group-hover/btn:opacity-100 transition-opacity"></span>
                         </button>
                     </div>
                 </div>
             </div>
-
-            <!-- Offer 2 - Weekend Wilderness Getaway -->
-            <div class="offer-item relative flex-1 px-0 lg:px-8 py-8 lg:py-0 group/offer">
-                <div class="relative flex flex-col items-center lg:items-start text-center lg:text-left">
-                    
-                    <!-- Decorative Element - Floating Ring -->
-                    <div class="absolute -top-10 -right-10 w-40 h-40 border border-[#d4b48c]/20 rounded-full group-hover/offer:scale-150 transition-transform duration-1000 opacity-0 group-hover/offer:opacity-100"></div>
-                    
-                    <div class="relative mb-6">
-                        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-[#4a90a0]/30 to-[#2c5f73]/30 backdrop-blur-sm flex items-center justify-center border border-white/20 group-hover/offer:scale-110 transition-transform duration-500">
-                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2c5f73] flex items-center justify-center shadow-[0_20px_30px_-10px_rgba(0,0,0,0.3)]">
-                                <i class="fas fa-tree text-3xl text-white"></i>
-                            </div>
-                        </div>
-                        <div class="absolute inset-0 rounded-full border-2 border-[#4a90a0] opacity-0 group-hover/offer:opacity-100 animate-ping-slow"></div>
-                        <div class="absolute -inset-4 rounded-full border border-[#4a90a0]/40 opacity-0 group-hover/offer:opacity-50 animate-pulse-slower"></div>
-                    </div>
-                    
-                    <div class="relative w-full h-48 md:h-56 mb-6 overflow-hidden rounded-2xl shadow-[0_20px_30px_-10px_rgba(0,0,0,0.5)]">
-                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Wilderness Getaway" 
-                             class="w-full h-full object-cover transition-transform duration-7000 group-hover/offer:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        <div class="absolute top-4 right-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
-                            <span class="text-white font-['DM_Serif_Display'] text-lg">KSh 65K</span>
-                            <span class="text-white/60 text-xs ml-1">/person</span>
-                        </div>
-                    </div>
-                    
-                    <div class="relative">
-                        <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-3 drop-shadow-lg">
-                            Weekend Wilderness
-                        </h3>
-                        
-                        <div class="w-16 h-0.5 bg-gradient-to-r from-[#4a90a0] to-transparent mx-auto lg:mx-0 mb-4 group-hover/offer:w-24 transition-all duration-500"></div>
-                        
-                        <p class="text-white/80 text-sm leading-relaxed mb-6 max-w-xs mx-auto lg:mx-0">
-                            Immerse yourself in the wild with guided game drives, bush dinners, and stargazing under the African sky.
-                        </p>
-                        
-                        <div class="space-y-2 mb-8">
-                            <div class="flex items-center gap-2 text-white/70">
-                                <i class="fas fa-check-circle text-[#4a90a0] text-xs"></i>
-                                <span class="text-xs">2 nights in luxury tented camp</span>
-                            </div>
-                            <div class="flex items-center gap-2 text-white/70">
-                                <i class="fas fa-check-circle text-[#4a90a0] text-xs"></i>
-                                <span class="text-xs">Morning & evening game drives</span>
-                            </div>
-                            <div class="flex items-center gap-2 text-white/70">
-                                <i class="fas fa-check-circle text-[#4a90a0] text-xs"></i>
-                                <span class="text-xs">Bush breakfast & Maasai guide</span>
-                            </div>
-                        </div>
-                        
-                        <button class="group/btn relative inline-flex items-center gap-4 px-8 py-3 bg-transparent border border-white/30 text-white rounded-full overflow-hidden hover:border-[#4a90a0] transition-colors duration-300">
-                            <span class="absolute inset-0 bg-gradient-to-r from-[#4a90a0] to-[#2c5f73] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
-                            <span class="relative z-10 text-sm uppercase tracking-wider flex items-center gap-2">
-                                Claim Offer
-                                <i class="fas fa-arrow-right text-xs group-hover/btn:translate-x-1 transition-transform"></i>
-                            </span>
-                            <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#4a90a0] opacity-0 group-hover/btn:opacity-100 transition-opacity"></span>
-                            <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#4a90a0] opacity-0 group-hover/btn:opacity-100 transition-opacity"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Offer 3 - Family Safari Adventure -->
-            <div class="offer-item relative flex-1 px-0 lg:px-8 py-8 lg:py-0 group/offer">
-                <div class="relative flex flex-col items-center lg:items-start text-center lg:text-left">
-                    
-                    <div class="absolute -bottom-10 -left-10 w-40 h-40 border border-[#e9b56b]/20 rounded-full group-hover/offer:scale-150 transition-transform duration-1000 opacity-0 group-hover/offer:opacity-100"></div>
-                    
-                    <div class="relative mb-6">
-                        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-[#e9b56b]/30 to-[#c99a5c]/30 backdrop-blur-sm flex items-center justify-center border border-white/20 group-hover/offer:scale-110 transition-transform duration-500">
-                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#e9b56b] to-[#c99a5c] flex items-center justify-center shadow-[0_20px_30px_-10px_rgba(0,0,0,0.3)]">
-                                <i class="fas fa-paw text-3xl text-white"></i>
-                            </div>
-                        </div>
-                        <div class="absolute inset-0 rounded-full border-2 border-[#e9b56b] opacity-0 group-hover/offer:opacity-100 animate-ping-slow"></div>
-                        <div class="absolute -inset-4 rounded-full border border-[#e9b56b]/40 opacity-0 group-hover/offer:opacity-50 animate-pulse-slower"></div>
-                    </div>
-                    
-                    <div class="relative w-full h-48 md:h-56 mb-6 overflow-hidden rounded-2xl shadow-[0_20px_30px_-10px_rgba(0,0,0,0.5)]">
-                        <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
-                             alt="Family Safari" 
-                             class="w-full h-full object-cover transition-transform duration-7000 group-hover/offer:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                        <div class="absolute top-4 right-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20">
-                            <span class="text-white font-['DM_Serif_Display'] text-lg">KSh 120K</span>
-                            <span class="text-white/60 text-xs ml-1">/family</span>
-                        </div>
-                    </div>
-                    
-                    <div class="relative">
-                        <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-3 drop-shadow-lg">
-                            Family Safari Adventure
-                        </h3>
-                        
-                        <div class="w-16 h-0.5 bg-gradient-to-r from-[#e9b56b] to-transparent mx-auto lg:mx-0 mb-4 group-hover/offer:w-24 transition-all duration-500"></div>
-                        
-                        <p class="text-white/80 text-sm leading-relaxed mb-6 max-w-xs mx-auto lg:mx-0">
-                            Create lasting memories with kid-friendly game drives, cultural visits, and interactive wildlife experiences.
-                        </p>
-                        
-                        <div class="space-y-2 mb-8">
-                            <div class="flex items-center gap-2 text-white/70">
-                                <i class="fas fa-check-circle text-[#e9b56b] text-xs"></i>
-                                <span class="text-xs">Family suite & kids' activities</span>
-                            </div>
-                            <div class="flex items-center gap-2 text-white/70">
-                                <i class="fas fa-check-circle text-[#e9b56b] text-xs"></i>
-                                <span class="text-xs">Junior ranger program</span>
-                            </div>
-                            <div class="flex items-center gap-2 text-white/70">
-                                <i class="fas fa-check-circle text-[#e9b56b] text-xs"></i>
-                                <span class="text-xs">Family game drive & picnic</span>
-                            </div>
-                        </div>
-                        
-                        <button class="group/btn relative inline-flex items-center gap-4 px-8 py-3 bg-transparent border border-white/30 text-white rounded-full overflow-hidden hover:border-[#e9b56b] transition-colors duration-300">
-                            <span class="absolute inset-0 bg-gradient-to-r from-[#e9b56b] to-[#c99a5c] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
-                            <span class="relative z-10 text-sm uppercase tracking-wider flex items-center gap-2">
-                                Claim Offer
-                                <i class="fas fa-arrow-right text-xs group-hover/btn:translate-x-1 transition-transform"></i>
-                            </span>
-                            <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-[#e9b56b] opacity-0 group-hover/btn:opacity-100 transition-opacity"></span>
-                            <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[#e9b56b] opacity-0 group-hover/btn:opacity-100 transition-opacity"></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
         <!-- Bottom Decorative Element -->
@@ -1857,10 +1741,21 @@ document.addEventListener('keydown', function(e) {
             <!-- Main Gallery Grid - Organic Asymmetrical Layout -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 auto-rows-[minmax(180px,auto)]">
                 
-                <!-- Image 1 - Landscape (spans 2 columns on desktop) -->
-                <div class="gallery-item relative col-span-2 row-span-1 md:col-span-2 md:row-span-2 overflow-hidden rounded-3xl shadow-[0_15px_30px_-10px_rgba(0,0,0,0.2)] group/image">
-                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                         alt="Infinity Pool at Sunset" 
+                <?php foreach ($visualStories as $index => $story): ?>
+                <?php 
+                // Determine grid span based on the story's grid_span or default positioning
+                $gridClass = 'col-span-1 row-span-1 md:col-span-1 md:row-span-1';
+                if ($story['grid_span'] === 'large' || $index === 0) {
+                    $gridClass = 'col-span-2 row-span-1 md:col-span-2 md:row-span-2';
+                } elseif ($story['grid_span'] === 'wide' || $index === 3) {
+                    $gridClass = 'col-span-2 row-span-1 md:col-span-2 md:row-span-1';
+                }
+                $roundedClass = ($story['grid_span'] === 'large' || $index === 0) ? 'rounded-3xl' : 'rounded-2xl';
+                ?>
+                <!-- Image <?php echo $index + 1; ?> -->
+                <div class="gallery-item relative <?php echo $gridClass; ?> overflow-hidden <?php echo $roundedClass; ?> shadow-[0_15px_30px_-10px_rgba(0,0,0,0.2)] group/image">
+                    <img src="<?php echo htmlspecialchars($story['image']); ?>" 
+                         alt="<?php echo htmlspecialchars($story['title']); ?>" 
                          class="w-full h-full object-cover transition-all duration-700 group-hover/image:scale-110">
                     
                     <!-- Artistic Overlay - Not a card, just a subtle gradient -->
@@ -1868,70 +1763,17 @@ document.addEventListener('keydown', function(e) {
                     
                     <!-- Floating Caption - Appears on Hover -->
                     <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover/image:translate-y-0 transition-transform duration-500">
-                        <span class="text-white font-['Cormorant_Garamond'] text-xl drop-shadow-lg block">Infinity Edge</span>
-                        <span class="text-white/80 text-xs tracking-wider">Sunset over the pool</span>
+                        <span class="text-white font-['Cormorant_Garamond'] text-xl drop-shadow-lg block"><?php echo htmlspecialchars($story['title']); ?></span>
+                        <?php if ($story['caption']): ?>
+                        <span class="text-white/80 text-xs tracking-wider"><?php echo htmlspecialchars($story['caption']); ?></span>
+                        <?php endif; ?>
                     </div>
                     
                     <!-- Decorative Corner Accent -->
                     <div class="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-white/0 group-hover/image:border-white/60 transition-all duration-500 delay-150"></div>
                     <div class="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-white/0 group-hover/image:border-white/60 transition-all duration-500 delay-150"></div>
                 </div>
-
-                <!-- Image 2 - Portrait -->
-                <div class="gallery-item relative col-span-1 row-span-1 md:col-span-1 md:row-span-1 overflow-hidden rounded-2xl shadow-[0_10px_20px_-5px_rgba(0,0,0,0.15)] group/image">
-                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                         alt="Private Beach" 
-                         class="w-full h-full object-cover transition-all duration-700 group-hover/image:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#3f352e]/60 via-transparent to-transparent opacity-0 group-hover/image:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover/image:translate-y-0 transition-transform duration-500">
-                        <span class="text-white font-['Cormorant_Garamond'] text-base drop-shadow-lg">Private Shore</span>
-                    </div>
-                </div>
-
-                <!-- Image 3 - Square -->
-                <div class="gallery-item relative col-span-1 row-span-1 md:col-span-1 md:row-span-1 overflow-hidden rounded-2xl shadow-[0_10px_20px_-5px_rgba(0,0,0,0.15)] group/image">
-                    <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" 
-                         alt="Luxury Suite" 
-                         class="w-full h-full object-cover transition-all duration-700 group-hover/image:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#3f352e]/60 via-transparent to-transparent opacity-0 group-hover/image:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover/image:translate-y-0 transition-transform duration-500">
-                        <span class="text-white font-['Cormorant_Garamond'] text-base drop-shadow-lg">Ocean Suite</span>
-                    </div>
-                </div>
-
-                <!-- Image 4 - Landscape -->
-                <div class="gallery-item relative col-span-2 row-span-1 md:col-span-2 md:row-span-1 overflow-hidden rounded-3xl shadow-[0_15px_30px_-10px_rgba(0,0,0,0.2)] group/image">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                         alt="Fine Dining" 
-                         class="w-full h-full object-cover transition-all duration-700 group-hover/image:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#3f352e]/60 via-transparent to-transparent opacity-0 group-hover/image:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover/image:translate-y-0 transition-transform duration-500">
-                        <span class="text-white font-['Cormorant_Garamond'] text-xl drop-shadow-lg block">The Dining Room</span>
-                        <span class="text-white/80 text-xs tracking-wider">Culinary artistry</span>
-                    </div>
-                </div>
-
-                <!-- Image 5 - Portrait (appears on desktop only) -->
-                <div class="gallery-item relative hidden md:block col-span-1 row-span-1 overflow-hidden rounded-2xl shadow-[0_10px_20px_-5px_rgba(0,0,0,0.15)] group/image">
-                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                         alt="Spa Treatment" 
-                         class="w-full h-full object-cover transition-all duration-700 group-hover/image:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#3f352e]/60 via-transparent to-transparent opacity-0 group-hover/image:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover/image:translate-y-0 transition-transform duration-500">
-                        <span class="text-white font-['Cormorant_Garamond'] text-base drop-shadow-lg">The Spa</span>
-                    </div>
-                </div>
-
-                <!-- Image 6 - Square (appears on desktop only) -->
-                <div class="gallery-item relative hidden md:block col-span-1 row-span-1 overflow-hidden rounded-2xl shadow-[0_10px_20px_-5px_rgba(0,0,0,0.15)] group/image">
-                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                         alt="Sunset" 
-                         class="w-full h-full object-cover transition-all duration-700 group-hover/image:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#3f352e]/60 via-transparent to-transparent opacity-0 group-hover/image:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover/image:translate-y-0 transition-transform duration-500">
-                        <span class="text-white font-['Cormorant_Garamond'] text-base drop-shadow-lg">African Sunset</span>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
 
             <!-- Floating Polaroid-Style Elements - Unique Addition -->

@@ -403,4 +403,113 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
     </div>
 </div>
 
+<?php elseif ($current_tab == 'gallery'): ?>
+<!-- Gallery Management Content -->
+<div class="admin-card p-6 mb-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Manage Albums</h3>
+        <button onclick="openGalleryAlbumModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Album
+        </button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Album</th>
+                    <th>Photos</th>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="galleryAlbumsTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Gallery Images Section -->
+<div class="admin-card p-6 mb-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Manage Images</h3>
+        <button onclick="openGalleryImageModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Image
+        </button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Album</th>
+                    <th>Caption</th>
+                    <th>Category</th>
+                    <th>Order</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="galleryImagesTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Gallery Video Section -->
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Manage Video</h3>
+        <button onclick="openGalleryVideoModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Video
+        </button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Video</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="galleryVideosTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php elseif ($current_tab == 'offers'): ?>
+<!-- Offers Management Content -->
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Special Offers</h3>
+        <button onclick="openOfferModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Offer
+        </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Offer</th>
+                    <th>Subtitle</th>
+                    <th>Price</th>
+                    <th>Images</th>
+                    <th>Inclusions</th>
+                    <th>Order</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="offersTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <?php endif; ?>

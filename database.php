@@ -1234,3 +1234,336 @@ function getGalleryVideo($pdo) {
     $stmt = $pdo->query("SELECT * FROM gallery_video WHERE is_active = 1 LIMIT 1");
     return $stmt->fetch();
 }
+
+// Create visual_stories table for index.php Moments Captured section
+$createVisualStoriesTable = "CREATE TABLE IF NOT EXISTS visual_stories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    caption VARCHAR(255),
+    image VARCHAR(255) NOT NULL,
+    grid_span VARCHAR(20) DEFAULT 'regular',
+    display_order INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+
+$pdo->exec($createVisualStoriesTable);
+
+// Insert default visual stories if empty
+$stmt = $pdo->query("SELECT COUNT(*) as count FROM visual_stories");
+$result = $stmt->fetch();
+
+if ($result['count'] == 0) {
+    $visualStories = [
+        ['title' => 'Infinity Edge', 'caption' => 'Sunset over the pool', 'image' => 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'grid_span' => 'large', 'display_order' => 1],
+        ['title' => 'Private Shore', 'caption' => '', 'image' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'grid_span' => 'regular', 'display_order' => 2],
+        ['title' => 'Ocean Suite', 'caption' => '', 'image' => 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80', 'grid_span' => 'regular', 'display_order' => 3],
+        ['title' => 'The Dining Room', 'caption' => 'Culinary artistry', 'image' => 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'grid_span' => 'wide', 'display_order' => 4],
+        ['title' => 'The Spa', 'caption' => '', 'image' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'grid_span' => 'regular', 'display_order' => 5],
+        ['title' => 'African Sunset', 'caption' => '', 'image' => 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80', 'grid_span' => 'regular', 'display_order' => 6]
+    ];
+    
+    $vsStmt = $pdo->prepare("INSERT INTO visual_stories (title, caption, image, grid_span, display_order) VALUES (:title, :caption, :image, :grid_span, :display_order)");
+    foreach ($visualStories as $story) {
+        $vsStmt->execute($story);
+    }
+}
+
+// Function to get all visual stories
+function getAllVisualStories($pdo) {
+    $stmt = $pdo->query("SELECT * FROM visual_stories WHERE is_active = 1 ORDER BY display_order ASC");
+    return $stmt->fetchAll();
+}
+
+// Create offers table
+$createOffersTable = "CREATE TABLE IF NOT EXISTS offers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    slug VARCHAR(50) NOT NULL UNIQUE,
+    subtitle VARCHAR(100),
+    description TEXT,
+    price VARCHAR(50),
+    price_label VARCHAR(50),
+    icon VARCHAR(50),
+    icon_color VARCHAR(50),
+    image1 VARCHAR(255),
+    image2 VARCHAR(255),
+    image3 VARCHAR(255),
+    image4 VARCHAR(255),
+    image5 VARCHAR(255),
+    inclusions JSON,
+    display_order INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+
+$pdo->exec($createOffersTable);
+
+// Insert default offers if empty
+$stmt = $pdo->query("SELECT COUNT(*) as count FROM offers");
+$result = $stmt->fetch();
+
+if ($result['count'] == 0) {
+    $offers = [
+        [
+            'title' => 'The Honeymoon Escape',
+            'slug' => 'honeymoon-escape',
+            'subtitle' => 'Celebrate your love',
+            'description' => 'Celebrate your love with a romantic 4-day getaway including candlelit dinners, couples spa treatments, and sunset safari.',
+            'price' => '85K',
+            'price_label' => '/couple',
+            'icon' => 'fa-heart',
+            'icon_color' => '#d4b48c',
+            'image1' => 'https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/17/0a/08/34.jpg',
+            'image2' => 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'image3' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'image4' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'image5' => 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'inclusions' => json_encode(['Private villa with plunge pool', 'Sunset champagne safari', 'Couples massage & rose petal turndown']),
+            'display_order' => 1
+        ],
+        [
+            'title' => 'Weekend Wilderness',
+            'slug' => 'weekend-wilderness',
+            'subtitle' => 'Immerse in nature',
+            'description' => 'Immerse yourself in the wild with guided game drives, bush dinners, and stargazing under the African sky.',
+            'price' => '65K',
+            'price_label' => '/person',
+            'icon' => 'fa-tree',
+            'icon_color' => '#4a90a0',
+            'image1' => 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'image2' => 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
+            'image3' => 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80',
+            'image4' => 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'image5' => 'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'inclusions' => json_encode(['2 nights in luxury tented camp', 'Morning & evening game drives', 'Bush breakfast & Maasai guide']),
+            'display_order' => 2
+        ],
+        [
+            'title' => 'Family Safari Adventure',
+            'slug' => 'family-safari',
+            'subtitle' => 'Create lasting memories',
+            'description' => 'Create lasting memories with kid-friendly game drives, cultural visits, and interactive wildlife experiences.',
+            'price' => '120K',
+            'price_label' => '/family',
+            'icon' => 'fa-paw',
+            'icon_color' => '#e9b56b',
+            'image1' => 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
+            'image2' => 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'image3' => 'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80',
+            'image4' => 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'image5' => 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+            'inclusions' => json_encode(['Family suite & kids activities', 'Junior ranger program', 'Family game drive & picnic']),
+            'display_order' => 3
+        ]
+    ];
+    
+    $offerStmt = $pdo->prepare("INSERT INTO offers (title, slug, subtitle, description, price, price_label, icon, icon_color, image1, image2, image3, image4, image5, inclusions, display_order) VALUES (:title, :slug, :subtitle, :description, :price, :price_label, :icon, :icon_color, :image1, :image2, :image3, :image4, :image5, :inclusions, :display_order)");
+    foreach ($offers as $offer) {
+        $offerStmt->execute($offer);
+    }
+}
+
+// Function to get all offers
+function getAllOffers($pdo) {
+    $stmt = $pdo->query("SELECT * FROM offers WHERE is_active = 1 ORDER BY display_order ASC");
+    return $stmt->fetchAll();
+}
+
+// Function to get offer by slug
+function getOfferBySlug($pdo, $slug) {
+    $stmt = $pdo->prepare("SELECT * FROM offers WHERE slug = :slug AND is_active = 1");
+    $stmt->execute([':slug' => $slug]);
+    return $stmt->fetch();
+}
+
+// ==================== GALLERY MANAGEMENT FUNCTIONS ====================
+
+// Function to get all gallery albums (including inactive)
+function getAllGalleryAlbumsAdmin($pdo) {
+    $stmt = $pdo->query("SELECT * FROM gallery_albums ORDER BY display_order ASC");
+    return $stmt->fetchAll();
+}
+
+// Function to add gallery album
+function addGalleryAlbum($pdo, $data) {
+    $stmt = $pdo->prepare("INSERT INTO gallery_albums (title, slug, description, cover_image, icon, photo_count, display_order) VALUES (:title, :slug, :description, :cover_image, :icon, :photo_count, :display_order)");
+    $stmt->execute([
+        ':title' => $data['title'],
+        ':slug' => $data['slug'],
+        ':description' => $data['description'],
+        ':cover_image' => $data['cover_image'],
+        ':icon' => $data['icon'],
+        ':photo_count' => $data['photo_count'] ?? 0,
+        ':display_order' => $data['display_order'] ?? 0
+    ]);
+    return $pdo->lastInsertId();
+}
+
+// Function to update gallery album
+function updateGalleryAlbum($pdo, $id, $data) {
+    $stmt = $pdo->prepare("UPDATE gallery_albums SET title = :title, slug = :slug, description = :description, cover_image = :cover_image, icon = :icon, photo_count = :photo_count, display_order = :display_order WHERE id = :id");
+    $stmt->execute([
+        ':id' => $id,
+        ':title' => $data['title'],
+        ':slug' => $data['slug'],
+        ':description' => $data['description'],
+        ':cover_image' => $data['cover_image'],
+        ':icon' => $data['icon'],
+        ':photo_count' => $data['photo_count'] ?? 0,
+        ':display_order' => $data['display_order'] ?? 0
+    ]);
+}
+
+// Function to delete gallery album
+function deleteGalleryAlbum($pdo, $id) {
+    $stmt = $pdo->prepare("UPDATE gallery_albums SET is_active = 0 WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+}
+
+// Function to get all gallery images (including inactive)
+function getAllGalleryImagesAdmin($pdo) {
+    $stmt = $pdo->query("SELECT gi.*, ga.title as album_title, ga.slug as album_slug FROM gallery_images gi INNER JOIN gallery_albums ga ON gi.album_id = ga.id ORDER BY ga.display_order ASC, gi.display_order ASC");
+    return $stmt->fetchAll();
+}
+
+// Function to add gallery image
+function addGalleryImage($pdo, $data) {
+    $stmt = $pdo->prepare("INSERT INTO gallery_images (album_id, src, caption, category, grid_size, display_order) VALUES (:album_id, :src, :caption, :category, :grid_size, :display_order)");
+    $stmt->execute([
+        ':album_id' => $data['album_id'],
+        ':src' => $data['src'],
+        ':caption' => $data['caption'],
+        ':category' => $data['category'],
+        ':grid_size' => $data['grid_size'] ?? 'regular',
+        ':display_order' => $data['display_order'] ?? 0
+    ]);
+    // Update album photo count
+    $pdo->exec("UPDATE gallery_albums SET photo_count = photo_count + 1 WHERE id = " . intval($data['album_id']));
+    return $pdo->lastInsertId();
+}
+
+// Function to update gallery image
+function updateGalleryImage($pdo, $id, $data) {
+    $stmt = $pdo->prepare("UPDATE gallery_images SET album_id = :album_id, src = :src, caption = :caption, category = :category, grid_size = :grid_size, display_order = :display_order WHERE id = :id");
+    $stmt->execute([
+        ':id' => $id,
+        ':album_id' => $data['album_id'],
+        ':src' => $data['src'],
+        ':caption' => $data['caption'],
+        ':category' => $data['category'],
+        ':grid_size' => $data['grid_size'] ?? 'regular',
+        ':display_order' => $data['display_order'] ?? 0
+    ]);
+}
+
+// Function to delete gallery image
+function deleteGalleryImage($pdo, $id) {
+    // Get album_id before deleting
+    $stmt = $pdo->query("SELECT album_id FROM gallery_images WHERE id = " . intval($id));
+    $image = $stmt->fetch();
+    
+    $stmt = $pdo->prepare("UPDATE gallery_images SET is_active = 0 WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+    
+    // Update album photo count
+    if ($image) {
+        $pdo->exec("UPDATE gallery_albums SET photo_count = GREATEST(photo_count - 1, 0) WHERE id = " . intval($image['album_id']));
+    }
+}
+
+// Function to get all gallery videos (including inactive)
+function getAllGalleryVideosAdmin($pdo) {
+    $stmt = $pdo->query("SELECT * FROM gallery_video ORDER BY id ASC");
+    return $stmt->fetchAll();
+}
+
+// Function to add gallery video
+function addGalleryVideo($pdo, $data) {
+    $stmt = $pdo->prepare("INSERT INTO gallery_video (title, description, thumbnail, video_url) VALUES (:title, :description, :thumbnail, :video_url)");
+    $stmt->execute([
+        ':title' => $data['title'],
+        ':description' => $data['description'],
+        ':thumbnail' => $data['thumbnail'],
+        ':video_url' => $data['video_url']
+    ]);
+    return $pdo->lastInsertId();
+}
+
+// Function to update gallery video
+function updateGalleryVideo($pdo, $id, $data) {
+    $stmt = $pdo->prepare("UPDATE gallery_video SET title = :title, description = :description, thumbnail = :thumbnail, video_url = :video_url WHERE id = :id");
+    $stmt->execute([
+        ':id' => $id,
+        ':title' => $data['title'],
+        ':description' => $data['description'],
+        ':thumbnail' => $data['thumbnail'],
+        ':video_url' => $data['video_url']
+    ]);
+}
+
+// Function to delete gallery video
+function deleteGalleryVideo($pdo, $id) {
+    $stmt = $pdo->prepare("UPDATE gallery_video SET is_active = 0 WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+}
+
+// ==================== OFFERS MANAGEMENT FUNCTIONS ====================
+
+// Function to get all offers (including inactive)
+function getAllOffersAdmin($pdo) {
+    $stmt = $pdo->query("SELECT * FROM offers ORDER BY display_order ASC");
+    return $stmt->fetchAll();
+}
+
+// Function to add offer
+function addOffer($pdo, $data) {
+    $stmt = $pdo->prepare("INSERT INTO offers (title, slug, subtitle, description, price, price_label, icon, icon_color, image1, image2, image3, image4, image5, inclusions, display_order) VALUES (:title, :slug, :subtitle, :description, :price, :price_label, :icon, :icon_color, :image1, :image2, :image3, :image4, :image5, :inclusions, :display_order)");
+    $stmt->execute([
+        ':title' => $data['title'],
+        ':slug' => $data['slug'],
+        ':subtitle' => $data['subtitle'],
+        ':description' => $data['description'],
+        ':price' => $data['price'],
+        ':price_label' => $data['price_label'],
+        ':icon' => $data['icon'],
+        ':icon_color' => $data['icon_color'],
+        ':image1' => $data['image1'],
+        ':image2' => $data['image2'],
+        ':image3' => $data['image3'],
+        ':image4' => $data['image4'],
+        ':image5' => $data['image5'],
+        ':inclusions' => $data['inclusions'],
+        ':display_order' => $data['display_order'] ?? 0
+    ]);
+    return $pdo->lastInsertId();
+}
+
+// Function to update offer
+function updateOffer($pdo, $id, $data) {
+    $stmt = $pdo->prepare("UPDATE offers SET title = :title, slug = :slug, subtitle = :subtitle, description = :description, price = :price, price_label = :price_label, icon = :icon, icon_color = :icon_color, image1 = :image1, image2 = :image2, image3 = :image3, image4 = :image4, image5 = :image5, inclusions = :inclusions, display_order = :display_order WHERE id = :id");
+    $stmt->execute([
+        ':id' => $id,
+        ':title' => $data['title'],
+        ':slug' => $data['slug'],
+        ':subtitle' => $data['subtitle'],
+        ':description' => $data['description'],
+        ':price' => $data['price'],
+        ':price_label' => $data['price_label'],
+        ':icon' => $data['icon'],
+        ':icon_color' => $data['icon_color'],
+        ':image1' => $data['image1'],
+        ':image2' => $data['image2'],
+        ':image3' => $data['image3'],
+        ':image4' => $data['image4'],
+        ':image5' => $data['image5'],
+        ':inclusions' => $data['inclusions'],
+        ':display_order' => $data['display_order'] ?? 0
+    ]);
+}
+
+// Function to delete offer
+function deleteOffer($pdo, $id) {
+    $stmt = $pdo->prepare("UPDATE offers SET is_active = 0 WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+}
