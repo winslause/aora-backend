@@ -1,4 +1,9 @@
 <?php include 'header.php'; ?>
+<?php
+// Page-specific SEO
+$pageTitle = "About Aora45 - Our Story, Mission & Vision | Luxury Resort Nairobi";
+$pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn about our mission, vision, awards, and the unique Kenyan hospitality experience we offer. Book your stay at Africa's leading resort.";
+?>
 
 <style>
 @media (min-width: 1024px) {

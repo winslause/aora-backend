@@ -188,10 +188,12 @@ $createMenuItemsTable = "CREATE TABLE IF NOT EXISTS menu_items (
     price DECIMAL(10,2) NOT NULL,
     image VARCHAR(255),
     ingredients TEXT,
+    allergens TEXT,
     spice_level VARCHAR(20),
     dietary_info VARCHAR(100),
     is_available TINYINT(1) DEFAULT 1,
     is_signature TINYINT(1) DEFAULT 0,
+    display_order INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES menu_categories(id)
 )";

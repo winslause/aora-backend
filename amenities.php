@@ -39,7 +39,32 @@ foreach ($amenityCategories as $category) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aora - Unparalleled Amenities</title>
+    <title>Luxury Hotel Amenities at Aora45 | Spa, Pool, Fitness Center Nairobi</title>
+    <meta name="description" content="Discover Aora45 hotel amenities in Nairobi: luxury spa, infinity pool, fitness center, business center, and more. Experience world-class facilities during your stay.">
+    <meta name="keywords" content="hotel amenities Nairobi, luxury spa Kenya, hotel pool Nairobi, fitness center hotel, business center Nairobi, wellness center Kenya, Aora45 amenities, resort facilities">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Luxury Hotel Amenities at Aora45">
+    <meta property="og:description" content="Discover Aora45 hotel amenities in Nairobi: luxury spa, infinity pool, fitness center, and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aora45.com/amenities.php">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Luxury Hotel Amenities at Aora45">
+    <meta name="twitter:description" content="Discover Aora45 hotel amenities in Nairobi.">
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Hotel",
+        "name": "Aora45",
+        "amenityFeature": [
+            {"@type": "LocationFeatureSpecification", "name": "Spa", "description": "Full-service luxury spa"},
+            {"@type": "LocationFeatureSpecification", "name": "Swimming Pool", "description": "Infinity pool"},
+            {"@type": "LocationFeatureSpecification", "name": "Fitness Center", "description": "24/7 gym"},
+            {"@type": "LocationFeatureSpecification", "name": "Business Center", "description": "Meeting and conference facilities"}
+        ]
+    }
+    </script>
     <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for Icons -->

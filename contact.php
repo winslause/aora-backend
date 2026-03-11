@@ -1,4 +1,9 @@
 <?php include 'header.php'; ?>
+<?php
+// Page-specific SEO
+$pageTitle = "Contact Aora45 - Get in Touch | Luxury Resort Nairobi, Kenya";
+$pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for reservations, inquiries, or feedback. Find our location, phone, email, and send us a message today.";
+?>
 
 <style>
 @media (min-width: 1024px) {

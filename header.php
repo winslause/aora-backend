@@ -3,7 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aora45 - Hero Section</title>
+    <title><?php echo isset($pageTitle) ? $pageTitle : 'Aora45 - Luxury Resort & Restaurant in Nairobi, Kenya'; ?></title>
+    <meta name="description" content="<?php echo isset($pageDescription) ? $pageDescription : 'Aora45 - Experience luxury at our premium resort in Nairobi, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities. Book your stay today.'; ?>"">
+    <meta name="keywords" content="luxury hotel, resort, Nairobi, Kenya, accommodation, restaurant, spa, events, wedding venue, fine dining, Aora45, luxury stay, hotel booking">
+    <meta name="author" content="Aora45 Resort">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aora45.com/">
+    <meta property="og:title" content="Aora45 - Luxury Resort & Restaurant in Nairobi, Kenya">
+    <meta property="og:description" content="Experience luxury at our premium resort in Nairobi, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:site_name" content="Aora45 Resort">
+    <meta property="og:locale" content="en_KE">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aora45 - Luxury Resort & Restaurant in Nairobi, Kenya">
+    <meta name="twitter:description" content="Experience luxury at our premium resort in Nairobi, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities.">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://aora45.com/">
+    
+    <!-- Schema.org JSON-LD for Hotel -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Hotel",
+        "name": "Aora45 Resort",
+        "description": "Experience luxury at our premium resort in Nairobi, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities.",
+        "url": "https://aora45.com",
+        "telephone": "+2541234567",
+        "email": "info@aora45.com",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Nairobi",
+            "addressLocality": "Nairobi",
+            "addressRegion": "Nairobi County",
+            "addressCountry": "KE",
+            "postalCode": "00100"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "-1.2921",
+            "longitude": "36.8219"
+        },
+        "priceRange": "$$",
+        "starRating": {
+            "@type": "Rating",
+            "ratingValue": "5"
+        },
+        "amenityFeature": [
+            {"@type": "LocationFeatureSpecification", "name": "Free WiFi", "value": true},
+            {"@type": "LocationFeatureSpecification", "name": "Parking", "value": true},
+            {"@type": "LocationFeatureSpecification", "name": "Pool", "value": true},
+            {"@type": "LocationFeatureSpecification", "name": "Spa", "value": true},
+            {"@type": "LocationFeatureSpecification", "name": "Restaurant", "value": true},
+            {"@type": "LocationFeatureSpecification", "name": "Room Service", "value": true},
+            {"@type": "LocationFeatureSpecification", "name": "Fitness Center", "value": true}
+        ],
+        "checkinTime": "14:00",
+        "checkoutTime": "12:00",
+        "paymentAccepted": ["Cash", "Credit Card", "Debit Card"],
+        "currenciesAccepted": "KES"
+    }
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo1.png">
+    
     <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for Icons -->

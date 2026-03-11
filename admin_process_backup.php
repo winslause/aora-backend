@@ -727,7 +727,7 @@ switch ($action) {
                     <div class='message-box'>
                         <p><strong>Your Booking Details:</strong></p>
                         <p>Booking ID: #{$booking['id']}</p>
-                        <p>Room: {$booking['room_id']}</p>
+                        <p>Room: {$booking['room_name'] ?? $booking['room_id'] ?? 'Not specified'}</p>
                         <p>Check-in: {$booking['check_in']}</p>
                         <p>Check-out: {$booking['check_out']}</p>
                     </div>
@@ -1443,19 +1443,8 @@ switch ($action) {
         $stmt = $pdo->query("SELECT mi.*, mc.name as category_name FROM menu_items mi LEFT JOIN menu_categories mc ON mi.category_id = mc.id ORDER BY mc.display_order ASC, mi.display_order ASC");
         $items = $stmt->fetchAll();
         foreach ($items as &$item) {
-            // Decode JSON columns if they exist and are valid JSON
-            if (isset($item['ingredients']) && $item['ingredients']) {
-                $decoded = json_decode($item['ingredients'], true);
-                $item['ingredients'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
-            } else {
-                $item['ingredients'] = [];
-            }
-            if (isset($item['allergens']) && $item['allergens']) {
-                $decoded = json_decode($item['allergens'], true);
-                $item['allergens'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
-            } else {
-                $item['allergens'] = [];
-            }
+            $item['ingredients'] = json_decode($item['ingredients'], true);
+            $item['allergens'] = json_decode($item['allergens'], true);
         }
         echo json_encode(['success' => true, 'items' => $items]);
         break;

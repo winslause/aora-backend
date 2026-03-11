@@ -1,6 +1,10 @@
 <?php 
 include 'database.php';
 
+// Page-specific SEO
+$pageTitle = "Gallery - Visual Journey of Aora45 | Luxury Resort Nairobi";
+$pageDescription = "Explore stunning photos of Aora45 luxury resort in Nairobi. View our elegant rooms, restaurant, spa, amenities, and beautiful surroundings in our photo gallery.";
+
 // Get gallery data from database
 $galleryAlbums = getAllGalleryAlbums($pdo);
 $galleryImages = getAllGalleryImages($pdo);

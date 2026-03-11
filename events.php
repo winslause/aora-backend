@@ -1,6 +1,10 @@
 <?php 
 include 'header.php';
 
+// Page-specific SEO
+$pageTitle = "Event Venues & Wedding Spaces in Nairobi | Aora45";
+$pageDescription = "Host your dream wedding, corporate event, or private party at Aora45 in Nairobi. Our luxury event venues include grand ballroom, beachfront, and garden pavilion. Book your special occasion today.";
+
 // Include database connection
 include 'database.php';
 

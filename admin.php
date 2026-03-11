@@ -92,6 +92,8 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             <a href="?tab=events" class="sidebar-link <?php echo $current_tab == 'events' ? 'active' : ''; ?>"><i class="fas fa-calendar-alt"></i> Events</a>
             <a href="?tab=gallery" class="sidebar-link <?php echo $current_tab == 'gallery' ? 'active' : ''; ?>"><i class="fas fa-images"></i> Gallery</a>
             <a href="?tab=offers" class="sidebar-link <?php echo $current_tab == 'offers' ? 'active' : ''; ?>"><i class="fas fa-gift"></i> Offers</a>
+            <a href="?tab=menu" class="sidebar-link <?php echo $current_tab == 'menu' ? 'active' : ''; ?>"><i class="fas fa-utensils"></i> Menu</a>
+            <a href="?tab=settings" class="sidebar-link <?php echo $current_tab == 'settings' ? 'active' : ''; ?>"><i class="fas fa-cog"></i> Settings</a>
             <a href="admin_login.php?logout=1" class="sidebar-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
@@ -123,6 +125,8 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 <a href="?tab=events" class="sidebar-link <?php echo $current_tab == 'events' ? 'active' : ''; ?>"><i class="fas fa-calendar-alt"></i> Events</a>
                 <a href="?tab=gallery" class="sidebar-link <?php echo $current_tab == 'gallery' ? 'active' : ''; ?>"><i class="fas fa-images"></i> Gallery</a>
                 <a href="?tab=offers" class="sidebar-link <?php echo $current_tab == 'offers' ? 'active' : ''; ?>"><i class="fas fa-gift"></i> Offers</a>
+                <a href="?tab=menu" class="sidebar-link <?php echo $current_tab == 'menu' ? 'active' : ''; ?>"><i class="fas fa-utensils"></i> Menu</a>
+                <a href="?tab=settings" class="sidebar-link <?php echo $current_tab == 'settings' ? 'active' : ''; ?>"><i class="fas fa-cog"></i> Settings</a>
                 
                 <div class="px-4 mt-6 mb-4">
                     <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Account</p>
@@ -160,6 +164,8 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                                 case 'events': echo 'Events Management'; break;
                                 case 'gallery': echo 'Gallery Management'; break;
                                 case 'offers': echo 'Offers Management'; break;
+                                case 'menu': echo 'Menu Management'; break;
+                                case 'settings': echo 'Settings'; break;
                                 default: echo 'Dashboard Overview';
                             }
                             ?>
@@ -616,13 +622,17 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     <textarea id="galleryAlbumDescription" class="admin-input" rows="2" placeholder="Brief description..."></textarea>
                 </div>
                 <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image URL</label>
-                    <input type="url" id="galleryAlbumCover" class="admin-input" placeholder="https://example.com/image.jpg">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
+                    <input type="file" id="galleryAlbumCoverFile" class="admin-input mb-2" accept="image/*">
+                    <input type="url" id="galleryAlbumCover" class="admin-input" placeholder="Or paste URL">
                     <div id="previewGalleryAlbumCover" class="mt-2"></div>
                 </div>
                 <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Icon (FontAwesome class)</label>
-                    <input type="text" id="galleryAlbumIcon" class="admin-input" value="fa-images" placeholder="fa-images">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                    <div class="flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg">
+                        <i class="fas fa-images text-[#b89a78]"></i>
+                        <span class="text-sm text-gray-500">fa-images (automatic)</span>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Photo Count</label>
@@ -658,8 +668,9 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
-                    <input type="url" id="galleryImageSrc" class="admin-input" placeholder="https://example.com/image.jpg" required>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Image (Upload or URL)</label>
+                    <input type="file" id="galleryImageFile" class="admin-input mb-2" accept="image/*">
+                    <input type="url" id="galleryImageSrc" class="admin-input" placeholder="Or paste URL" required>
                     <div id="previewGalleryImage" class="mt-2"></div>
                 </div>
                 <div class="mb-3">
@@ -687,6 +698,37 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Image</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Album Images Modal - For managing images within an album -->
+    <div id="albumImagesModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="albumImagesModalTitle" class="text-xl font-semibold">Manage Album Images</h3>
+                <button onclick="closeAlbumImagesModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <input type="hidden" id="albumImagesAlbumId">
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Add New Images</label>
+                <input type="file" id="albumNewImages" class="admin-input" accept="image/*" multiple>
+            </div>
+            <div class="mb-4">
+                <button onclick="uploadAlbumImages()" class="admin-btn-primary">
+                    <i class="fas fa-upload mr-2"></i>Upload Images
+                </button>
+            </div>
+            <div class="mb-4">
+                <h4 class="text-sm font-medium text-gray-700 mb-2">Current Images</h4>
+                <div id="albumImagesGrid" class="grid grid-cols-4 gap-3 max-h-64 overflow-y-auto">
+                    <!-- Images will be loaded here -->
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="closeAlbumImagesModal()" class="admin-btn-secondary flex-1">Close</button>
+            </div>
         </div>
     </div>
 
@@ -756,7 +798,10 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     </div>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
-                        <input type="text" id="offerIcon" class="admin-input" value="fa-gift">
+                        <div class="flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg">
+                            <i class="fas fa-gift text-[#b89a78]"></i>
+                            <span class="text-sm text-gray-500">fa-gift (automatic)</span>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Icon Color</label>
@@ -770,26 +815,31 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 
                 <!-- Images (5 required) -->
                 <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Images (5 images)</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Images (5 images - Upload or URL)</label>
                     <div class="grid grid-cols-5 gap-2">
                         <div>
-                            <input type="url" id="offerImage1" class="admin-input text-xs" placeholder="Image 1 URL">
+                            <input type="file" id="offerImageFile1" class="admin-input text-xs" accept="image/*">
+                            <input type="url" id="offerImage1" class="admin-input text-xs mt-1" placeholder="Or URL">
                             <div id="previewOfferImage1" class="mt-1"></div>
                         </div>
                         <div>
-                            <input type="url" id="offerImage2" class="admin-input text-xs" placeholder="Image 2 URL">
+                            <input type="file" id="offerImageFile2" class="admin-input text-xs" accept="image/*">
+                            <input type="url" id="offerImage2" class="admin-input text-xs mt-1" placeholder="Or URL">
                             <div id="previewOfferImage2" class="mt-1"></div>
                         </div>
                         <div>
-                            <input type="url" id="offerImage3" class="admin-input text-xs" placeholder="Image 3 URL">
+                            <input type="file" id="offerImageFile3" class="admin-input text-xs" accept="image/*">
+                            <input type="url" id="offerImage3" class="admin-input text-xs mt-1" placeholder="Or URL">
                             <div id="previewOfferImage3" class="mt-1"></div>
                         </div>
                         <div>
-                            <input type="url" id="offerImage4" class="admin-input text-xs" placeholder="Image 4 URL">
+                            <input type="file" id="offerImageFile4" class="admin-input text-xs" accept="image/*">
+                            <input type="url" id="offerImage4" class="admin-input text-xs mt-1" placeholder="Or URL">
                             <div id="previewOfferImage4" class="mt-1"></div>
                         </div>
                         <div>
-                            <input type="url" id="offerImage5" class="admin-input text-xs" placeholder="Image 5 URL">
+                            <input type="file" id="offerImageFile5" class="admin-input text-xs" accept="image/*">
+                            <input type="url" id="offerImage5" class="admin-input text-xs mt-1" placeholder="Or URL">
                             <div id="previewOfferImage5" class="mt-1"></div>
                         </div>
                     </div>
@@ -806,6 +856,93 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 <div class="flex gap-3">
                     <button type="button" onclick="closeOfferModal()" class="admin-btn-secondary flex-1">Cancel</button>
                     <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Offer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Menu Category Modal -->
+    <div id="menuCategoryModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="menuCategoryModalTitle" class="text-xl font-semibold">Add New Category</h3>
+                <button onclick="closeMenuCategoryModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="menuCategoryForm">
+                <input type="hidden" id="menuCategoryId">
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category Name</label>
+                    <input type="text" id="menuCategoryName" class="admin-input" placeholder="e.g., Breakfast, Lunch, Dinner" required>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="menuCategoryDescription" class="admin-input" rows="2" placeholder="Brief description..."></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                    <input type="number" id="menuCategoryOrder" class="admin-input" value="0">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeMenuCategoryModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Menu Item Modal -->
+    <div id="menuItemModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="menuItemModalTitle" class="text-xl font-semibold">Add New Menu Item</h3>
+                <button onclick="closeMenuItemModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="menuItemForm">
+                <input type="hidden" id="menuItemId">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Item Name</label>
+                        <input type="text" id="menuItemName" class="admin-input" placeholder="e.g., Grilled Salmon" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select id="menuItemCategory" class="admin-input" required>
+                            <option value="">Select Category</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price (KSh)</label>
+                        <input type="number" id="menuItemPrice" class="admin-input" placeholder="2500" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                        <input type="number" id="menuItemOrder" class="admin-input" value="0">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="menuItemDescription" class="admin-input" rows="2" placeholder="Item description..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Image (Upload or URL)</label>
+                    <input type="file" id="menuItemImageFile" class="admin-input mb-2" accept="image/*">
+                    <input type="url" id="menuItemImage" class="admin-input" placeholder="Or paste image URL">
+                    <div id="previewMenuItemImage" class="mt-2"></div>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Is Available</label>
+                    <select id="menuItemAvailable" class="admin-input">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeMenuItemModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Item</button>
                 </div>
             </form>
         </div>
@@ -1948,10 +2085,23 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         });
 
+        // ==================== PAGINATION STATE ====================
+        let paginationState = {
+            rooms: { page: 1, totalPages: 1 },
+            amenities: { page: 1, totalPages: 1 },
+            bookings: { page: 1, totalPages: 1 },
+            inquiries: { page: 1, totalPages: 1 },
+            galleryImages: { page: 1, totalPages: 1 },
+            offers: { page: 1, totalPages: 1 },
+            menuItems: { page: 1, totalPages: 1 }
+        };
+
         // Load Rooms
-        function loadRooms() {
+        function loadRooms(page = 1) {
+            paginationState.rooms.page = page;
             const formData = new FormData();
-            formData.append('action', 'get_all_rooms');
+            formData.append('action', 'get_rooms_paginated');
+            formData.append('page', page);
             
             fetch('admin_process.php', {
                 method: 'POST',
@@ -1960,6 +2110,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.rooms.totalPages = data.total_pages;
                     const tbody = document.getElementById('roomsTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.rooms.map(room => `
@@ -1981,14 +2132,32 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('roomsPagination', paginationState.rooms.page, paginationState.rooms.totalPages, 'loadRooms');
                 }
             });
         }
 
+        function renderPagination(containerId, currentPage, totalPages, loadFunction) {
+            const container = document.getElementById(containerId);
+            if (!container || totalPages <= 1) {
+                if (container) container.innerHTML = '';
+                return;
+            }
+            
+            let html = `<div class="flex items-center justify-between mt-4">
+                <button onclick="${loadFunction}(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''} class="px-3 py-1 border rounded ${currentPage === 1 ? 'bg-gray-100 text-gray-400' : 'bg-white hover:bg-gray-50'}">Previous</button>
+                <span class="text-sm text-gray-600">Page ${currentPage} of ${totalPages}</span>
+                <button onclick="${loadFunction}(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''} class="px-3 py-1 border rounded ${currentPage === totalPages ? 'bg-gray-100 text-gray-400' : 'bg-white hover:bg-gray-50'}">Next</button>
+            </div>`;
+            container.innerHTML = html;
+        }
+
         // Load Amenities
-        function loadAmenities() {
+        function loadAmenities(page = 1) {
+            paginationState.amenities.page = page;
             const formData = new FormData();
-            formData.append('action', 'get_all_amenities');
+            formData.append('action', 'get_amenities_paginated');
+            formData.append('page', page);
             
             fetch('admin_process.php', {
                 method: 'POST',
@@ -1997,6 +2166,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.amenities.totalPages = data.total_pages;
                     const tbody = document.getElementById('amenitiesTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.amenities.map(amenity => `
@@ -2023,14 +2193,17 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('amenitiesPagination', paginationState.amenities.page, paginationState.amenities.totalPages, 'loadAmenities');
                 }
             });
         }
 
         // Load Bookings
-        function loadBookings() {
+        function loadBookings(page = 1) {
+            paginationState.bookings.page = page;
             const formData = new FormData();
-            formData.append('action', 'get_all_bookings');
+            formData.append('action', 'get_bookings_paginated');
+            formData.append('page', page);
             
             fetch('admin_process.php', {
                 method: 'POST',
@@ -2039,6 +2212,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.bookings.totalPages = data.total_pages;
                     const tbody = document.getElementById('bookingsTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.bookings.map(booking => `
@@ -2046,7 +2220,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                                 <td class="font-medium">#BK-${String(booking.id).padStart(4, '0')}</td>
                                 <td>${booking.guest_name}</td>
                                 <td>${booking.guest_email}</td>
-                                <td>${booking.room_name || 'N/A'}</td>
+                                <td>${booking.room_name || booking.room_id || 'N/A'}</td>
                                 <td>${booking.check_in}</td>
                                 <td>${booking.check_out}</td>
                                 <td>
@@ -2069,6 +2243,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('bookingsPagination', paginationState.bookings.page, paginationState.bookings.totalPages, 'loadBookings');
                 }
             });
         }
@@ -2290,7 +2465,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('title', document.getElementById('galleryAlbumTitle').value);
             formData.append('description', document.getElementById('galleryAlbumDescription').value);
             formData.append('cover_image', document.getElementById('galleryAlbumCover').value);
-            formData.append('icon', document.getElementById('galleryAlbumIcon').value);
+            formData.append('icon', 'fa-images'); // Always use fa-images automatically
             formData.append('photo_count', document.getElementById('galleryAlbumCount').value);
             formData.append('display_order', document.getElementById('galleryAlbumOrder').value);
 
@@ -2326,6 +2501,9 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                                 <td>${album.display_order || 0}</td>
                                 <td>${album.is_active == 1 ? '<span class="status-badge confirmed">Active</span>' : '<span class="status-badge cancelled">Inactive</span>'}</td>
                                 <td>
+                                    <button onclick="openAlbumImagesModal(${album.id}, '${album.title}')" class="text-blue-600 hover:text-blue-800 mr-3" title="Manage Images">
+                                        <i class="fas fa-images"></i>
+                                    </button>
                                     <button onclick='openGalleryAlbumModal(${JSON.stringify(album).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
                                     <button onclick="deleteGalleryAlbum(${album.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
                                 </td>
@@ -2403,6 +2581,12 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('grid_size', document.getElementById('galleryImageSize').value);
             formData.append('display_order', document.getElementById('galleryImageOrder').value);
 
+            // Add file if selected
+            const imageFile = document.getElementById('galleryImageFile').files[0];
+            if (imageFile) {
+                formData.append('imageFile', imageFile);
+            }
+
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
@@ -2410,17 +2594,21 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 if (data.success) {
                     closeGalleryImageModal();
                     loadGalleryImages();
+                    loadGalleryAlbums();
                 }
             });
         });
 
-        function loadGalleryImages() {
+        function loadGalleryImages(page = 1) {
+            paginationState.galleryImages.page = page;
             const formData = new FormData();
-            formData.append('action', 'get_all_gallery_images');
+            formData.append('action', 'get_gallery_images_paginated');
+            formData.append('page', page);
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.galleryImages.totalPages = data.total_pages;
                     const tbody = document.getElementById('galleryImagesTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.images.map(image => `
@@ -2441,6 +2629,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('galleryImagesPagination', paginationState.galleryImages.page, paginationState.galleryImages.totalPages, 'loadGalleryImages');
                 }
             });
         }
@@ -2455,6 +2644,110 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 .then(data => {
                     alert(data.message);
                     if (data.success) loadGalleryImages();
+                });
+            }
+        }
+
+        // ==================== ALBUM IMAGES MANAGEMENT ====================
+        
+        function openAlbumImagesModal(albumId, albumTitle) {
+            document.getElementById('albumImagesModalTitle').textContent = 'Manage Images - ' + albumTitle;
+            document.getElementById('albumImagesAlbumId').value = albumId;
+            document.getElementById('albumNewImages').value = '';
+            loadAlbumImages(albumId);
+            document.getElementById('albumImagesModal').classList.add('open');
+        }
+        
+        function closeAlbumImagesModal() {
+            document.getElementById('albumImagesModal').classList.remove('open');
+        }
+        
+        function loadAlbumImages(albumId) {
+            const formData = new FormData();
+            formData.append('action', 'get_gallery_images_by_album');
+            formData.append('album_id', albumId);
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('albumImagesGrid');
+                if (data.success && data.images.length > 0) {
+                    container.innerHTML = data.images.map(img => `
+                        <div class="relative group">
+                            <img src="${img.src}" class="w-full h-24 object-cover rounded">
+                            <button onclick="deleteAlbumImage(${img.id}, ${albumId})" class="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <i class="fas fa-times text-xs"></i>
+                            </button>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<p class="text-gray-500 text-sm col-span-4">No images in this album yet. Upload some!</p>';
+                }
+            });
+        }
+        
+        function uploadAlbumImages() {
+            const albumId = document.getElementById('albumImagesAlbumId').value;
+            const fileInput = document.getElementById('albumNewImages');
+            const files = fileInput.files;
+            
+            if (files.length === 0) {
+                alert('Please select images to upload');
+                return;
+            }
+            
+            for (let i = 0; i < files.length; i++) {
+                const formData = new FormData();
+                formData.append('action', 'add_gallery_image');
+                formData.append('album_id', albumId);
+                formData.append('src', ''); // Will be set after upload
+                formData.append('imageFile', files[i]);
+                
+                // Upload file first
+                const uploadFormData = new FormData();
+                uploadFormData.append('action', 'upload_gallery_image');
+                uploadFormData.append('album_id', albumId);
+                uploadFormData.append('imageFile', files[i]);
+                
+                fetch('admin_process.php', { method: 'POST', body: uploadFormData })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Now add to database
+                        const addFormData = new FormData();
+                        addFormData.append('action', 'add_gallery_image');
+                        addFormData.append('album_id', albumId);
+                        addFormData.append('src', data.file_path);
+                        addFormData.append('caption', '');
+                        addFormData.append('category', '');
+                        addFormData.append('grid_size', 'regular');
+                        addFormData.append('display_order', 0);
+                        
+                        fetch('admin_process.php', { method: 'POST', body: addFormData })
+                        .then(res => res.json())
+                        .then(addData => {
+                            if (i === files.length - 1) {
+                                loadAlbumImages(albumId);
+                                loadGalleryAlbums();
+                                loadGalleryImages();
+                            }
+                        });
+                    }
+                });
+            }
+        }
+        
+        function deleteAlbumImage(imageId, albumId) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_gallery_image');
+                formData.append('id', imageId);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    loadAlbumImages(albumId);
+                    loadGalleryAlbums();
+                    loadGalleryImages();
                 });
             }
         }
@@ -2685,6 +2978,283 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 });
             }
         }
+
+        // ==================== MENU MANAGEMENT ====================
+        
+        // Menu Category Functions
+        function openMenuCategoryModal(category = null) {
+            if (category) {
+                document.getElementById('menuCategoryModalTitle').textContent = 'Edit Category';
+                document.getElementById('menuCategoryId').value = category.id;
+                document.getElementById('menuCategoryName').value = category.name || '';
+                document.getElementById('menuCategoryDescription').value = category.description || '';
+                document.getElementById('menuCategoryOrder').value = category.display_order || 0;
+            } else {
+                document.getElementById('menuCategoryModalTitle').textContent = 'Add New Category';
+                document.getElementById('menuCategoryForm').reset();
+                document.getElementById('menuCategoryId').value = '';
+                document.getElementById('menuCategoryOrder').value = '0';
+            }
+            document.getElementById('menuCategoryModal').classList.add('open');
+        }
+        
+        function closeMenuCategoryModal() {
+            document.getElementById('menuCategoryModal').classList.remove('open');
+        }
+        
+        document.getElementById('menuCategoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            const id = document.getElementById('menuCategoryId').value;
+            formData.append('action', id ? 'update_menu_category' : 'add_menu_category');
+            if (id) formData.append('id', id);
+            formData.append('name', document.getElementById('menuCategoryName').value);
+            formData.append('description', document.getElementById('menuCategoryDescription').value);
+            formData.append('display_order', document.getElementById('menuCategoryOrder').value);
+            
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    closeMenuCategoryModal();
+                    loadMenuCategories();
+                }
+            });
+        });
+        
+        function loadMenuCategories() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_menu_categories');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('menuCategoriesTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.categories.map(cat => `
+                            <tr>
+                                <td class="font-medium">${cat.name}</td>
+                                <td>${cat.description || '-'}</td>
+                                <td>${cat.display_order || 0}</td>
+                                <td>
+                                    <button onclick='openMenuCategoryModal(${JSON.stringify(cat).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
+                                    <button onclick="deleteMenuCategory(${cat.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            });
+        }
+        
+        function deleteMenuCategory(id) {
+            if (confirm('Are you sure you want to delete this category?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_menu_category');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadMenuCategories();
+                });
+            }
+        }
+        
+        // Menu Item Functions
+        function openMenuItemModal(item = null) {
+            // Load categories first
+            const formData = new FormData();
+            formData.append('action', 'get_all_menu_categories');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const select = document.getElementById('menuItemCategory');
+                    select.innerHTML = '<option value="">Select Category</option>' + 
+                        data.categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
+                }
+            });
+            
+            if (item) {
+                document.getElementById('menuItemModalTitle').textContent = 'Edit Menu Item';
+                document.getElementById('menuItemId').value = item.id;
+                document.getElementById('menuItemName').value = item.name || '';
+                document.getElementById('menuItemPrice').value = item.price || '';
+                document.getElementById('menuItemDescription').value = item.description || '';
+                document.getElementById('menuItemOrder').value = item.display_order || 0;
+                document.getElementById('menuItemAvailable').value = item.is_available || 1;
+                document.getElementById('menuItemImage').value = item.image || '';
+                if (item.image) {
+                    document.getElementById('previewMenuItemImage').innerHTML = `<img src="${item.image}" class="w-32 h-20 object-cover rounded">`;
+                }
+                setTimeout(() => {
+                    document.getElementById('menuItemCategory').value = item.category_id || '';
+                }, 100);
+            } else {
+                document.getElementById('menuItemModalTitle').textContent = 'Add New Menu Item';
+                document.getElementById('menuItemForm').reset();
+                document.getElementById('menuItemId').value = '';
+                document.getElementById('menuItemOrder').value = '0';
+                document.getElementById('menuItemAvailable').value = '1';
+                document.getElementById('previewMenuItemImage').innerHTML = '';
+            }
+            document.getElementById('menuItemModal').classList.add('open');
+        }
+        
+        function closeMenuItemModal() {
+            document.getElementById('menuItemModal').classList.remove('open');
+        }
+        
+        document.getElementById('menuItemForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            const id = document.getElementById('menuItemId').value;
+            formData.append('action', id ? 'update_menu_item' : 'add_menu_item');
+            if (id) formData.append('id', id);
+            formData.append('name', document.getElementById('menuItemName').value);
+            formData.append('category_id', document.getElementById('menuItemCategory').value);
+            formData.append('price', document.getElementById('menuItemPrice').value);
+            formData.append('description', document.getElementById('menuItemDescription').value);
+            formData.append('display_order', document.getElementById('menuItemOrder').value);
+            formData.append('is_available', document.getElementById('menuItemAvailable').value);
+            formData.append('image', document.getElementById('menuItemImage').value);
+            
+            // Add file if selected
+            const imageFile = document.getElementById('menuItemImageFile').files[0];
+            if (imageFile) {
+                formData.append('imageFile', imageFile);
+            }
+
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    closeMenuItemModal();
+                    loadMenuItems();
+                }
+            });
+        });
+        
+        function loadMenuItems() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_menu_items');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('menuItemsTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.items.map(item => `
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <img src="${item.image || 'https://via.placeholder.com/50x50'}" class="w-10 h-10 object-cover rounded">
+                                        <span class="font-medium">${item.name}</span>
+                                    </div>
+                                </td>
+                                <td>${item.category_name || '-'}</td>
+                                <td>KSh ${parseInt(item.price || 0).toLocaleString()}</td>
+                                <td>${item.description ? item.description.substring(0, 30) + '...' : '-'}</td>
+                                <td>${item.display_order || 0}</td>
+                                <td>
+                                    <button onclick='openMenuItemModal(${JSON.stringify(item).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
+                                    <button onclick="deleteMenuItem(${item.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            });
+        }
+        
+        function deleteMenuItem(id) {
+            if (confirm('Are you sure you want to delete this menu item?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_menu_item');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadMenuItems();
+                });
+            }
+        }
+
+        // ==================== SETTINGS ====================
+        
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword !== confirmPassword) {
+                alert('New passwords do not match!');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                alert('Password must be at least 6 characters!');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('action', 'update_admin_password');
+            formData.append('current_password', currentPassword);
+            formData.append('new_password', newPassword);
+            
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    document.getElementById('passwordForm').reset();
+                }
+            });
+        });
+        
+        document.getElementById('settingsForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('action', 'update_admin_settings');
+            formData.append('site_name', document.getElementById('siteName').value);
+            formData.append('contact_email', document.getElementById('contactEmail').value);
+            formData.append('contact_phone', document.getElementById('contactPhone').value);
+            
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+            });
+        });
+
+        // Update page load to include menu tab
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentTab = '<?php echo $current_tab; ?>';
+            if (currentTab === 'rooms') loadRooms();
+            if (currentTab === 'amenities') loadAmenities();
+            if (currentTab === 'bookings') loadBookings();
+            if (currentTab === 'events') {
+                loadEventVenues();
+                loadEventInquiries();
+            }
+            if (currentTab === 'gallery') {
+                loadGalleryAlbums();
+                loadGalleryImages();
+                loadGalleryVideos();
+            }
+            if (currentTab === 'offers') {
+                loadOffers();
+            }
+            if (currentTab === 'menu') {
+                loadMenuCategories();
+                loadMenuItems();
+            }
+        });
     </script>
 </body>
 </html>

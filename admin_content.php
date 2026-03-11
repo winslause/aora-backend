@@ -12,6 +12,16 @@ $stmt = $pdo->query("SELECT
 ");
 $stats = $stmt->fetch();
 
+// Get popular menu items (from menu_items table or simulated)
+try {
+    $popularMenu = $pdo->query("SELECT mi.*, mc.name as category_name 
+        FROM menu_items mi 
+        LEFT JOIN menu_categories mc ON mi.category_id = mc.id 
+        ORDER BY mi.display_order ASC LIMIT 5")->fetchAll();
+} catch (Exception $e) {
+    $popularMenu = [];
+}
+
 // Get recent bookings
 $recentBookings = $pdo->query("SELECT b.*, r.name as room_name FROM bookings b 
     LEFT JOIN rooms r ON b.room_id = r.id 
@@ -31,7 +41,7 @@ $amenities = $pdo->query("SELECT a.*, ac.name as category_name FROM amenities a
     ORDER BY ac.display_order ASC, a.display_order ASC")->fetchAll();
 
 // Get all bookings
-$bookings = $pdo->query("SELECT b.*, r.name as room_name, r.room_type FROM bookings b 
+$bookings = $pdo->query("SELECT b.*, r.name as room_name, r.id as room_id, r.room_type FROM bookings b 
     LEFT JOIN rooms r ON b.room_id = r.id 
     ORDER BY b.created_at DESC")->fetchAll();
 
@@ -57,11 +67,11 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
     <div class="stat-card admin-card p-6">
         <div class="flex items-center justify-between mb-2">
             <div class="w-12 h-12 bg-[#fef7f0] rounded-lg flex items-center justify-center">
-                <i class="fas fa-dollar-sign text-2xl text-[#b89a78]"></i>
+                <i class="fas fa-utensils text-2xl text-[#b89a78]"></i>
             </div>
         </div>
-        <h3 class="text-2xl font-bold text-gray-800">KSh <?php echo number_format($stats['total_revenue'], 0); ?></h3>
-        <p class="text-sm text-gray-500">Total Revenue</p>
+        <h3 class="text-2xl font-bold text-gray-800"><?php echo count($popularMenu); ?></h3>
+        <p class="text-sm text-gray-500">Popular Menu Items</p>
     </div>
 
     <div class="stat-card admin-card p-6">
@@ -102,7 +112,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                         <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($booking['guest_name']); ?>&background=b89a78&color=fff" class="w-10 h-10 rounded-full">
                         <div>
                             <p class="font-medium text-sm"><?php echo htmlspecialchars($booking['guest_name']); ?></p>
-                            <p class="text-xs text-gray-500"><?php echo htmlspecialchars($booking['room_name'] ?? 'N/A'); ?></p>
+                            <p class="text-xs text-gray-500"><?php echo htmlspecialchars($booking['room_name'] ?? $booking['room_id'] ?? 'N/A'); ?></p>
                         </div>
                     </div>
                     <span class="status-badge <?php echo $booking['status']; ?>"><?php echo ucfirst($booking['status']); ?></span>
@@ -209,6 +219,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <div id="roomsPagination"></div>
     </div>
 </div>
 
@@ -261,6 +272,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <div id="amenitiesPagination"></div>
     </div>
 </div>
 
@@ -291,7 +303,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                     <td class="font-medium">#BK-<?php echo str_pad($booking['id'], 4, '0', STR_PAD_LEFT); ?></td>
                     <td><?php echo htmlspecialchars($booking['guest_name']); ?></td>
                     <td><?php echo htmlspecialchars($booking['guest_email']); ?></td>
-                    <td><?php echo htmlspecialchars($booking['room_name'] ?? 'N/A'); ?></td>
+                    <td><?php echo htmlspecialchars($booking['room_name'] ?? $booking['room_id'] ?? 'N/A'); ?></td>
                     <td><?php echo $booking['check_in']; ?></td>
                     <td><?php echo $booking['check_out']; ?></td>
                     <td>
@@ -315,6 +327,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <div id="bookingsPagination"></div>
     </div>
 </div>
 
@@ -454,6 +467,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <!-- Loaded via JavaScript -->
             </tbody>
         </table>
+        <div id="galleryImagesPagination"></div>
     </div>
 </div>
 
@@ -510,6 +524,107 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
             </tbody>
         </table>
     </div>
+</div>
+
+<?php elseif ($current_tab == 'menu'): ?>
+<!-- Menu Management Content -->
+<div class="admin-card p-6 mb-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Menu Categories</h3>
+        <button onclick="openMenuCategoryModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Category
+        </button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Order</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="menuCategoriesTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Menu Items Section -->
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Menu Items</h3>
+        <button onclick="openMenuItemModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Menu Item
+        </button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Order</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="menuItemsTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php elseif ($current_tab == 'settings'): ?>
+<!-- Settings Content -->
+<div class="admin-card p-6 mb-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Change Password</h3>
+    </div>
+    <form id="passwordForm" class="max-w-md">
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+            <input type="password" id="currentPassword" class="admin-input" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+            <input type="password" id="newPassword" class="admin-input" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+            <input type="password" id="confirmPassword" class="admin-input" required>
+        </div>
+        <button type="submit" class="admin-btn-primary">
+            <i class="fas fa-save mr-2"></i>Update Password
+        </button>
+    </form>
+</div>
+
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">General Settings</h3>
+    </div>
+    <form id="settingsForm" class="max-w-md">
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Site Name</label>
+            <input type="text" id="siteName" class="admin-input" value="Aora">
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
+            <input type="email" id="contactEmail" class="admin-input" value="info@aora.com">
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">Contact Phone</label>
+            <input type="text" id="contactPhone" class="admin-input" value="+254 700 000 000">
+        </div>
+        <button type="submit" class="admin-btn-primary">
+            <i class="fas fa-save mr-2"></i>Save Settings
+        </button>
+    </form>
 </div>
 
 <?php endif; ?>

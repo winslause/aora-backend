@@ -18,7 +18,33 @@ include 'header.php'; ?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aora - Exclusive Offers</title>
+    <title>Exclusive Hotel Offers & Packages | Aora45 Nairobi - Special Packages</title>
+    <meta name="description" content="Book exclusive hotel offers and packages at Aora45 Nairobi. Special deals on romantic getaways, safari packages, honeymoon retreats, family adventures, and wellness escapes.">
+    <meta name="keywords" content="hotel offers Nairobi, exclusive packages Kenya, safari packages, honeymoon packages Nairobi, romantic getaway Kenya, family safari deals, wellness retreat Nairobi, Aora45 special offers, hotel promotions">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Exclusive Hotel Offers & Packages at Aora45">
+    <meta property="og:description" content="Book exclusive hotel offers and packages at Aora45 Nairobi. Special deals on romantic getaways, safari packages, and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aora45.com/offers.php">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Exclusive Hotel Offers & Packages at Aora45">
+    <meta name="twitter:description" content="Book exclusive hotel offers and packages at Aora45 Nairobi.">
+    <!-- Schema.org Offer -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "OfferCatalog",
+        "name": "Aora45 Special Offers",
+        "description": "Exclusive hotel packages and special offers",
+        "itemListElement": [
+            {"@type": "Offer", "name": "Romance in the Wild", "price": "KSh 85,000", "priceCurrency": "KES"},
+            {"@type": "Offer", "name": "Weekend Wilderness", "price": "KSh 65,000", "priceCurrency": "KES"},
+            {"@type": "Offer", "name": "Family Safari Adventure", "price": "KSh 120,000", "priceCurrency": "KES"},
+            {"@type": "Offer", "name": "Honeymoon Paradise", "price": "KSh 95,000", "priceCurrency": "KES"}
+        ]
+    }
+    </script>
     <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for Icons -->

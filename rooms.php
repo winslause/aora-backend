@@ -2,6 +2,9 @@
 // Start session and include database
 session_start();
 include 'header.php'; 
+// Override the header SEO with page-specific SEO
+$pageTitle = "Luxury Rooms & Suites in Nairobi, Kenya | Aora45";
+$pageDescription = "Discover our elegant rooms and suites at Aora45 resort in Nairobi. From standard rooms to luxury suites, book your stay with amenities like free WiFi, pool, spa, and fine dining.";
 ?>
 
 <style>

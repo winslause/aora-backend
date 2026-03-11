@@ -64,3 +64,4 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in C:\Users\wenbu\Downloads\xampp\htdocs\aora\admin_process.php on line 219
+[11-Mar-2026 20:16:34 UTC] PHP Fatal error:  Cannot redeclare getAllRoomTypes() (previously declared in C:\Users\wenbu\Downloads\xampp\htdocs\aora\database.php:146) in C:\Users\wenbu\Downloads\xampp\htdocs\aora\database.php on line 148

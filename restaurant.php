@@ -18,7 +18,39 @@ $diningExperiences = getAllTableTypes($pdo);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aora - The Dining Experience</title>
+    <title>Restaurant & Fine Dining at Aora45 | Best Restaurant Nairobi</title>
+    <meta name="description" content="Experience exquisite dining at Aora45 restaurant in Nairobi. Our award-winning chefs serve Swahili-inspired cuisine with international techniques. Book a table for lunch, dinner, or special events.">
+    <meta name="keywords" content="restaurant Nairobi, fine dining Kenya, Swahili cuisine, Aora45 restaurant, best restaurants Nairobi, dining experience, hotel restaurant, breakfast lunch dinner Nairobi, special events catering">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Restaurant & Fine Dining at Aora45">
+    <meta property="og:description" content="Experience exquisite dining at Aora45 restaurant in Nairobi. Our award-winning chefs serve Swahili-inspired cuisine.">
+    <meta property="og:type" content="restaurant.restaurant">
+    <meta property="og:url" content="https://aora45.com/restaurant.php">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Restaurant & Fine Dining at Aora45">
+    <meta name="twitter:description" content="Experience exquisite dining at Aora45 restaurant in Nairobi.">
+    <!-- Schema.org Restaurant -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "Aora45 Restaurant",
+        "description": "Fine dining restaurant serving modern Kenyan cuisine",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Nairobi",
+            "addressCountry": "KE"
+        },
+        "telephone": "+254700000000",
+        "priceRange": "KSh 1,200 - KSh 4,800",
+        "servesCuisine": ["Kenyan", "Swahili", "International"],
+        "openingHoursSpecification": [
+            {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "07:00", "closes": "22:30"},
+            {"@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "11:00", "closes": "15:00"}
+        ]
+    }
+    </script>
     <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for Icons -->
