@@ -1739,6 +1739,376 @@ switch ($action) {
         ]);
         break;
     
+    // ==================== SAMPLE MENUS MANAGEMENT ====================
+    
+    // Get all sample menus
+    case 'get_all_sample_menus':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT * FROM sample_menus ORDER BY display_order ASC");
+        $menus = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'menus' => $menus]);
+        break;
+    
+    // Add sample menu
+    case 'add_sample_menu':
+        checkAdminSession();
+        $title = $_POST['title'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        try {
+            $stmt = $pdo->prepare("INSERT INTO sample_menus (title, description, display_order) VALUES (:title, :description, :display_order)");
+            $stmt->execute(['title' => $title, 'description' => $description, 'display_order' => $display_order]);
+            echo json_encode(['success' => true, 'message' => 'Sample menu added successfully', 'id' => $pdo->lastInsertId()]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error adding sample menu']);
+        }
+        break;
+    
+    // Update sample menu
+    case 'update_sample_menu':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $title = $_POST['title'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        try {
+            $stmt = $pdo->prepare("UPDATE sample_menus SET title = :title, description = :description, display_order = :display_order WHERE id = :id");
+            $stmt->execute(['title' => $title, 'description' => $description, 'display_order' => $display_order, 'id' => $id]);
+            echo json_encode(['success' => true, 'message' => 'Sample menu updated successfully']);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error updating sample menu']);
+        }
+        break;
+    
+    // Delete sample menu
+    case 'delete_sample_menu':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("UPDATE sample_menus SET is_active = 0 WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Sample menu deleted successfully']);
+        break;
+    
+    // ==================== SAMPLE MENU ITEMS MANAGEMENT ====================
+    
+    // Get sample menu items by menu_id
+    case 'get_sample_menu_items':
+        checkAdminSession();
+        $menu_id = $_POST['menu_id'];
+        $stmt = $pdo->prepare("SELECT * FROM sample_menu_items WHERE menu_id = ? ORDER BY display_order ASC");
+        $stmt->execute([$menu_id]);
+        $items = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'items' => $items]);
+        break;
+    
+    // Add sample menu item
+    case 'add_sample_menu_item':
+        checkAdminSession();
+        $menu_id = $_POST['menu_id'] ?? null;
+        $name = $_POST['name'] ?? '';
+        $price = $_POST['price'] ?? '';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        if (!$menu_id || !$name) {
+            echo json_encode(['success' => false, 'message' => 'Menu ID and name are required']);
+            break;
+        }
+        
+        try {
+            $stmt = $pdo->prepare("INSERT INTO sample_menu_items (menu_id, name, price, display_order) VALUES (:menu_id, :name, :price, :display_order)");
+            $stmt->execute(['menu_id' => $menu_id, 'name' => $name, 'price' => $price, 'display_order' => $display_order]);
+            echo json_encode(['success' => true, 'message' => 'Item added successfully', 'id' => $pdo->lastInsertId()]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error adding item']);
+        }
+        break;
+    
+    // Update sample menu item
+    case 'update_sample_menu_item':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $name = $_POST['name'] ?? '';
+        $price = $_POST['price'] ?? '';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        try {
+            $stmt = $pdo->prepare("UPDATE sample_menu_items SET name = :name, price = :price, display_order = :display_order WHERE id = :id");
+            $stmt->execute(['name' => $name, 'price' => $price, 'display_order' => $display_order, 'id' => $id]);
+            echo json_encode(['success' => true, 'message' => 'Item updated successfully']);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error updating item']);
+        }
+        break;
+    
+    // Delete sample menu item
+    case 'delete_sample_menu_item':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM sample_menu_items WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Item deleted successfully']);
+        break;
+    
+    // Get all sample menus (for dropdown)
+    case 'get_all_sample_menus_dropdown':
+    
+    // Get all table types
+    case 'get_all_table_types':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT * FROM table_types ORDER BY max_people ASC");
+        $types = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'types' => $types]);
+        break;
+    
+    // Add table type
+    case 'add_table_type':
+        checkAdminSession();
+        $name = $_POST['name'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $max_people = $_POST['max_people'] ?? 2;
+        $price = $_POST['price'] ?? 0;
+        $image = $_POST['image'] ?? '';
+        $features = $_POST['features'] ?? '[]';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        // Handle image upload
+        if (!empty($_FILES['image']['name'])) {
+            $uploadDir = __DIR__ . '/uploads/table_types/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $tmpName = $_FILES['image']['tmp_name'];
+            $fileName = basename($_FILES['image']['name']);
+            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+            $newName = 'table_' . uniqid() . '.' . $ext;
+            $targetPath = $uploadDir . $newName;
+            
+            if (move_uploaded_file($tmpName, $targetPath)) {
+                $image = 'uploads/table_types/' . $newName;
+            }
+        }
+        
+        try {
+            $stmt = $pdo->prepare("INSERT INTO table_types (name, description, max_people, price, image, features, display_order) VALUES (:name, :description, :max_people, :price, :image, :features, :display_order)");
+            $stmt->execute(['name' => $name, 'description' => $description, 'max_people' => $max_people, 'price' => $price, 'image' => $image, 'features' => $features, 'display_order' => $display_order]);
+            echo json_encode(['success' => true, 'message' => 'Table type added successfully', 'id' => $pdo->lastInsertId()]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error adding table type']);
+        }
+        break;
+    
+    // Update table type
+    case 'update_table_type':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $name = $_POST['name'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $max_people = $_POST['max_people'] ?? 2;
+        $price = $_POST['price'] ?? 0;
+        $features = $_POST['features'] ?? '[]';
+        $display_order = $_POST['display_order'] ?? 0;
+        
+        // Get existing image
+        $stmt = $pdo->prepare("SELECT image FROM table_types WHERE id = ?");
+        $stmt->execute([$id]);
+        $existingType = $stmt->fetch();
+        $image = $existingType['image'] ?? '';
+        
+        // Handle image upload
+        if (!empty($_FILES['image']['name'])) {
+            $uploadDir = __DIR__ . '/uploads/table_types/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $tmpName = $_FILES['image']['tmp_name'];
+            $fileName = basename($_FILES['image']['name']);
+            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+            $newName = 'table_' . uniqid() . '.' . $ext;
+            $targetPath = $uploadDir . $newName;
+            
+            if (move_uploaded_file($tmpName, $targetPath)) {
+                $image = 'uploads/table_types/' . $newName;
+            }
+        }
+        
+        try {
+            $stmt = $pdo->prepare("UPDATE table_types SET name = :name, description = :description, max_people = :max_people, price = :price, image = :image, features = :features, display_order = :display_order WHERE id = :id");
+            $stmt->execute(['name' => $name, 'description' => $description, 'max_people' => $max_people, 'price' => $price, 'image' => $image, 'features' => $features, 'display_order' => $display_order, 'id' => $id]);
+            echo json_encode(['success' => true, 'message' => 'Table type updated successfully']);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error updating table type']);
+        }
+        break;
+    
+    // Delete table type
+    case 'delete_table_type':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("UPDATE table_types SET is_active = 0 WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Table type deleted successfully']);
+        break;
+    
+    // ==================== RESTAURANT RESERVATIONS MANAGEMENT ====================
+    
+    // Get all restaurant reservations
+    case 'get_all_restaurant_reservations':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT r.*, t.name as table_type_name FROM restaurant_reservations r 
+                              LEFT JOIN table_types t ON r.table_type_id = t.id 
+                              ORDER BY r.reservation_date DESC, r.reservation_time DESC");
+        $reservations = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'reservations' => $reservations]);
+        break;
+    
+    // Update restaurant reservation status
+    case 'update_restaurant_reservation_status':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $status = $_POST['status'];
+        $stmt = $pdo->prepare("UPDATE restaurant_reservations SET status = ? WHERE id = ?");
+        $stmt->execute([$status, $id]);
+        
+        // If confirming, send email to customer
+        if ($status === 'confirmed') {
+            $stmt = $pdo->prepare("SELECT * FROM restaurant_reservations WHERE id = ?");
+            $stmt->execute([$id]);
+            $reservation = $stmt->fetch();
+            
+            if ($reservation) {
+                $mailer = new SMTP_mailer($smtpHost, $smtpPort, $smtpUsername, $smtpPassword, $smtpFromEmail, $smtpFromName);
+                
+                $body = "
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                        .header { background-color: #8a735b; color: white; padding: 20px; text-align: center; }
+                        .content { background-color: #f9f9f9; padding: 20px; }
+                        .details { background-color: white; padding: 15px; border-radius: 5px; margin: 15px 0; }
+                        .footer { background-color: #333; color: white; padding: 15px; text-align: center; font-size: 12px; }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <h1>Table Reservation Confirmed - Aora</h1>
+                        </div>
+                        <div class='content'>
+                            <p>Dear <strong>{$reservation['guest_name']}</strong>,</p>
+                            <p>Your table reservation at Aora has been confirmed!</p>
+                            
+                            <div class='details'>
+                                <p><strong>Reservation Details:</strong></p>
+                                <p>Reservation ID: #{$reservation['id']}</p>
+                                <p>Date: {$reservation['reservation_date']}</p>
+                                <p>Time: {$reservation['reservation_time']}</p>
+                                <p>Number of Guests: {$reservation['guest_count']}</p>
+                                <p>Table Type: {$reservation['table_type_name']}</p>
+                            </div>
+                            
+                            <p>If you need to make any changes, please contact us.</p>
+                            
+                            <p>Best regards,<br>The Aora Restaurant Team</p>
+                        </div>
+                        <div class='footer'>
+                            <p>Aora - Beyond Ordinary Dining</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+                ";
+                
+                $mailer->send($reservation['guest_email'], $reservation['guest_name'], 'Table Reservation Confirmed - Aora', $body);
+            }
+        }
+        
+        echo json_encode(['success' => true, 'message' => 'Reservation status updated']);
+        break;
+    
+    // Delete restaurant reservation
+    case 'delete_restaurant_reservation':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM restaurant_reservations WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Reservation deleted successfully']);
+        break;
+    
+    // Send email to restaurant reservation guest
+    case 'send_restaurant_reservation_email':
+        checkAdminSession();
+        $reservation_id = $_POST['reservation_id'];
+        $message = $_POST['message'];
+        $subject = $_POST['subject'];
+        
+        // Get reservation details
+        $stmt = $pdo->prepare("SELECT r.*, t.name as table_type_name FROM restaurant_reservations r 
+                              LEFT JOIN table_types t ON r.table_type_id = t.id 
+                              WHERE r.id = ?");
+        $stmt->execute([$reservation_id]);
+        $reservation = $stmt->fetch();
+        
+        if (!$reservation) {
+            echo json_encode(['success' => false, 'message' => 'Reservation not found']);
+            break;
+        }
+        
+        $mailer = new SMTP_mailer($smtpHost, $smtpPort, $smtpUsername, $smtpPassword, $smtpFromEmail, $smtpFromName);
+        
+        $body = "
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .header { background-color: #8a735b; color: white; padding: 20px; text-align: center; }
+                .content { background-color: #f9f9f9; padding: 20px; }
+                .message-box { background-color: white; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 4px solid #8a735b; }
+                .footer { background-color: #333; color: white; padding: 15px; text-align: center; font-size: 12px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>Message from Aora Restaurant</h1>
+                </div>
+                <div class='content'>
+                    <p>Dear <strong>{$reservation['guest_name']}</strong>,</p>
+                    <p>{$message}</p>
+                    
+                    <div class='message-box'>
+                        <p><strong>Your Reservation Details:</strong></p>
+                        <p>Reservation ID: #{$reservation['id']}</p>
+                        <p>Date: {$reservation['reservation_date']}</p>
+                        <p>Time: {$reservation['reservation_time']}</p>
+                        <p>Guests: {$reservation['guest_count']}</p>
+                    </div>
+                    
+                    <p>If you have any questions, please don't hesitate to contact us.</p>
+                    
+                    <p>Best regards,<br>The Aora Restaurant Team</p>
+                </div>
+                <div class='footer'>
+                    <p>Aora - Beyond Ordinary Dining</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+        
+        $result = $mailer->send($reservation['guest_email'], $reservation['guest_name'], $subject, $body);
+        
+        if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Email sent successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to send email']);
+        }
+        break;
+    
     default:
         echo json_encode(['success' => false, 'message' => 'Invalid action']);
 }

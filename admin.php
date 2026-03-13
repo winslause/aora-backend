@@ -203,6 +203,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             <form id="emailForm">
                 <input type="hidden" id="emailBookingId">
                 <input type="hidden" id="emailInquiryId">
+                <input type="hidden" id="emailReservationId">
                 <input type="hidden" id="emailType">
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
@@ -933,16 +934,160 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     <input type="url" id="menuItemImage" class="admin-input" placeholder="Or paste image URL">
                     <div id="previewMenuItemImage" class="mt-2"></div>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Is Available</label>
-                    <select id="menuItemAvailable" class="admin-input">
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Is Signature Dish</label>
+                        <select id="menuItemSignature" class="admin-input">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Is Available</label>
+                        <select id="menuItemAvailable" class="admin-input">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="flex gap-3">
                     <button type="button" onclick="closeMenuItemModal()" class="admin-btn-secondary flex-1">Cancel</button>
                     <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Sample Menu Modal -->
+    <div id="sampleMenuModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="sampleMenuModalTitle" class="text-xl font-semibold">Add New Sample Menu</h3>
+                <button onclick="closeSampleMenuModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="sampleMenuForm">
+                <input type="hidden" id="sampleMenuId">
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Menu Title</label>
+                    <input type="text" id="sampleMenuTitle" class="admin-input" placeholder="e.g., Chef's Special Tasting Menu" required>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="sampleMenuDescription" class="admin-input" rows="3" placeholder="Menu description..."></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                    <input type="number" id="sampleMenuOrder" class="admin-input" value="0">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeSampleMenuModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Menu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Sample Menu Items Modal -->
+    <div id="sampleMenuItemsModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="sampleMenuItemsModalTitle" class="text-xl font-semibold">Manage Menu Items</h3>
+                <button onclick="closeSampleMenuItemsModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <input type="hidden" id="sampleMenuItemsMenuId">
+            
+            <!-- Add Item Form -->
+            <form id="sampleMenuItemForm" class="mb-4 p-4 bg-gray-50 rounded-lg">
+                <input type="hidden" id="sampleMenuItemId">
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Item Name</label>
+                        <input type="text" id="sampleMenuItemName" class="admin-input" placeholder="e.g., Grilled Salmon" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Price (KSh)</label>
+                        <input type="number" id="sampleMenuItemPrice" class="admin-input" placeholder="2500" required>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Display Order</label>
+                    <input type="number" id="sampleMenuItemOrder" class="admin-input" value="0">
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Item</button>
+                    <button type="button" onclick="resetSampleMenuItemForm()" class="admin-btn-secondary">Reset</button>
+                </div>
+            </form>
+            
+            <!-- Items Table -->
+            <div class="max-h-64 overflow-y-auto border border-gray-200 rounded-lg">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Price</th>
+                            <th>Order</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sampleMenuItemsTableBody">
+                        <!-- Loaded via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="flex gap-3 mt-4">
+                <button onclick="closeSampleMenuItemsModal()" class="admin-btn-secondary flex-1">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Table Type Modal -->
+    <div id="tableTypeModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="tableTypeModalTitle" class="text-xl font-semibold">Add New Dining Experience</h3>
+                <button onclick="closeTableTypeModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="tableTypeForm">
+                <input type="hidden" id="tableTypeId">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Experience Name</label>
+                        <input type="text" id="tableTypeName" class="admin-input" placeholder="e.g., Private Candlelight Dinner" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Max Guests</label>
+                        <input type="number" id="tableTypeMaxPeople" class="admin-input" placeholder="2" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Price (KSh)</label>
+                        <input type="number" id="tableTypePrice" class="admin-input" placeholder="15000">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                        <input type="number" id="tableTypeOrder" class="admin-input" value="0">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="tableTypeDescription" class="admin-input" rows="2" placeholder="Experience description..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Image (Upload or URL)</label>
+                    <input type="file" id="tableTypeImageFile" class="admin-input mb-2" accept="image/*">
+                    <input type="url" id="tableTypeImage" class="admin-input" placeholder="Or paste image URL">
+                    <div id="previewTableTypeImage" class="mt-2"></div>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeTableTypeModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Experience</button>
                 </div>
             </form>
         </div>
@@ -2064,6 +2209,9 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             if (type === 'booking') {
                 formData.append('action', 'send_booking_email');
                 formData.append('booking_id', document.getElementById('emailBookingId').value);
+            } else if (type === 'restaurant_reservation') {
+                formData.append('action', 'send_restaurant_reservation_email');
+                formData.append('reservation_id', document.getElementById('emailReservationId').value);
             } else {
                 formData.append('action', 'send_inquiry_email');
                 formData.append('inquiry_id', document.getElementById('emailInquiryId').value);
@@ -2220,7 +2368,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                                 <td class="font-medium">#BK-${String(booking.id).padStart(4, '0')}</td>
                                 <td>${booking.guest_name}</td>
                                 <td>${booking.guest_email}</td>
-                                <td>${booking.room_name || booking.room_id || 'N/A'}</td>
+                                <td>${booking.room_name && booking.room_name.trim() ? booking.room_name : (booking.room_id ? 'Room ' + booking.room_id : 'N/A')}</td>
                                 <td>${booking.check_in}</td>
                                 <td>${booking.check_out}</td>
                                 <td>
@@ -2407,9 +2555,11 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             }
         }
 
-        // Load data on page load
+        // Load data on page load - Consolidated DOMContentLoaded
         document.addEventListener('DOMContentLoaded', function() {
             const currentTab = '<?php echo $current_tab; ?>';
+            
+            // Always load basic data
             if (currentTab === 'rooms') loadRooms();
             if (currentTab === 'amenities') loadAmenities();
             if (currentTab === 'bookings') loadBookings();
@@ -2424,6 +2574,13 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             }
             if (currentTab === 'offers') {
                 loadOffers();
+            }
+            if (currentTab === 'menu') {
+                loadMenuCategories();
+                loadMenuItems();
+                loadSampleMenus();
+                loadTableTypes();
+                loadRestaurantReservations();
             }
         });
 
@@ -3062,6 +3219,376 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             }
         }
         
+        // ==================== SAMPLE MENUS MANAGEMENT ====================
+        
+        function openSampleMenuModal(menu = null) {
+            if (menu) {
+                document.getElementById('sampleMenuModalTitle').textContent = 'Edit Sample Menu';
+                document.getElementById('sampleMenuId').value = menu.id;
+                document.getElementById('sampleMenuTitle').value = menu.title || '';
+                document.getElementById('sampleMenuDescription').value = menu.description || '';
+                document.getElementById('sampleMenuOrder').value = menu.display_order || 0;
+            } else {
+                document.getElementById('sampleMenuModalTitle').textContent = 'Add New Sample Menu';
+                document.getElementById('sampleMenuForm').reset();
+                document.getElementById('sampleMenuId').value = '';
+                document.getElementById('sampleMenuOrder').value = '0';
+            }
+            document.getElementById('sampleMenuModal').classList.add('open');
+        }
+        
+        function closeSampleMenuModal() {
+            document.getElementById('sampleMenuModal').classList.remove('open');
+        }
+        
+        document.getElementById('sampleMenuForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            const id = document.getElementById('sampleMenuId').value;
+            formData.append('action', id ? 'update_sample_menu' : 'add_sample_menu');
+            if (id) formData.append('id', id);
+            formData.append('title', document.getElementById('sampleMenuTitle').value);
+            formData.append('description', document.getElementById('sampleMenuDescription').value);
+            formData.append('display_order', document.getElementById('sampleMenuOrder').value);
+            
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    closeSampleMenuModal();
+                    loadSampleMenus();
+                }
+            });
+        });
+        
+        function loadSampleMenus() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_sample_menus');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('sampleMenusTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.menus.map(menu => `
+                            <tr>
+                                <td class="font-medium">${menu.title}</td>
+                                <td>${menu.description || '-'}</td>
+                                <td>${menu.display_order || 0}</td>
+                                <td>${menu.is_active == 1 ? '<span class="status-badge confirmed">Active</span>' : '<span class="status-badge cancelled">Inactive</span>'}</td>
+                                <td>
+                                    <button onclick="openSampleMenuItemsModal(${menu.id}, '${menu.title}')" class="text-blue-600 hover:text-blue-800 mr-3" title="Manage Items">
+                                        <i class="fas fa-utensils"></i>
+                                    </button>
+                                    <button onclick='openSampleMenuModal(${JSON.stringify(menu).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
+                                    <button onclick="deleteSampleMenu(${menu.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            });
+        }
+        
+        function deleteSampleMenu(id) {
+            if (confirm('Are you sure you want to delete this sample menu?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_sample_menu');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadSampleMenus();
+                });
+            }
+        }
+        
+        // ==================== SAMPLE MENU ITEMS MANAGEMENT ====================
+        
+        function openSampleMenuItemsModal(menuId, menuTitle) {
+            document.getElementById('sampleMenuItemsModalTitle').textContent = 'Manage Items - ' + menuTitle;
+            document.getElementById('sampleMenuItemsMenuId').value = menuId;
+            document.getElementById('sampleMenuItemForm').reset();
+            document.getElementById('sampleMenuItemId').value = '';
+            document.getElementById('sampleMenuItemOrder').value = '0';
+            loadSampleMenuItems(menuId);
+            document.getElementById('sampleMenuItemsModal').classList.add('open');
+        }
+        
+        function closeSampleMenuItemsModal() {
+            document.getElementById('sampleMenuItemsModal').classList.remove('open');
+        }
+        
+        function resetSampleMenuItemForm() {
+            document.getElementById('sampleMenuItemForm').reset();
+            document.getElementById('sampleMenuItemId').value = '';
+            document.getElementById('sampleMenuItemOrder').value = '0';
+        }
+        
+        function loadSampleMenuItems(menuId) {
+            const formData = new FormData();
+            formData.append('action', 'get_sample_menu_items');
+            formData.append('menu_id', menuId);
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('sampleMenuItemsTableBody');
+                    if (tbody) {
+                        if (data.items.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500 py-4">No items yet. Add some!</td></tr>';
+                        } else {
+                            tbody.innerHTML = data.items.map(item => `
+                                <tr>
+                                    <td class="font-medium">${item.name}</td>
+                                    <td>${item.price || '-'}</td>
+                                    <td>${item.display_order || 0}</td>
+                                    <td>
+                                        <button onclick='editSampleMenuItem(${JSON.stringify(item).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
+                                        <button onclick="deleteSampleMenuItem(${item.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            `).join('');
+                        }
+                    }
+                }
+            });
+        }
+        
+        function editSampleMenuItem(item) {
+            document.getElementById('sampleMenuItemId').value = item.id;
+            document.getElementById('sampleMenuItemName').value = item.name || '';
+            document.getElementById('sampleMenuItemPrice').value = item.price || '';
+            document.getElementById('sampleMenuItemOrder').value = item.display_order || 0;
+        }
+        
+        document.getElementById('sampleMenuItemForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            const id = document.getElementById('sampleMenuItemId').value;
+            const menuId = document.getElementById('sampleMenuItemsMenuId').value;
+            
+            formData.append('action', id ? 'update_sample_menu_item' : 'add_sample_menu_item');
+            if (id) formData.append('id', id);
+            formData.append('menu_id', menuId);
+            formData.append('name', document.getElementById('sampleMenuItemName').value);
+            formData.append('price', document.getElementById('sampleMenuItemPrice').value);
+            formData.append('display_order', document.getElementById('sampleMenuItemOrder').value);
+            
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    resetSampleMenuItemForm();
+                    loadSampleMenuItems(menuId);
+                }
+            });
+        });
+        
+        function deleteSampleMenuItem(id) {
+            if (confirm('Are you sure you want to delete this menu item?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_sample_menu_item');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) {
+                        const menuId = document.getElementById('sampleMenuItemsMenuId').value;
+                        loadSampleMenuItems(menuId);
+                    }
+                });
+            }
+        }
+        
+        // ==================== TABLE TYPES MANAGEMENT ====================
+        
+        function openTableTypeModal(type = null) {
+            if (type) {
+                document.getElementById('tableTypeModalTitle').textContent = 'Edit Dining Experience';
+                document.getElementById('tableTypeId').value = type.id;
+                document.getElementById('tableTypeName').value = type.name || '';
+                document.getElementById('tableTypeDescription').value = type.description || '';
+                document.getElementById('tableTypeMaxPeople').value = type.max_people || 2;
+                document.getElementById('tableTypePrice').value = type.price || '';
+                document.getElementById('tableTypeOrder').value = type.display_order || 0;
+                document.getElementById('tableTypeImage').value = type.image || '';
+                if (type.image) {
+                    document.getElementById('previewTableTypeImage').innerHTML = `<img src="${type.image}" class="w-32 h-20 object-cover rounded">`;
+                }
+            } else {
+                document.getElementById('tableTypeModalTitle').textContent = 'Add New Dining Experience';
+                document.getElementById('tableTypeForm').reset();
+                document.getElementById('tableTypeId').value = '';
+                document.getElementById('tableTypeOrder').value = '0';
+                document.getElementById('previewTableTypeImage').innerHTML = '';
+            }
+            document.getElementById('tableTypeModal').classList.add('open');
+        }
+        
+        function closeTableTypeModal() {
+            document.getElementById('tableTypeModal').classList.remove('open');
+        }
+        
+        document.getElementById('tableTypeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData();
+            const id = document.getElementById('tableTypeId').value;
+            formData.append('action', id ? 'update_table_type' : 'add_table_type');
+            if (id) formData.append('id', id);
+            formData.append('name', document.getElementById('tableTypeName').value);
+            formData.append('description', document.getElementById('tableTypeDescription').value);
+            formData.append('max_people', document.getElementById('tableTypeMaxPeople').value);
+            formData.append('price', document.getElementById('tableTypePrice').value);
+            formData.append('display_order', document.getElementById('tableTypeOrder').value);
+            formData.append('image', document.getElementById('tableTypeImage').value);
+            
+            // Add file if selected
+            const imageFile = document.getElementById('tableTypeImageFile').files[0];
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+            
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) {
+                    closeTableTypeModal();
+                    loadTableTypes();
+                }
+            });
+        });
+        
+        function loadTableTypes() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_table_types');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('tableTypesTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.types.map(type => `
+                            <tr>
+                                <td class="font-medium">${type.name}</td>
+                                <td>${type.max_people}</td>
+                                <td>KSh ${parseInt(type.price || 0).toLocaleString()}</td>
+                                <td>${type.display_order || 0}</td>
+                                <td>${type.is_active == 1 ? '<span class="status-badge confirmed">Active</span>' : '<span class="status-badge cancelled">Inactive</span>'}</td>
+                                <td>
+                                    <button onclick='openTableTypeModal(${JSON.stringify(type).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
+                                    <button onclick="deleteTableType(${type.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            });
+        }
+        
+        function deleteTableType(id) {
+            if (confirm('Are you sure you want to delete this dining experience?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_table_type');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadTableTypes();
+                });
+            }
+        }
+        
+        // ==================== RESTAURANT RESERVATIONS MANAGEMENT ====================
+        
+        function loadRestaurantReservations() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_restaurant_reservations');
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('restaurantReservationsTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.reservations.map(res => `
+                            <tr>
+                                <td class="font-medium">#RES-${String(res.id).padStart(4, '0')}</td>
+                                <td>${res.guest_name}</td>
+                                <td>${res.guest_email}</td>
+                                <td>${res.guest_phone || '-'}</td>
+                                <td>${res.reservation_date}</td>
+                                <td>${res.reservation_time}</td>
+                                <td>${res.guest_count}</td>
+                                <td>${res.table_type_name || 'Standard'}</td>
+                                <td>
+                                    <span class="status-badge ${res.status}">${res.status}</span>
+                                </td>
+                                <td>
+                                    <button onclick="updateRestaurantReservationStatus(${res.id}, 'confirmed')" class="text-green-600 hover:text-green-800 mr-2" title="Confirm">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button onclick="updateRestaurantReservationStatus(${res.id}, 'cancelled')" class="text-red-600 hover:text-red-800 mr-2" title="Cancel">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <button onclick="openRestaurantReservationEmailModal(${res.id})" class="text-[#b89a78] hover:text-[#8a735b] mr-2" title="Send Email">
+                                        <i class="fas fa-envelope"></i>
+                                    </button>
+                                    <button onclick="deleteRestaurantReservation(${res.id})" class="text-gray-400 hover:text-red-500" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            });
+        }
+        
+        function updateRestaurantReservationStatus(id, status) {
+            const formData = new FormData();
+            formData.append('action', 'update_restaurant_reservation_status');
+            formData.append('id', id);
+            formData.append('status', status);
+            
+            fetch('admin_process.php', { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) loadRestaurantReservations();
+            });
+        }
+        
+        function deleteRestaurantReservation(id) {
+            if (confirm('Are you sure you want to delete this reservation?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_restaurant_reservation');
+                formData.append('id', id);
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadRestaurantReservations();
+                });
+            }
+        }
+        
+        // Add restaurant reservation email function to existing email modal
+        function openRestaurantReservationEmailModal(reservationId) {
+            document.getElementById('emailBookingId').value = '';
+            document.getElementById('emailInquiryId').value = '';
+            document.getElementById('emailType').value = 'restaurant_reservation';
+            document.getElementById('emailReservationId').value = reservationId;
+            document.getElementById('emailSubject').value = '';
+            document.getElementById('emailMessage').value = '';
+            document.getElementById('emailModal').classList.add('open');
+        }
+        
         // Menu Item Functions
         function openMenuItemModal(item = null) {
             // Load categories first
@@ -3084,6 +3611,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 document.getElementById('menuItemPrice').value = item.price || '';
                 document.getElementById('menuItemDescription').value = item.description || '';
                 document.getElementById('menuItemOrder').value = item.display_order || 0;
+                document.getElementById('menuItemSignature').value = item.is_signature || 0;
                 document.getElementById('menuItemAvailable').value = item.is_available || 1;
                 document.getElementById('menuItemImage').value = item.image || '';
                 if (item.image) {
@@ -3097,6 +3625,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 document.getElementById('menuItemForm').reset();
                 document.getElementById('menuItemId').value = '';
                 document.getElementById('menuItemOrder').value = '0';
+                document.getElementById('menuItemSignature').value = '0';
                 document.getElementById('menuItemAvailable').value = '1';
                 document.getElementById('previewMenuItemImage').innerHTML = '';
             }
@@ -3118,6 +3647,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('price', document.getElementById('menuItemPrice').value);
             formData.append('description', document.getElementById('menuItemDescription').value);
             formData.append('display_order', document.getElementById('menuItemOrder').value);
+            formData.append('is_signature', document.getElementById('menuItemSignature').value);
             formData.append('is_available', document.getElementById('menuItemAvailable').value);
             formData.append('image', document.getElementById('menuItemImage').value);
             
@@ -3232,29 +3762,6 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         });
 
-        // Update page load to include menu tab
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentTab = '<?php echo $current_tab; ?>';
-            if (currentTab === 'rooms') loadRooms();
-            if (currentTab === 'amenities') loadAmenities();
-            if (currentTab === 'bookings') loadBookings();
-            if (currentTab === 'events') {
-                loadEventVenues();
-                loadEventInquiries();
-            }
-            if (currentTab === 'gallery') {
-                loadGalleryAlbums();
-                loadGalleryImages();
-                loadGalleryVideos();
-            }
-            if (currentTab === 'offers') {
-                loadOffers();
-            }
-            if (currentTab === 'menu') {
-                loadMenuCategories();
-                loadMenuItems();
-            }
-        });
     </script>
 </body>
 </html>

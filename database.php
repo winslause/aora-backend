@@ -245,6 +245,97 @@ if ($checkImageColumn->rowCount() == 0) {
     $pdo->exec("UPDATE table_types SET image = 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80' WHERE name = 'Bar Area'");
 }
 
+// Create sample menus table
+$createSampleMenusTable = "CREATE TABLE IF NOT EXISTS sample_menus (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    subtitle VARCHAR(100),
+    description TEXT,
+    display_order INT DEFAULT 0,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+$pdo->exec($createSampleMenusTable);
+
+// Insert default sample menus if empty
+$stmt = $pdo->query("SELECT COUNT(*) as count FROM sample_menus");
+$result = $stmt->fetch();
+
+if ($result['count'] == 0) {
+    $sampleMenus = [
+        ['title' => 'Tasting Menu', 'subtitle' => '7 courses', 'description' => 'A full 7-course culinary journey showcasing our finest dishes', 'display_order' => 1],
+        ['title' => 'À La Carte', 'subtitle' => 'Seasonal', 'description' => 'Our seasonal offerings featuring the freshest ingredients', 'display_order' => 2],
+        ['title' => 'Dessert Menu', 'subtitle' => 'Sweet endings', 'description' => 'Indulgent desserts to complete your dining experience', 'display_order' => 3]
+    ];
+    
+    $menuStmt = $pdo->prepare("INSERT INTO sample_menus (title, subtitle, description, display_order) VALUES (:title, :subtitle, :description, :display_order)");
+    foreach ($sampleMenus as $menu) {
+        $menuStmt->execute($menu);
+    }
+}
+
+// Create sample menu items table
+$createSampleMenuItemsTable = "CREATE TABLE IF NOT EXISTS sample_menu_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    menu_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    price VARCHAR(50),
+    display_order INT DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (menu_id) REFERENCES sample_menus(id)
+)";
+$pdo->exec($createSampleMenuItemsTable);
+
+// Insert default sample menu items if empty
+$stmt = $pdo->query("SELECT COUNT(*) as count FROM sample_menu_items");
+$result = $stmt->fetch();
+
+if ($result['count'] == 0) {
+    $sampleMenuItems = [
+        // Tasting Menu items
+        ['menu_id' => 1, 'name' => 'Amuse-bouche', 'price' => 'KSh 1,200', 'display_order' => 1],
+        ['menu_id' => 1, 'name' => 'Coastal Ceviche', 'price' => 'KSh 2,500', 'display_order' => 2],
+        ['menu_id' => 1, 'name' => 'Nyama Choma', 'price' => 'KSh 3,800', 'display_order' => 3],
+        ['menu_id' => 1, 'name' => 'Palate Cleanser', 'price' => 'KSh 800', 'display_order' => 4],
+        ['menu_id' => 1, 'name' => 'Swahili Pilau', 'price' => 'KSh 2,800', 'display_order' => 5],
+        ['menu_id' => 1, 'name' => 'Dessert Trio', 'price' => 'KSh 2,200', 'display_order' => 6],
+        
+        // A La Carte items
+        ['menu_id' => 2, 'name' => 'Starters', 'price' => 'KSh 1,800 - 2,500', 'display_order' => 1],
+        ['menu_id' => 2, 'name' => 'Main Courses', 'price' => 'KSh 2,800 - 4,500', 'display_order' => 2],
+        ['menu_id' => 2, 'name' => 'Grill Specialties', 'price' => 'KSh 3,200 - 4,800', 'display_order' => 3],
+        ['menu_id' => 2, 'name' => 'Vegetarian', 'price' => 'KSh 2,200 - 3,000', 'display_order' => 4],
+        ['menu_id' => 2, 'name' => 'Sides', 'price' => 'KSh 650 - 1,200', 'display_order' => 5],
+        ['menu_id' => 2, 'name' => 'Desserts', 'price' => 'KSh 1,200 - 1,800', 'display_order' => 6],
+        
+        // Dessert Menu items
+        ['menu_id' => 3, 'name' => 'Chocolate Fondant', 'price' => 'KSh 1,500', 'display_order' => 1],
+        ['menu_id' => 3, 'name' => 'Passion Fruit Panna Cotta', 'price' => 'KSh 1,400', 'display_order' => 2],
+        ['menu_id' => 3, 'name' => 'Coconut & Mango Tart', 'price' => 'KSh 1,400', 'display_order' => 3],
+        ['menu_id' => 3, 'name' => 'Masala Chai Crème Brûlée', 'price' => 'KSh 1,500', 'display_order' => 4],
+        ['menu_id' => 3, 'name' => 'Fresh Fruit Platter', 'price' => 'KSh 1,200', 'display_order' => 5],
+        ['menu_id' => 3, 'name' => 'Artisan Ice Cream', 'price' => 'KSh 950', 'display_order' => 6]
+    ];
+    
+    $itemStmt = $pdo->prepare("INSERT INTO sample_menu_items (menu_id, name, price, display_order) VALUES (:menu_id, :name, :price, :display_order)");
+    foreach ($sampleMenuItems as $item) {
+        $itemStmt->execute($item);
+    }
+}
+
+// Function to get all sample menus with items
+function getAllSampleMenus($pdo) {
+    $menus = $pdo->query("SELECT * FROM sample_menus WHERE is_active = 1 ORDER BY display_order ASC")->fetchAll();
+    
+    foreach ($menus as &$menu) {
+        $items = $pdo->prepare("SELECT * FROM sample_menu_items WHERE menu_id = :menu_id ORDER BY display_order ASC");
+        $items->execute([':menu_id' => $menu['id']]);
+        $menu['items'] = $items->fetchAll();
+    }
+    
+    return $menus;
+}
+
 // Insert default table types if empty
 $stmt = $pdo->query("SELECT COUNT(*) as count FROM table_types");
 $result = $stmt->fetch();

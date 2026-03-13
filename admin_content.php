@@ -303,7 +303,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                     <td class="font-medium">#BK-<?php echo str_pad($booking['id'], 4, '0', STR_PAD_LEFT); ?></td>
                     <td><?php echo htmlspecialchars($booking['guest_name']); ?></td>
                     <td><?php echo htmlspecialchars($booking['guest_email']); ?></td>
-                    <td><?php echo htmlspecialchars($booking['room_name'] ?? $booking['room_id'] ?? 'N/A'); ?></td>
+                    <td><?php echo htmlspecialchars(($booking['room_name'] ?? '') && trim($booking['room_name']) ? $booking['room_name'] : (isset($booking['room_id']) ? 'Room ' . $booking['room_id'] : 'N/A')); ?></td>
                     <td><?php echo $booking['check_in']; ?></td>
                     <td><?php echo $booking['check_out']; ?></td>
                     <td>
@@ -553,9 +553,9 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
 </div>
 
 <!-- Menu Items Section -->
-<div class="admin-card p-6">
+<div class="admin-card p-6 mb-6">
     <div class="flex items-center justify-between mb-6">
-        <h3 class="font-semibold text-gray-800">Menu Items</h3>
+        <h3 class="font-semibold text-gray-800">Menu Items (Signature Dishes)</h3>
         <button onclick="openMenuItemModal()" class="admin-btn-primary">
             <i class="fas fa-plus mr-2"></i>Add Menu Item
         </button>
@@ -567,12 +567,93 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                     <th>Item</th>
                     <th>Category</th>
                     <th>Price</th>
-                    <th>Description</th>
+                    <th>Signature</th>
                     <th>Order</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="menuItemsTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Sample Menus Section -->
+<div class="admin-card p-6 mb-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Sample Menus</h3>
+        <button onclick="openSampleMenuModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Sample Menu
+        </button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="sampleMenusTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Table Types (Special Dining Experiences) Section -->
+<div class="admin-card p-6 mb-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Special Dining Experiences (Table Types)</h3>
+        <button onclick="openTableTypeModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Dining Experience
+        </button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Max People</th>
+                    <th>Price</th>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableTypesTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Table Reservations Section -->
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Table Reservations</h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Guest Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Guests</th>
+                    <th>Table</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="restaurantReservationsTableBody">
                 <!-- Loaded via JavaScript -->
             </tbody>
         </table>

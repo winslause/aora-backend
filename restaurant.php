@@ -4,6 +4,12 @@ include 'header.php';
 // Get table types for special dining experiences
 include 'database.php';
 $diningExperiences = getAllTableTypes($pdo);
+
+// Get signature dishes from database
+$signatureDishes = getSignatureDishes($pdo);
+
+// Get sample menus from database
+$sampleMenus = getAllSampleMenus($pdo);
 ?>
 
 <style>
@@ -487,102 +493,29 @@ $diningExperiences = getAllTableTypes($pdo);
                 
                 <!-- Dishes Grid - NO CARDS -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    
-                    <!-- Dish 1 -->
-                    <div class="dish-item group h-[400px] relative reveal" style="transition-delay: 0.1s;" onclick="openDishModal('nyamaChoma')">
-                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80" 
-                             alt="Nyama Choma" 
+                    <?php 
+                    $delay = 0.1;
+                    foreach ($signatureDishes as $index => $dish): 
+                        $dishKey = strtolower(str_replace(' ', '', $dish['name']));
+                    ?>
+                    <div class="dish-item group h-[400px] relative reveal" style="transition-delay: <?php echo $delay; ?>s;" onclick="openDishModal('<?php echo $dishKey; ?>')">
+                        <img src="<?php echo htmlspecialchars($dish['image']); ?>" 
+                             alt="<?php echo htmlspecialchars($dish['name']); ?>" 
                              class="w-full h-full object-cover">
                         <div class="dish-overlay"></div>
                         <div class="dish-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-2">Nyama Choma</h3>
-                            <p class="text-white/80 text-sm mb-3">Grilled premium beef with kachumbari</p>
+                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-2"><?php echo htmlspecialchars($dish['name']); ?></h3>
+                            <p class="text-white/80 text-sm mb-3"><?php echo htmlspecialchars($dish['description']); ?></p>
                             <div class="flex items-center gap-2 text-[#b89a78] text-sm">
                                 <span>View details</span>
                                 <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Dish 2 -->
-                    <div class="dish-item group h-[400px] relative reveal" style="transition-delay: 0.2s;" onclick="openDishModal('pilau')">
-                        <img src="https://images.unsplash.com/photo-1633945274405-b6c8069047b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Swahili Pilau" 
-                             class="w-full h-full object-cover">
-                        <div class="dish-overlay"></div>
-                        <div class="dish-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-2">Swahili Pilau</h3>
-                            <p class="text-white/80 text-sm mb-3">Spiced rice with tender meat and caramelized onions</p>
-                            <div class="flex items-center gap-2 text-[#b89a78] text-sm">
-                                <span>View details</span>
-                                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Dish 3 -->
-                    <div class="dish-item group h-[400px] relative reveal" style="transition-delay: 0.3s;" onclick="openDishModal('seafood')">
-                        <img src="https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Coastal Seafood Platter" 
-                             class="w-full h-full object-cover">
-                        <div class="dish-overlay"></div>
-                        <div class="dish-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-2">Coastal Seafood</h3>
-                            <p class="text-white/80 text-sm mb-3">Fresh catch with coconut curry and chapati</p>
-                            <div class="flex items-center gap-2 text-[#b89a78] text-sm">
-                                <span>View details</span>
-                                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Dish 4 -->
-                    <div class="dish-item group h-[400px] relative reveal" style="transition-delay: 0.4s;" onclick="openDishModal('samaki')">
-                        <img src="https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                             alt="Samaki wa Kupaka" 
-                             class="w-full h-full object-cover">
-                        <div class="dish-overlay"></div>
-                        <div class="dish-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-2">Samaki wa Kupaka</h3>
-                            <p class="text-white/80 text-sm mb-3">Grilled fish in coconut and tamarind sauce</p>
-                            <div class="flex items-center gap-2 text-[#b89a78] text-sm">
-                                <span>View details</span>
-                                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Dish 5 -->
-                    <div class="dish-item group h-[400px] relative reveal" style="transition-delay: 0.5s;" onclick="openDishModal('mandazi')">
-                        <img src="https://ca-times.brightspotcdn.com/dims4/default/2a10669/2147483647/strip/false/crop/6000x4000+0+0/resize/1486x991!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F91%2F68%2F749190444099bbb5d78da123e922%2F666808-la-fo-kiano-moju-christmas-sr0836.jpg" 
-                             alt="Mandazi with Masala Chai" 
-                             class="w-full h-full object-cover">
-                        <div class="dish-overlay"></div>
-                        <div class="dish-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-2">Mandazi & Chai</h3>
-                            <p class="text-white/80 text-sm mb-3">East African donuts with spiced masala chai</p>
-                            <div class="flex items-center gap-2 text-[#b89a78] text-sm">
-                                <span>View details</span>
-                                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Dish 6 -->
-                    <div class="dish-item group h-[400px] relative reveal" style="transition-delay: 0.6s;" onclick="openDishModal('fruit')">
-                        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2127&q=80" 
-                             alt="Tropical Fruit Platter" 
-                             class="w-full h-full object-cover">
-                        <div class="dish-overlay"></div>
-                        <div class="dish-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-2">Tropical Fruits</h3>
-                            <p class="text-white/80 text-sm mb-3">Fresh mango, pineapple, and passion fruit</p>
-                            <div class="flex items-center gap-2 text-[#b89a78] text-sm">
-                                <span>View details</span>
-                                <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
-                            </div>
-                        </div>
-                    </div>
+                    <?php 
+                        $delay += 0.1;
+                    endforeach; 
+                    ?>
                 </div>
             </div>
         </section>
@@ -605,39 +538,24 @@ $diningExperiences = getAllTableTypes($pdo);
                 
                 <!-- Menu Blocks - Not Cards -->
                 <div class="grid md:grid-cols-3 gap-8">
-                    
-                    <!-- Tasting Menu -->
-                    <div class="sample-menu-block reveal-left" style="transition-delay: 0.1s;">
+                    <?php 
+                    $delay = 0.1;
+                    foreach ($sampleMenus as $index => $menu): 
+                        $isEven = $index % 2 === 0;
+                    ?>
+                    <div class="sample-menu-block <?php echo $index === 0 ? 'reveal-left' : ($index === 2 ? 'reveal-right' : 'reveal'); ?>" style="transition-delay: <?php echo $delay; ?>s;">
                         <div class="flex justify-between items-start mb-6">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a]">Tasting Menu</h3>
-                            <span class="text-[#b89a78] text-sm">7 courses</span>
+                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a]"><?php echo htmlspecialchars($menu['title']); ?></h3>
+                            <span class="text-[#b89a78] text-sm"><?php echo htmlspecialchars($menu['subtitle']); ?></span>
                         </div>
                         
                         <div class="space-y-3 mb-8">
+                            <?php foreach ($menu['items'] as $item): ?>
                             <div class="menu-item">
-                                <span class="text-[#5c524a]">Amuse-bouche</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 1,200</span>
+                                <span class="text-[#5c524a]"><?php echo htmlspecialchars($item['name']); ?></span>
+                                <span class="text-[#8a735b] text-sm font-medium"><?php echo htmlspecialchars($item['price']); ?></span>
                             </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Coastal Ceviche</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 2,500</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Nyama Choma</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 3,800</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Palate Cleanser</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 800</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Swahili Pilau</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 2,800</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Dessert Trio</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 2,200</span>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                         
                         <a href="#" class="inline-flex items-center gap-2 text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm">
@@ -645,86 +563,10 @@ $diningExperiences = getAllTableTypes($pdo);
                             <span>Download Menu (PDF)</span>
                         </a>
                     </div>
-                    
-                    <!-- A La Carte -->
-                    <div class="sample-menu-block reveal" style="transition-delay: 0.2s;">
-                        <div class="flex justify-between items-start mb-6">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a]">À La Carte</h3>
-                            <span class="text-[#b89a78] text-sm">Seasonal</span>
-                        </div>
-                        
-                        <div class="space-y-3 mb-8">
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Starters</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 1,800 - 2,500</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Main Courses</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 2,800 - 4,500</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Grill Specialties</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 3,200 - 4,800</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Vegetarian</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 2,200 - 3,000</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Sides</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 650 - 1,200</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Desserts</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 1,200 - 1,800</span>
-                            </div>
-                        </div>
-                        
-                        <a href="#" class="inline-flex items-center gap-2 text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm">
-                            <i class="fas fa-file-pdf"></i>
-                            <span>Download Menu (PDF)</span>
-                        </a>
-                    </div>
-                    
-                    <!-- Dessert Menu -->
-                    <div class="sample-menu-block reveal-right" style="transition-delay: 0.3s;">
-                        <div class="flex justify-between items-start mb-6">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a]">Dessert Menu</h3>
-                            <span class="text-[#b89a78] text-sm">Sweet endings</span>
-                        </div>
-                        
-                        <div class="space-y-3 mb-8">
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Chocolate Fondant</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 1,500</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Passion Fruit Panna Cotta</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 1,400</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Coconut & Mango Tart</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 1,400</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Masala Chai Crème Brûlée</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 1,500</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Fresh Fruit Platter</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 1,200</span>
-                            </div>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]">Artisan Ice Cream</span>
-                                <span class="text-[#8a735b] text-sm font-medium">KSh 950</span>
-                            </div>
-                        </div>
-                        
-                        <a href="#" class="inline-flex items-center gap-2 text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm">
-                            <i class="fas fa-file-pdf"></i>
-                            <span>Download Menu (PDF)</span>
-                        </a>
-                    </div>
+                    <?php 
+                        $delay += 0.1;
+                    endforeach; 
+                    ?>
                 </div>
             </div>
         </section>
@@ -945,68 +787,20 @@ $diningExperiences = getAllTableTypes($pdo);
 
     <!-- Dish Data and Functions -->
     <script>
-        const dishData = {
-            nyamaChoma: {
-                name: 'Nyama Choma',
-                description: 'Kenya\'s most beloved dish. Premium beef slow-grilled over open flames until perfectly charred and tender.',
-                longDescription: 'Served with traditional kachumbari (fresh tomato and onion salsa), ugali, and our signature chili sauce. The meat is sourced from local grass-fed cattle and marinated for 24 hours in a secret blend of Swahili spices.',
-                price: 'KSh 3,800',
-                image: 'https://beehiverl.com/wp-content/uploads/2024/09/Nyama-Choma-2.jpg',
-                ingredients: ['Premium beef', 'Garlic', 'Ginger', 'Swahili spice blend', 'Lime', 'Fresh tomatoes', 'Onions', 'Cilantro'],
-                spiceLevel: 'Medium',
-                dietary: 'Gluten-free option available'
-            },
-            pilau: {
-                name: 'Swahili Pilau',
-                description: 'Aromatic spiced rice dish that tells the story of the Swahili coast.',
-                longDescription: 'Fragrant basmati rice cooked in a rich broth of beef, cardamom, cinnamon, cloves, and cumin. Topped with caramelized onions and served with kachumbari and a side of tangy tamarind sauce.',
-                price: 'KSh 2,200',
-                image: 'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                ingredients: ['Basmati rice', 'Beef', 'Cardamom', 'Cinnamon', 'Cloves', 'Cumin', 'Onions', 'Garlic'],
-                spiceLevel: 'Mild',
-                dietary: 'Contains gluten'
-            },
-            seafood: {
-                name: 'Coastal Seafood Platter',
-                description: 'Fresh catch from the Kenyan coast prepared in rich coconut curry.',
-                longDescription: 'A generous platter of prawns, calamari, and fish simmered in a fragrant coconut curry with tamarind and Swahili spices. Served with fluffy chapati and coconut rice.',
-                price: 'KSh 4,500',
-                image: 'https://images.unsplash.com/photo-1559847844-5315695dadae?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                ingredients: ['Prawns', 'Calamari', 'Fish', 'Coconut milk', 'Tamarind', 'Curry leaves', 'Lemongrass', 'Chilies'],
-                spiceLevel: 'Medium-Hot',
-                dietary: 'Contains seafood'
-            },
-            samaki: {
-                name: 'Samaki wa Kupaka',
-                description: 'Grilled fish in a rich coconut and tamarind sauce.',
-                longDescription: 'Whole tilapia or red snapper marinated in lime and spices, grilled to perfection, then bathed in a creamy coconut-tamarind sauce. Served with mchicha (sautéed greens) and ugali.',
-                price: 'KSh 3,200',
-                image: 'https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                ingredients: ['Whole tilapia', 'Coconut milk', 'Tamarind', 'Lime', 'Garlic', 'Ginger', 'Chilies', 'Cilantro'],
-                spiceLevel: 'Medium',
-                dietary: 'Gluten-free'
-            },
-            mandazi: {
-                name: 'Mandazi & Masala Chai',
-                description: 'East African donuts served with spiced tea.',
-                longDescription: 'Light, fluffy, lightly sweetened donuts with hints of cardamom and coconut. Served with a steaming pot of masala chai—black tea infused with ginger, cardamom, cinnamon, and cloves.',
-                price: 'KSh 850',
-                image: 'https://ca-times.brightspotcdn.com/dims4/default/2a10669/2147483647/strip/false/crop/6000x4000+0+0/resize/1486x991!/quality/75/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2F91%2F68%2F749190444099bbb5d78da123e922%2F666808-la-fo-kiano-moju-christmas-sr0836.jpg',
-                ingredients: ['Flour', 'Coconut milk', 'Cardamom', 'Sugar', 'Yeast', 'Black tea', 'Ginger', 'Cinnamon'],
-                spiceLevel: 'None',
-                dietary: 'Vegetarian'
-            },
-            fruit: {
-                name: 'Tropical Fruit Platter',
-                description: 'Fresh seasonal fruits from Kenyan farms.',
-                longDescription: 'A vibrant selection of Kenya\'s finest tropical fruits: sweet mangoes, juicy pineapples, passion fruit, papaya, and watermelon. Served with a drizzle of honey and lime.',
-                price: 'KSh 1,200',
-                image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2127&q=80',
-                ingredients: ['Mango', 'Pineapple', 'Passion fruit', 'Papaya', 'Watermelon', 'Honey', 'Lime', 'Mint'],
-                spiceLevel: 'None',
-                dietary: 'Vegan, Gluten-free'
-            }
+        // Dynamic dish data from PHP database
+        const dishData = {};
+        <?php foreach ($signatureDishes as $dish): ?>
+        dishData['<?php echo strtolower(str_replace(' ', '', $dish['name'])); ?>'] = {
+            name: '<?php echo addslashes($dish['name']); ?>',
+            description: '<?php echo addslashes($dish['description']); ?>',
+            longDescription: '<?php echo addslashes($dish['description']); ?>',
+            price: 'KSh <?php echo number_format($dish['price']); ?>',
+            image: '<?php echo addslashes($dish['image']); ?>',
+            ingredients: '<?php echo addslashes($dish['ingredients'] ?? ''); ?>'.split(',').filter(i => i.trim()),
+            spiceLevel: '<?php echo addslashes($dish['spice_level'] ?? 'Medium'); ?>',
+            dietary: '<?php echo addslashes($dish['dietary_info'] ?? ''); ?>'
         };
+        <?php endforeach; ?>
 
         function openDishModal(dishKey) {
             const dish = dishData[dishKey];
