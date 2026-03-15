@@ -431,3 +431,89 @@ Stack trace:
     [action] => get_menu_items
 )
 
+[15-Mar-2026 17:45:06 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[15-Mar-2026 17:45:06 Europe/Berlin] get_rooms called
+[15-Mar-2026 17:45:06 Europe/Berlin] Rooms found: 8
+[15-Mar-2026 18:05:06 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[15-Mar-2026 18:05:06 Europe/Berlin] get_rooms called
+[15-Mar-2026 18:05:06 Europe/Berlin] Rooms found: 8
+[15-Mar-2026 18:05:18 Europe/Berlin] API Request: action=get_menu_items, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_menu_items
+)
+
+[15-Mar-2026 18:05:18 Europe/Berlin] API Request: action=get_table_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_table_types
+)
+
+[15-Mar-2026 18:08:38 Europe/Berlin] API Request: action=get_room_views, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_room_views
+)
+
+[15-Mar-2026 18:08:38 Europe/Berlin] API Request: action=get_bed_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_bed_types
+)
+
+[15-Mar-2026 18:09:26 Europe/Berlin] API Request: action=get_room_views, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_room_views
+)
+
+[15-Mar-2026 18:09:26 Europe/Berlin] API Request: action=get_bed_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_bed_types
+)
+
+[15-Mar-2026 18:15:08 Europe/Berlin] API Request: action=get_menu_items, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_menu_items
+)
+
+[15-Mar-2026 18:15:08 Europe/Berlin] API Request: action=get_table_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_table_types
+)
+

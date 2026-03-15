@@ -1661,3 +1661,59 @@ function deleteOffer($pdo, $id) {
     $stmt = $pdo->prepare("UPDATE offers SET is_active = 0 WHERE id = :id");
     $stmt->execute([':id' => $id]);
 }
+
+// ==================== CONTACT MESSAGES ====================
+
+// Create contact_messages table if not exists
+$createContactMessagesTable = "CREATE TABLE IF NOT EXISTS contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    subject VARCHAR(200) NOT NULL,
+    message TEXT NOT NULL,
+    status ENUM('new', 'read', 'replied') DEFAULT 'new',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+
+$pdo->exec($createContactMessagesTable);
+
+// Function to save contact message
+function saveContactMessage($pdo, $data) {
+    $stmt = $pdo->prepare("INSERT INTO contact_messages (name, email, phone, subject, message) VALUES (:name, :email, :phone, :subject, :message)");
+    
+    $stmt->execute([
+        ':name' => $data['name'],
+        ':email' => $data['email'],
+        ':phone' => $data['phone'] ?? '',
+        ':subject' => $data['subject'],
+        ':message' => $data['message']
+    ]);
+    
+    return $pdo->lastInsertId();
+}
+
+// Function to get all contact messages
+function getAllContactMessages($pdo) {
+    $stmt = $pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC");
+    return $stmt->fetchAll();
+}
+
+// Function to get contact message by ID
+function getContactMessageById($pdo, $id) {
+    $stmt = $pdo->prepare("SELECT * FROM contact_messages WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+    return $stmt->fetch();
+}
+
+// Function to update contact message status
+function updateContactMessageStatus($pdo, $id, $status) {
+    $stmt = $pdo->prepare("UPDATE contact_messages SET status = :status WHERE id = :id");
+    $stmt->execute([':id' => $id, ':status' => $status]);
+}
+
+// Function to delete contact message
+function deleteContactMessage($pdo, $id) {
+    $stmt = $pdo->prepare("DELETE FROM contact_messages WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+}

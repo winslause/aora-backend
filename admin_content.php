@@ -49,6 +49,13 @@ $bookings = $pdo->query("SELECT b.*, r.name as room_name, r.id as room_id, r.roo
 $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries e 
     LEFT JOIN event_venues v ON e.venue_id = v.id 
     ORDER BY e.created_at DESC")->fetchAll();
+
+// Get all contact messages
+try {
+    $contactMessages = $pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC")->fetchAll();
+} catch (Exception $e) {
+    $contactMessages = [];
+}
 ?>
 
 <?php if ($current_tab == 'dashboard'): ?>
@@ -581,12 +588,12 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
     </div>
 </div>
 
-<!-- Menu Items Section -->
+<!-- Our Signature Dishes Section -->
 <div class="admin-card p-6 mb-6">
     <div class="flex items-center justify-between mb-6">
-        <h3 class="font-semibold text-gray-800">Menu Items (Signature Dishes)</h3>
+        <h3 class="font-semibold text-gray-800">Our Signature Dishes</h3>
         <button onclick="openMenuItemModal()" class="admin-btn-primary">
-            <i class="fas fa-plus mr-2"></i>Add Menu Item
+            <i class="fas fa-plus mr-2"></i>Add Signature Dish
         </button>
     </div>
     <div class="overflow-x-auto">
@@ -596,23 +603,23 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                     <th>Item</th>
                     <th>Category</th>
                     <th>Price</th>
-                    <th>Signature</th>
+                    <th>Description</th>
                     <th>Order</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="menuItemsTableBody">
+            <tbody id="signatureDishesTableBody">
                 <!-- Loaded via JavaScript -->
             </tbody>
         </table>
-        <div id="menuItemsPagination"></div>
+        <div id="signatureDishesPagination"></div>
     </div>
 </div>
 
-<!-- Sample Menus Section -->
+<!-- Culinary Offerings - Sample Menus Section -->
 <div class="admin-card p-6 mb-6">
     <div class="flex items-center justify-between mb-6">
-        <h3 class="font-semibold text-gray-800">Sample Menus</h3>
+        <h3 class="font-semibold text-gray-800">Culinary Offerings - Sample Menus</h3>
         <button onclick="openSampleMenuModal()" class="admin-btn-primary">
             <i class="fas fa-plus mr-2"></i>Add Sample Menu
         </button>
@@ -690,6 +697,87 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
             </tbody>
         </table>
         <div id="restaurantReservationsPagination"></div>
+    </div>
+</div>
+
+<?php elseif ($current_tab == 'contact'): ?>
+<!-- Contact Messages Management Content -->
+<div class="admin-card p-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Contact Us Messages</h3>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($contactMessages)): ?>
+                <tr>
+                    <td colspan="9" class="text-center py-8 text-gray-500">No contact messages yet</td>
+                </tr>
+                <?php else: ?>
+                    <?php foreach ($contactMessages as $message): ?>
+                <tr>
+                    <td class="font-medium">#MSG-<?php echo str_pad($message['id'], 4, '0', STR_PAD_LEFT); ?></td>
+                    <td><?php echo htmlspecialchars($message['name']); ?></td>
+                    <td><?php echo htmlspecialchars($message['email']); ?></td>
+                    <td><?php echo htmlspecialchars($message['phone'] ?? '-'); ?></td>
+                    <td><?php echo htmlspecialchars($message['subject']); ?></td>
+                    <td class="max-w-xs">
+                        <div class="truncate" title="<?php echo htmlspecialchars($message['message']); ?>">
+                            <?php echo htmlspecialchars(substr($message['message'], 0, 50)); ?>...
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-badge <?php echo $message['status']; ?>"><?php echo ucfirst($message['status']); ?></span>
+                    </td>
+                    <td><?php echo date('M j, Y', strtotime($message['created_at'])); ?></td>
+                    <td>
+                        <button onclick='viewMessage(<?php echo json_encode($message); ?>)' class="text-[#b89a78] hover:text-[#8a735b] mr-2" title="View">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button onclick="updateMessageStatus(<?php echo $message['id']; ?>, 'read')" class="text-blue-600 hover:text-blue-800 mr-2" title="Mark as Read">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button onclick="replyToMessage(<?php echo $message['id']; ?>, '<?php echo htmlspecialchars($message['email']); ?>')" class="text-green-600 hover:text-green-800 mr-2" title="Reply">
+                            <i class="fas fa-reply"></i>
+                        </button>
+                        <button onclick="deleteMessage(<?php echo $message['id']; ?>)" class="text-gray-400 hover:text-red-500" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Message View Modal -->
+<div id="viewMessageModal" class="modal">
+    <div class="modal-content">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-semibold">Message Details</h3>
+            <button onclick="closeViewMessageModal()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div id="messageDetails">
+            <!-- Message details will be loaded here -->
+        </div>
     </div>
 </div>
 

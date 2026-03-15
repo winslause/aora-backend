@@ -48,7 +48,7 @@ $sampleMenus = getAllSampleMenus($pdo);
             "addressLocality": "Nairobi",
             "addressCountry": "KE"
         },
-        "telephone": "+254700000000",
+        "telephone": "+254769525570",
         "priceRange": "KSh 1,200 - KSh 4,800",
         "servesCuisine": ["Kenyan", "Swahili", "International"],
         "openingHoursSpecification": [

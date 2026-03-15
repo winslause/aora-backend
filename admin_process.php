@@ -1493,6 +1493,35 @@ switch ($action) {
         echo json_encode(['success' => true, 'items' => $items, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
         break;
     
+    // Get signature menu items only
+    case 'get_signature_menu_items':
+        checkAdminSession();
+        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM menu_items WHERE is_signature = 1");
+        $total = $stmt->fetch()['total'];
+        
+        $stmt = $pdo->query("SELECT mi.*, mc.name as category_name FROM menu_items mi LEFT JOIN menu_categories mc ON mi.category_id = mc.id WHERE mi.is_signature = 1 ORDER BY mc.display_order ASC, mi.display_order ASC LIMIT $limit OFFSET $offset");
+        $items = $stmt->fetchAll();
+        foreach ($items as &$item) {
+            if (isset($item['ingredients']) && $item['ingredients']) {
+                $decoded = json_decode($item['ingredients'], true);
+                $item['ingredients'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
+            } else {
+                $item['ingredients'] = [];
+            }
+            if (isset($item['allergens']) && $item['allergens']) {
+                $decoded = json_decode($item['allergens'], true);
+                $item['allergens'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
+            } else {
+                $item['allergens'] = [];
+            }
+        }
+        echo json_encode(['success' => true, 'items' => $items, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
+        break;
+    
     // Add menu item
     case 'add_menu_item':
         checkAdminSession();
@@ -2176,6 +2205,120 @@ switch ($action) {
         $result = $mailer->send($reservation['guest_email'], $reservation['guest_name'], $subject, $body);
         
         if ($result) {
+            echo json_encode(['success' => true, 'message' => 'Email sent successfully']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Failed to send email']);
+        }
+        break;
+    
+    // ==================== CONTACT MESSAGES MANAGEMENT ====================
+    
+    // Get all contact messages
+    case 'get_all_contact_messages':
+        checkAdminSession();
+        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM contact_messages");
+        $total = $stmt->fetch()['total'];
+        
+        $stmt = $pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC LIMIT $limit OFFSET $offset");
+        $messages = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'messages' => $messages, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
+        break;
+    
+    // Get contact message by ID
+    case 'get_contact_message_by_id':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("SELECT * FROM contact_messages WHERE id = ?");
+        $stmt->execute([$id]);
+        $message = $stmt->fetch();
+        if ($message) {
+            echo json_encode(['success' => true, 'message' => $message]);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Message not found']);
+        }
+        break;
+    
+    // Update contact message status
+    case 'update_contact_message_status':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $status = $_POST['status'];
+        $stmt = $pdo->prepare("UPDATE contact_messages SET status = ? WHERE id = ?");
+        $stmt->execute([$status, $id]);
+        echo json_encode(['success' => true, 'message' => 'Message status updated']);
+        break;
+    
+    // Delete contact message
+    case 'delete_contact_message':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM contact_messages WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Message deleted successfully']);
+        break;
+    
+    // Send email to contact message sender
+    case 'send_contact_email':
+        checkAdminSession();
+        $contact_id = $_POST['contact_id'];
+        $message = $_POST['message'];
+        $subject = $_POST['subject'];
+        
+        // Get contact message details
+        $stmt = $pdo->prepare("SELECT * FROM contact_messages WHERE id = ?");
+        $stmt->execute([$contact_id]);
+        $contact = $stmt->fetch();
+        
+        if (!$contact) {
+            echo json_encode(['success' => false, 'message' => 'Contact message not found']);
+            break;
+        }
+        
+        $mailer = new SMTP_mailer($smtpHost, $smtpPort, $smtpUsername, $smtpPassword, $smtpFromEmail, $smtpFromName);
+        
+        $body = "
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .header { background-color: #8a735b; color: white; padding: 20px; text-align: center; }
+                .content { background-color: #f9f9f9; padding: 20px; }
+                .message-box { background-color: white; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 4px solid #8a735b; }
+                .footer { background-color: #333; color: white; padding: 15px; text-align: center; font-size: 12px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>Message from Aora Hotel</h1>
+                </div>
+                <div class='content'>
+                    <p>Dear <strong>{$contact['name']}</strong>,</p>
+                    <p>{$message}</p>
+                    
+                    <p>If you have any questions, please don't hesitate to contact us.</p>
+                    
+                    <p>Best regards,<br>The Aora Hotel Team</p>
+                </div>
+                <div class='footer'>
+                    <p>Aora Hotel - Your Luxurious Escape</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+        
+        $result = $mailer->send($contact['email'], $contact['name'], $subject, $body);
+        
+        if ($result) {
+            // Update status to replied
+            $stmt = $pdo->prepare("UPDATE contact_messages SET status = 'replied' WHERE id = ?");
+            $stmt->execute([$contact_id]);
             echo json_encode(['success' => true, 'message' => 'Email sent successfully']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to send email']);

@@ -93,6 +93,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             <a href="?tab=gallery" class="sidebar-link <?php echo $current_tab == 'gallery' ? 'active' : ''; ?>"><i class="fas fa-images"></i> Gallery</a>
             <a href="?tab=offers" class="sidebar-link <?php echo $current_tab == 'offers' ? 'active' : ''; ?>"><i class="fas fa-gift"></i> Offers</a>
             <a href="?tab=menu" class="sidebar-link <?php echo $current_tab == 'menu' ? 'active' : ''; ?>"><i class="fas fa-utensils"></i> Menu</a>
+            <a href="?tab=contact" class="sidebar-link <?php echo $current_tab == 'contact' ? 'active' : ''; ?>"><i class="fas fa-envelope"></i> Contact Us</a>
             <a href="?tab=settings" class="sidebar-link <?php echo $current_tab == 'settings' ? 'active' : ''; ?>"><i class="fas fa-cog"></i> Settings</a>
             <a href="admin_login.php?logout=1" class="sidebar-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
@@ -126,6 +127,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 <a href="?tab=gallery" class="sidebar-link <?php echo $current_tab == 'gallery' ? 'active' : ''; ?>"><i class="fas fa-images"></i> Gallery</a>
                 <a href="?tab=offers" class="sidebar-link <?php echo $current_tab == 'offers' ? 'active' : ''; ?>"><i class="fas fa-gift"></i> Offers</a>
                 <a href="?tab=menu" class="sidebar-link <?php echo $current_tab == 'menu' ? 'active' : ''; ?>"><i class="fas fa-utensils"></i> Menu</a>
+                <a href="?tab=contact" class="sidebar-link <?php echo $current_tab == 'contact' ? 'active' : ''; ?>"><i class="fas fa-envelope"></i> Contact Us</a>
                 <a href="?tab=settings" class="sidebar-link <?php echo $current_tab == 'settings' ? 'active' : ''; ?>"><i class="fas fa-cog"></i> Settings</a>
                 
                 <div class="px-4 mt-6 mb-4">
@@ -165,6 +167,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                                 case 'gallery': echo 'Gallery Management'; break;
                                 case 'offers': echo 'Offers Management'; break;
                                 case 'menu': echo 'Menu Management'; break;
+                                case 'contact': echo 'Contact Us Messages'; break;
                                 case 'settings': echo 'Settings'; break;
                                 default: echo 'Dashboard Overview';
                             }
@@ -1042,6 +1045,55 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             
             <div class="flex gap-3 mt-4">
                 <button onclick="closeSampleMenuItemsModal()" class="admin-btn-secondary flex-1">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- View Contact Message Modal -->
+    <div id="viewMessageModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Contact Message Details</h3>
+                <button onclick="closeViewMessageModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500 mb-1">Name</label>
+                        <p id="viewMessageName" class="font-medium text-gray-800"></p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500 mb-1">Email</label>
+                        <p id="viewMessageEmail" class="text-[#b89a78]"></p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500 mb-1">Phone</label>
+                        <p id="viewMessagePhone" class="text-gray-800"></p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-500 mb-1">Status</label>
+                        <span id="viewMessageStatus" class="status-badge"></span>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-1">Subject</label>
+                    <p id="viewMessageSubject" class="font-medium text-gray-800"></p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-1">Message</label>
+                    <div id="viewMessageMessage" class="bg-gray-50 p-4 rounded-lg text-gray-700 whitespace-pre-wrap"></div>
+                </div>
+                <div class="flex justify-between items-center text-sm text-gray-500">
+                    <span>Received: <span id="viewMessageDate"></span></span>
+                </div>
+            </div>
+            <div class="flex gap-3 mt-6">
+                <button onclick="closeViewMessageModal()" class="admin-btn-secondary flex-1">Close</button>
+                <button onclick="replyToMessage(currentMessageId, document.getElementById('viewMessageEmail').textContent)" class="admin-btn-primary flex-1">
+                    <i class="fas fa-reply mr-2"></i>Reply
+                </button>
             </div>
         </div>
     </div>
@@ -2250,6 +2302,9 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             } else if (type === 'restaurant_reservation') {
                 formData.append('action', 'send_restaurant_reservation_email');
                 formData.append('reservation_id', document.getElementById('emailReservationId').value);
+            } else if (type === 'contact') {
+                formData.append('action', 'send_contact_email');
+                formData.append('contact_id', document.getElementById('emailInquiryId').value);
             } else {
                 formData.append('action', 'send_inquiry_email');
                 formData.append('inquiry_id', document.getElementById('emailInquiryId').value);
@@ -2635,6 +2690,142 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             }
         }
 
+        // ==================== CONTACT MESSAGES MANAGEMENT ====================
+        
+        // Load Contact Messages
+        function loadContactMessages(page = 1) {
+            paginationState.contactMessages = paginationState.contactMessages || { page: 1, totalPages: 1 };
+            paginationState.contactMessages.page = page;
+            const formData = new FormData();
+            formData.append('action', 'get_all_contact_messages');
+            formData.append('page', page);
+            
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    paginationState.contactMessages.totalPages = data.total_pages || 1;
+                    const tbody = document.getElementById('contactMessagesTableBody');
+                    if (tbody) {
+                        tbody.innerHTML = data.messages.map(msg => `
+                            <tr>
+                                <td class="font-medium">${msg.name}</td>
+                                <td>${msg.email}</td>
+                                <td>${msg.phone || '-'}</td>
+                                <td>${msg.subject}</td>
+                                <td>${msg.message.substring(0, 50)}${msg.message.length > 50 ? '...' : ''}</td>
+                                <td>${msg.created_at}</td>
+                                <td>
+                                    <span class="status-badge ${msg.status === 'new' ? 'pending' : (msg.status === 'read' ? 'contacted' : 'confirmed')}">${msg.status}</span>
+                                </td>
+                                <td>
+                                    <button onclick="viewMessage(${msg.id})" class="text-blue-600 hover:text-blue-800 mr-2" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button onclick="updateMessageStatus(${msg.id}, '${msg.status === 'new' ? 'read' : 'new'}')" class="text-[#b89a78] hover:text-[#8a735b] mr-2" title="Mark as ${msg.status === 'new' ? 'Read' : 'Unread'}">
+                                        <i class="fas fa-${msg.status === 'new' ? 'envelope-open' : 'envelope'}"></i>
+                                    </button>
+                                    <button onclick="replyToMessage(${msg.id}, '${msg.email}')" class="text-green-600 hover:text-green-800 mr-2" title="Reply">
+                                        <i class="fas fa-reply"></i>
+                                    </button>
+                                    <button onclick="deleteMessage(${msg.id})" class="text-gray-400 hover:text-red-500" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                    renderPagination('contactMessagesPagination', paginationState.contactMessages.page, paginationState.contactMessages.totalPages, 'loadContactMessages');
+                }
+            });
+        }
+        
+        // View Message Modal
+        let currentMessageId = null;
+        
+        function viewMessage(id) {
+            const formData = new FormData();
+            formData.append('action', 'get_contact_message_by_id');
+            formData.append('id', id);
+            
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const msg = data.message;
+                    currentMessageId = id;
+                    document.getElementById('viewMessageName').textContent = msg.name;
+                    document.getElementById('viewMessageEmail').textContent = msg.email;
+                    document.getElementById('viewMessagePhone').textContent = msg.phone || 'Not provided';
+                    document.getElementById('viewMessageSubject').textContent = msg.subject;
+                    document.getElementById('viewMessageMessage').textContent = msg.message;
+                    document.getElementById('viewMessageDate').textContent = msg.created_at;
+                    document.getElementById('viewMessageStatus').textContent = msg.status;
+                    document.getElementById('viewMessageStatus').className = 'status-badge ' + (msg.status === 'new' ? 'pending' : (msg.status === 'read' ? 'contacted' : 'confirmed'));
+                    document.getElementById('viewMessageModal').classList.add('open');
+                    
+                    // Mark as read if new
+                    if (msg.status === 'new') {
+                        updateMessageStatus(id, 'read');
+                    }
+                }
+            });
+        }
+        
+        function closeViewMessageModal() {
+            document.getElementById('viewMessageModal').classList.remove('open');
+            currentMessageId = null;
+        }
+        
+        // Update Message Status
+        function updateMessageStatus(id, status) {
+            const formData = new FormData();
+            formData.append('action', 'update_contact_message_status');
+            formData.append('id', id);
+            formData.append('status', status);
+            
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.success) loadContactMessages();
+            });
+        }
+        
+        // Reply to Message
+        function replyToMessage(id, email) {
+            openEmailModal(null, id, 'contact');
+            document.getElementById('emailSubject').value = 'Re: Your inquiry';
+        }
+        
+        // Delete Message
+        function deleteMessage(id) {
+            if (confirm('Are you sure you want to delete this message?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_contact_message');
+                formData.append('id', id);
+                
+                fetch('admin_process.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) loadContactMessages();
+                });
+            }
+        }
+
         // Load data on page load - Consolidated DOMContentLoaded
         document.addEventListener('DOMContentLoaded', function() {
             const currentTab = '<?php echo $current_tab; ?>';
@@ -2657,10 +2848,13 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             }
             if (currentTab === 'menu') {
                 loadMenuCategories();
-                loadMenuItems();
+                loadSignatureDishes();
                 loadSampleMenus();
                 loadTableTypes();
                 loadRestaurantReservations();
+            }
+            if (currentTab === 'contact') {
+                loadContactMessages();
             }
         });
 
@@ -3446,7 +3640,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             tbody.innerHTML = data.items.map(item => `
                                 <tr>
                                     <td class="font-medium">${item.name}</td>
-                                    <td>${item.price || '-'}</td>
+                                    <td>${item.price && item.price !== '' ? 'KSh ' + parseFloat(item.price).toLocaleString() : '-'}</td>
                                     <td>${item.display_order || 0}</td>
                                     <td>
                                         <button onclick='editSampleMenuItem(${JSON.stringify(item).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
@@ -3774,22 +3968,22 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 alert(data.message);
                 if (data.success) {
                     closeMenuItemModal();
-                    loadMenuItems();
+                    loadSignatureDishes();
                 }
             });
         });
         
-        function loadMenuItems(page = 1) {
+        function loadMenuItems(page = 1, signatureOnly = false) {
             paginationState.menuItems.page = page;
             const formData = new FormData();
-            formData.append('action', 'get_all_menu_items');
+            formData.append('action', signatureOnly ? 'get_signature_menu_items' : 'get_all_menu_items');
             formData.append('page', page);
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
                     paginationState.menuItems.totalPages = data.total_pages || 1;
-                    const tbody = document.getElementById('menuItemsTableBody');
+                    const tbody = document.getElementById(signatureOnly ? 'signatureDishesTableBody' : 'menuItemsTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.items.map(item => `
                             <tr>
@@ -3800,7 +3994,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                                     </div>
                                 </td>
                                 <td>${item.category_name || '-'}</td>
-                                <td>KSh ${parseInt(item.price || 0).toLocaleString()}</td>
+                                <td>${item.price && item.price !== '' ? 'KSh ' + parseFloat(item.price).toLocaleString() : '-'}</td>
                                 <td>${item.description ? item.description.substring(0, 30) + '...' : '-'}</td>
                                 <td>${item.display_order || 0}</td>
                                 <td>
@@ -3810,9 +4004,13 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
-                    renderPagination('menuItemsPagination', paginationState.menuItems.page, paginationState.menuItems.totalPages, 'loadMenuItems');
+                    renderPagination(signatureOnly ? 'signatureDishesPagination' : 'menuItemsPagination', paginationState.menuItems.page, paginationState.menuItems.totalPages, signatureOnly ? 'loadSignatureDishes' : 'loadMenuItems');
                 }
             });
+        }
+        
+        function loadSignatureDishes(page = 1) {
+            loadMenuItems(page, true);
         }
         
         function deleteMenuItem(id) {
@@ -3824,7 +4022,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 .then(res => res.json())
                 .then(data => {
                     alert(data.message);
-                    if (data.success) loadMenuItems();
+                    if (data.success) loadSignatureDishes();
                 });
             }
         }

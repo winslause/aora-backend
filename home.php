@@ -2499,7 +2499,7 @@ document.addEventListener('keydown', function(e) {
                         
                         <div class="flex items-center gap-4">
                             <i class="fas fa-phone-alt text-[#d4b48c] text-lg"></i>
-                            <p class="font-['Montserrat'] text-[#5c524a] text-base">+254 (0) 20 123 4567</p>
+                            <a href="tel:+254769525570" class="font-['Montserrat'] text-[#5c524a] text-base hover:text-[#d4b48c]">+254 769 525 570</a>
                         </div>
                         
                         <div class="flex items-center gap-4">

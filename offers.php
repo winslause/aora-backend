@@ -1273,7 +1273,7 @@ include 'header.php'; ?>
         }
         
         function openCustomModal() {
-            alert('Please contact our concierge team to create your custom package. Call +254 (0) 20 123 4567 or email concierge@aora.kenya');
+            alert('Please contact our concierge team to create your custom package. Call +254 769 525 570 or email concierge@aora.kenya');
         }
         
         function closeModal() {

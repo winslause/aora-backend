@@ -1,5 +1,57 @@
-<?php include 'header.php'; ?>
-<?php
+<?php 
+// Process contact form submission
+$message_sent = false;
+$message_error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'send_message') {
+    // Include database connection
+    require_once 'database.php';
+    
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $phone = trim($_POST['phone'] ?? '');
+    $subject = trim($_POST['subject'] ?? '');
+    $message = trim($_POST['message'] ?? '');
+    
+    if (empty($name) || empty($email) || empty($subject) || empty($message)) {
+        $message_error = 'Please fill in all required fields.';
+    } else {
+        // Save to database
+        $data = [
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'subject' => $subject,
+            'message' => $message
+        ];
+        
+        try {
+            saveContactMessage($pdo, $data);
+            
+            // Send email to admin
+            $admin_email = 'wenslause300@gmail.com';
+            $email_subject = "New Contact Message: " . $subject;
+            $email_body = "You have received a new contact message from the Aora website.\n\n";
+            $email_body .= "Name: " . $name . "\n";
+            $email_body .= "Email: " . $email . "\n";
+            $email_body .= "Phone: " . $phone . "\n";
+            $email_body .= "Subject: " . $subject . "\n\n";
+            $email_body .= "Message:\n" . $message . "\n";
+            $email_headers = "From: Aora Resort <noreply@aora.kenya>\r\n";
+            $email_headers .= "Reply-To: " . $email . "\r\n";
+            $email_headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+            
+            @mail($admin_email, $email_subject, $email_body, $email_headers);
+            
+            $message_sent = true;
+        } catch (Exception $e) {
+            $message_error = 'Failed to send message. Please try again.';
+        }
+    }
+}
+
+include 'header.php';
+
 // Page-specific SEO
 $pageTitle = "Contact Aora45 - Get in Touch | Luxury Resort Nairobi, Kenya";
 $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for reservations, inquiries, or feedback. Find our location, phone, email, and send us a message today.";
@@ -477,8 +529,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                                 </div>
                                 <div>
                                     <p class="text-[#8a735b] text-xs uppercase tracking-wider mb-1">Call Us</p>
-                                    <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">+254 (0) 20 123 4567</p>
-                                    <p class="text-[#6b5d51]">+254 (0) 722 123 456</p>
+                                    <a href="tel:+254769525570" class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl hover:text-[#b89a78]">+254 769 525 570</a>
                                 </div>
                             </div>
                             
@@ -555,7 +606,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                             
                             <!-- Live Chat / WhatsApp Button -->
                             <div class="mt-8">
-                                <a href="#" class="inline-flex items-center gap-3 px-6 py-3 bg-[#b89a78] text-white hover:bg-[#8a735b] transition-all duration-300">
+                                <a href="https://wa.me/254769525570" class="inline-flex items-center gap-3 px-6 py-3 bg-[#b89a78] text-white hover:bg-[#8a735b] transition-all duration-300">
                                     <i class="fab fa-whatsapp"></i>
                                     <span class="text-sm uppercase tracking-wider">WhatsApp Us</span>
                                 </a>
@@ -582,30 +633,45 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                         <h2 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#2c3e4a] mb-3">Send Us a Message</h2>
                         <div class="w-16 h-px bg-[#b89a78] mb-8"></div>
                         
-                        <form id="contactForm" class="space-y-8" onsubmit="handleSubmit(event)">
+                        <?php if ($message_sent): ?>
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+                                <p class="font-semibold">Thank you for your message!</p>
+                                <p class="text-sm">Our team will respond within 2 hours.</p>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <?php if ($message_error): ?>
+                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                                <p><?php echo htmlspecialchars($message_error); ?></p>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <form id="contactForm" class="space-y-8" method="POST" action="?page=contact">
+                            <input type="hidden" name="action" value="send_message">
+                            
                             <!-- Name Field -->
                             <div>
-                                <input type="text" class="contact-input" placeholder="Your Full Name *" required>
+                                <input type="text" name="name" class="contact-input" placeholder="Your Full Name *" required>
                             </div>
                             
                             <!-- Email Field -->
                             <div>
-                                <input type="email" class="contact-input" placeholder="Email Address *" required>
+                                <input type="email" name="email" class="contact-input" placeholder="Email Address *" required>
                             </div>
                             
                             <!-- Phone Field -->
                             <div>
-                                <input type="tel" class="contact-input" placeholder="Phone Number (optional)">
+                                <input type="tel" name="phone" class="contact-input" placeholder="Phone Number (optional)">
                             </div>
                             
                             <!-- Subject Field -->
                             <div>
-                                <input type="text" class="contact-input" placeholder="Subject *" required>
+                                <input type="text" name="subject" class="contact-input" placeholder="Subject *" required>
                             </div>
                             
                             <!-- Message Field -->
                             <div>
-                                <textarea rows="5" class="contact-textarea" placeholder="Your Message *" required></textarea>
+                                <textarea name="message" rows="5" class="contact-textarea" placeholder="Your Message *" required></textarea>
                             </div>
                             
                             <!-- Submit Button -->

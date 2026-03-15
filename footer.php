@@ -68,8 +68,8 @@
                             </div>
                             <div>
                                 <p class="text-[#1e3a2f] text-xs font-medium uppercase tracking-wider">Call</p>
-                                <p class="text-[#1e3a2f] text-sm">+254 (0) 20 123 4567</p>
-                                <p class="text-[#1e3a2f] text-sm">+254 (0) 722 123 456</p>
+                                <a href="tel:+254769525570" class="text-[#1e3a2f] text-sm hover:text-[#8fb89a]">+254 769 525 570</a>
+                                <a href="https://wa.me/254769525570" class="text-[#1e3a2f] text-sm block hover:text-[#8fb89a]"><i class="fab fa-whatsapp mr-1"></i>WhatsApp</a>
                             </div>
                         </div>
                         
