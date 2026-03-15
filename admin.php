@@ -1598,9 +1598,22 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             
             fetch('admin_process.php', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'include'
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Server returned ' + res.status);
+                }
+                return res.text();
+            })
+            .then(text => {
+                console.log('Venues response:', text); // Debug log
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                return JSON.parse(text);
+            })
             .then(data => {
                 if (data.success) {
                     const tbody = document.getElementById('eventVenuesTableBody');
@@ -1627,7 +1640,14 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                } else {
+                    console.error('Server error:', data.message);
+                    alert(data.message || 'Error loading venues');
                 }
+            })
+            .catch(error => {
+                console.error('Error loading venues:', error);
+                alert('Failed to load venues. Please refresh the page.');
             });
         }
         
@@ -1639,12 +1659,30 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 
                 fetch('admin_process.php', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    credentials: 'include'
                 })
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Server returned ' + res.status);
+                    }
+                    return res.text();
+                })
+                .then(text => {
+                    if (!text || text.trim() === '') {
+                        throw new Error('Empty response from server');
+                    }
+                    return JSON.parse(text);
+                })
                 .then(data => {
                     alert(data.message);
-                    loadEventVenues();
+                    if (data.success) {
+                        loadEventVenues();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to delete venue. Please try again.');
                 });
             }
         }
@@ -2241,7 +2279,11 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             inquiries: { page: 1, totalPages: 1 },
             galleryImages: { page: 1, totalPages: 1 },
             offers: { page: 1, totalPages: 1 },
-            menuItems: { page: 1, totalPages: 1 }
+            menuItems: { page: 1, totalPages: 1 },
+            menuCategories: { page: 1, totalPages: 1 },
+            sampleMenus: { page: 1, totalPages: 1 },
+            tableTypes: { page: 1, totalPages: 1 },
+            restaurantReservations: { page: 1, totalPages: 1 }
         };
 
         // Load Rooms
@@ -2255,7 +2297,18 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Server returned ' + response.status);
+                }
+                return response.text();
+            })
+            .then(text => {
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                return JSON.parse(text);
+            })
             .then(data => {
                 if (data.success) {
                     paginationState.rooms.totalPages = data.total_pages;
@@ -2311,7 +2364,18 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Server returned ' + response.status);
+                }
+                return response.text();
+            })
+            .then(text => {
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                return JSON.parse(text);
+            })
             .then(data => {
                 if (data.success) {
                     paginationState.amenities.totalPages = data.total_pages;
@@ -2357,7 +2421,18 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Server returned ' + response.status);
+                }
+                return response.text();
+            })
+            .then(text => {
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                return JSON.parse(text);
+            })
             .then(data => {
                 if (data.success) {
                     paginationState.bookings.totalPages = data.total_pages;
@@ -2371,6 +2446,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                                 <td>${booking.room_name && booking.room_name.trim() ? booking.room_name : (booking.room_id ? 'Room ' + booking.room_id : 'N/A')}</td>
                                 <td>${booking.check_in}</td>
                                 <td>${booking.check_out}</td>
+                                <td>KSh ${parseInt(booking.total_cost || 0).toLocaleString()}</td>
                                 <td>
                                     <span class="status-badge ${booking.status}">${booking.status}</span>
                                 </td>
@@ -2397,9 +2473,11 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         }
 
         // Load Event Inquiries
-        function loadEventInquiries() {
+        function loadEventInquiries(page = 1) {
+            paginationState.inquiries.page = page;
             const formData = new FormData();
             formData.append('action', 'get_all_event_inquiries');
+            formData.append('page', page);
             
             fetch('admin_process.php', {
                 method: 'POST',
@@ -2408,6 +2486,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.inquiries.totalPages = data.total_pages || 1;
                     const tbody = document.getElementById('inquiriesTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.inquiries.map(inquiry => `
@@ -2439,6 +2518,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('inquiriesPagination', paginationState.inquiries.page, paginationState.inquiries.totalPages, 'loadEventInquiries');
                 }
             });
         }
@@ -2762,7 +2842,18 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('action', 'get_gallery_images_paginated');
             formData.append('page', page);
             fetch('admin_process.php', { method: 'POST', body: formData })
-            .then(res => res.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Server returned ' + response.status);
+                }
+                return response.text();
+            })
+            .then(text => {
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                return JSON.parse(text);
+            })
             .then(data => {
                 if (data.success) {
                     paginationState.galleryImages.totalPages = data.total_pages;
@@ -3085,13 +3176,16 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         });
 
-        function loadOffers() {
+        function loadOffers(page = 1) {
+            paginationState.offers.page = page;
             const formData = new FormData();
             formData.append('action', 'get_all_offers_admin');
+            formData.append('page', page);
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.offers.totalPages = data.total_pages || 1;
                     const tbody = document.getElementById('offersTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.offers.map(offer => {
@@ -3118,6 +3212,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             `;
                         }).join('');
                     }
+                    renderPagination('offersPagination', paginationState.offers.page, paginationState.offers.totalPages, 'loadOffers');
                 }
             });
         }
@@ -3180,13 +3275,16 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         });
         
-        function loadMenuCategories() {
+        function loadMenuCategories(page = 1) {
+            paginationState.menuCategories.page = page;
             const formData = new FormData();
             formData.append('action', 'get_all_menu_categories');
+            formData.append('page', page);
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.menuCategories.totalPages = data.total_pages || 1;
                     const tbody = document.getElementById('menuCategoriesTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.categories.map(cat => `
@@ -3201,6 +3299,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('menuCategoriesPagination', paginationState.menuCategories.page, paginationState.menuCategories.totalPages, 'loadMenuCategories');
                 }
             });
         }
@@ -3262,13 +3361,16 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         });
         
-        function loadSampleMenus() {
+        function loadSampleMenus(page = 1) {
+            paginationState.sampleMenus.page = page;
             const formData = new FormData();
             formData.append('action', 'get_all_sample_menus');
+            formData.append('page', page);
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.sampleMenus.totalPages = data.total_pages || 1;
                     const tbody = document.getElementById('sampleMenusTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.menus.map(menu => `
@@ -3287,6 +3389,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('sampleMenusPagination', paginationState.sampleMenus.page, paginationState.sampleMenus.totalPages, 'loadSampleMenus');
                 }
             });
         }
@@ -3464,13 +3567,16 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         });
         
-        function loadTableTypes() {
+        function loadTableTypes(page = 1) {
+            paginationState.tableTypes.page = page;
             const formData = new FormData();
             formData.append('action', 'get_all_table_types');
+            formData.append('page', page);
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.tableTypes.totalPages = data.total_pages || 1;
                     const tbody = document.getElementById('tableTypesTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.types.map(type => `
@@ -3487,6 +3593,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('tableTypesPagination', paginationState.tableTypes.page, paginationState.tableTypes.totalPages, 'loadTableTypes');
                 }
             });
         }
@@ -3507,13 +3614,16 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         
         // ==================== RESTAURANT RESERVATIONS MANAGEMENT ====================
         
-        function loadRestaurantReservations() {
+        function loadRestaurantReservations(page = 1) {
+            paginationState.restaurantReservations.page = page;
             const formData = new FormData();
             formData.append('action', 'get_all_restaurant_reservations');
+            formData.append('page', page);
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.restaurantReservations.totalPages = data.total_pages || 1;
                     const tbody = document.getElementById('restaurantReservationsTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.reservations.map(res => `
@@ -3546,6 +3656,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('restaurantReservationsPagination', paginationState.restaurantReservations.page, paginationState.restaurantReservations.totalPages, 'loadRestaurantReservations');
                 }
             });
         }
@@ -3668,13 +3779,16 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         });
         
-        function loadMenuItems() {
+        function loadMenuItems(page = 1) {
+            paginationState.menuItems.page = page;
             const formData = new FormData();
             formData.append('action', 'get_all_menu_items');
+            formData.append('page', page);
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
+                    paginationState.menuItems.totalPages = data.total_pages || 1;
                     const tbody = document.getElementById('menuItemsTableBody');
                     if (tbody) {
                         tbody.innerHTML = data.items.map(item => `
@@ -3696,6 +3810,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                             </tr>
                         `).join('');
                     }
+                    renderPagination('menuItemsPagination', paginationState.menuItems.page, paginationState.menuItems.totalPages, 'loadMenuItems');
                 }
             });
         }
@@ -3716,51 +3831,59 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
 
         // ==================== SETTINGS ====================
         
-        document.getElementById('passwordForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (newPassword !== confirmPassword) {
-                alert('New passwords do not match!');
-                return;
-            }
-            
-            if (newPassword.length < 6) {
-                alert('Password must be at least 6 characters!');
-                return;
-            }
-            
-            const formData = new FormData();
-            formData.append('action', 'update_admin_password');
-            formData.append('current_password', currentPassword);
-            formData.append('new_password', newPassword);
-            
-            fetch('admin_process.php', { method: 'POST', body: formData })
-            .then(res => res.json())
-            .then(data => {
-                alert(data.message);
-                if (data.success) {
-                    document.getElementById('passwordForm').reset();
+        // Password form - only add listener if element exists
+        const passwordForm = document.getElementById('passwordForm');
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                if (newPassword !== confirmPassword) {
+                    alert('New passwords do not match!');
+                    return;
                 }
+                
+                if (newPassword.length < 6) {
+                    alert('Password must be at least 6 characters!');
+                    return;
+                }
+                
+                const formData = new FormData();
+                formData.append('action', 'update_admin_password');
+                formData.append('current_password', currentPassword);
+                formData.append('new_password', newPassword);
+                
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                    if (data.success) {
+                        document.getElementById('passwordForm').reset();
+                    }
+                });
             });
-        });
+        }
         
-        document.getElementById('settingsForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append('action', 'update_admin_settings');
-            formData.append('site_name', document.getElementById('siteName').value);
-            formData.append('contact_email', document.getElementById('contactEmail').value);
-            formData.append('contact_phone', document.getElementById('contactPhone').value);
-            
-            fetch('admin_process.php', { method: 'POST', body: formData })
-            .then(res => res.json())
-            .then(data => {
-                alert(data.message);
+        // Settings form - only add listener if element exists
+        const settingsForm = document.getElementById('settingsForm');
+        if (settingsForm) {
+            settingsForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData();
+                formData.append('action', 'update_admin_settings');
+                formData.append('site_name', document.getElementById('siteName').value);
+                formData.append('contact_email', document.getElementById('contactEmail').value);
+                formData.append('contact_phone', document.getElementById('contactPhone').value);
+                
+                fetch('admin_process.php', { method: 'POST', body: formData })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                });
             });
-        });
+        }
 
     </script>
 </body>

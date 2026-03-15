@@ -12,6 +12,22 @@ ini_set('error_log', __DIR__ . '/php_error.log');
 
 include 'database.php';
 
+// Check if database connection was successful
+if (!isset($pdo) || $pdo === null) {
+    error_log("Database connection failed - \$pdo is not set");
+    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
+    exit;
+}
+
+// Test the connection
+try {
+    $pdo->query("SELECT 1");
+} catch (PDOException $e) {
+    error_log("Database connection test failed: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
+    exit;
+}
+
 // SMTP Configuration for Gmail
 $smtpHost = 'smtp.gmail.com';
 $smtpPort = 465; // Use SSL port
@@ -309,27 +325,94 @@ function sendBookingNotificationToAdmin($booking_data, $room) {
 // Get action from GET or POST
 $action = isset($_GET['action']) ? $_GET['action'] : (isset($_POST['action']) ? $_POST['action'] : '');
 
+// Log all requests for debugging
+error_log("API Request: action=$action, GET=" . print_r($_GET, true) . ", POST=" . print_r($_POST, true));
+
+// If no action provided, return error JSON
+if (empty($action)) {
+    // Try to detect if this is a direct access - return debug info
+    echo json_encode([
+        'success' => false, 
+        'message' => 'No action specified. API is working. Use ?action=get_rooms',
+        'available_actions' => ['get_rooms', 'get_room', 'get_filter_options', 'debug']
+    ]);
+    exit;
+}
+
+// Add error handling wrapper
+function handleRequest($callback) {
+    try {
+        return $callback();
+    } catch (Exception $e) {
+        error_log("API Error: " . $e->getMessage());
+        return json_encode(['success' => false, 'message' => $e->getMessage(), 'error' => true]);
+    } catch (Error $e) {
+        error_log("API Fatal Error: " . $e->getMessage());
+        return json_encode(['success' => false, 'message' => $e->getMessage(), 'error' => true]);
+    }
+}
+
 switch ($action) {
+    case 'debug':
+        // Debug endpoint to check database connection
+        $debug = [];
+        $debug['php_version'] = PHP_VERSION;
+        $debug['pdo_available'] = extension_loaded('pdo_mysql') ? 'yes' : 'no';
+        
+        try {
+            $debug['connection_test'] = $pdo->query("SELECT 1")->fetch();
+            $debug['rooms_count'] = $pdo->query("SELECT COUNT(*) as count FROM rooms")->fetch();
+            $debug['room_views_count'] = $pdo->query("SELECT COUNT(*) as count FROM room_views")->fetch();
+            $debug['bed_types_count'] = $pdo->query("SELECT COUNT(*) as count FROM bed_types")->fetch();
+            $debug['status'] = 'connected';
+        } catch (Exception $e) {
+            $debug['status'] = 'error';
+            $debug['error'] = $e->getMessage();
+        }
+        
+        echo json_encode($debug);
+        break;
+        
     case 'get_rooms':
-        // Get filter parameters - support both GET and POST
-        $viewFilter = isset($_GET['view']) ? $_GET['view'] : (isset($_POST['view']) ? $_POST['view'] : null);
-        $bedFilter = isset($_GET['bed']) ? $_GET['bed'] : (isset($_POST['bed']) ? $_POST['bed'] : null);
-        $sort = isset($_GET['sort']) ? $_GET['sort'] : (isset($_POST['sort']) ? $_POST['sort'] : 'price_asc');
-        $limit = isset($_GET['limit']) ? $_GET['limit'] : (isset($_POST['limit']) ? $_POST['limit'] : null);
-        
-        if ($limit) {
-            $rooms = getLatestRooms($pdo, $limit);
-        } else {
-            $rooms = getAllRooms($pdo, $viewFilter, $bedFilter, $sort);
-        }
-        
-        // Decode JSON amenities and images for each room
-        foreach ($rooms as &$room) {
-            $room['amenities'] = json_decode($room['amenities'], true);
-            $room['images'] = json_decode($room['images'], true);
-        }
-        
-        echo json_encode(['success' => true, 'rooms' => $rooms]);
+        echo handleRequest(function() {
+            global $pdo;
+            
+            // Log that we received the request
+            error_log("get_rooms called");
+            
+            // Get filter parameters - support both GET and POST
+            $viewFilter = isset($_GET['view']) ? $_GET['view'] : (isset($_POST['view']) ? $_POST['view'] : null);
+            $bedFilter = isset($_GET['bed']) ? $_GET['bed'] : (isset($_POST['bed']) ? $_POST['bed'] : null);
+            $sort = isset($_GET['sort']) ? $_GET['sort'] : (isset($_POST['sort']) ? $_POST['sort'] : 'price_asc');
+            $limit = isset($_GET['limit']) ? $_GET['limit'] : (isset($_POST['limit']) ? $_POST['limit'] : null);
+            
+            try {
+                if ($limit) {
+                    $rooms = getLatestRooms($pdo, $limit);
+                } else {
+                    $rooms = getAllRooms($pdo, $viewFilter, $bedFilter, $sort);
+                }
+                
+                // Log number of rooms found
+                error_log("Rooms found: " . count($rooms));
+            } catch (Exception $e) {
+                error_log("Error getting rooms: " . $e->getMessage());
+                return json_encode(['success' => false, 'message' => 'Error fetching rooms: ' . $e->getMessage()]);
+            }
+            
+            // Decode JSON amenities and images for each room - with error handling
+            foreach ($rooms as &$room) {
+                try {
+                    $room['amenities'] = json_decode($room['amenities'] ?? '[]', true) ?? [];
+                    $room['images'] = json_decode($room['images'] ?? '[]', true) ?? [];
+                } catch (Exception $e) {
+                    $room['amenities'] = [];
+                    $room['images'] = [];
+                }
+            }
+            
+            return json_encode(['success' => true, 'rooms' => $rooms]);
+        });
         break;
         
     case 'get_room':

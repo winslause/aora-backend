@@ -384,20 +384,11 @@ $sampleMenus = getAllSampleMenus($pdo);
                 <p class="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-white/90 max-w-2xl mx-auto italic leading-relaxed reveal" style="transition-delay: 0.6s;">
                     "Where Kenyan flavors meet culinary artistry"
                 </p>
-                
-                <!-- Scroll Indicator -->
-                <!-- <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
-                    <span class="text-white/60 text-xs uppercase tracking-widest">Explore</span>
-                    <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-                        <div class="w-1 h-2 bg-white/60 rounded-full mt-2 animate-bounce"></div>
-                    </div>
-                </div> -->
             </div>
         </section>
 
         <!-- ===== RESTAURANT OVERVIEW ===== -->
         <section class="relative py-28 px-6 bg-[#fcf8f3] overflow-hidden">
-            <!-- Simple Background - No Icons -->
             <div class="absolute inset-0">
                 <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
                 <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
@@ -405,8 +396,6 @@ $sampleMenus = getAllSampleMenus($pdo);
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
-                    
-                    <!-- Left Column - Ambiance Description -->
                     <div class="reveal-left">
                         <div class="flex items-center gap-4 mb-6">
                             <div class="w-12 h-px bg-[#b89a78]"></div>
@@ -425,7 +414,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                             We specialize in <span class="font-semibold text-[#b89a78]">modern Kenyan cuisine</span>, blending traditional Swahili spices with international techniques. Every dish tells a story of our land, our people, and our passion.
                         </p>
                         
-                        <!-- Cuisine Type Tags - No Cards -->
                         <div class="flex flex-wrap gap-3">
                             <span class="px-5 py-2 border border-[#b89a78]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#b89a78] hover:text-white transition-colors cursor-default">Swahili Coast</span>
                             <span class="px-5 py-2 border border-[#b89a78]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#b89a78] hover:text-white transition-colors cursor-default">Farm-to-Table</span>
@@ -434,16 +422,13 @@ $sampleMenus = getAllSampleMenus($pdo);
                         </div>
                     </div>
                     
-                    <!-- Right Column - Opening Hours (Minimal Design) -->
                     <div class="reveal-right">
                         <div class="relative">
-                            <!-- Decorative Circle -->
                             <div class="absolute -top-10 -right-10 w-40 h-40 border border-[#b89a78]/20 rounded-full animate-float-slow"></div>
                             
                             <div class="bg-[#f4ede5] p-10 border border-[#b89a78]/10">
                                 <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-8">Opening Hours</h3>
                                 
-                                <!-- Hours List - Minimal Lines -->
                                 <div class="space-y-6">
                                     <div class="flex justify-between items-center pb-3 border-b border-[#b89a78]/20">
                                         <span class="text-[#5c524a] font-medium">Breakfast</span>
@@ -463,7 +448,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                                     </div>
                                 </div>
                                 
-                                <!-- Note -->
                                 <p class="text-[#8a735b] text-sm mt-8 italic">Last orders 30 minutes before closing</p>
                             </div>
                         </div>
@@ -474,24 +458,20 @@ $sampleMenus = getAllSampleMenus($pdo);
 
         <!-- ===== SIGNATURE DISHES ===== -->
         <section class="relative py-28 px-6 bg-[#2c3e4a] overflow-hidden">
-            <!-- Simple Background - Deep Teal -->
             <div class="absolute inset-0">
                 <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
                 <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
             </div>
             
-            <!-- Floating Elements - Very Subtle -->
             <div class="absolute top-20 left-[5%] w-64 h-64 border border-[#b89a78]/10 rounded-full animate-rotate-slow"></div>
             
             <div class="max-w-7xl mx-auto relative z-10">
-                <!-- Section Header - Light Text -->
                 <div class="text-center mb-16 reveal">
                     <span class="text-[#b89a78] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">SIGNATURE CREATIONS</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-white mt-4 mb-6 font-light">Our Signature Dishes</h2>
                     <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
                 </div>
                 
-                <!-- Dishes Grid - NO CARDS -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <?php 
                     $delay = 0.1;
@@ -520,23 +500,20 @@ $sampleMenus = getAllSampleMenus($pdo);
             </div>
         </section>
 
-        <!-- ===== SAMPLE MENU CARDS (NO CARDS) ===== -->
+        <!-- ===== SAMPLE MENU CARDS ===== -->
         <section class="relative py-28 px-6 bg-[#fcf8f3] overflow-hidden">
-            <!-- Simple Background -->
             <div class="absolute inset-0">
                 <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
                 <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
-                <!-- Section Header -->
                 <div class="text-center mb-16 reveal">
                     <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Culinary Offerings</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Sample Menus</h2>
                     <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
                 </div>
                 
-                <!-- Menu Blocks - Not Cards -->
                 <div class="grid md:grid-cols-3 gap-8">
                     <?php 
                     $delay = 0.1;
@@ -573,21 +550,18 @@ $sampleMenus = getAllSampleMenus($pdo);
 
         <!-- ===== SPECIAL DINING EXPERIENCES ===== -->
         <section class="relative py-28 px-6 bg-[#f4ede5] overflow-hidden">
-            <!-- Simple Background -->
             <div class="absolute inset-0">
                 <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
                 <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
-                <!-- Section Header -->
                 <div class="text-center mb-16 reveal">
                     <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Beyond the Ordinary</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Special Dining Experiences</h2>
                     <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
                 </div>
                 
-                <!-- Experiences Grid - Loaded from Database -->
                 <div class="space-y-20">
                     <?php 
                     $delay = 0.1;
@@ -645,31 +619,26 @@ $sampleMenus = getAllSampleMenus($pdo);
 
         <!-- ===== RESERVATION FORM SECTION ===== -->
         <section class="relative py-28 px-6 bg-[#fcf8f3] overflow-hidden">
-            <!-- Simple Background -->
             <div class="absolute inset-0">
                 <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
                 <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
             </div>
             
             <div class="max-w-4xl mx-auto relative z-10">
-                <!-- Section Header -->
                 <div class="text-center mb-12 reveal">
                     <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Reserve Your Table</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Join Us for Our Meals</h2>
                     <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
                 </div>
                 
-                <!-- Reservation Form - Minimal Design -->
                 <div class="bg-[#f4ede5] p-8 md:p-12 reveal">
                     <form class="reservation-form space-y-8">
                         <div class="grid md:grid-cols-2 gap-8">
-                            <!-- Date -->
                             <div>
                                 <label class="block mb-2">Date</label>
                                 <input type="date" value="2025-04-15" required>
                             </div>
                             
-                            <!-- Time -->
                             <div>
                                 <label class="block mb-2">Time</label>
                                 <input type="time" id="reservationTime" required>
@@ -677,7 +646,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                         </div>
                         
                         <div class="grid md:grid-cols-2 gap-8">
-                            <!-- Guests -->
                             <div>
                                 <label class="block mb-2">Number of Guests</label>
                                 <select id="numGuests" required>
@@ -693,7 +661,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                                 </select>
                             </div>
                             
-                            <!-- Table Type -->
                             <div>
                                 <label class="block mb-2">Table Type</label>
                                 <select id="tableType" required>
@@ -702,7 +669,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                             </div>
                         </div>
                         
-                        <!-- Name -->
                         <div class="grid md:grid-cols-2 gap-8">
                             <div>
                                 <label class="block mb-2">First Name</label>
@@ -714,7 +680,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                             </div>
                         </div>
                         
-                        <!-- Contact -->
                         <div class="grid md:grid-cols-2 gap-8">
                             <div>
                                 <label class="block mb-2">Email</label>
@@ -726,7 +691,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                             </div>
                         </div>
                         
-                        <!-- Occasion -->
                         <div>
                             <label class="block mb-2">Occasion (Optional)</label>
                             <select id="occasion">
@@ -740,13 +704,11 @@ $sampleMenus = getAllSampleMenus($pdo);
                             </select>
                         </div>
                         
-                        <!-- Special Requests -->
                         <div>
                             <label class="block mb-2">Special Requests</label>
                             <textarea rows="3" placeholder="Dietary restrictions, allergies, or special notes..."></textarea>
                         </div>
                         
-                        <!-- Pre-order Menu Items -->
                         <div>
                             <label class="block mb-2">Pre-order Menu Items (Optional)</label>
                             <p class="text-[#8a735b] text-xs mb-4">Select items you'd like to pre-order for your visit</p>
@@ -755,7 +717,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                             </div>
                         </div>
                         
-                        <!-- Submit Button -->
                         <div class="text-center pt-4">
                             <button type="button" onclick="submitReservation()" class="reserve-button px-12 py-4 text-white uppercase tracking-wider text-sm">
                                 Reserve Now
@@ -763,7 +724,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                         </div>
                     </form>
                     
-                    <!-- Note -->
                     <p class="text-center text-[#8a735b] text-xs mt-6">
                         We'll confirm your reservation within 2 hours via email or SMS.
                     </p>
@@ -775,12 +735,10 @@ $sampleMenus = getAllSampleMenus($pdo);
     <!-- ===== DISH MODAL ===== -->
     <div id="dishModal" class="modal">
         <div class="modal-content mx-auto my-8 p-8 relative">
-            <!-- Close Button -->
             <button onclick="closeDishModal()" class="absolute top-4 right-4 w-10 h-10 bg-[#b89a78] text-white rounded-full flex items-center justify-center hover:bg-[#8a735b] transition-all z-10">
                 <i class="fas fa-times"></i>
             </button>
             
-            <!-- Modal Content will be dynamically loaded -->
             <div id="dishModalContent"></div>
         </div>
     </div>
@@ -811,12 +769,10 @@ $sampleMenus = getAllSampleMenus($pdo);
             
             modalContent.innerHTML = `
                 <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Left Column - Image -->
                     <div>
                         <img src="${dish.image}" alt="${dish.name}" class="w-full h-[400px] object-cover">
                     </div>
                     
-                    <!-- Right Column - Details -->
                     <div>
                         <h2 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-2">${dish.name}</h2>
                         <div class="w-12 h-px bg-[#b89a78] mb-4"></div>
@@ -828,7 +784,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                             <span class="text-[#b89a78] font-['DM_Serif_Display'] text-2xl">${dish.price}</span>
                         </div>
                         
-                        <!-- Key Info -->
                         <div class="grid grid-cols-2 gap-4 mb-6">
                             <div>
                                 <p class="text-[#8a735b] text-xs uppercase">Spice Level</p>
@@ -840,7 +795,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                             </div>
                         </div>
                         
-                        <!-- Ingredients -->
                         <div class="mb-8">
                             <p class="text-[#8a735b] text-xs uppercase mb-2">Ingredients</p>
                             <div class="flex flex-wrap gap-2">
@@ -850,7 +804,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                             </div>
                         </div>
                         
-                        <!-- Reserve Button -->
                         <button onclick="openReservationFromDish('${dish.name}')" class="reserve-button w-full py-4 text-white uppercase tracking-wider">
                             Reserve a Table for This Dish
                         </button>
@@ -870,11 +823,7 @@ $sampleMenus = getAllSampleMenus($pdo);
         
         function openReservationFromDish(dishName) {
             closeDishModal();
-            
-            // Scroll to reservation form
             document.querySelector('.reservation-form').scrollIntoView({ behavior: 'smooth' });
-            
-            // Optionally pre-fill special requests
             const specialRequests = document.querySelector('.reservation-form textarea');
             if (specialRequests) {
                 specialRequests.value = `I'd like to order the ${dishName}`;
@@ -937,42 +886,15 @@ $sampleMenus = getAllSampleMenus($pdo);
             const occasion = form.querySelector('#occasion')?.value || '';
             const specialRequests = form.querySelector('textarea')?.value || '';
             
-            // Debug: Log values
-            console.log('Form values:', { date, time, guests, tableTypeId, firstName, lastName, email, phone });
-            
-            // Validation - check all required fields
-            if (!date) {
-                showMessage('Please select a date', 'error');
-                return;
-            }
-            if (!time) {
-                showMessage('Please select a time', 'error');
-                return;
-            }
-            if (!guests) {
-                showMessage('Please select number of guests', 'error');
-                return;
-            }
-            if (!tableTypeId) {
-                showMessage('Please select a table type', 'error');
-                return;
-            }
-            if (!firstName) {
-                showMessage('Please enter your first name', 'error');
-                return;
-            }
-            if (!lastName) {
-                showMessage('Please enter your last name', 'error');
-                return;
-            }
-            if (!email) {
-                showMessage('Please enter your email', 'error');
-                return;
-            }
-            if (!phone) {
-                showMessage('Please enter your phone number', 'error');
-                return;
-            }
+            // Validation
+            if (!date) { showMessage('Please select a date', 'error'); return; }
+            if (!time) { showMessage('Please select a time', 'error'); return; }
+            if (!guests) { showMessage('Please select number of guests', 'error'); return; }
+            if (!tableTypeId) { showMessage('Please select a table type', 'error'); return; }
+            if (!firstName) { showMessage('Please enter your first name', 'error'); return; }
+            if (!lastName) { showMessage('Please enter your last name', 'error'); return; }
+            if (!email) { showMessage('Please enter your email', 'error'); return; }
+            if (!phone) { showMessage('Please enter your phone number', 'error'); return; }
             
             // Get selected menu items
             const selectedItems = [];
@@ -997,7 +919,11 @@ $sampleMenus = getAllSampleMenus($pdo);
             // Show loader
             showLoader();
             
-            fetch('api.php', {
+            // FIXED: Use regex to correctly get directory path
+            const basePath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/\/[^\/]*$/, '');
+            const apiUrl = basePath + '/api.php';
+            
+            fetch(apiUrl, {
                 method: 'POST',
                 body: formData
             })
@@ -1008,7 +934,6 @@ $sampleMenus = getAllSampleMenus($pdo);
                 if (data.success) {
                     showMessage('Thank you! Your reservation has been confirmed. Check your email for confirmation details.', 'success');
                     form.reset();
-                    // Uncheck all checkboxes
                     document.querySelectorAll('.menu-item-checkbox').forEach(cb => cb.checked = false);
                 } else {
                     showMessage('Error: ' + data.message, 'error');
@@ -1021,9 +946,8 @@ $sampleMenus = getAllSampleMenus($pdo);
             });
         }
         
-        // Show message function (replaces alert)
+        // Show message function
         function showMessage(message, type) {
-            // Remove existing message if any
             const existingMsg = document.getElementById('formMessage');
             if (existingMsg) existingMsg.remove();
             
@@ -1042,13 +966,11 @@ $sampleMenus = getAllSampleMenus($pdo);
             msgDiv.innerHTML = message;
             document.body.appendChild(msgDiv);
             
-            // Auto remove after 5 seconds
             setTimeout(() => msgDiv.remove(), 5000);
         }
         
         // Show loader function
         function showLoader() {
-            // Remove existing loader if any
             const existingLoader = document.getElementById('formLoader');
             if (existingLoader) return;
             
@@ -1065,13 +987,12 @@ $sampleMenus = getAllSampleMenus($pdo);
             document.body.appendChild(loader);
         }
         
-        // Hide loader function
         function hideLoader() {
             const loader = document.getElementById('formLoader');
             if (loader) loader.remove();
         }
         
-        // Also keep the form submit handler as backup
+        // Form submit handler
         document.querySelector('.reservation-form').addEventListener('submit', function(e) {
             e.preventDefault();
             submitReservation();
@@ -1082,7 +1003,11 @@ $sampleMenus = getAllSampleMenus($pdo);
             const formData = new FormData();
             formData.append('action', 'get_menu_items');
             
-            fetch('api.php', {
+            // FIXED: Use regex to correctly get directory path
+            const basePath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/\/[^\/]*$/, '');
+            const apiUrl = basePath + '/api.php';
+            
+            fetch(apiUrl, {
                 method: 'POST',
                 body: formData
             })
@@ -1099,7 +1024,6 @@ $sampleMenus = getAllSampleMenus($pdo);
             const container = document.getElementById('menuItemsCheckboxes');
             if (!container) return;
             
-            // Group items by category
             const groupedItems = {};
             items.forEach(item => {
                 const category = item.category_name || 'Other';
@@ -1136,7 +1060,6 @@ $sampleMenus = getAllSampleMenus($pdo);
         // Function to reserve dining experience
         function reserveExperience(experienceTitle) {
             document.querySelector('.reservation-form').scrollIntoView({ behavior: 'smooth' });
-            // Pre-fill occasion with experience name
             const occasionSelect = document.querySelector('#occasion');
             if (occasionSelect) {
                 occasionSelect.value = experienceTitle;
@@ -1148,7 +1071,11 @@ $sampleMenus = getAllSampleMenus($pdo);
             const formData = new FormData();
             formData.append('action', 'get_table_types');
             
-            fetch('api.php', {
+            // FIXED: Use regex to correctly get directory path
+            const basePath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/\/[^\/]*$/, '');
+            const apiUrl = basePath + '/api.php';
+            
+            fetch(apiUrl, {
                 method: 'POST',
                 body: formData
             })
@@ -1157,13 +1084,11 @@ $sampleMenus = getAllSampleMenus($pdo);
                 if (data.success) {
                     renderTableTypeSelect(data.table_types);
                 } else {
-                    // Fallback to default options if API fails
                     renderTableTypeSelectFallback();
                 }
             })
             .catch(error => {
                 console.error('Error loading table types:', error);
-                // Fallback to default options
                 renderTableTypeSelectFallback();
             });
         }
@@ -1172,12 +1097,10 @@ $sampleMenus = getAllSampleMenus($pdo);
             const select = document.getElementById('tableType');
             if (!select) return;
             
-            // Clear existing options except the first one
             while (select.options.length > 1) {
                 select.remove(1);
             }
             
-            // Default fallback options
             const fallbackOptions = [
                 { id: 1, name: "The Chef's Table", max_people: 6 },
                 { id: 2, name: 'Private Dining Room', max_people: 16 },
@@ -1199,7 +1122,6 @@ $sampleMenus = getAllSampleMenus($pdo);
             const select = document.getElementById('tableType');
             if (!select) return;
             
-            // Clear existing options except the first one
             while (select.options.length > 1) {
                 select.remove(1);
             }

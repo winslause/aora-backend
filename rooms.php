@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Start session
 //session_start();
 
@@ -17,6 +17,43 @@ error_log('rooms.php accessed at ' . date('Y-m-d H:i:s'));
 // Set page-specific SEO variables BEFORE including header
 $pageTitle = "Luxury Rooms & Suites in Nairobi, Kenya | Aora45";
 $pageDescription = "Discover our elegant rooms and suites at Aora45 resort in Nairobi. From standard rooms to luxury suites, book your stay with amenities like free WiFi, pool, spa, and fine dining.";
+
+// Load rooms via PHP server-side to bypass anti-bot protection
+$initialRooms = [];
+$filterViews = [];
+$filterBedTypes = [];
+
+try {
+    // Include database connection
+    include 'database.php';
+    
+    // Only proceed if pdo exists and is connected
+    if (isset($pdo) && $pdo !== null) {
+        // Test connection
+        $pdo->query("SELECT 1");
+        
+        // Get all rooms
+        $stmt = $pdo->query("SELECT * FROM rooms ORDER BY price ASC");
+        $rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Decode JSON fields
+        foreach ($rooms as &$room) {
+            $room['amenities'] = json_decode($room['amenities'] ?? '[]', true) ?? [];
+            $room['images'] = json_decode($room['images'] ?? '[]', true) ?? [];
+        }
+        $initialRooms = $rooms;
+        
+        // Get filter options
+        $viewsStmt = $pdo->query("SELECT name FROM room_views ORDER BY display_order ASC");
+        $filterViews = $viewsStmt->fetchAll(PDO::FETCH_COLUMN);
+        
+        $bedStmt = $pdo->query("SELECT name FROM bed_types ORDER BY display_order ASC");
+        $filterBedTypes = $bedStmt->fetchAll(PDO::FETCH_COLUMN);
+    }
+} catch (Exception $e) {
+    // Silently fail - JavaScript will use API fallback
+    error_log('Server-side rooms load failed: ' . $e->getMessage());
+}
 
 include 'header.php'; 
 ?>
@@ -547,6 +584,8 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                     <span class="ml-3 text-[#8a735b]">Loading rooms...</span>
                 </div>
                 
+                <!-- Loading indicator -->
+                
                 <!-- Rooms Grid -->
                 <div id="roomsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     <!-- Rooms will be loaded here dynamically -->
@@ -591,28 +630,47 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         let currentViewFilter = 'all';
         let currentBedFilter = 'all';
         let currentSort = 'price_asc';
-        let currentViewMode = localStorage.getItem('viewMode') || 'grid-2'; // Default to 2 columns
+        let currentViewMode = localStorage.getItem('viewMode') || 'grid-2';
+        
+        // Server-side loaded data placeholder - will use API
+        var allRooms = [];
+        var serverViews = [];
+        var serverBedTypes = [];
         
         // Get minimum date (today)
         const today = new Date().toISOString().split('T')[0];
         
-        // Load rooms on page load
+        // Load rooms on page load - use server-side data if available
         document.addEventListener('DOMContentLoaded', function() {
-            loadRooms();
+            if (typeof allRooms !== 'undefined' && allRooms.length > 0) {
+                populateFilterOptions();
+                loadRooms();
+            } else {
+                loadRooms();
+                loadFilterOptions();
+            }
             applyViewMode();
-            loadFilterOptions();
         });
         
         // Load filter options from database
         function loadFilterOptions() {
-            const formData = new FormData();
-            formData.append('action', 'get_filter_options');
+            const basePath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/\/[^\/]*$/, '');
+            const apiUrl = basePath + '/api.php?action=get_filter_options';
             
-            fetch('api.php', {
-                method: 'POST',
-                body: formData
+            fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(text => {
+                if (!text || text.trim() === '') throw new Error('Empty response');
+                return JSON.parse(text);
+            })
             .then(data => {
                 if (data.success) {
                     // Populate view filters
@@ -706,21 +764,32 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             noResults.classList.add('hidden');
             document.getElementById('loadMoreContainer').classList.add('hidden');
             
-            const formData = new FormData();
-            formData.append('action', 'get_rooms');
-            formData.append('view', currentViewFilter);
-            formData.append('bed', currentBedFilter);
-            formData.append('sort', currentSort);
+            const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
+            const apiUrl = baseUrl + 'api.php?action=get_rooms&view=' + currentViewFilter + '&bed=' + currentBedFilter + '&sort=' + currentSort;
             
-            fetch('api.php', {
-                method: 'POST',
-                body: formData
+            console.log('Loading rooms from:', apiUrl);
+            
+            fetch(apiUrl)
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error('Server returned ' + response.status);
+                }
+                return response.text();
             })
-            .then(response => response.json())
+            .then(text => {
+                console.log('API Response:', text.substring(0, 200));
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                return JSON.parse(text);
+            })
             .then(data => {
                 loadingIndicator.classList.add('hidden');
                 
-                if (data.success && data.rooms.length > 0) {
+                console.log('Data success:', data.success, 'Rooms:', data.rooms ? data.rooms.length : 0);
+                
+                if (data.success && data.rooms && data.rooms.length > 0) {
                     document.getElementById('roomCount').textContent = data.rooms.length;
                     renderRooms(data.rooms);
                     document.getElementById('loadMoreContainer').classList.remove('hidden');
@@ -733,6 +802,50 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                 loadingIndicator.classList.add('hidden');
                 console.error('Error loading rooms:', error);
                 noResults.classList.remove('hidden');
+                noResults.innerHTML = `
+                    <i class="fas fa-exclamation-triangle text-6xl text-red-500/30 mb-4"></i>
+                    <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-2">Unable to Load Rooms</h3>
+                    <p class="text-[#8a735b]">${error.message}</p>
+                `;
+            });
+        }
+        
+        // Render rooms to the grid
+        function loadRoomsAlternative() {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
+                const url = baseUrl + 'api.php?action=get_rooms_embedded';
+                
+                xhr.open('GET', url, true);
+                xhr.setRequestHeader('Accept', 'text/html,application/xhtml+xml');
+                xhr.withCredentials = true;
+                
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        try {
+                            // Try to extract JSON from embedded script
+                            const text = xhr.responseText;
+                            const match = text.match(/var roomsData = (\{.*?\});/);
+                            if (match) {
+                                const data = JSON.parse(match[1]);
+                                resolve(data);
+                            } else {
+                                reject(new Error('Could not parse rooms data'));
+                            }
+                        } catch (e) {
+                            reject(e);
+                        }
+                    } else {
+                        reject(new Error('Request failed: ' + xhr.status));
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    reject(new Error('Network error'));
+                };
+                
+                xhr.send();
             });
         }
         
@@ -825,20 +938,33 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
             
-            // Fetch room details
-            const formData = new FormData();
-            formData.append('action', 'get_room');
+            // Build query parameters for GET request
+            const params = new URLSearchParams({
+                action: 'get_room'
+            });
             if (roomId > 0) {
-                formData.append('room_id', roomId);
-            } else {
-                formData.append('room_type', roomType);
+                params.append('room_id', roomId);
+            } else if (roomType) {
+                params.append('room_type', roomType);
             }
             
-            fetch('api.php', {
-                method: 'POST',
-                body: formData
+            const basePath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/\/[^\/]*$/, '');
+            const apiUrl = basePath + '/api.php?' + params.toString();
+            
+            fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(text => {
+                if (!text || text.trim() === '') throw new Error('Empty response');
+                return JSON.parse(text);
+            })
             .then(data => {
                 if (data.success) {
                     const room = data.room;
@@ -1022,11 +1148,21 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             formData.append('check_in', checkIn);
             formData.append('check_out', checkOut);
             
-            fetch('api.php', {
+            const basePath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/\/[^\/]*$/, '');
+            const apiUrl = basePath + '/api.php';
+            
+            fetch(apiUrl, {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(text => {
+                if (!text || text.trim() === '') throw new Error('Empty response');
+                return JSON.parse(text);
+            })
             .then(data => {
                 btn.disabled = false;
                 btn.innerHTML = `<span>Check Availability</span>`;
@@ -1178,11 +1314,21 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             formData.append('children', children);
             formData.append('special_requests', specialRequests);
             
-            fetch('api.php', {
+            const basePath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/\/[^\/]*$/, '');
+            const apiUrl = basePath + '/api.php';
+            
+            fetch(apiUrl, {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(text => {
+                if (!text || text.trim() === '') throw new Error('Empty response');
+                return JSON.parse(text);
+            })
             .then(data => {
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fas fa-check mr-2"></i><span>Confirm Booking</span>`;

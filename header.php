@@ -28,6 +28,11 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://aora45.com/">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for Luxury Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     
     <!-- Schema.org JSON-LD for Hotel with Local SEO -->
     <script type="application/ld+json">

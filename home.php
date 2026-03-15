@@ -386,7 +386,8 @@ include 'header.php'; ?>
         height: 200px;
     }
 }
-</style>
+>
+//</style>
 
 <script>
 // Global variables for rooms data

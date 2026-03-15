@@ -43,7 +43,7 @@
                     <!-- Admin Login Link -->
                     <button onclick="openLoginModal()" class="mt-4 flex items-center gap-2 text-xs text-[#1e3a2f] hover:text-[#8fb89a] transition-colors">
                         <i class="fas fa-user-shield"></i>
-                        <span>Admin Login</span>
+                        <span>Login</span>
                     </button>
                 </div>
 

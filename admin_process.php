@@ -125,6 +125,11 @@ $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ?
 
 // Check if admin is logged in
 function checkAdminSession() {
+    // Try to start session if not already started
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
     if (!isset($_SESSION['admin_id'])) {
         echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
         exit;
@@ -758,11 +763,18 @@ switch ($action) {
     // Get all event inquiries
     case 'get_all_event_inquiries':
         checkAdminSession();
+        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM event_inquiries");
+        $total = $stmt->fetch()['total'];
+        
         $stmt = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries e 
                               LEFT JOIN event_venues v ON e.venue_id = v.id 
-                              ORDER BY e.created_at DESC");
+                              ORDER BY e.created_at DESC LIMIT $limit OFFSET $offset");
         $inquiries = $stmt->fetchAll();
-        echo json_encode(['success' => true, 'inquiries' => $inquiries]);
+        echo json_encode(['success' => true, 'inquiries' => $inquiries, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
         break;
     
     // Update event inquiry status
@@ -1299,12 +1311,19 @@ switch ($action) {
     // Get all offers
     case 'get_all_offers_admin':
         checkAdminSession();
-        $stmt = $pdo->query("SELECT * FROM offers ORDER BY display_order ASC");
+        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM offers");
+        $total = $stmt->fetch()['total'];
+        
+        $stmt = $pdo->query("SELECT * FROM offers ORDER BY display_order ASC LIMIT $limit OFFSET $offset");
         $offers = $stmt->fetchAll();
         foreach ($offers as &$offer) {
             $offer['inclusions'] = json_decode($offer['inclusions'], true);
         }
-        echo json_encode(['success' => true, 'offers' => $offers]);
+        echo json_encode(['success' => true, 'offers' => $offers, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
         break;
     
     // Add offer
@@ -1388,9 +1407,16 @@ switch ($action) {
     // Get all menu categories
     case 'get_all_menu_categories':
         checkAdminSession();
-        $stmt = $pdo->query("SELECT * FROM menu_categories ORDER BY display_order ASC");
+        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM menu_categories");
+        $total = $stmt->fetch()['total'];
+        
+        $stmt = $pdo->query("SELECT * FROM menu_categories ORDER BY display_order ASC LIMIT $limit OFFSET $offset");
         $categories = $stmt->fetchAll();
-        echo json_encode(['success' => true, 'categories' => $categories]);
+        echo json_encode(['success' => true, 'categories' => $categories, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
         break;
     
     // Add menu category
@@ -1440,7 +1466,14 @@ switch ($action) {
     // Get all menu items
     case 'get_all_menu_items':
         checkAdminSession();
-        $stmt = $pdo->query("SELECT mi.*, mc.name as category_name FROM menu_items mi LEFT JOIN menu_categories mc ON mi.category_id = mc.id ORDER BY mc.display_order ASC, mi.display_order ASC");
+        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM menu_items");
+        $total = $stmt->fetch()['total'];
+        
+        $stmt = $pdo->query("SELECT mi.*, mc.name as category_name FROM menu_items mi LEFT JOIN menu_categories mc ON mi.category_id = mc.id ORDER BY mc.display_order ASC, mi.display_order ASC LIMIT $limit OFFSET $offset");
         $items = $stmt->fetchAll();
         foreach ($items as &$item) {
             // Decode JSON columns if they exist and are valid JSON
@@ -1457,7 +1490,7 @@ switch ($action) {
                 $item['allergens'] = [];
             }
         }
-        echo json_encode(['success' => true, 'items' => $items]);
+        echo json_encode(['success' => true, 'items' => $items, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
         break;
     
     // Add menu item
@@ -1644,10 +1677,29 @@ switch ($action) {
         $stmt = $pdo->query("SELECT COUNT(*) as total FROM bookings");
         $total = $stmt->fetch()['total'];
         
-        $stmt = $pdo->query("SELECT b.*, r.name as room_name, r.room_type FROM bookings b 
+        $stmt = $pdo->query("SELECT b.*, r.name as room_name, r.room_type, r.price as room_price FROM bookings b 
                               LEFT JOIN rooms r ON b.room_id = r.id 
                               ORDER BY b.created_at DESC LIMIT $limit OFFSET $offset");
         $bookings = $stmt->fetchAll();
+        
+        // Calculate total cost for each booking
+        foreach ($bookings as &$booking) {
+            if (!empty($booking['check_in']) && !empty($booking['check_out'])) {
+                $checkIn = new DateTime($booking['check_in']);
+                $checkOut = new DateTime($booking['check_out']);
+                $nights = $checkOut->diff($checkIn)->days;
+                $nights = max($nights, 1); // At least 1 night
+                
+                // Use total_price if already set, otherwise calculate from room price
+                if (empty($booking['total_price']) && !empty($booking['room_price'])) {
+                    $booking['total_cost'] = $booking['room_price'] * $nights;
+                } else {
+                    $booking['total_cost'] = $booking['total_price'] ?? 0;
+                }
+            } else {
+                $booking['total_cost'] = $booking['total_price'] ?? 0;
+            }
+        }
         
         echo json_encode([
             'success' => true, 
@@ -1744,9 +1796,16 @@ switch ($action) {
     // Get all sample menus
     case 'get_all_sample_menus':
         checkAdminSession();
-        $stmt = $pdo->query("SELECT * FROM sample_menus ORDER BY display_order ASC");
+        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM sample_menus");
+        $total = $stmt->fetch()['total'];
+        
+        $stmt = $pdo->query("SELECT * FROM sample_menus ORDER BY display_order ASC LIMIT $limit OFFSET $offset");
         $menus = $stmt->fetchAll();
-        echo json_encode(['success' => true, 'menus' => $menus]);
+        echo json_encode(['success' => true, 'menus' => $menus, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
         break;
     
     // Add sample menu
@@ -1857,9 +1916,16 @@ switch ($action) {
     // Get all table types
     case 'get_all_table_types':
         checkAdminSession();
-        $stmt = $pdo->query("SELECT * FROM table_types ORDER BY max_people ASC");
+        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM table_types");
+        $total = $stmt->fetch()['total'];
+        
+        $stmt = $pdo->query("SELECT * FROM table_types ORDER BY max_people ASC LIMIT $limit OFFSET $offset");
         $types = $stmt->fetchAll();
-        echo json_encode(['success' => true, 'types' => $types]);
+        echo json_encode(['success' => true, 'types' => $types, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
         break;
     
     // Add table type
@@ -1956,11 +2022,18 @@ switch ($action) {
     // Get all restaurant reservations
     case 'get_all_restaurant_reservations':
         checkAdminSession();
+        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+        $limit = 10;
+        $offset = ($page - 1) * $limit;
+        
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM restaurant_reservations");
+        $total = $stmt->fetch()['total'];
+        
         $stmt = $pdo->query("SELECT r.*, t.name as table_type_name FROM restaurant_reservations r 
                               LEFT JOIN table_types t ON r.table_type_id = t.id 
-                              ORDER BY r.reservation_date DESC, r.reservation_time DESC");
+                              ORDER BY r.reservation_date DESC, r.reservation_time DESC LIMIT $limit OFFSET $offset");
         $reservations = $stmt->fetchAll();
-        echo json_encode(['success' => true, 'reservations' => $reservations]);
+        echo json_encode(['success' => true, 'reservations' => $reservations, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
         break;
     
     // Update restaurant reservation status
@@ -2114,5 +2187,6 @@ switch ($action) {
 }
 
 } catch (Exception $e) {
+    error_log('Admin Process Error: ' . $e->getMessage());
     echo json_encode(['success' => false, 'message' => 'Server error: ' . $e->getMessage()]);
 }

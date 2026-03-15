@@ -653,7 +653,8 @@ if ($result['count'] == 0) {
 
 // Function to get all rooms
 function getAllRooms($pdo, $viewFilter = null, $bedFilter = null, $sort = 'price_asc', $limit = null) {
-    $sql = "SELECT * FROM rooms WHERE is_active = 1";
+    // Include rooms with is_active = 1, NULL, or empty
+    $sql = "SELECT * FROM rooms WHERE is_active = 1 OR is_active IS NULL OR is_active = ''";
     $params = [];
 
     if ($viewFilter && $viewFilter !== 'all') {
@@ -691,7 +692,7 @@ function getAllRooms($pdo, $viewFilter = null, $bedFilter = null, $sort = 'price
 
 // Function to get latest rooms (for homepage)
 function getLatestRooms($pdo, $limit = 8) {
-    $stmt = $pdo->prepare("SELECT * FROM rooms WHERE is_active = 1 ORDER BY created_at DESC LIMIT :limit");
+    $stmt = $pdo->prepare("SELECT * FROM rooms WHERE is_active = 1 OR is_active IS NULL OR is_active = '' ORDER BY created_at DESC LIMIT :limit");
     $stmt->bindValue(':limit', intval($limit), PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll();

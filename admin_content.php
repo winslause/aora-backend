@@ -41,7 +41,7 @@ $amenities = $pdo->query("SELECT a.*, ac.name as category_name FROM amenities a
     ORDER BY ac.display_order ASC, a.display_order ASC")->fetchAll();
 
 // Get all bookings
-$bookings = $pdo->query("SELECT b.*, r.name as room_name, r.id as room_id, r.room_type FROM bookings b 
+$bookings = $pdo->query("SELECT b.*, r.name as room_name, r.id as room_id, r.room_type, r.price as room_price FROM bookings b 
     LEFT JOIN rooms r ON b.room_id = r.id 
     ORDER BY b.created_at DESC")->fetchAll();
 
@@ -70,8 +70,21 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <i class="fas fa-utensils text-2xl text-[#b89a78]"></i>
             </div>
         </div>
-        <h3 class="text-2xl font-bold text-gray-800"><?php echo count($popularMenu); ?></h3>
-        <p class="text-sm text-gray-500">Popular Menu Items</p>
+        <h3 class="text-2xl font-bold text-gray-800">Popular Menu Items</h3>
+        <div class="mt-2 text-sm text-gray-600">
+            <?php if (empty($popularMenu)): ?>
+                <p class="text-gray-500">No menu items yet</p>
+            <?php else: ?>
+                <ul class="space-y-1">
+                    <?php foreach ($popularMenu as $item): ?>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-[#b89a78] text-xs"></i>
+                            <?php echo htmlspecialchars($item['name']); ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
     </div>
 
     <div class="stat-card admin-card p-6">
@@ -293,6 +306,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                     <th>Room</th>
                     <th>Check-in</th>
                     <th>Check-out</th>
+                    <th>Total Cost</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -306,6 +320,18 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                     <td><?php echo htmlspecialchars(($booking['room_name'] ?? '') && trim($booking['room_name']) ? $booking['room_name'] : (isset($booking['room_id']) ? 'Room ' . $booking['room_id'] : 'N/A')); ?></td>
                     <td><?php echo $booking['check_in']; ?></td>
                     <td><?php echo $booking['check_out']; ?></td>
+                    <td><?php 
+                        $totalCost = 0;
+                        if (!empty($booking['check_in']) && !empty($booking['check_out'])) {
+                            $checkIn = new DateTime($booking['check_in']);
+                            $checkOut = new DateTime($booking['check_out']);
+                            $nights = $checkOut->diff($checkIn)->days;
+                            $nights = max($nights, 1);
+                            $roomPrice = $booking['room_price'] ?? 0;
+                            $totalCost = ($booking['total_price'] ?? 0) > 0 ? $booking['total_price'] : ($roomPrice * $nights);
+                        }
+                        echo 'KSh ' . number_format($totalCost);
+                    ?></td>
                     <td>
                         <span class="status-badge <?php echo $booking['status']; ?>"><?php echo ucfirst($booking['status']); ?></span>
                     </td>
@@ -413,6 +439,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <div id="inquiriesPagination"></div>
     </div>
 </div>
 
@@ -523,6 +550,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <!-- Loaded via JavaScript -->
             </tbody>
         </table>
+        <div id="offersPagination"></div>
     </div>
 </div>
 
@@ -549,6 +577,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <!-- Loaded via JavaScript -->
             </tbody>
         </table>
+        <div id="menuCategoriesPagination"></div>
     </div>
 </div>
 
@@ -576,6 +605,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <!-- Loaded via JavaScript -->
             </tbody>
         </table>
+        <div id="menuItemsPagination"></div>
     </div>
 </div>
 
@@ -602,6 +632,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <!-- Loaded via JavaScript -->
             </tbody>
         </table>
+        <div id="sampleMenusPagination"></div>
     </div>
 </div>
 
@@ -629,6 +660,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <!-- Loaded via JavaScript -->
             </tbody>
         </table>
+        <div id="tableTypesPagination"></div>
     </div>
 </div>
 
@@ -657,6 +689,7 @@ $inquiries = $pdo->query("SELECT e.*, v.name as venue_name FROM event_inquiries 
                 <!-- Loaded via JavaScript -->
             </tbody>
         </table>
+        <div id="restaurantReservationsPagination"></div>
     </div>
 </div>
 

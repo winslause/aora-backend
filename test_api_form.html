@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Direct Test</h1>
+    
+    <h2>Test 1: GET Request</h2>
+    <form action="api.php?action=get_rooms" method="GET">
+        <button type="submit">Test GET</button>
+    </form>
+    
+    <h2>Test 2: POST Request</h2>
+    <form action="api.php" method="POST">
+        <input type="hidden" name="action" value="get_rooms">
+        <input type="hidden" name="view" value="all">
+        <input type="hidden" name="bed" value="all">
+        <input type="hidden" name="sort" value="price_asc">
+        <button type="submit">Test POST</button>
+    </form>
+    
+    <h2>Test 3: JavaScript Fetch (click the button)</h2>
+    <button onclick="testFetch()">Test Fetch</button>
+    <pre id="result"></pre>
+    
+    <script>
+        async function testFetch() {
+            const formData = new FormData();
+            formData.append('action', 'get_rooms');
+            formData.append('view', 'all');
+            formData.append('bed', 'all');
+            formData.append('sort', 'price_asc');
+            
+            try {
+                const response = await fetch('api.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const text = await response.text();
+                document.getElementById('result').textContent = 
+                    'Status: ' + response.status + '\n' +
+                    'Response: ' + text.substring(0, 500);
+            } catch (error) {
+                document.getElementById('result').textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
