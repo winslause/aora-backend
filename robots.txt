@@ -1,0 +1,66 @@
+# Aora45 Resort - Robots.txt
+# https://www.aora45.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://aora45.com/sitemap.xml
+
+# Crawl-delay (optional, for politeness)
+Crawl-delay: 1
+
+# Disallow admin areas (if any)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /setup.php
+Disallow: /check_tables.php
+Disallow: /test_db.php
+Disallow: /fix_db.php
+Disallow: /*.php$
+
+# Allow specific PHP pages
+Allow: /index.php
+Allow: /index.php?page=*
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.webp
+Allow: /*.svg
+Allow: /*.css
+Allow: /*.js
+
+# Host directive
+Host: https://aora45.com
+
+# Clean parameters
+Clean-param: ref /index.php
+
+# Googlebot specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# Googlebot Image
+User-agent: Googlebot-Image
+Allow: /
+Crawl-delay: 1
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Yahoo! Slurp
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# DuckDuckBot
+User-agent: DuckDuckBot
+Allow: /
+
+# Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1

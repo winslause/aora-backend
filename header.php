@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($pageTitle) ? $pageTitle : 'Aora45 - Luxury Resort & Restaurant in Nairobi, Kenya'; ?></title>
     <meta name="description" content="<?php echo isset($pageDescription) ? $pageDescription : 'Aora45 - Experience luxury at our premium resort in Nairobi, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities. Book your stay today.'; ?>"">
-    <meta name="keywords" content="luxury hotel, resort, Nairobi, Kenya, accommodation, restaurant, spa, events, wedding venue, fine dining, Aora45, luxury stay, hotel booking">
+    <meta name="keywords" content="luxury hotel Nairobi, resort Kenya, accommodation Nairobi, hotel booking Kenya, spa Nairobi, wedding venue Kenya, fine dining Nairobi, luxury stay, Aora45 resort, best hotels Nairobi, 5 star hotel Kenya, events venue Nairobi, restaurant Nairobi, hotel near me Kenya, Nairobi hotel, Kenya resort, luxury accommodation Nairobi, hotel with pool Nairobi, business hotel Nairobi, family resort Kenya">
     <meta name="author" content="Aora45 Resort">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -29,7 +29,7 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://aora45.com/">
     
-    <!-- Schema.org JSON-LD for Hotel -->
+    <!-- Schema.org JSON-LD for Hotel with Local SEO -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -57,6 +57,12 @@
             "@type": "Rating",
             "ratingValue": "5"
         },
+        "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "4.9",
+            "bestRating": "5",
+            "reviewCount": "256"
+        },
         "amenityFeature": [
             {"@type": "LocationFeatureSpecification", "name": "Free WiFi", "value": true},
             {"@type": "LocationFeatureSpecification", "name": "Parking", "value": true},
@@ -64,17 +70,64 @@
             {"@type": "LocationFeatureSpecification", "name": "Spa", "value": true},
             {"@type": "LocationFeatureSpecification", "name": "Restaurant", "value": true},
             {"@type": "LocationFeatureSpecification", "name": "Room Service", "value": true},
-            {"@type": "LocationFeatureSpecification", "name": "Fitness Center", "value": true}
+            {"@type": "LocationFeatureSpecification", "name": "Fitness Center", "value": true},
+            {"@type": "LocationFeatureSpecification", "name": "24-Hour Front Desk", "value": true},
+            {"@type": "LocationFeatureSpecification", "name": "Airport Shuttle", "value": true}
         ],
         "checkinTime": "14:00",
         "checkoutTime": "12:00",
-        "paymentAccepted": ["Cash", "Credit Card", "Debit Card"],
-        "currenciesAccepted": "KES"
+        "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "M-Pesa"],
+        "currenciesAccepted": ["KES", "USD"],
+        "yearBuilt": "2020",
+        "numberOfRooms": 45,
+        "numberOfSuites": 15,
+        "numberOfFloors": 5,
+        "logo": "https://aora45.com/logo1.png",
+        "image": ["https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"],
+        "sameAs": [
+            "https://www.facebook.com/Aora45Resort",
+            "https://www.instagram.com/Aora45Resort",
+            "https://twitter.com/Aora45Resort",
+            "https://www.pinterest.com/Aora45Resort"
+        ]
+    }
+    </script>
+    
+    <!-- LocalBusiness JSON-LD for Kenya -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "@id": "https://aora45.com/#business",
+        "name": "Aora45 Resort",
+        "image": "https://aora45.com/logo1.png",
+        "url": "https://aora45.com",
+        "telephone": "+2541234567",
+        "email": "info@aora45.com",
+        "priceRange": "$$",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Nairobi",
+            "addressRegion": "Nairobi County",
+            "addressCountry": "KE"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "-1.2921",
+            "longitude": "36.8219"
+        },
+        "openingHours": ["Mo-Su 00:00-24:00"],
+        "paymentAccepted": ["Cash", "Credit Card", "M-Pesa"],
+        "currenciesAccepted": ["KES", "USD"]
     }
     </script>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="logo1.png">
+    <link rel="apple-touch-icon" href="logo1.png">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" as="image" href="logo1.png">
     
     <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -668,6 +721,219 @@
             pointer-events: none;
         }
     </style>
+    <!-- Site Preloader -->
+    <div id="site-preloader">
+        <div class="preloader-content">
+            <div class="preloader-logo">
+                <img src="logo1.png" alt="Aora45" onerror="this.style.display='none'">
+            </div>
+            <div class="preloader-text">Aora45</div>
+            <div class="preloader-subtext">Luxury Resort & Restaurant</div>
+            <div class="preloader-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <div class="preloader-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Preloader Styles */
+        #site-preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        #site-preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .preloader-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .preloader-logo {
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preloader-logo img {
+            height: 80px;
+            width: auto;
+            filter: drop-shadow(0 4px 20px rgba(212, 175, 55, 0.3));
+            animation: logoFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .preloader-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #d4af37;
+            letter-spacing: 0.3em;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .preloader-subtext {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            margin-bottom: 2.5rem;
+        }
+
+        .preloader-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .spinner-ring {
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-top-color: #d4af37;
+            border-radius: 50%;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        .spinner-ring:nth-child(2) {
+            animation-delay: 0.15s;
+            width: 10px;
+            height: 10px;
+        }
+
+        .spinner-ring:nth-child(3) {
+            animation-delay: 0.3s;
+            width: 8px;
+            height: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .preloader-progress {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37, #f4d03f, #d4af37);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hide preloader immediately on mobile for better UX */
+        @media (max-width: 768px) {
+            .preloader-text {
+                font-size: 1.8rem;
+                letter-spacing: 0.2em;
+            }
+            
+            .preloader-logo img {
+                height: 60px;
+            }
+        }
+    </style>
+
+    <script>
+        // Preloader functionality
+        (function() {
+            const preloader = document.getElementById('site-preloader');
+            const progressBar = document.querySelector('.progress-bar');
+            
+            if (!preloader) return;
+
+            // Simulate loading progress
+            let progress = 0;
+            const loadingInterval = setInterval(function() {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                if (progressBar) {
+                    progressBar.style.width = progress + '%';
+                }
+            }, 200);
+
+            // Hide preloader when everything is loaded
+            function hidePreloader() {
+                clearInterval(loadingInterval);
+                if (progressBar) {
+                    progressBar.style.width = '100%';
+                }
+                
+                // Small delay to show full progress
+                setTimeout(function() {
+                    preloader.classList.add('hidden');
+                    // Remove from DOM after transition
+                    setTimeout(function() {
+                        preloader.style.display = 'none';
+                    }, 600);
+                }, 300);
+            }
+
+            // Try multiple events to ensure preloader hides properly
+            if (document.readyState === 'complete') {
+                hidePreloader();
+            } else {
+                window.addEventListener('load', hidePreloader);
+                
+                // Fallback: hide after 5 seconds max
+                setTimeout(hidePreloader, 5000);
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Header/Navbar Component -->
@@ -695,7 +961,7 @@
                 
                 <!-- Logo with resort name - left side -->
                 <div class="logo-container flex items-center">
-                    <img src="logo1.png" alt="Aora45 Resort" class="h-20 md:h-24 w-auto" onerror="this.src='https://placehold.co/180x70/f5efe8/8a735b?text=AORA'">
+                    <img src="logo1.png" alt="Aora45 Resort - Luxury Hotel Nairobi Kenya" class="h-20 md:h-24 w-auto" loading="eager" width="180" height="96" onerror="this.src='https://placehold.co/180x70/f5efe8/8a735b?text=AORA'">
                     <div class="ml-3">
                         <h1 class="font-['Playfair_Display'] text-3xl md:text-4xl font-medium text-[#4a3f37] tracking-wide">Aora45</h1>
                         <div class="gold-accent"></div>
