@@ -1034,8 +1034,8 @@ document.addEventListener('keydown', function(e) {
     <div class="max-w-7xl mx-auto relative">
         <!-- Section Header - Minimalist Elegance -->
         <div class="text-center mb-16">
-            <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Culinary Excellence</span>
-            <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">The Art of Dining</h2>
+            <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Welcome to Aora</span>
+            <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">Exquisite Dining Experience</h2>
             <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
         </div>
 
@@ -1082,18 +1082,18 @@ document.addEventListener('keydown', function(e) {
                 </div>
             </div>
 
-            <!-- Right Column - Chef's Story & Philosophy -->
+            <!-- Right Column - Our Kitchen & Philosophy -->
             <div class="relative order-1 lg:order-2 space-y-8">
-                <!-- Chef's Credentials - Elegant Badge -->
+                <!-- Restaurant Credentials - Elegant Badge -->
                 <div class="inline-flex items-center gap-4 bg-white/50 backdrop-blur-sm px-5 py-2 rounded-full border border-[#e0d6cc]">
                     <div class="w-10 h-10 rounded-full overflow-hidden bg-[#8a735b] flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1583394293214-28ded15ee548?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" 
-                             alt="Chef" 
+                        <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" 
+                             alt="Restaurant" 
                              class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <span class="text-[#8a735b] text-xs uppercase tracking-wider font-medium">Executive Chef</span>
-                        <h3 class="font-['Cormorant_Garamond'] text-xl text-[#3f352e]">Chef Michael Mikes</h3>
+                        <span class="text-[#8a735b] text-xs uppercase tracking-wider font-medium">Our Kitchen</span>
+                        <h3 class="font-['Cormorant_Garamond'] text-xl text-[#3f352e]">Aora Restaurant</h3>
                     </div>
                 </div>
 
@@ -1108,11 +1108,11 @@ document.addEventListener('keydown', function(e) {
                 <!-- Cuisine Philosophy - Evocative Description -->
                 <div class="space-y-4">
                     <p class="font-['Cormorant_Garamond'] text-lg text-[#6b5d51] leading-relaxed italic">
-                        "Cooking is memory, tradition, and innovation on a single plate."
+                        "Where tradition meets innovation on a single plate."
                     </p>
                     <p class="text-[#6b5d51] text-sm leading-relaxed">
-                        Chef Michael brings 20 years of culinary mastery, weaving together Kenya's rich coastal heritage 
-                        with contemporary techniques. His philosophy celebrates <span class="text-[#8a735b] font-medium">farm-to-table freshness</span>, 
+                        At Aora, we bring 20 years of culinary mastery, weaving together Kenya's rich coastal heritage 
+                        with contemporary techniques. Our philosophy celebrates <span class="text-[#8a735b] font-medium">farm-to-table freshness</span>, 
                         <span class="text-[#8a735b] font-medium">indigenous ingredients</span>, and the vibrant stories of 
                         Kenyan cuisine.
                     </p>
