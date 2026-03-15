@@ -625,12 +625,12 @@ include 'header.php'; ?>
                 </p>
                 
                 <!-- Scroll Indicator -->
-                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
+                <!-- <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
                     <span class="text-white/60 text-xs uppercase tracking-widest">Explore</span>
                     <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
                         <div class="w-1 h-2 bg-white/60 rounded-full mt-2 animate-bounce"></div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
 

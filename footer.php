@@ -92,37 +92,37 @@
                     
                     <ul class="space-y-3">
                         <li>
-                            <a href="about.php" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="index.php?page=about" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>About Aora45</span>
                             </a>
                         </li>
                         <li>
-                            <a href="rooms.php" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="index.php?page=rooms" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Rooms & Suites</span>
                             </a>
                         </li>
                         <li>
-                            <a href="restaurant.php" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="index.php?page=restaurant" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Dining Experiences</span>
                             </a>
                         </li>
                         <li>
-                            <a href="amenities.php" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="index.php?page=amenities" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Spa & Wellness</span>
                             </a>
                         </li>
                         <li>
-                            <a href="events.php" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="index.php?page=events" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Events & Weddings</span>
                             </a>
                         </li>
                         <li>
-                            <a href="gallery.php" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="index.php?page=gallery" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Gallery</span>
                             </a>

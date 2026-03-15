@@ -710,10 +710,10 @@
                 <div class="hidden lg:flex desktop-nav-wrapper">
                     <div class="desktop-nav">
                         <a href="index.php" class="nav-link active">Home</a>
-                        <a href="rooms.php" class="nav-link">Rooms</a>
-                        <a href="restaurant.php" class="nav-link">Restaurant</a>
-                        <a href="events.php" class="nav-link">Events</a>
-                        <a href="contact.php" class="nav-link">Contact</a>
+                        <a href="index.php?page=rooms" class="nav-link">Rooms</a>
+                        <a href="index.php?page=restaurant" class="nav-link">Restaurant</a>
+                        <a href="index.php?page=events" class="nav-link">Events</a>
+                        <a href="index.php?page=contact" class="nav-link">Contact</a>
                     </div>
                 </div>
 
@@ -732,14 +732,14 @@
             <div id="mobileMenu" class="mobile-menu-skeu lg:hidden mx-4 mt-2 hidden">
                 <div class="flex flex-col">
                     <a href="index.php" class="mobile-nav-link"><i class="fas fa-home"></i>Home</a>
-                    <a href="rooms.php" class="mobile-nav-link"><i class="fas fa-bed"></i>Rooms & Suites</a>
-                    <a href="restaurant.php" class="mobile-nav-link"><i class="fas fa-utensils"></i>Restaurant</a>
-                    <a href="amenities.php" class="mobile-nav-link"><i class="fas fa-spa"></i>Amenities</a>
-                    <a href="gallery.php" class="mobile-nav-link"><i class="fas fa-images"></i>Gallery</a>
-                    <a href="events.php" class="mobile-nav-link"><i class="fas fa-glass-cheers"></i>Events</a>
-                    <a href="offers.php" class="mobile-nav-link"><i class="fas fa-tag"></i>Offers</a>
-                    <a href="about.php" class="mobile-nav-link"><i class="fas fa-info-circle"></i>About</a>
-                    <a href="contact.php" class="mobile-nav-link"><i class="fas fa-envelope"></i>Contact</a>
+                    <a href="index.php?page=rooms" class="mobile-nav-link"><i class="fas fa-bed"></i>Rooms & Suites</a>
+                    <a href="index.php?page=restaurant" class="mobile-nav-link"><i class="fas fa-utensils"></i>Restaurant</a>
+                    <a href="index.php?page=amenities" class="mobile-nav-link"><i class="fas fa-spa"></i>Amenities</a>
+                    <a href="index.php?page=gallery" class="mobile-nav-link"><i class="fas fa-images"></i>Gallery</a>
+                    <a href="index.php?page=events" class="mobile-nav-link"><i class="fas fa-glass-cheers"></i>Events</a>
+                    <a href="index.php?page=offers" class="mobile-nav-link"><i class="fas fa-tag"></i>Offers</a>
+                    <a href="index.php?page=about" class="mobile-nav-link"><i class="fas fa-info-circle"></i>About</a>
+                    <a href="index.php?page=contact" class="mobile-nav-link"><i class="fas fa-envelope"></i>Contact</a>
                     
                     <!-- Mobile menu extras -->
                     <div class="mt-4 pt-4 border-t border-[#eee7e0] px-4">

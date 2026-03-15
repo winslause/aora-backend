@@ -1,10 +1,24 @@
 <?php 
-// Start session and include database
-session_start();
-include 'header.php'; 
-// Override the header SEO with page-specific SEO
+// Start session
+//session_start();
+
+// Disable error display for production (errors are still logged)
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+
+// Log errors to file
+ini_set('log_errors', 1);
+ini_set('error_log', 'php_error.log');
+
+// Debug: Log page access
+error_log('rooms.php accessed at ' . date('Y-m-d H:i:s'));
+
+// Set page-specific SEO variables BEFORE including header
 $pageTitle = "Luxury Rooms & Suites in Nairobi, Kenya | Aora45";
 $pageDescription = "Discover our elegant rooms and suites at Aora45 resort in Nairobi. From standard rooms to luxury suites, book your stay with amenities like free WiFi, pool, spa, and fine dining.";
+
+include 'header.php'; 
 ?>
 
 <style>
@@ -15,6 +29,11 @@ $pageDescription = "Discover our elegant rooms and suites at Aora45 resort in Na
     section.relative.h-screen, section.relative.h-\[60vh\], section.relative.h-\[70vh\] { margin-top: 80px; }
 }
 </style>
+<?php 
+// Debug: Log what page variables are set
+error_log('rooms.php - pageTitle: ' . (isset($pageTitle) ? $pageTitle : 'NOT SET'));
+error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDescription : 'NOT SET'));
+?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
