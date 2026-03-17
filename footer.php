@@ -79,7 +79,7 @@
                             </div>
                             <div>
                                 <p class="text-[#1e3a2f] text-xs font-medium uppercase tracking-wider">Email</p>
-                                <p class="text-[#1e3a2f] text-sm">info@AORA 45.com</p>
+                                <p class="text-[#1e3a2f] text-sm">info@aora45.com</p>
                                 
                             </div>
                         </div>

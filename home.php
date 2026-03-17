@@ -2094,7 +2094,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                                     <!-- Avatar with Ring Animation -->
                                     <div class="relative">
                                         <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#4a90a0]/40 ring-offset-2 ring-offset-[#1e2f3a]">
-                                            <img src="https://indochinatodaytravel.com/wp-content/uploads/2025/12/Honeymoon-in-Halong-Bay-7.jpg" 
+                                            <img src="https://static.vecteezy.com/system/resources/previews/072/370/185/non_2x/elegant-african-couple-in-modern-and-traditional-wedding-fashion-vector.jpg" 
                                                  alt="Sarah" 
                                                  class="w-full h-full object-cover">
                                         </div>
@@ -2559,7 +2559,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                         
                         <div class="flex items-center gap-4">
                             <i class="fas fa-envelope text-[#4a90a0] text-lg"></i>
-                            <p class="font-['Montserrat'] text-[#5c524a] text-base">info@AORA 45.com</p>
+                            <p class="font-['Montserrat'] text-[#5c524a] text-base">info@aora45.com</p>
                         </div>
                     </div>
                 </div>

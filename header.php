@@ -1405,7 +1405,13 @@
                 <div class="hidden lg:flex desktop-nav-wrapper">
                     <div class="desktop-nav">
                         <a href="index.php" class="nav-link active">Home</a>
-                        <a href="index.php?page=rooms" class="nav-link">Rooms</a>
+                        <div class="nav-dropdown">
+                            <a href="index.php?page=rooms" class="nav-link">Accommodation</a>
+                            <div class="nav-dropdown-content">
+                                <a href="index.php?page=rooms"><i class="fas fa-bed"></i>Rooms</a>
+                                <a href="index.php?page=amenities"><i class="fas fa-spa"></i>Amenities</a>
+                            </div>
+                        </div>
                         <div class="nav-dropdown">
                             <a href="index.php?page=restaurant" class="nav-link">Restaurant</a>
                             <div class="nav-dropdown-content">
@@ -1415,7 +1421,13 @@
                             </div>
                         </div>
                         <a href="index.php?page=events" class="nav-link">Events</a>
-                        <a href="index.php?page=contact" class="nav-link">Contact</a>
+                        <div class="nav-dropdown">
+                            <a href="index.php?page=contact" class="nav-link">Contact</a>
+                            <div class="nav-dropdown-content">
+                                <a href="index.php?page=contact"><i class="fas fa-envelope"></i>Contact Us</a>
+                                <a href="index.php?page=about"><i class="fas fa-info-circle"></i>About Us</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
