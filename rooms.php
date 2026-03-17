@@ -15,8 +15,8 @@ ini_set('error_log', 'php_error.log');
 error_log('rooms.php accessed at ' . date('Y-m-d H:i:s'));
 
 // Set page-specific SEO variables BEFORE including header
-$pageTitle = "Luxury Rooms & Suites in Nairobi, Kenya | Aora45";
-$pageDescription = "Discover our elegant rooms and suites at Aora45 resort in Nairobi. From standard rooms to luxury suites, book your stay with amenities like free WiFi, pool, spa, and fine dining.";
+$pageTitle = "Luxury Rooms & Suites in Siaya County, Kenya | AORA 45";
+$pageDescription = "Discover our elegant rooms and suites at AORA 45 resort in Siaya County. From standard rooms to luxury suites, book your stay with amenities like free WiFi, pool, spa, and fine dining.";
 
 // Load rooms via PHP server-side to bypass anti-bot protection
 $initialRooms = [];
@@ -183,12 +183,12 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #d4b48c;
+            background: #4a90a0;
             border-radius: 4px;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: #b89a78;
+            background: #2d5a4a;
         }
         
         /* Filter Button Styles */
@@ -197,9 +197,9 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         }
         
         .filter-btn.active {
-            background: #d4b48c;
+            background: #4a90a0;
             color: white;
-            border-color: #d4b48c;
+            border-color: #4a90a0;
         }
         
         /* Room Card Styles - No Box Shadow */
@@ -225,7 +225,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         }
         
         .view-button:hover, .room-card:hover .view-button {
-            background: #d4b48c;
+            background: #4a90a0;
             color: white;
             transform: translate(-50%, 0);
             opacity: 1;
@@ -281,7 +281,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             overflow-x: auto;
             padding: 12px 0;
             scrollbar-width: thin;
-            scrollbar-color: #d4b48c #f0e7dd;
+            scrollbar-color: #4a90a0 #f0e7dd;
         }
         
         .thumbnail-container::-webkit-scrollbar {
@@ -294,7 +294,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         }
         
         .thumbnail-container::-webkit-scrollbar-thumb {
-            background: #d4b48c;
+            background: #4a90a0;
             border-radius: 4px;
         }
         
@@ -313,7 +313,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         }
         
         .thumbnail.active {
-            border-color: #d4b48c;
+            border-color: #4a90a0;
             transform: scale(1.05);
         }
         
@@ -338,25 +338,25 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         .availability-form input:focus,
         .availability-form select:focus,
         .availability-form textarea:focus {
-            border-color: #d4b48c;
+            border-color: #4a90a0;
             outline: none;
             box-shadow: 0 0 0 3px rgba(212, 180, 140, 0.2);
         }
         
         .availability-form button {
-            background: #d4b48c;
+            background: #4a90a0;
             transition: all 0.3s ease;
         }
         
         .availability-form button:hover {
-            background: #b89a78;
+            background: #2d5a4a;
             transform: translateY(-2px);
         }
         
         .loader {
             border: 3px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 3px solid #d4b48c;
+            border-top: 3px solid #4a90a0;
             width: 24px;
             height: 24px;
             -webkit-animation: spin 1s linear infinite; /* Safari */
@@ -365,7 +365,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         
         /* View Toggle Button Styles */
         .view-toggle-btn.active {
-            background: #d4b48c;
+            background: #4a90a0;
             color: white;
         }
         
@@ -446,7 +446,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         .loader {
             border: 3px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 3px solid #d4b48c;
+            border-top: 3px solid #4a90a0;
             width: 24px;
             height: 24px;
             -webkit-animation: spin 1s linear infinite; /* Safari */
@@ -484,8 +484,8 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             </div>
             
             <!-- Floating Orbs -->
-            <div class="absolute top-1/3 left-1/4 w-64 h-64 bg-[#d4b48c]/20 rounded-full blur-3xl animate-pulse-soft"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#b89a78]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/3 left-1/4 w-64 h-64 bg-[#4a90a0]/20 rounded-full blur-3xl animate-pulse-soft"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#2d5a4a]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
             
             <!-- Content -->
             <div class="relative z-10 text-left px-6 max-w-7xl mx-auto w-full">
@@ -493,15 +493,15 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                     <!-- Main Heading -->
                     <h1 class="font-['DM_Serif_Display'] text-6xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-2xl reveal-left" style="transition-delay: 0.2s;">
                         Rooms &<br>
-                        <span class="text-[#d4b48c]">Suites</span>
+                        <span class="text-[#4a90a0]">Suites</span>
                     </h1>
                     
                     <!-- Decorative Line -->
-                    <div class="w-24 h-1 bg-gradient-to-r from-[#d4b48c] to-transparent mb-6 reveal-left" style="transition-delay: 0.3s;"></div>
+                    <div class="w-24 h-1 bg-gradient-to-r from-[#4a90a0] to-transparent mb-6 reveal-left" style="transition-delay: 0.3s;"></div>
                     
                     <!-- Subheading -->
                     <p class="font-['Cormorant_Garamond'] text-xl md:text-2xl text-white/90 max-w-xl leading-relaxed reveal-left" style="transition-delay: 0.4s;">
-                        Where every stay becomes a story—discover your perfect sanctuary in the heart of Nairobi.
+                        Where every stay becomes a story—discover your perfect sanctuary in the heart of Siaya County.
                     </p>
                 </div>
             </div>
@@ -519,27 +519,27 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         <section class="py-12 px-6 bg-[#f5efe8]">
             <div class="max-w-7xl mx-auto">
                 <!-- Filter Bar -->
-                <div class="flex flex-wrap items-center justify-between gap-6 p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-[#d4b48c]/20 reveal">
+                <div class="flex flex-wrap items-center justify-between gap-6 p-6 bg-white/60 backdrop-blur-sm rounded-2xl border border-[#4a90a0]/20 reveal">
                     <!-- Filter by View -->
                     <div class="flex-1 min-w-[200px]">
-                        <label class="block text-[#8a735b] text-xs uppercase tracking-wider mb-2">View</label>
+                        <label class="block text-[#1e4d40] text-xs uppercase tracking-wider mb-2">View</label>
                         <div class="flex flex-wrap gap-2" id="viewFilters">
-                            <button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="all">All</button>
+                            <button class="filter-btn active px-4 py-2 text-sm border border-[#4a90a0]/30 rounded-full hover:bg-[#4a90a0] hover:text-white transition-all" data-filter="view" data-value="all">All</button>
                         </div>
                     </div>
                     
                     <!-- Filter by Bed Type -->
                     <div class="flex-1 min-w-[200px]">
-                        <label class="block text-[#8a735b] text-xs uppercase tracking-wider mb-2">Bed Type</label>
+                        <label class="block text-[#1e4d40] text-xs uppercase tracking-wider mb-2">Bed Type</label>
                         <div class="flex flex-wrap gap-2" id="bedFilters">
-                            <button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="all">All</button>
+                            <button class="filter-btn active px-4 py-2 text-sm border border-[#4a90a0]/30 rounded-full hover:bg-[#4a90a0] hover:text-white transition-all" data-filter="bed" data-value="all">All</button>
                         </div>
                     </div>
                     
                     <!-- Sort by Price -->
                     <div class="flex-1 min-w-[200px]">
-                        <label class="block text-[#8a735b] text-xs uppercase tracking-wider mb-2">Sort by</label>
-                        <select id="sortSelect" class="w-full px-4 py-2 bg-white border border-[#d4b48c]/30 rounded-full text-sm focus:outline-none focus:border-[#d4b48c]">
+                        <label class="block text-[#1e4d40] text-xs uppercase tracking-wider mb-2">Sort by</label>
+                        <select id="sortSelect" class="w-full px-4 py-2 bg-white border border-[#4a90a0]/30 rounded-full text-sm focus:outline-none focus:border-[#4a90a0]">
                             <option value="price_asc">Price: Low to High</option>
                             <option value="price_high">Price: High to Low</option>
                             <option value="popular">Most Popular</option>
@@ -548,7 +548,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                     </div>
                     
                     <!-- Reset Button -->
-                    <button id="resetFilters" class="px-6 py-2 text-sm text-[#8a735b] hover:text-[#d4b48c] transition-colors">
+                    <button id="resetFilters" class="px-6 py-2 text-sm text-[#1e4d40] hover:text-[#4a90a0] transition-colors">
                         <i class="fas fa-redo-alt mr-2"></i>Reset
                     </button>
                 </div>
@@ -560,19 +560,19 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             <div class="max-w-7xl mx-auto">
                 <!-- Room Count -->
                 <div class="flex justify-between items-center mb-8 reveal">
-                    <p class="text-[#8a735b] text-sm">Showing <span class="font-semibold text-[#d4b48c]" id="roomCount">0</span> rooms</p>
+                    <p class="text-[#1e4d40] text-sm">Showing <span class="font-semibold text-[#4a90a0]" id="roomCount">0</span> rooms</p>
                     <div class="flex gap-2">
                         <!-- View Toggle Buttons - Desktop: 1, 2, 4 cols + list -->
-                        <button onclick="setView('grid-1')" id="grid1Btn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all" title="1 Column">
+                        <button onclick="setView('grid-1')" id="grid1Btn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#4a90a0]/30 flex items-center justify-center hover:bg-[#4a90a0] hover:text-white transition-all" title="1 Column">
                             <span class="text-xs font-bold">1</span>
                         </button>
-                        <button onclick="setView('grid-2')" id="grid2Btn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all" title="2 Columns">
+                        <button onclick="setView('grid-2')" id="grid2Btn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#4a90a0]/30 flex items-center justify-center hover:bg-[#4a90a0] hover:text-white transition-all" title="2 Columns">
                             <span class="text-xs font-bold">2</span>
                         </button>
-                        <button onclick="setView('grid-4')" id="grid4Btn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all hidden md:flex" title="4 Columns">
+                        <button onclick="setView('grid-4')" id="grid4Btn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#4a90a0]/30 flex items-center justify-center hover:bg-[#4a90a0] hover:text-white transition-all hidden md:flex" title="4 Columns">
                             <span class="text-xs font-bold">4</span>
                         </button>
-                        <button onclick="setView('list')" id="listViewBtn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#d4b48c]/30 flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all" title="List View">
+                        <button onclick="setView('list')" id="listViewBtn" class="view-toggle-btn w-10 h-10 rounded-full border border-[#4a90a0]/30 flex items-center justify-center hover:bg-[#4a90a0] hover:text-white transition-all" title="List View">
                             <i class="fas fa-list"></i>
                         </button>
                     </div>
@@ -581,7 +581,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                 <!-- Loading indicator -->
                 <div id="loadingIndicator" class="hidden flex justify-center items-center py-20">
                     <div class="loader"></div>
-                    <span class="ml-3 text-[#8a735b]">Loading rooms...</span>
+                    <span class="ml-3 text-[#1e4d40]">Loading rooms...</span>
                 </div>
                 
                 <!-- Loading indicator -->
@@ -593,14 +593,14 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                 
                 <!-- No results message -->
                 <div id="noResults" class="hidden text-center py-20">
-                    <i class="fas fa-bed text-6xl text-[#d4b48c]/30 mb-4"></i>
+                    <i class="fas fa-bed text-6xl text-[#4a90a0]/30 mb-4"></i>
                     <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-2">No rooms found</h3>
-                    <p class="text-[#8a735b]">Try adjusting your filters to find available rooms.</p>
+                    <p class="text-[#1e4d40]">Try adjusting your filters to find available rooms.</p>
                 </div>
                 
                 <!-- Load More -->
                 <div class="text-center mt-16 reveal" id="loadMoreContainer">
-                    <button class="group px-10 py-4 border-2 border-[#d4b48c] text-[#d4b48c] rounded-full hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
+                    <button class="group px-10 py-4 border-2 border-[#4a90a0] text-[#4a90a0] rounded-full hover:bg-[#4a90a0] hover:text-white transition-all duration-300">
                         <span class="flex items-center gap-2">
                             <span>Load More Rooms</span>
                             <i class="fas fa-arrow-down group-hover:translate-y-1 transition-transform"></i>
@@ -614,7 +614,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         <div id="roomModal" class="modal">
             <div class="modal-content mx-auto my-8 p-6 relative">
                 <!-- Close Button -->
-                <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#d4b48c] hover:text-white transition-all z-10">
+                <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-[#4a90a0] hover:text-white transition-all z-10">
                     <i class="fas fa-times"></i>
                 </button>
                 
@@ -675,9 +675,9 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                 if (data.success) {
                     // Populate view filters
                     const viewFilters = document.getElementById('viewFilters');
-                    let viewHTML = '<button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="all">All</button>';
+                    let viewHTML = '<button class="filter-btn active px-4 py-2 text-sm border border-[#4a90a0]/30 rounded-full hover:bg-[#4a90a0] hover:text-white transition-all" data-filter="view" data-value="all">All</button>';
                     data.views.forEach(view => {
-                        viewHTML += `<button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="view" data-value="${view.name}">${view.name}</button>`;
+                        viewHTML += `<button class="filter-btn px-4 py-2 text-sm border border-[#4a90a0]/30 rounded-full hover:bg-[#4a90a0] hover:text-white transition-all" data-filter="view" data-value="${view.name}">${view.name}</button>`;
                     });
                     viewFilters.innerHTML = viewHTML;
                     
@@ -686,9 +686,9 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                     
                     // Populate bed type filters
                     const bedFilters = document.getElementById('bedFilters');
-                    let bedHTML = '<button class="filter-btn active px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="all">All</button>';
+                    let bedHTML = '<button class="filter-btn active px-4 py-2 text-sm border border-[#4a90a0]/30 rounded-full hover:bg-[#4a90a0] hover:text-white transition-all" data-filter="bed" data-value="all">All</button>';
                     data.bed_types.forEach(bed => {
-                        bedHTML += `<button class="filter-btn px-4 py-2 text-sm border border-[#d4b48c]/30 rounded-full hover:bg-[#d4b48c] hover:text-white transition-all" data-filter="bed" data-value="${bed.name}">${bed.name}</button>`;
+                        bedHTML += `<button class="filter-btn px-4 py-2 text-sm border border-[#4a90a0]/30 rounded-full hover:bg-[#4a90a0] hover:text-white transition-all" data-filter="bed" data-value="${bed.name}">${bed.name}</button>`;
                     });
                     bedFilters.innerHTML = bedHTML;
                     
@@ -805,7 +805,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                 noResults.innerHTML = `
                     <i class="fas fa-exclamation-triangle text-6xl text-red-500/30 mb-4"></i>
                     <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-2">Unable to Load Rooms</h3>
-                    <p class="text-[#8a735b]">${error.message}</p>
+                    <p class="text-[#1e4d40]">${error.message}</p>
                 `;
             });
         }
@@ -857,7 +857,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             
             rooms.forEach((room, index) => {
                 const badge = room.badge ? `<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-[#3f352e]">
-                    <i class="fas fa-star text-[#d4b48c] mr-1"></i> ${room.badge}
+                    <i class="fas fa-star text-[#4a90a0] mr-1"></i> ${room.badge}
                 </div>` : '';
                 
                 const roomCard = `
@@ -878,18 +878,18 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                             <div class="flex justify-between items-start mb-3">
                                 <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e]">${room.name}</h3>
                                 <div class="text-right">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh ${parseInt(room.price).toLocaleString()}</span>
-                                    <p class="text-[#8a735b] text-[10px] uppercase">per night</p>
+                                    <span class="text-[#4a90a0] font-['DM_Serif_Display'] text-xl">KSh ${parseInt(room.price).toLocaleString()}</span>
+                                    <p class="text-[#1e4d40] text-[10px] uppercase">per night</p>
                                 </div>
                             </div>
                             
-                            <div class="flex items-center gap-4 text-xs text-[#8a735b] mb-4 pb-4 border-b border-[#d4b48c]/10">
+                            <div class="flex items-center gap-4 text-xs text-[#1e4d40] mb-4 pb-4 border-b border-[#4a90a0]/10">
                                 <span><i class="fas fa-user mr-1"></i> ${room.occupancy}</span>
                                 <span><i class="fas fa-ruler-combined mr-1"></i> ${room.size}</span>
                                 <span><i class="fas fa-bed mr-1"></i> ${room.bed_type}</span>
                             </div>
                             
-                            <div class="flex gap-3 text-[#8a735b] mb-4">
+                            <div class="flex gap-3 text-[#1e4d40] mb-4">
                                 ${room.amenities.slice(0, 5).map(amenity => {
                                     let icon = 'fa-check';
                                     if (amenity.toLowerCase().includes('wifi')) icon = 'fa-wifi';
@@ -901,7 +901,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                 }).join('')}
                             </div>
                             
-                            <button onclick="openModal('${room.id}')" class="w-full py-3 bg-[#d4b48c]/10 border border-[#d4b48c]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#d4b48c] hover:text-white transition-all duration-300">
+                            <button onclick="openModal('${room.id}')" class="w-full py-3 bg-[#4a90a0]/10 border border-[#4a90a0]/30 rounded-xl text-[#3f352e] text-sm uppercase tracking-wider hover:bg-[#4a90a0] hover:text-white transition-all duration-300">
                                 Check Availability & Book
                             </button>
                         </div>
@@ -931,7 +931,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             modalContent.innerHTML = `
                 <div class="flex justify-center items-center py-20">
                     <div class="loader"></div>
-                    <span class="ml-3 text-[#8a735b]">Loading room details...</span>
+                    <span class="ml-3 text-[#1e4d40]">Loading room details...</span>
                 </div>
             `;
             
@@ -977,7 +977,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                 <div class="relative">
                                     <img id="mainImage" src="${room.images[0]}" alt="${room.name}" class="main-image">
                                     <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-[#3f352e]">
-                                        <i class="fas fa-play-circle text-[#d4b48c] mr-1"></i> Auto-rotating
+                                        <i class="fas fa-play-circle text-[#4a90a0] mr-1"></i> Auto-rotating
                                     </div>
                                 </div>
                                 
@@ -993,25 +993,25 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                 <h2 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3f352e] mb-2">${room.name}</h2>
                                 
                                 <div class="flex items-center gap-3 mb-6">
-                                    <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-3xl">KSh ${parseInt(room.price).toLocaleString()}</span>
-                                    <span class="text-[#8a735b] text-xs">per night</span>
+                                    <span class="text-[#4a90a0] font-['DM_Serif_Display'] text-3xl">KSh ${parseInt(room.price).toLocaleString()}</span>
+                                    <span class="text-[#1e4d40] text-xs">per night</span>
                                 </div>
                                 
                                 <div class="grid grid-cols-2 gap-4 mb-6 p-4 bg-white/60 rounded-xl">
                                     <div>
-                                        <p class="text-[#8a735b] text-xs uppercase">Size</p>
+                                        <p class="text-[#1e4d40] text-xs uppercase">Size</p>
                                         <p class="text-[#3f352e] font-medium">${room.size}</p>
                                     </div>
                                     <div>
-                                        <p class="text-[#8a735b] text-xs uppercase">Occupancy</p>
+                                        <p class="text-[#1e4d40] text-xs uppercase">Occupancy</p>
                                         <p class="text-[#3f352e] font-medium">${room.occupancy}</p>
                                     </div>
                                     <div>
-                                        <p class="text-[#8a735b] text-xs uppercase">Bed Type</p>
+                                        <p class="text-[#1e4d40] text-xs uppercase">Bed Type</p>
                                         <p class="text-[#3f352e] font-medium">${room.bed_type}</p>
                                     </div>
                                     <div>
-                                        <p class="text-[#8a735b] text-xs uppercase">View</p>
+                                        <p class="text-[#1e4d40] text-xs uppercase">View</p>
                                         <p class="text-[#3f352e] font-medium">${room.view}</p>
                                     </div>
                                 </div>
@@ -1022,7 +1022,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                 <div class="grid grid-cols-2 gap-2 mb-8">
                                     ${room.amenities.map(amenity => `
                                         <div class="flex items-center gap-2">
-                                            <i class="fas fa-check-circle text-[#d4b48c] text-xs"></i>
+                                            <i class="fas fa-check-circle text-[#4a90a0] text-xs"></i>
                                             <span class="text-[#5c524a] text-sm">${amenity}</span>
                                         </div>
                                     `).join('')}
@@ -1035,18 +1035,18 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                     <input type="hidden" id="roomType" value="${room.room_type}">
                                     <div class="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label class="block text-[#8a735b] text-xs uppercase mb-1">Check-in</label>
+                                            <label class="block text-[#1e4d40] text-xs uppercase mb-1">Check-in</label>
                                             <input type="date" id="checkIn" class="w-full px-4 py-2 rounded-lg bg-white" min="${today}" required>
                                         </div>
                                         <div>
-                                            <label class="block text-[#8a735b] text-xs uppercase mb-1">Check-out</label>
+                                            <label class="block text-[#1e4d40] text-xs uppercase mb-1">Check-out</label>
                                             <input type="date" id="checkOut" class="w-full px-4 py-2 rounded-lg bg-white" min="${today}" required>
                                         </div>
                                     </div>
                                     
                                     <div class="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label class="block text-[#8a735b] text-xs uppercase mb-1">Adults</label>
+                                            <label class="block text-[#1e4d40] text-xs uppercase mb-1">Adults</label>
                                             <select id="adults" class="w-full px-4 py-2 rounded-lg bg-white">
                                                 <option value="1">1</option>
                                                 <option value="2" selected>2</option>
@@ -1055,7 +1055,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                             </select>
                                         </div>
                                         <div>
-                                            <label class="block text-[#8a735b] text-xs uppercase mb-1">Children</label>
+                                            <label class="block text-[#1e4d40] text-xs uppercase mb-1">Children</label>
                                             <select id="children" class="w-full px-4 py-2 rounded-lg bg-white">
                                                 <option value="0" selected>0</option>
                                                 <option value="1">1</option>
@@ -1066,11 +1066,11 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                     </div>
                                     
                                     <div>
-                                        <label class="block text-[#8a735b] text-xs uppercase mb-1">Special Requests</label>
+                                        <label class="block text-[#1e4d40] text-xs uppercase mb-1">Special Requests</label>
                                         <textarea id="specialRequests" rows="2" class="w-full px-4 py-2 rounded-lg bg-white" placeholder="Any special requirements..."></textarea>
                                     </div>
                                     
-                                    <button type="submit" id="checkAvailabilityBtn" class="w-full py-3 bg-[#d4b48c] text-white rounded-lg hover:bg-[#b89a78] transition-colors flex items-center justify-center">
+                                    <button type="submit" id="checkAvailabilityBtn" class="w-full py-3 bg-[#4a90a0] text-white rounded-lg hover:bg-[#2d5a4a] transition-colors flex items-center justify-center">
                                         <span>Check Availability</span>
                                     </button>
                                 </form>
@@ -1089,7 +1089,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                     modalContent.innerHTML = `
                         <div class="text-center py-10">
                             <i class="fas fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
-                            <p class="text-[#8a735b]">${data.message}</p>
+                            <p class="text-[#1e4d40]">${data.message}</p>
                         </div>
                     `;
                 }
@@ -1099,7 +1099,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                 modalContent.innerHTML = `
                     <div class="text-center py-10">
                         <i class="fas fa-exclamation-circle text-4xl text-red-500 mb-4"></i>
-                        <p class="text-[#8a735b]">Error loading room details. Please try again.</p>
+                        <p class="text-[#1e4d40]">Error loading room details. Please try again.</p>
                     </div>
                 `;
             });
@@ -1180,19 +1180,19 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                     if (data.alternatives && data.alternatives.length > 0) {
                         data.alternatives.forEach(alt => {
                             alternativesHTML += `
-                                <div class="flex items-center gap-4 p-3 bg-white rounded-lg border border-[#d4b48c]/20 cursor-pointer hover:border-[#d4b48c] transition-all" onclick="openModal('${alt.id}')">
+                                <div class="flex items-center gap-4 p-3 bg-white rounded-lg border border-[#4a90a0]/20 cursor-pointer hover:border-[#4a90a0] transition-all" onclick="openModal('${alt.id}')">
                                     <img src="${alt.images[0]}" alt="${alt.name}" class="w-16 h-16 object-cover rounded-lg">
                                     <div class="flex-1">
                                         <h5 class="text-[#3f352e] font-medium">${alt.name}</h5>
-                                        <p class="text-[#d4b48c] font-['DM_Serif_Display']">KSh ${parseInt(alt.price).toLocaleString()}/night</p>
+                                        <p class="text-[#4a90a0] font-['DM_Serif_Display']">KSh ${parseInt(alt.price).toLocaleString()}/night</p>
                                     </div>
-                                    <button class="px-3 py-1 bg-[#d4b48c] text-white text-xs rounded-full">Book</button>
+                                    <button class="px-3 py-1 bg-[#4a90a0] text-white text-xs rounded-full">Book</button>
                                 </div>
                             `;
                         });
                     } else {
                         alternativesHTML += `
-                            <p class="text-[#8a735b] text-sm">No alternative rooms available for these dates. Please try different dates.</p>
+                            <p class="text-[#1e4d40] text-sm">No alternative rooms available for these dates. Please try different dates.</p>
                         `;
                     }
                     
@@ -1207,11 +1207,11 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                     resultContainer.innerHTML = `
                         <div class="p-4 bg-green-50 border border-green-200 rounded-lg mb-4">
                             <p class="text-green-700 text-sm"><i class="fas fa-check-circle mr-2"></i>This room is available for your selected dates! Please proceed with your booking</p>
-                            <p class="text-[#8a735b] text-xs mt-1">${nights} night${nights > 1 ? 's' : ''} - KSh ${totalPrice.toLocaleString()}</p>
+                            <p class="text-[#1e4d40] text-xs mt-1">${nights} night${nights > 1 ? 's' : ''} - KSh ${totalPrice.toLocaleString()}</p>
                         </div>
                         
                         <!-- Guest Details for Booking -->
-                        <div class="bg-white p-4 rounded-lg border border-[#d4b48c]/20">
+                        <div class="bg-white p-4 rounded-lg border border-[#4a90a0]/20">
                             <h4 class="font-['Cormorant_Garamond'] text-lg text-[#3f352e] mb-3">Complete Your Booking</h4>
                             <form id="bookingForm" onsubmit="confirmBooking(event, '${room.id}', '${room.room_type}')">
                                 <input type="hidden" id="bookingRoomId" value="${room.id}">
@@ -1224,22 +1224,22 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                 
                                 <div class="space-y-3">
                                     <div>
-                                        <label class="block text-[#8a735b] text-xs uppercase mb-1">Full Name *</label>
-                                        <input type="text" id="guestName" class="w-full px-4 py-2 rounded-lg bg-white border border-[#d4b48c]/30" placeholder="Enter your full name" required>
+                                        <label class="block text-[#1e4d40] text-xs uppercase mb-1">Full Name *</label>
+                                        <input type="text" id="guestName" class="w-full px-4 py-2 rounded-lg bg-white border border-[#4a90a0]/30" placeholder="Enter your full name" required>
                                     </div>
                                     <div>
-                                        <label class="block text-[#8a735b] text-xs uppercase mb-1">Email Address *</label>
-                                        <input type="email" id="guestEmail" class="w-full px-4 py-2 rounded-lg bg-white border border-[#d4b48c]/30" placeholder="Enter your email" required>
+                                        <label class="block text-[#1e4d40] text-xs uppercase mb-1">Email Address *</label>
+                                        <input type="email" id="guestEmail" class="w-full px-4 py-2 rounded-lg bg-white border border-[#4a90a0]/30" placeholder="Enter your email" required>
                                     </div>
                                     <div>
-                                        <label class="block text-[#8a735b] text-xs uppercase mb-1">Phone Number</label>
-                                        <input type="tel" id="guestPhone" class="w-full px-4 py-2 rounded-lg bg-white border border-[#d4b48c]/30" placeholder="Enter your phone number">
+                                        <label class="block text-[#1e4d40] text-xs uppercase mb-1">Phone Number</label>
+                                        <input type="tel" id="guestPhone" class="w-full px-4 py-2 rounded-lg bg-white border border-[#4a90a0]/30" placeholder="Enter your phone number">
                                     </div>
                                 </div>
                                 
                                 <div class="mt-4 p-3 bg-[#f5efe8] rounded-lg">
                                     <div class="flex justify-between text-sm">
-                                        <span class="text-[#8a735b]">Room (${nights} night${nights > 1 ? 's' : ''})</span>
+                                        <span class="text-[#1e4d40]">Room (${nights} night${nights > 1 ? 's' : ''})</span>
                                         <span class="text-[#3f352e]">KSh ${totalPrice.toLocaleString()}</span>
                                     </div>
                                 </div>
@@ -1341,16 +1341,16 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                 <i class="fas fa-check text-3xl text-green-600"></i>
                             </div>
                             <h4 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-2">Booking Confirmed!</h4>
-                            <p class="text-[#8a735b] mb-4">Your booking has been successfully confirmed.</p>
-                            <div class="bg-white p-4 rounded-lg border border-[#d4b48c]/20 text-left mb-4">
-                                <p class="text-sm text-[#8a735b]"><strong>Booking ID:</strong> #${data.booking.booking_id}</p>
-                                <p class="text-sm text-[#8a735b]"><strong>Room:</strong> ${data.room.name}</p>
-                                <p class="text-sm text-[#8a735b]"><strong>Check-in:</strong> ${checkIn}</p>
-                                <p class="text-sm text-[#8a735b]"><strong>Check-out:</strong> ${checkOut}</p>
-                                <p class="text-sm text-[#8a735b]"><strong>Total:</strong> KSh ${data.booking.total_price.toLocaleString()}</p>
+                            <p class="text-[#1e4d40] mb-4">Your booking has been successfully confirmed.</p>
+                            <div class="bg-white p-4 rounded-lg border border-[#4a90a0]/20 text-left mb-4">
+                                <p class="text-sm text-[#1e4d40]"><strong>Booking ID:</strong> #${data.booking.booking_id}</p>
+                                <p class="text-sm text-[#1e4d40]"><strong>Room:</strong> ${data.room.name}</p>
+                                <p class="text-sm text-[#1e4d40]"><strong>Check-in:</strong> ${checkIn}</p>
+                                <p class="text-sm text-[#1e4d40]"><strong>Check-out:</strong> ${checkOut}</p>
+                                <p class="text-sm text-[#1e4d40]"><strong>Total:</strong> KSh ${data.booking.total_price.toLocaleString()}</p>
                             </div>
-                            <p class="text-sm text-[#8a735b]">A confirmation email has been sent to ${guestEmail}</p>
-                            <button onclick="closeModal()" class="mt-4 px-6 py-2 bg-[#d4b48c] text-white rounded-full hover:bg-[#b89a78] transition-colors">
+                            <p class="text-sm text-[#1e4d40]">A confirmation email has been sent to ${guestEmail}</p>
+                            <button onclick="closeModal()" class="mt-4 px-6 py-2 bg-[#4a90a0] text-white rounded-full hover:bg-[#2d5a4a] transition-colors">
                                 Close
                             </button>
                         </div>
@@ -1500,3 +1500,5 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
 </body>
 </html>
 <?php include 'footer.php'; ?>
+
+

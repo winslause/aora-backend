@@ -2,18 +2,19 @@
 include 'database.php';
 
 // Page-specific SEO
-$pageTitle = "Gallery - Visual Journey of Aora45 | Luxury Resort Nairobi";
-$pageDescription = "Explore stunning photos of Aora45 luxury resort in Nairobi. View our elegant rooms, restaurant, spa, amenities, and beautiful surroundings in our photo gallery.";
+$pageTitle = "Gallery - Visual Journey of AORA 45 | Luxury Resort Siaya County";
+$pageDescription = "Explore stunning photos of AORA 45 luxury resort in Siaya County. View our elegant rooms, restaurant, spa, amenities, and beautiful surroundings in our photo gallery.";
 
 // Get gallery data from database
 $galleryAlbums = getAllGalleryAlbums($pdo);
 $galleryImages = getAllGalleryImages($pdo);
-$galleryVideo = getGalleryVideo($pdo);
+$videos = getAllGalleryVideos($pdo);
+$galleryVideo = !empty($videos) ? $videos[0] : null;
 
 // Organize images by album for modal
 $albumImages = [];
 foreach ($galleryAlbums as $album) {
-    $albumImages[$album['slug']] = getGalleryImagesByAlbumSlug($pdo, $album['slug']);
+    $albumImages[$album['slug']] = getGalleryImagesByAlbum($pdo, $album['id']);
 }
 
 include 'header.php'; ?>
@@ -188,7 +189,7 @@ include 'header.php'; ?>
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #b89a78;
+            background: #2d5a4a;
             border-radius: 4px;
         }
         
@@ -218,9 +219,9 @@ include 'header.php'; ?>
         }
         
         .filter-btn.active {
-            background: #b89a78;
+            background: #2d5a4a;
             color: white;
-            border-color: #b89a78;
+            border-color: #2d5a4a;
         }
         
         /* Gallery Grid - Mobile: 1-2-1-2 pattern, Desktop: 4 columns */
@@ -421,12 +422,12 @@ include 'header.php'; ?>
         }
         
         .album-cover:hover .album-icon {
-            border-color: #b89a78;
+            border-color: #2d5a4a;
             transform: scale(1.1);
         }
         
         .album-icon i {
-            color: #b89a78;
+            color: #2d5a4a;
             font-size: 1.8rem;
         }
         
@@ -481,7 +482,7 @@ include 'header.php'; ?>
         
         .play-button:hover {
             transform: translate(-50%, -50%) scale(1.1);
-            background: #b89a78;
+            background: #2d5a4a;
         }
         
         .play-button i {
@@ -543,7 +544,7 @@ include 'header.php'; ?>
         
         .album-gallery-item:hover {
             transform: scale(1.03);
-            border-color: #b89a78;
+            border-color: #2d5a4a;
         }
         
         .album-gallery-item img {
@@ -596,26 +597,26 @@ include 'header.php'; ?>
             </div>
             
             <!-- Floating Orbs -->
-            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#b89a78]/20 rounded-full blur-3xl animate-pulse-soft"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#8a735b]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#2d5a4a]/20 rounded-full blur-3xl animate-pulse-soft"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#1e4d40]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
             
             <!-- Content -->
             <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
                 <!-- Decorative Line -->
                 <div class="flex justify-center mb-8">
-                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent animate-pulse"></div>
+                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent animate-pulse"></div>
                 </div>
                 
                 <!-- Main Heading -->
                 <h1 class="font-['DM_Serif_Display'] text-6xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-2xl tracking-wide">
                     <span class="block reveal-left" style="transition-delay: 0.2s;">A Visual</span>
-                    <span class="block reveal-right text-[#b89a78]" style="transition-delay: 0.4s;">Journey</span>
+                    <span class="block reveal-right text-[#2d5a4a]" style="transition-delay: 0.4s;">Journey</span>
                 </h1>
                 
                 <!-- Decorative Element -->
                 <div class="relative flex justify-center items-center gap-4 mb-12">
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
-                    <i class="fas fa-camera text-[#b89a78] text-xl"></i>
+                    <i class="fas fa-camera text-[#2d5a4a] text-xl"></i>
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
                 </div>
                 
@@ -638,15 +639,15 @@ include 'header.php'; ?>
         <section class="relative py-24 px-6 bg-[#fcf8f3] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Collections</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Collections</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Our Albums</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- Albums Grid -->
@@ -673,9 +674,9 @@ include 'header.php'; ?>
         <section class="py-8 px-6 bg-[#f4ede5] overflow-hidden">
             <div class="max-w-7xl mx-auto">
                 <div class="flex flex-wrap justify-center gap-6 reveal">
-                    <span onclick="openAlbum('all')" class="font-['Cormorant_Garamond'] text-lg text-[#b89a78] border-b-2 border-[#b89a78] pb-1 cursor-pointer hover:text-[#8a735b] transition-colors">All Moments</span>
+                    <span onclick="openAlbum('all')" class="font-['Cormorant_Garamond'] text-lg text-[#2d5a4a] border-b-2 border-[#2d5a4a] pb-1 cursor-pointer hover:text-[#1e4d40] transition-colors">All Moments</span>
                     <?php foreach($galleryAlbums as $album): ?>
-                    <span onclick="openAlbum('<?php echo htmlspecialchars($album['slug']); ?>')" class="font-['Cormorant_Garamond'] text-lg text-[#8a735b] hover:text-[#b89a78] transition-colors cursor-pointer"><?php switch($album['slug']) { case 'rooms': echo 'Luxury Stays'; break; case 'restaurant': echo 'Culinary Art'; break; case 'amenities': echo 'World-Class'; break; case 'surroundings': echo 'Natural Beauty'; break; default: echo htmlspecialchars($album['title']); } ?></span>
+                    <span onclick="openAlbum('<?php echo htmlspecialchars($album['slug']); ?>')" class="font-['Cormorant_Garamond'] text-lg text-[#1e4d40] hover:text-[#2d5a4a] transition-colors cursor-pointer"><?php switch($album['slug']) { case 'rooms': echo 'Luxury Stays'; break; case 'restaurant': echo 'Culinary Art'; break; case 'amenities': echo 'World-Class'; break; case 'surroundings': echo 'Natural Beauty'; break; default: echo htmlspecialchars($album['title']); } ?></span>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -730,16 +731,16 @@ include 'header.php'; ?>
         <section class="relative py-24 px-6 bg-[#f4ede5] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-5xl mx-auto relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-12 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Featured</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Featured</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light"><?php echo $galleryVideo ? htmlspecialchars($galleryVideo['title']) : 'The Aora Experience'; ?></h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- Video Container -->
@@ -764,7 +765,7 @@ include 'header.php'; ?>
                 </div>
                 
                 <!-- Video Caption -->
-                <p class="text-center text-[#8a735b] text-sm mt-4 italic reveal" style="transition-delay: 0.2s;">
+                <p class="text-center text-[#1e4d40] text-sm mt-4 italic reveal" style="transition-delay: 0.2s;">
                     <?php echo $galleryVideo ? htmlspecialchars($galleryVideo['description']) : 'Experience the magic of Aora—where luxury meets the wild heart of Kenya.'; ?>
                 </p>
             </div>
@@ -774,17 +775,17 @@ include 'header.php'; ?>
         <section class="relative py-20 px-6 bg-[#2c3e4a] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-3xl mx-auto relative z-10 text-center">
-                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto mb-8"></div>
+                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto mb-8"></div>
                 
                 <p class="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-white/90 italic leading-relaxed">
                     "Every image tells a story. Every moment becomes a memory."
                 </p>
                 
-                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto mt-8"></div>
+                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto mt-8"></div>
             </div>
         </section>
     </main>
@@ -793,7 +794,7 @@ include 'header.php'; ?>
     <div id="albumModal" class="modal">
         <div class="modal-content mx-auto my-8 p-8 relative">
             <!-- Close Button -->
-            <button onclick="closeAlbumModal()" class="absolute top-4 right-4 w-10 h-10 bg-[#b89a78] text-white rounded-full flex items-center justify-center hover:bg-[#8a735b] transition-all z-10">
+            <button onclick="closeAlbumModal()" class="absolute top-4 right-4 w-10 h-10 bg-[#2d5a4a] text-white rounded-full flex items-center justify-center hover:bg-[#1e4d40] transition-all z-10">
                 <i class="fas fa-times"></i>
             </button>
             
@@ -921,7 +922,7 @@ include 'header.php'; ?>
             modalContent.innerHTML = `
                 <div>
                     <h2 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-2">${album.title}</h2>
-                    <div class="w-12 h-px bg-[#b89a78] mb-4"></div>
+                    <div class="w-12 h-px bg-[#2d5a4a] mb-4"></div>
                     <p class="text-[#5c524a] text-sm mb-8">${album.description}</p>
                     
                     <div class="album-gallery">
@@ -996,3 +997,4 @@ include 'header.php'; ?>
         window.addEventListener('load', reveal);
     </script>
 <?php include 'footer.php'; ?>
+

@@ -1,0 +1,12 @@
+# Protect directory
+Options -Indexes
+
+# Allow image files only
+<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg)$">
+    Allow from all
+</FilesMatch>
+
+# Cache images
+<IfModule mod_headers.c>
+    Header set Cache-Control "public, max-age=31536000, immutable"
+</IfModule>

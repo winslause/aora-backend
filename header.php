@@ -3,59 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($pageTitle) ? $pageTitle : 'Aora45 - Luxury Resort & Restaurant in Nairobi, Kenya'; ?></title>
-    <meta name="description" content="<?php echo isset($pageDescription) ? $pageDescription : 'Aora45 - Experience luxury at our premium resort in Nairobi, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities. Book your stay today.'; ?>"">
-    <meta name="keywords" content="luxury hotel Nairobi, resort Kenya, accommodation Nairobi, hotel booking Kenya, spa Nairobi, wedding venue Kenya, fine dining Nairobi, luxury stay, Aora45 resort, best hotels Nairobi, 5 star hotel Kenya, events venue Nairobi, restaurant Nairobi, hotel near me Kenya, Nairobi hotel, Kenya resort, luxury accommodation Nairobi, hotel with pool Nairobi, business hotel Nairobi, family resort Kenya">
-    <meta name="author" content="Aora45 Resort">
+    <title><?php echo isset($pageTitle) ? $pageTitle : 'AORA45 - Premium Riverfront Destination in Siaya, Kenya'; ?></title>
+    <meta name="description" content="<?php echo isset($pageDescription) ? $pageDescription : 'AORA45 - Experience premium riverfront destination in Siaya County, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities. Book your stay today.'; ?>"">
+    <meta name="keywords" content="luxury hotel Siaya, resort Kenya, accommodation Siaya, hotel booking Kenya, pool bar Siaya, wedding venue Kenya, fine dining Siaya, luxury stay, AORA45 resort, best hotels Siaya, riverside hotel Kenya, events venue Siaya, restaurant Siaya, hotel near me Kenya, Kenya resort, luxury accommodation Kenya, hotel with pool Siaya, riverside retreat Kenya, family resort Kenya">
+    <meta name="author" content="AORA45 Resort">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://aora45.com/">
-    <meta property="og:title" content="Aora45 - Luxury Resort & Restaurant in Nairobi, Kenya">
-    <meta property="og:description" content="Experience luxury at our premium resort in Nairobi, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities.">
+    <meta property="og:url" content="https://AORA45.com/">
+    <meta property="og:title" content="AORA45 - Premium Riverfront Destination in Siaya, Kenya">
+    <meta property="og:description" content="Experience luxury at our premium riverfront destination in Siaya County, Kenya. Featuring elegant cottages, pool bar, gazebo lounges, fire pits, and world-class hospitality.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
-    <meta property="og:site_name" content="Aora45 Resort">
+    <meta property="og:site_name" content="AORA45 Resort">
     <meta property="og:locale" content="en_KE">
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Aora45 - Luxury Resort & Restaurant in Nairobi, Kenya">
-    <meta name="twitter:description" content="Experience luxury at our premium resort in Nairobi, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities.">
+    <meta name="twitter:title" content="AORA45 - Premium Riverfront Destination in Siaya, Kenya">
+    <meta name="twitter:description" content="Experience luxury at our premium riverfront destination in Siaya County, Kenya. Featuring elegant cottages, pool bar, gazebo lounges, fire pits, and world-class hospitality.">
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://aora45.com/">
+    <link rel="canonical" href="https://AORA45.com/">
+    <!-- Preconnect to external domains for faster connections -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Google Fonts for Luxury Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    
-    <!-- Schema.org JSON-LD for Hotel with Local SEO -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Hotel",
-        "name": "Aora45 Resort",
-        "description": "Experience luxury at our premium resort in Nairobi, Kenya. Featuring elegant rooms, fine dining restaurant, spa, events venue, and world-class amenities.",
-        "url": "https://aora45.com",
-        "telephone": "+2541234567",
-        "email": "info@aora45.com",
+        "name": "AORA45 Resort",
+        "description": "Experience luxury at our premium riverfront destination in Siaya County, Kenya. Featuring elegant cottages, pool bar, gazebo lounges, fire pits, and world-class hospitality.",
+        "url": "https://AORA45.com",
+        "telephone": "+254769525570",
+        "email": "info@AORA45.com",
         "address": {
             "@type": "PostalAddress",
-            "streetAddress": "Nairobi",
-            "addressLocality": "Nairobi",
-            "addressRegion": "Nairobi County",
+            "streetAddress": "Along River Nyandera",
+            "addressLocality": "Siaya",
+            "addressRegion": "Siaya County",
             "addressCountry": "KE",
-            "postalCode": "00100"
+            "postalCode": "40600"
         },
         "geo": {
             "@type": "GeoCoordinates",
-            "latitude": "-1.2921",
-            "longitude": "36.8219"
+            "latitude": "0.0612",
+            "longitude": "34.2881"
         },
         "priceRange": "$$",
         "starRating": {
@@ -87,13 +90,13 @@
         "numberOfRooms": 45,
         "numberOfSuites": 15,
         "numberOfFloors": 5,
-        "logo": "https://aora45.com/logo1.png",
+        "logo": "https://AORA45.com/logo1.jpeg",
         "image": ["https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"],
         "sameAs": [
-            "https://www.facebook.com/Aora45Resort",
-            "https://www.instagram.com/Aora45Resort",
-            "https://twitter.com/Aora45Resort",
-            "https://www.pinterest.com/Aora45Resort"
+            "https://www.facebook.com/AORA45Resort",
+            "https://www.instagram.com/AORA45Resort",
+            "https://twitter.com/AORA45Resort",
+            "https://www.pinterest.com/AORA45Resort"
         ]
     }
     </script>
@@ -103,23 +106,23 @@
     {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "@id": "https://aora45.com/#business",
-        "name": "Aora45 Resort",
-        "image": "https://aora45.com/logo1.png",
-        "url": "https://aora45.com",
-        "telephone": "+2541234567",
-        "email": "info@aora45.com",
-        "priceRange": "$$",
+        "@id": "https://AORA45.com/#business",
+        "name": "AORA45 Resort",
+        "image": "https://AORA45.com/logo1.jpeg",
+        "url": "https://AORA45.com",
+        "telephone": "+254769525570",
+        "email": "info@AORA45.com",
+        "priceRange": "$",
         "address": {
             "@type": "PostalAddress",
-            "addressLocality": "Nairobi",
-            "addressRegion": "Nairobi County",
+            "addressLocality": "Siaya",
+            "addressRegion": "Siaya County",
             "addressCountry": "KE"
         },
         "geo": {
             "@type": "GeoCoordinates",
-            "latitude": "-1.2921",
-            "longitude": "36.8219"
+            "latitude": "0.0612",
+            "longitude": "34.2881"
         },
         "openingHours": ["Mo-Su 00:00-24:00"],
         "paymentAccepted": ["Cash", "Credit Card", "M-Pesa"],
@@ -127,21 +130,15 @@
     }
     </script>
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="logo1.png">
-    <link rel="apple-touch-icon" href="logo1.png">
+    <!-- Favicon with size -->
+    <link rel="icon" type="image/png" href="logo1.jpeg" sizes="32x32">
+    <link rel="apple-touch-icon" href="logo1.jpeg">
     
     <!-- Preload critical assets -->
-    <link rel="preload" as="image" href="logo1.png">
+    <link rel="preload" as="image" href="logo1.jpeg">
     
-    <!-- Tailwind via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts for Luxury Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <!-- Tailwind via CDN - loaded asynchronously -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
     <style>
         * {
             margin: 0;
@@ -184,7 +181,7 @@
             transform: translateX(-50%) scaleX(0);
             width: 70%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, #b8a084, #8a735b, #b8a084, transparent);
+            background: linear-gradient(90deg, transparent, #b8a084, #1e4d40, #b8a084, transparent);
             transition: transform 0.25s ease;
         }
 
@@ -205,6 +202,93 @@
         }
         .nav-link.active::after {
             transform: translateX(-50%) scaleX(1);
+        }
+
+        /* Dropdown Menu */
+        .nav-dropdown {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            min-width: 180px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1000;
+            margin-top: 0.5rem;
+            border: 1px solid #e8dfd5;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-content {
+            display: block;
+            animation: dropdownFadeIn 0.2s ease-out;
+        }
+
+        /* Keep dropdown visible when hovering the content */
+        .nav-dropdown::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -15px;
+            height: 15px;
+        }
+
+        @keyframes dropdownFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .nav-dropdown-content a {
+            color: #5c524a;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: none;
+            letter-spacing: 0.3px;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f5f0eb;
+        }
+
+        .nav-dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .nav-dropdown-content a:hover {
+            background: #f8f5f0;
+            color: #1e4d40;
+            padding-left: 24px;
+        }
+
+        .nav-dropdown-content a i {
+            margin-right: 10px;
+            width: 16px;
+            text-align: center;
+            color: #b09b88;
+        }
+
+        .nav-dropdown-content a:hover i {
+            color: #1e4d40;
+        }
+
+        .nav-dropdown > .nav-link::after {
+            content: '';
         }
 
         /* Unique Toggler Animation - refined */
@@ -295,7 +379,7 @@
         }
 
         .mobile-nav-link:hover i {
-            color: #8a735b;
+            color: #1e4d40;
         }
 
         .mobile-nav-link:last-child {
@@ -309,7 +393,7 @@
 
         /* Gold accent line */
         .gold-accent {
-            background: linear-gradient(90deg, transparent, #d4b48c, #b89a78, #d4b48c, transparent);
+            background: linear-gradient(90deg, transparent, #4a90a0, #2d5a4a, #4a90a0, transparent);
             height: 1px;
             width: 60px;
             margin: 4px 0 2px;
@@ -633,7 +717,7 @@
             padding: 1rem 0;
         }
 
-        /* Center title - Unearth Timeless Luxury at Aora45 */
+        /* Center title - Unearth Timeless Luxury at AORA45 */
         .center-title {
             font-family: 'Cormorant Garamond', serif;
             font-size: clamp(2rem, 5vw, 3.5rem);
@@ -730,9 +814,9 @@
     <div id="site-preloader">
         <div class="preloader-content">
             <div class="preloader-logo">
-                <img src="logo1.png" alt="Aora45" onerror="this.style.display='none'">
+                <img src="logo1.jpeg" alt="AORA45" onerror="this.style.display='none'">
             </div>
-            <div class="preloader-text">Aora45</div>
+            <div class="preloader-text">AORA45</div>
             <div class="preloader-subtext">Luxury Resort & Restaurant</div>
             <div class="preloader-spinner">
                 <div class="spinner-ring"></div>
@@ -746,14 +830,14 @@
     </div>
 
     <style>
-        /* Preloader Styles */
+        /* Preloader Styles - Ocean blue, Earth tones, Warm lighting, Natural greens */
         #site-preloader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+            background: linear-gradient(135deg, #0d2b36 0%, #1a3d4d 50%, #1a3d4d 100%);
             z-index: 99999;
             display: flex;
             align-items: center;
@@ -786,7 +870,7 @@
         .preloader-logo img {
             height: 80px;
             width: auto;
-            filter: drop-shadow(0 4px 20px rgba(212, 175, 55, 0.3));
+            filter: drop-shadow(0 4px 20px rgba(232, 168, 73, 0.3));
             animation: logoFloat 2s ease-in-out infinite;
         }
 
@@ -798,10 +882,10 @@
         .preloader-text {
             font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
-            color: #d4af37;
+            color: #e8a849;
             letter-spacing: 0.3em;
             margin-bottom: 0.5rem;
-            text-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+            text-shadow: 0 0 40px rgba(232, 168, 73, 0.4);
         }
 
         .preloader-subtext {
@@ -824,8 +908,8 @@
         .spinner-ring {
             width: 12px;
             height: 12px;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            border-top-color: #d4af37;
+            border: 2px solid rgba(232, 168, 73, 0.2);
+            border-top-color: #e8a849;
             border-radius: 50%;
             animation: spin 1s ease-in-out infinite;
         }
@@ -856,7 +940,7 @@
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #d4af37, #f4d03f, #d4af37);
+            background: linear-gradient(90deg, #e8a849, #f4c06a, #e8a849);
             background-size: 200% 100%;
             animation: shimmer 2s linear infinite;
             border-radius: 2px;
@@ -893,50 +977,390 @@
         }
     </style>
 
+    <!-- Welcome Popup Modal -->
+    <div id="welcomePopup" class="fixed inset-0 z-[99990] hidden">
+        <!-- Backdrop -->
+        <div class="popup-backdrop absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+            <div class="popup-container bg-gradient-to-br from-[#0d2b36] to-[#1a3d4d] rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto transform scale-95 opacity-0 transition-all duration-500" style="background: linear-gradient(135deg, #0d2b36 0%, #1a3d4d 50%, #2d4a3e 100%);">
+                
+                <!-- Header with close button -->
+                <div class="flex justify-between items-center p-6 border-b border-white/10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[#e8a849] to-[#c47d2e] flex items-center justify-center" style="background: linear-gradient(135deg, #e8a849 0%, #c47d2e 100%);">
+                            <i class="fas fa-spa text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-['Playfair_Display']" style="color: #e8a849;">Welcome to AORA45</h2>
+                            <p class="text-white/60 text-sm">Your Luxury Riverfront Destination</p>
+                        </div>
+                    </div>
+                    <button id="popupCloseBtn" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center">
+                        <i class="fas fa-times text-white"></i>
+                    </button>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="p-6">
+                    <p class="text-white/80 text-center text-lg mb-8">Experience the epitome of luxury along the serene River Nyandera in Siaya, Kenya.</p>
+                    
+                    <!-- Feature Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Card 1: Rooms & Suites -->
+                        <div class="popup-card group bg-white/5 rounded-xl p-5 border border-white/10 hover:border-[#e8a849]/50 transition-all duration-300 hover:transform hover:-translate-y-1" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" style="background: linear-gradient(135deg, #e8a84933 0%, #e8a84911 100%);">
+                                    <i class="fas fa-bed text-xl" style="color: #e8a849;"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-white font-semibold text-lg mb-1">Elegant Accommodations</h3>
+                                    <p class="text-white/60 text-sm">Luxurious rooms and cottages designed for your comfort</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 2: Fine Dining -->
+                        <div class="popup-card group bg-white/5 rounded-xl p-5 border border-white/10 hover:border-[#e8a849]/50 transition-all duration-300 hover:transform hover:-translate-y-1" style="animation-delay: 100ms; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" style="background: linear-gradient(135deg, #e8a84933 0%, #e8a84911 100%);">
+                                    <i class="fas fa-utensils text-xl" style="color: #e8a849;"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-white font-semibold text-lg mb-1">Fine Dining</h3>
+                                    <p class="text-white/60 text-sm">Exquisite local and international cuisine</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 3: Pool & Recreation -->
+                        <div class="popup-card group bg-white/5 rounded-xl p-5 border border-white/10 hover:border-[#e8a849]/50 transition-all duration-300 hover:transform hover:-translate-y-1" style="animation-delay: 200ms; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" style="background: linear-gradient(135deg, #e8a84933 0%, #e8a84911 100%);">
+                                    <i class="fas fa-swimming-pool text-xl" style="color: #e8a849;"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-white font-semibold text-lg mb-1">Pool & Pool Bar</h3>
+                                    <p class="text-white/60 text-sm">Refreshing dips and tropical cocktails</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 4: Events -->
+                        <div class="popup-card group bg-white/5 rounded-xl p-5 border border-white/10 hover:border-[#e8a849]/50 transition-all duration-300 hover:transform hover:-translate-y-1" style="animation-delay: 300ms; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" style="background: linear-gradient(135deg, #e8a84933 0%, #e8a84911 100%);">
+                                    <i class="fas fa-glass-cheers text-xl" style="color: #e8a849;"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-white font-semibold text-lg mb-1">Events & Celebrations</h3>
+                                    <p class="text-white/60 text-sm">Perfect venue for weddings & corporate events</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 5: Spa & Wellness -->
+                        <div class="popup-card group bg-white/5 rounded-xl p-5 border border-white/10 hover:border-[#e8a849]/50 transition-all duration-300 hover:transform hover:-translate-y-1" style="animation-delay: 400ms; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" style="background: linear-gradient(135deg, #e8a84933 0%, #e8a84911 100%);">
+                                    <i class="fas fa-spa text-xl" style="color: #e8a849;"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-white font-semibold text-lg mb-1">Spa & Wellness</h3>
+                                    <p class="text-white/60 text-sm">Rejuvenate your body and mind</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card 6: Unique Experiences -->
+                        <div class="popup-card group bg-white/5 rounded-xl p-5 border border-white/10 hover:border-[#e8a849]/50 transition-all duration-300 hover:transform hover:-translate-y-1" style="animation-delay: 500ms; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform" style="background: linear-gradient(135deg, #e8a84933 0%, #e8a84911 100%);">
+                                    <i class="fas fa-fire text-xl" style="color: #e8a849;"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-white font-semibold text-lg mb-1">Unique Experiences</h3>
+                                    <p class="text-white/60 text-sm">Gazebos, fire pits & riverfront views</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 mt-8 justify-center">
+                        <a href="index.php?page=rooms" class="popup-cta inline-flex items-center justify-center gap-2 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all transform hover:scale-105" style="background: linear-gradient(135deg, #1e5f74 0%, #145a6e 100%); box-shadow: 0 4px 15px rgba(30, 95, 116, 0.4);">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Book Your Stay</span>
+                        </a>
+                        <a href="index.php?page=contact" class="popup-cta inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-3 rounded-full font-semibold border border-white/20 hover:bg-white/20 transition-all">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>Contact Us</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="px-6 pb-6 text-center">
+                    <p class="text-white/40 text-sm">Follow us on <a href="#" class="hover:underline" style="color: #e8a849;">Instagram</a> & <a href="#" class="hover:underline" style="color: #e8a849;">Facebook</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Popup Styles */
+        #welcomePopup {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        #welcomePopup.show {
+            opacity: 1;
+        }
+        
+        #welcomePopup.show .popup-container {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .popup-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+        
+        #welcomePopup.show .popup-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        #welcomePopup.show .popup-card:nth-child(1) { transition-delay: 0.1s; }
+        #welcomePopup.show .popup-card:nth-child(2) { transition-delay: 0.2s; }
+        #welcomePopup.show .popup-card:nth-child(3) { transition-delay: 0.3s; }
+        #welcomePopup.show .popup-card:nth-child(4) { transition-delay: 0.4s; }
+        #welcomePopup.show .popup-card:nth-child(5) { transition-delay: 0.5s; }
+        #welcomePopup.show .popup-card:nth-child(6) { transition-delay: 0.6s; }
+        
+        .popup-cta {
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+        
+        #welcomePopup.show .popup-cta {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.7s;
+        }
+        
+        #welcomePopup.show .popup-cta:nth-child(2) {
+            transition-delay: 0.8s;
+        }
+        
+        .popup-backdrop {
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Hide popup on mobile if needed */
+        @media (max-width: 480px) {
+            #welcomePopup .popup-container {
+                margin: 1rem;
+                max-height: calc(100vh - 2rem);
+            }
+        }
+    </style>
+
     <script>
-        // Preloader functionality
+        // Popup functionality - Only show on home page
+        (function() {
+            const popup = document.getElementById('welcomePopup');
+            const closeBtn = document.getElementById('popupCloseBtn');
+            
+            if (!popup || !closeBtn) return;
+            
+            // Check if this is the home page - simplified logic
+            const searchParams = new URLSearchParams(window.location.search);
+            const page = searchParams.get('page');
+            
+            // Show popup only on home page (no page param or page=home)
+            const shouldShow = !page || page === 'home' || page === '';
+            
+            // Check if popup was already shown (localStorage)
+            const popupShown = localStorage.getItem('aora45_popup_shown');
+            
+            // Function to show popup
+            function showPopup() {
+                popup.classList.remove('hidden');
+                // Small delay to allow display:block to apply before adding show class for animation
+                setTimeout(function() {
+                    popup.classList.add('show');
+                }, 10);
+            }
+            
+            // Function to hide popup
+            function hidePopup() {
+                popup.classList.remove('show');
+                setTimeout(function() {
+                    popup.classList.add('hidden');
+                }, 300);
+            }
+            
+            // Close button click
+            closeBtn.addEventListener('click', function() {
+                hidePopup();
+                // Remember that popup was shown
+                localStorage.setItem('aora45_popup_shown', 'true');
+            });
+            
+            // Click outside to close
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup.querySelector('.popup-backdrop') || e.target === popup.querySelector('.popup-container').parentElement) {
+                    hidePopup();
+                    localStorage.setItem('aora45_popup_shown', 'true');
+                }
+            });
+            
+            // DEBUG: Log popup conditions to console
+            console.log('=== Popup Debug Info ===');
+            console.log('shouldShow:', shouldShow);
+            console.log('popupShown (localStorage):', popupShown);
+            console.log('page param:', page);
+            console.log('href:', window.location.href);
+            
+            // Add global function to reset popup for testing
+            window.resetPopup = function() {
+                localStorage.removeItem('aora45_popup_shown');
+                console.log('Popup reset! Refresh the page to see it again.');
+                // Show a toast notification instead of alert
+                showToast('Popup has been reset! Refresh the page to see it.');
+            };
+            
+            // Toast notification function
+            function showToast(message) {
+                // Remove existing toast if any
+                const existingToast = document.getElementById('toast-notification');
+                if (existingToast) existingToast.remove();
+                
+                const toast = document.createElement('div');
+                toast.id = 'toast-notification';
+                toast.className = 'fixed bottom-4 right-4 z-[99999] bg-[#1e4d40] text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-20 opacity-0 transition-all duration-300';
+                toast.innerHTML = '<i class="fas fa-check-circle mr-2 text-[#e8a849]"></i>' + message;
+                document.body.appendChild(toast);
+                
+                // Animate in
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-20', 'opacity-0');
+                }, 10);
+                
+                // Auto remove after 3 seconds
+                setTimeout(() => {
+                    toast.classList.add('translate-y-20', 'opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+            
+            console.log('To reset popup: Run resetPopup() in console or clear localStorage');
+            
+            // Show popup after preloader hides (only if on home page and not shown before)
+            if (shouldShow && !popupShown) {
+                // Wait for preloader to hide
+                const preloader = document.getElementById('site-preloader');
+                
+                function checkAndShowPopup() {
+                    if (preloader && !preloader.classList.contains('hidden')) {
+                        // Preloader still showing, check again soon
+                        setTimeout(checkAndShowPopup, 200);
+                    } else {
+                        // Preloader hidden, show popup after a short delay
+                        setTimeout(showPopup, 500);
+                    }
+                }
+                
+                // Start checking
+                setTimeout(checkAndShowPopup, 500);
+            } else if (shouldShow && popupShown) {
+                console.log('Popup already shown before. Run resetPopup() to see it again.');
+            } else {
+                console.log('Popup should NOT show on this page (not home page)');
+            }
+        })();
+    </script>
+
+    <!-- Preloader Script - waits for hero image to load -->
+    <script>
         (function() {
             const preloader = document.getElementById('site-preloader');
             const progressBar = document.querySelector('.progress-bar');
             
             if (!preloader) return;
 
-            // Simulate loading progress
+            // Simulate progress while waiting for hero image
             let progress = 0;
             const loadingInterval = setInterval(function() {
-                progress += Math.random() * 15;
+                progress += Math.random() * 40;
                 if (progress > 90) progress = 90;
                 if (progressBar) {
                     progressBar.style.width = progress + '%';
                 }
-            }, 200);
+            }, 60);
 
-            // Hide preloader when everything is loaded
+            // Hide preloader when hero image loads
             function hidePreloader() {
                 clearInterval(loadingInterval);
                 if (progressBar) {
                     progressBar.style.width = '100%';
                 }
                 
-                // Small delay to show full progress
+                // Short delay to show full progress
                 setTimeout(function() {
                     preloader.classList.add('hidden');
                     // Remove from DOM after transition
                     setTimeout(function() {
                         preloader.style.display = 'none';
-                    }, 600);
-                }, 300);
+                    }, 400);
+                }, 150);
             }
 
-            // Try multiple events to ensure preloader hides properly
-            if (document.readyState === 'complete') {
-                hidePreloader();
+            // Find hero image and wait for it to load
+            const heroImages = document.querySelectorAll('.hero-section img, .cinema-image, section:first-of-type img');
+            
+            if (heroImages.length > 0) {
+                let loadedCount = 0;
+                heroImages.forEach(function(img) {
+                    if (img.complete) {
+                        loadedCount++;
+                    } else {
+                        img.addEventListener('load', function() {
+                            loadedCount++;
+                            if (loadedCount === heroImages.length) {
+                                hidePreloader();
+                            }
+                        });
+                        img.addEventListener('error', function() {
+                            // If image fails, count as loaded to prevent stuck preloader
+                            loadedCount++;
+                            if (loadedCount === heroImages.length) {
+                                hidePreloader();
+                            }
+                        });
+                    }
+                });
+                // If all already loaded
+                if (loadedCount === heroImages.length) {
+                    hidePreloader();
+                }
             } else {
-                window.addEventListener('load', hidePreloader);
-                
-                // Fallback: hide after 5 seconds max
-                setTimeout(hidePreloader, 5000);
+                // Fallback: wait for DOMContentLoaded if no hero image found
+                if (document.readyState === 'complete') {
+                    hidePreloader();
+                } else {
+                    window.addEventListener('load', hidePreloader);
+                }
             }
+            
+            // Safety fallback: hide after 2 seconds max
+            setTimeout(hidePreloader, 2000);
         })();
     </script>
 </head>
@@ -947,7 +1371,7 @@
         <div class="top-bar hidden md:block">
             <div class="container mx-auto px-6 flex justify-between items-center">
                 <div class="flex items-center space-x-6">
-                    <span class="flex items-center"><i class="fas fa-map-pin mr-2 text-[#b09b88] text-xs"></i> Nairobi, Kenya 00100</span>
+                    <span class="flex items-center"><i class="fas fa-map-pin mr-2 text-[#b09b88] text-xs"></i> Siaya County, Kenya</span>
                     <span class="flex items-center"><i class="far fa-clock mr-2 text-[#b09b88] text-xs"></i> Check-in: 2PM | Check-out: 12PM</span>
                 </div>
                 <div class="flex items-center space-x-5">
@@ -955,7 +1379,7 @@
                     <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-pinterest-p"></i></a>
                     <span class="text-[#b09b88]">|</span>
-                    <span class="flex items-center"><i class="fas fa-phone-alt mr-2 text-[#b09b88] text-xs"></i> +960 123-4567</span>
+                    <span class="flex items-center"><i class="fas fa-phone-alt mr-2 text-[#b09b88] text-xs"></i> +254 769 525 570</span>
                 </div>
             </div>
         </div>
@@ -966,11 +1390,11 @@
                 
                 <!-- Logo with resort name - left side -->
                 <div class="logo-container flex items-center">
-                    <img src="logo1.png" alt="Aora45 Resort - Luxury Hotel Nairobi Kenya" class="h-20 md:h-24 w-auto" loading="eager" width="180" height="96" onerror="this.src='https://placehold.co/180x70/f5efe8/8a735b?text=AORA'">
+                    <img src="logo1.jpeg" alt="AORA45 - Premium Riverfront Destination in Siaya County Kenya" class="h-20 md:h-24 w-auto" loading="eager" decoding="async" width="180" height="96" onerror="this.src='https://placehold.co/180x70/f5efe8/8a735b?text=AORA'">
                     <div class="ml-3">
-                        <h1 class="font-['Playfair_Display'] text-3xl md:text-4xl font-medium text-[#4a3f37] tracking-wide">Aora45</h1>
+                        <h1 class="font-['Playfair_Display'] text-3xl md:text-4xl font-medium text-[#4a3f37] tracking-wide">AORA45</h1>
                         <div class="gold-accent"></div>
-                        <p class="text-xs tracking-[0.25em] text-[#9a8a78] font-light mt-0.5">RESORT & RESTAURANT</p>
+                        <p class="text-xs tracking-[0.25em] text-[#9a8a78] font-light mt-0.5">RIVERFRONT DESTINATION</p>
                     </div>
                 </div>
 
@@ -982,7 +1406,14 @@
                     <div class="desktop-nav">
                         <a href="index.php" class="nav-link active">Home</a>
                         <a href="index.php?page=rooms" class="nav-link">Rooms</a>
-                        <a href="index.php?page=restaurant" class="nav-link">Restaurant</a>
+                        <div class="nav-dropdown">
+                            <a href="index.php?page=restaurant" class="nav-link">Restaurant</a>
+                            <div class="nav-dropdown-content">
+                                <a href="index.php?page=restaurant"><i class="fas fa-utensils"></i>Our Menu</a>
+                                <a href="index.php?page=offers"><i class="fas fa-tag"></i>Offers</a>
+                                <a href="index.php?page=gallery"><i class="fas fa-images"></i>Gallery</a>
+                            </div>
+                        </div>
                         <a href="index.php?page=events" class="nav-link">Events</a>
                         <a href="index.php?page=contact" class="nav-link">Contact</a>
                     </div>
@@ -1015,8 +1446,8 @@
                     <!-- Mobile menu extras -->
                     <div class="mt-4 pt-4 border-t border-[#eee7e0] px-4">
                         <div class="flex items-center justify-between text-sm text-[#7a6b5e] mb-3">
-                            <span><i class="fas fa-phone-alt mr-2 text-[#b09b88]"></i>+254 123-4567</span>
-                            <span><i class="fas fa-envelope mr-2 text-[#b09b88]"></i>info@Aora45.com</span>
+                            <span><i class="fas fa-phone-alt mr-2 text-[#b09b88]"></i>+254 769 525 570</span>
+                            <span><i class="fas fa-envelope mr-2 text-[#b09b88]"></i>info@AORA45.com</span>
                         </div>
                         <div class="flex justify-center space-x-5 py-2 text-[#b09b88]">
                             <a href="#" class="hover:text-[#5c4a38]"><i class="fab fa-instagram fa-lg"></i></a>
@@ -1139,3 +1570,7 @@
             opacity: 0.25;
         }
     </style>
+
+
+
+

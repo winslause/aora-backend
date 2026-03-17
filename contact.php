@@ -53,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 include 'header.php';
 
 // Page-specific SEO
-$pageTitle = "Contact Aora45 - Get in Touch | Luxury Resort Nairobi, Kenya";
-$pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for reservations, inquiries, or feedback. Find our location, phone, email, and send us a message today.";
+$pageTitle = "Contact AORA 45 - Get in Touch | Luxury Resort Siaya County, Kenya";
+$pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach us for reservations, inquiries, or feedback. Find our location, phone, email, and send us a message today.";
 ?>
 
 <style>
@@ -223,7 +223,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #b89a78;
+            background: #2d5a4a;
             border-radius: 4px;
         }
         
@@ -240,7 +240,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         
         .contact-input:focus {
             outline: none;
-            border-bottom-color: #b89a78;
+            border-bottom-color: #2d5a4a;
         }
         
         .contact-input::placeholder {
@@ -260,11 +260,11 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         
         .contact-textarea:focus {
             outline: none;
-            border-color: #b89a78;
+            border-color: #2d5a4a;
         }
         
         .submit-btn {
-            background: #b89a78;
+            background: #2d5a4a;
             color: white;
             padding: 1rem 2rem;
             border: none;
@@ -292,7 +292,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         }
         
         .submit-btn:hover {
-            background: #8a735b;
+            background: #1e4d40;
         }
         
         /* Contact info items */
@@ -330,7 +330,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         }
         
         .contact-icon i {
-            color: #b89a78;
+            color: #2d5a4a;
             font-size: 1.2rem;
             transition: all 0.3s ease;
         }
@@ -374,7 +374,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         
         .faq-question:hover {
             padding-left: 10px;
-            color: #b89a78;
+            color: #2d5a4a;
         }
         
         .faq-question i {
@@ -412,8 +412,8 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         }
         
         .social-icon:hover {
-            background: #b89a78;
-            border-color: #b89a78;
+            background: #2d5a4a;
+            border-color: #2d5a4a;
             transform: translateY(-5px);
         }
         
@@ -422,7 +422,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         }
         
         .social-icon i {
-            color: #b89a78;
+            color: #2d5a4a;
             transition: all 0.3s ease;
         }
         
@@ -444,33 +444,33 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
             <!-- Background Image - Resort Entrance/Welcome Area -->
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                <img src="https://strapiprod.knowlarity.com/uploads/contact_us_5a6756504e.jpg" 
                      alt="Aora Resort Entrance" 
                      class="w-full h-full object-cover animate-drift">
                 <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>
             </div>
             
             <!-- Floating Orbs -->
-            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#b89a78]/20 rounded-full blur-3xl animate-pulse-soft"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#8a735b]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#2d5a4a]/20 rounded-full blur-3xl animate-pulse-soft"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#1e4d40]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
             
             <!-- Content -->
             <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
                 <!-- Decorative Line -->
                 <div class="flex justify-center mb-8">
-                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent animate-pulse"></div>
+                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent animate-pulse"></div>
                 </div>
                 
                 <!-- Main Heading -->
                 <h1 class="font-['DM_Serif_Display'] text-6xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-2xl tracking-wide">
                     <span class="block reveal-left" style="transition-delay: 0.2s;">Get in</span>
-                    <span class="block reveal-right text-[#b89a78]" style="transition-delay: 0.4s;">Touch</span>
+                    <span class="block reveal-right text-[#2d5a4a]" style="transition-delay: 0.4s;">Touch</span>
                 </h1>
                 
                 <!-- Decorative Element -->
                 <div class="relative flex justify-center items-center gap-4 mb-12">
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
-                    <i class="fas fa-phone-alt text-[#b89a78] text-xl"></i>
+                    <i class="fas fa-phone-alt text-[#2d5a4a] text-xl"></i>
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
                 </div>
                 
@@ -480,12 +480,12 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                 </p>
                 
                 <!-- Scroll Indicator -->
-                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
+                <!-- <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
                     <span class="text-white/60 text-xs uppercase tracking-widest">Connect</span>
                     <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
                         <div class="w-1 h-2 bg-white/60 rounded-full mt-2 animate-bounce"></div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -493,15 +493,15 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         <section class="relative py-24 px-6 bg-[#fcf8f3] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Reach Us</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Reach Us</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Contact Information</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- Contact Info Grid -->
@@ -516,9 +516,9 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                                     <i class="fas fa-map-pin"></i>
                                 </div>
                                 <div>
-                                    <p class="text-[#8a735b] text-xs uppercase tracking-wider mb-1">Visit Us</p>
-                                    <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">109 Karura Road, Gigiri</p>
-                                    <p class="text-[#6b5d51]">Nairobi, Kenya 00100</p>
+                                    <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-1">Visit Us</p>
+                                    <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">109 River Nyandera, River Nyandera</p>
+                                    <p class="text-[#6b5d51]">Siaya County, Kenya 00100</p>
                                 </div>
                             </div>
                             
@@ -528,8 +528,8 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                                     <i class="fas fa-phone-alt"></i>
                                 </div>
                                 <div>
-                                    <p class="text-[#8a735b] text-xs uppercase tracking-wider mb-1">Call Us</p>
-                                    <a href="tel:+254769525570" class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl hover:text-[#b89a78]">+254 769 525 570</a>
+                                    <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-1">Call Us</p>
+                                    <a href="tel:+254769525570" class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl hover:text-[#2d5a4a]">+254 769 525 570</a>
                                 </div>
                             </div>
                             
@@ -539,7 +539,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                                     <i class="fas fa-envelope"></i>
                                 </div>
                                 <div>
-                                    <p class="text-[#8a735b] text-xs uppercase tracking-wider mb-1">Email Us</p>
+                                    <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-1">Email Us</p>
                                     <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">concierge@aora.kenya</p>
                                     <p class="text-[#6b5d51]">reservations@aora.kenya</p>
                                 </div>
@@ -556,7 +556,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                                     <i class="fas fa-clock"></i>
                                 </div>
                                 <div>
-                                    <p class="text-[#8a735b] text-xs uppercase tracking-wider mb-1">Front Desk</p>
+                                    <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-1">Front Desk</p>
                                     <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">24 hours / 7 days</p>
                                     <p class="text-[#6b5d51]">Always here for you</p>
                                 </div>
@@ -568,7 +568,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                                     <i class="fas fa-calendar-check"></i>
                                 </div>
                                 <div>
-                                    <p class="text-[#8a735b] text-xs uppercase tracking-wider mb-1">Check-in / Check-out</p>
+                                    <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-1">Check-in / Check-out</p>
                                     <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">2:00 PM / 12:00 PM</p>
                                     <p class="text-[#6b5d51]">Early arrival? Ask us about luggage storage</p>
                                 </div>
@@ -576,7 +576,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                             
                             <!-- Social Media -->
                             <div class="pt-6">
-                                <p class="text-[#8a735b] text-xs uppercase tracking-wider mb-4">Follow Us</p>
+                                <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-4">Follow Us</p>
                                 <div class="flex gap-4">
                                     <a href="#" class="social-icon">
                                         <i class="fab fa-instagram"></i>
@@ -598,15 +598,15 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                     <!-- Right Column - Quick Contact Note -->
                     <div class="reveal-right" style="transition-delay: 0.3s;">
                         <div class="bg-[#f4ede5] p-8 h-full flex flex-col justify-center">
-                            <i class="fas fa-quote-right text-[#b89a78] text-4xl mb-4 opacity-50"></i>
+                            <i class="fas fa-quote-right text-[#2d5a4a] text-4xl mb-4 opacity-50"></i>
                             <p class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a] italic mb-4">
                                 "We believe the best conversations happen face to face. But a phone call or email is just as welcome."
                             </p>
-                            <p class="text-[#8a735b] text-sm">— The Aora Concierge Team</p>
+                            <p class="text-[#1e4d40] text-sm">— The Aora Concierge Team</p>
                             
                             <!-- Live Chat / WhatsApp Button -->
                             <div class="mt-8">
-                                <a href="https://wa.me/254769525570" class="inline-flex items-center gap-3 px-6 py-3 bg-[#b89a78] text-white hover:bg-[#8a735b] transition-all duration-300">
+                                <a href="https://wa.me/254769525570" class="inline-flex items-center gap-3 px-6 py-3 bg-[#2d5a4a] text-white hover:bg-[#1e4d40] transition-all duration-300">
                                     <i class="fab fa-whatsapp"></i>
                                     <span class="text-sm uppercase tracking-wider">WhatsApp Us</span>
                                 </a>
@@ -621,8 +621,8 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         <section class="relative py-24 px-6 bg-[#f4ede5] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
@@ -631,7 +631,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                     <!-- Left Column - Contact Form -->
                     <div class="reveal-left">
                         <h2 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#2c3e4a] mb-3">Send Us a Message</h2>
-                        <div class="w-16 h-px bg-[#b89a78] mb-8"></div>
+                        <div class="w-16 h-px bg-[#2d5a4a] mb-8"></div>
                         
                         <?php if ($message_sent): ?>
                             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
@@ -682,7 +682,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                             </div>
                             
                             <!-- Form Note -->
-                            <p class="text-[#8a735b] text-xs">
+                            <p class="text-[#1e4d40] text-xs">
                                 * Required fields. We'll respond within 2 hours.
                             </p>
                         </form>
@@ -691,11 +691,11 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                     <!-- Right Column - Map -->
                     <div class="reveal-right">
                         <h2 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#2c3e4a] mb-3">Find Us Here</h2>
-                        <div class="w-16 h-px bg-[#b89a78] mb-8"></div>
+                        <div class="w-16 h-px bg-[#2d5a4a] mb-8"></div>
                         
                         <div class="map-container">
                             <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.789123456789!2d36.802847!3d-1.234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTQnMDQuNCJTIDM2wrA0OCcxMC4yIkU!5e0!3m2!1sen!2ske!4v1234567890123!5m2!1sen!2ske"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.5!2d34.2!3d-0.05!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMDInNTkuNCJTIDM0wrAyMCcxMC4yIkU!5e0!3m2!1sen!2ske!4v1234567890123!5m2!1sen!2ske"
                                 width="100%" 
                                 height="400" 
                                 style="border:0; filter: grayscale(30%) sepia(10%) hue-rotate(350deg) brightness(1.05);" 
@@ -704,10 +704,20 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                             </iframe>
                         </div>
                         
+                        <!-- Get Directions Link -->
+                        <div class="mt-4 flex justify-center">
+                            <a href="https://www.google.com/maps/dir//AORA+45+Resort+River+Nyandera+Siaya+County" 
+                               target="_blank"
+                               class="inline-flex items-center gap-2 px-6 py-3 bg-[#2d5a4a] text-white hover:bg-[#1e4d40] transition-all duration-300">
+                                <i class="fas fa-directions"></i>
+                                <span class="text-sm uppercase tracking-wider">Get Directions</span>
+                            </a>
+                        </div>
+                        
                         <!-- Map Note -->
-                        <p class="text-[#8a735b] text-xs mt-4 text-center">
+                        <p class="text-[#1e4d40] text-xs mt-4 text-center">
                             <i class="fas fa-location-dot mr-1"></i> 
-                            109 Karura Road, Gigiri, Nairobi, Kenya
+                            109 River Nyandera, River Nyandera, Siaya County, Kenya
                         </p>
                     </div>
                 </div>
@@ -718,15 +728,15 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         <section class="relative py-24 px-6 bg-[#fcf8f3] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-4xl mx-auto relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Common Questions</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Common Questions</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Frequently Asked</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- FAQ Accordion -->
@@ -736,7 +746,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                     <div class="faq-item">
                         <div class="faq-question" onclick="toggleFAQ(this)">
                             <span class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a]">What time is check-in and check-out?</span>
-                            <i class="fas fa-plus text-[#b89a78]"></i>
+                            <i class="fas fa-plus text-[#2d5a4a]"></i>
                         </div>
                         <div class="faq-answer">
                             Check-in is from 2:00 PM and check-out is until 12:00 PM. Early check-in and late check-out can be arranged subject to availability. Please contact our front desk in advance.
@@ -747,7 +757,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                     <div class="faq-item">
                         <div class="faq-question" onclick="toggleFAQ(this)">
                             <span class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a]">Do you offer airport transfers?</span>
-                            <i class="fas fa-plus text-[#b89a78]"></i>
+                            <i class="fas fa-plus text-[#2d5a4a]"></i>
                         </div>
                         <div class="faq-answer">
                             Yes, we offer luxury airport transfers to and from Jomo Kenyatta International Airport. Please provide your flight details at least 24 hours in advance to arrange pickup.
@@ -758,7 +768,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                     <div class="faq-item">
                         <div class="faq-question" onclick="toggleFAQ(this)">
                             <span class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a]">Is there free WiFi throughout the property?</span>
-                            <i class="fas fa-plus text-[#b89a78]"></i>
+                            <i class="fas fa-plus text-[#2d5a4a]"></i>
                         </div>
                         <div class="faq-answer">
                             Absolutely! Complimentary high-speed WiFi is available in all guest rooms, public areas, and meeting spaces. You'll receive login details upon check-in.
@@ -769,7 +779,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                     <div class="faq-item">
                         <div class="faq-question" onclick="toggleFAQ(this)">
                             <span class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a]">What dining options are available?</span>
-                            <i class="fas fa-plus text-[#b89a78]"></i>
+                            <i class="fas fa-plus text-[#2d5a4a]"></i>
                         </div>
                         <div class="faq-answer">
                             Aora features a signature restaurant serving modern Kenyan cuisine, a poolside bar with light meals, and 24-hour in-room dining. Our Chef's Table experience is available by reservation.
@@ -780,7 +790,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                     <div class="faq-item">
                         <div class="faq-question" onclick="toggleFAQ(this)">
                             <span class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a]">Do you accommodate dietary restrictions?</span>
-                            <i class="fas fa-plus text-[#b89a78]"></i>
+                            <i class="fas fa-plus text-[#2d5a4a]"></i>
                         </div>
                         <div class="faq-answer">
                             Yes, our culinary team is happy to accommodate vegetarian, vegan, gluten-free, and other dietary requirements. Please inform us at least 24 hours in advance.
@@ -791,7 +801,7 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                     <div class="faq-item">
                         <div class="faq-question" onclick="toggleFAQ(this)">
                             <span class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a]">What is your cancellation policy?</span>
-                            <i class="fas fa-plus text-[#b89a78]"></i>
+                            <i class="fas fa-plus text-[#2d5a4a]"></i>
                         </div>
                         <div class="faq-answer">
                             Cancellations made 48 hours prior to arrival receive a full refund. Within 48 hours, the first night's charge applies. Special packages may have different terms.
@@ -805,12 +815,12 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         <section class="relative py-20 px-6 bg-[#2c3e4a] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-4xl mx-auto relative z-10 text-center">
                 <!-- Decorative Line -->
-                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto mb-8"></div>
+                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto mb-8"></div>
                 
                 <h2 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-white mb-6">Stay Connected with Aora</h2>
                 
@@ -820,8 +830,8 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
                 
                 <!-- Newsletter Form -->
                 <form class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto" onsubmit="handleNewsletter(event)">
-                    <input type="email" placeholder="Your email address" class="flex-1 px-6 py-4 bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-[#b89a78] transition-colors" required>
-                    <button type="submit" class="px-8 py-4 bg-[#b89a78] text-white hover:bg-[#8a735b] transition-colors uppercase tracking-wider text-sm">
+                    <input type="email" placeholder="Your email address" class="flex-1 px-6 py-4 bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-[#2d5a4a] transition-colors" required>
+                    <button type="submit" class="px-8 py-4 bg-[#2d5a4a] text-white hover:bg-[#1e4d40] transition-colors uppercase tracking-wider text-sm">
                         Subscribe
                     </button>
                 </form>
@@ -873,14 +883,14 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         // Form Submit Handler
         function handleSubmit(event) {
             event.preventDefault();
-            alert('Thank you for your message! Our team will respond within 2 hours.');
+            showToast('Thank you for your message! Our team will respond within 2 hours.', 'success');
             event.target.reset();
         }
         
         // Newsletter Submit Handler
         function handleNewsletter(event) {
             event.preventDefault();
-            alert('Thank you for subscribing to our newsletter!');
+            showToast('Thank you for subscribing to our newsletter!', 'success');
             event.target.reset();
         }
         
@@ -903,3 +913,4 @@ $pageDescription = "Contact Aora45 luxury resort in Nairobi, Kenya. Reach us for
         window.addEventListener('load', reveal);
     </script>
 <?php include 'footer.php'; ?>
+

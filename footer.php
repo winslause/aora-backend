@@ -22,16 +22,16 @@
                 <div class="space-y-5">
                     <!-- Logo -->
                     <div class="flex items-center">
-                        <img src="logo1.png" alt="Aora45 Resort" class="h-16 w-auto" onerror="this.src='https://placehold.co/200x80/e8f3e9/1e2f3a?text=Aora45'">
+                        <img src="logo1.jpeg" alt="AORA 45 Resort" class="h-16 w-auto" onerror="this.src='https://placehold.co/200x80/e8f3e9/1e2f3a?text=AORA 45'">
                         <div class="ml-3">
-                            <h2 class="font-['Playfair_Display'] text-2xl font-bold text-[#1e3a2f]">Aora45</h2>
+                            <h2 class="font-['Playfair_Display'] text-2xl font-bold text-[#1e3a2f]">AORA 45</h2>
                             <div class="w-10 h-0.5 bg-gradient-to-r from-[#8fb89a] to-transparent"></div>
                             <p class="text-[#1e3a2f]/80 text-[0.6rem] tracking-wider mt-0.5">RESORT & RESTAURANT</p>
                         </div>
                     </div>
                     
                     <p class="text-[#1e3a2f] text-sm leading-relaxed">
-                        Where Kenyan hospitality meets timeless elegance in the heart of Nairobi.
+                        Where Kenyan hospitality meets timeless elegance in the heart of Siaya County.
                     </p>
                     
                     <!-- Awards Badge - Minimal -->
@@ -58,7 +58,7 @@
                             </div>
                             <div>
                                 <p class="text-[#1e3a2f] text-xs font-medium uppercase tracking-wider">Visit</p>
-                                <p class="text-[#1e3a2f] text-sm">109 Karura Road, Gigiri<br>Nairobi, Kenya 00100</p>
+                                <p class="text-[#1e3a2f] text-sm">Along River Nyandera, River Nyandera<br>Siaya County, Kenya </p>
                             </div>
                         </div>
                         
@@ -79,7 +79,7 @@
                             </div>
                             <div>
                                 <p class="text-[#1e3a2f] text-xs font-medium uppercase tracking-wider">Email</p>
-                                <p class="text-[#1e3a2f] text-sm">info@aora45.com</p>
+                                <p class="text-[#1e3a2f] text-sm">info@AORA 45.com</p>
                                 
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                         <li>
                             <a href="index.php?page=about" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
-                                <span>About Aora45</span>
+                                <span>About AORA 45</span>
                             </a>
                         </li>
                         <li>
@@ -187,7 +187,7 @@
                 </div>
                 
                 <p class="text-xs text-[#1e3a2f]">
-                    © 2025 Aora45 Resort & Restaurant. All rights reserved.
+                    © 2025 AORA 45 Resort & Restaurant. All rights reserved.
                 </p>
             </div>
         </div>
@@ -304,6 +304,14 @@
             </div>
         </div>
     </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/254769525570?text=Hello%20AORA%2045%2C%20I%27m%20interested%20in%20your%20services.%20Please%20send%20me%20more%20information." 
+       target="_blank" 
+       class="fixed bottom-6 right-6 z-50 w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 animate-pulse"
+       style="box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);">
+        <i class="fab fa-whatsapp text-3xl text-white"></i>
+    </a>
 
     <!-- Styles for Footer -->
     <style>
@@ -570,3 +578,6 @@
 </footer>
 </body>
 </html>
+
+
+

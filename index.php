@@ -1,5 +1,14 @@
 <?php
+// Start session first
 session_start();
+
+// Enable output buffering for faster rendering
+ob_start();
+
+// Enable gzip compression for faster page loads
+if (extension_loaded('zlib') && !ini_get('zlib.output_compression')) {
+    ob_start('ob_gzhandler');
+}
 
 // Handle API requests
 if (isset($_GET['page']) && strpos($_GET['page'], 'api/') === 0) {
@@ -91,5 +100,7 @@ switch ($page) {
         break;
 }
 
+// Flush output buffer for faster rendering
+ob_end_flush();
 
 ?>

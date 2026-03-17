@@ -24,33 +24,33 @@ $sampleMenus = getAllSampleMenus($pdo);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant & Fine Dining at Aora45 | Best Restaurant Nairobi</title>
-    <meta name="description" content="Experience exquisite dining at Aora45 restaurant in Nairobi. Our award-winning chefs serve Swahili-inspired cuisine with international techniques. Book a table for lunch, dinner, or special events.">
-    <meta name="keywords" content="restaurant Nairobi, fine dining Kenya, Swahili cuisine, Aora45 restaurant, best restaurants Nairobi, dining experience, hotel restaurant, breakfast lunch dinner Nairobi, special events catering">
+    <title>Restaurant & Fine Dining at AORA 45 | Best Restaurant Siaya County</title>
+    <meta name="description" content="Experience exquisite dining at AORA 45 restaurant in Siaya County. Our chefs serve curated local cuisine with international techniques. Book a table for lunch, dinner, or special events.">
+    <meta name="keywords" content="restaurant Siaya County, fine dining Kenya, local cuisine, AORA 45 restaurant, best restaurants Siaya County, dining experience, hotel restaurant, breakfast lunch dinner Siaya County, special events catering">
     <!-- Open Graph -->
-    <meta property="og:title" content="Restaurant & Fine Dining at Aora45">
-    <meta property="og:description" content="Experience exquisite dining at Aora45 restaurant in Nairobi. Our award-winning chefs serve Swahili-inspired cuisine.">
+    <meta property="og:title" content="Restaurant & Fine Dining at AORA 45">
+    <meta property="og:description" content="Experience exquisite dining at AORA 45 restaurant in Siaya County. Our chefs serve curated local cuisine.">
     <meta property="og:type" content="restaurant.restaurant">
-    <meta property="og:url" content="https://aora45.com/restaurant.php">
+    <meta property="og:url" content="https://AORA 45.com/restaurant.php">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Restaurant & Fine Dining at Aora45">
-    <meta name="twitter:description" content="Experience exquisite dining at Aora45 restaurant in Nairobi.">
+    <meta name="twitter:title" content="Restaurant & Fine Dining at AORA 45">
+    <meta name="twitter:description" content="Experience exquisite dining at AORA 45 restaurant in Siaya County.">
     <!-- Schema.org Restaurant -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Restaurant",
-        "name": "Aora45 Restaurant",
+        "name": "AORA 45 Restaurant",
         "description": "Fine dining restaurant serving modern Kenyan cuisine",
         "address": {
             "@type": "PostalAddress",
-            "addressLocality": "Nairobi",
+            "addressLocality": "Siaya County",
             "addressCountry": "KE"
         },
         "telephone": "+254769525570",
         "priceRange": "KSh 1,200 - KSh 4,800",
-        "servesCuisine": ["Kenyan", "Swahili", "International"],
+        "servesCuisine": ["Kenyan", "Local", "International"],
         "openingHoursSpecification": [
             {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "07:00", "closes": "22:30"},
             {"@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "11:00", "closes": "15:00"}
@@ -178,7 +178,7 @@ $sampleMenus = getAllSampleMenus($pdo);
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #b89a78;
+            background: #2d5a4a;
             border-radius: 4px;
         }
         
@@ -288,18 +288,18 @@ $sampleMenus = getAllSampleMenus($pdo);
         .reservation-form select:focus,
         .reservation-form textarea:focus {
             outline: none;
-            border-bottom-color: #b89a78;
+            border-bottom-color: #2d5a4a;
         }
         
         .reservation-form label {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: #8a735b;
+            color: #1e4d40;
         }
         
         .reserve-button {
-            background: #b89a78;
+            background: #2d5a4a;
             color: white;
             padding: 1rem 2rem;
             border: none;
@@ -332,7 +332,7 @@ $sampleMenus = getAllSampleMenus($pdo);
         .sample-menu-block {
             background: #f8f0e7;
             padding: 2rem;
-            border-left: 4px solid #b89a78;
+            border-left: 4px solid #2d5a4a;
         }
         
         /* Responsive */
@@ -357,26 +357,26 @@ $sampleMenus = getAllSampleMenus($pdo);
             </div>
             
             <!-- Floating Orbs - Subtle -->
-            <div class="absolute top-1/3 left-1/4 w-64 h-64 bg-[#b89a78]/20 rounded-full blur-3xl animate-pulse-soft"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#8a735b]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/3 left-1/4 w-64 h-64 bg-[#2d5a4a]/20 rounded-full blur-3xl animate-pulse-soft"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#1e4d40]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
             
             <!-- Content -->
             <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
                 <!-- Floating Gold Line Animation -->
                 <div class="flex justify-center mb-8">
-                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent animate-pulse"></div>
+                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent animate-pulse"></div>
                 </div>
                 
                 <!-- Main Heading with Split Reveal -->
                 <h1 class="font-['DM_Serif_Display'] text-6xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-2xl tracking-wide">
-                    <span class="block reveal-left" style="transition-delay: 0.2s;">The Aora</span>
-                    <span class="block reveal-right text-[#b89a78]" style="transition-delay: 0.4s;">Dining Experience</span>
+                    <span class="block reveal-left" style="transition-delay: 0.2s;">The AORA</span>
+                    <span class="block reveal-right text-[#2d5a4a]" style="transition-delay: 0.4s;">Dining Experience</span>
                 </h1>
                 
                 <!-- Decorative Element -->
                 <div class="relative flex justify-center items-center gap-4 mb-12">
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
-                    <i class="fas fa-utensils text-[#b89a78] text-xl"></i>
+                    <i class="fas fa-utensils text-[#2d5a4a] text-xl"></i>
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
                 </div>
                 
@@ -390,20 +390,20 @@ $sampleMenus = getAllSampleMenus($pdo);
         <!-- ===== RESTAURANT OVERVIEW ===== -->
         <section class="relative py-28 px-6 bg-[#fcf8f3] overflow-hidden">
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <div class="grid lg:grid-cols-2 gap-16 items-center">
                     <div class="reveal-left">
                         <div class="flex items-center gap-4 mb-6">
-                            <div class="w-12 h-px bg-[#b89a78]"></div>
-                            <span class="text-[#8a735b] text-xs uppercase tracking-widest">The Ambiance</span>
+                            <div class="w-12 h-px bg-[#2d5a4a]"></div>
+                            <span class="text-[#1e4d40] text-xs uppercase tracking-widest">The Ambiance</span>
                         </div>
                         
                         <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mb-8 leading-tight">
-                            A Symphony of <span class="italic text-[#b89a78]">Senses</span>
+                            A Symphony of <span class="italic text-[#2d5a4a]">Senses</span>
                         </h2>
                         
                         <p class="text-[#5c524a] text-lg leading-relaxed mb-8">
@@ -411,44 +411,44 @@ $sampleMenus = getAllSampleMenus($pdo);
                         </p>
                         
                         <p class="text-[#5c524a] mb-10">
-                            We specialize in <span class="font-semibold text-[#b89a78]">modern Kenyan cuisine</span>, blending traditional Swahili spices with international techniques. Every dish tells a story of our land, our people, and our passion.
+                            A curated food and beverage experience featuring local cuisine, grilled specialties, cocktails, poolside snacks, and social dining experiences. The overall vibe is casual luxury with strong local flavor.
                         </p>
                         
                         <div class="flex flex-wrap gap-3">
-                            <span class="px-5 py-2 border border-[#b89a78]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#b89a78] hover:text-white transition-colors cursor-default">Swahili Coast</span>
-                            <span class="px-5 py-2 border border-[#b89a78]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#b89a78] hover:text-white transition-colors cursor-default">Farm-to-Table</span>
-                            <span class="px-5 py-2 border border-[#b89a78]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#b89a78] hover:text-white transition-colors cursor-default">Grill Specialties</span>
-                            <span class="px-5 py-2 border border-[#b89a78]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#b89a78] hover:text-white transition-colors cursor-default">Plant-Based</span>
+                            <span class="px-5 py-2 border border-[#2d5a4a]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#2d5a4a] hover:text-white transition-colors cursor-default">Local Favorites</span>
+                            <span class="px-5 py-2 border border-[#2d5a4a]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#2d5a4a] hover:text-white transition-colors cursor-default">Farm-to-Table</span>
+                            <span class="px-5 py-2 border border-[#2d5a4a]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#2d5a4a] hover:text-white transition-colors cursor-default">Grill Specialties</span>
+                            <span class="px-5 py-2 border border-[#2d5a4a]/30 text-[#5c524a] text-sm rounded-full hover:bg-[#2d5a4a] hover:text-white transition-colors cursor-default">Plant-Based</span>
                         </div>
                     </div>
                     
                     <div class="reveal-right">
                         <div class="relative">
-                            <div class="absolute -top-10 -right-10 w-40 h-40 border border-[#b89a78]/20 rounded-full animate-float-slow"></div>
+                            <div class="absolute -top-10 -right-10 w-40 h-40 border border-[#2d5a4a]/20 rounded-full animate-float-slow"></div>
                             
-                            <div class="bg-[#f4ede5] p-10 border border-[#b89a78]/10">
+                            <div class="bg-[#f4ede5] p-10 border border-[#2d5a4a]/10">
                                 <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-8">Opening Hours</h3>
                                 
                                 <div class="space-y-6">
-                                    <div class="flex justify-between items-center pb-3 border-b border-[#b89a78]/20">
+                                    <div class="flex justify-between items-center pb-3 border-b border-[#2d5a4a]/20">
                                         <span class="text-[#5c524a] font-medium">Breakfast</span>
-                                        <span class="text-[#b89a78]">7:00 AM - 10:30 AM</span>
+                                        <span class="text-[#2d5a4a]">7:00 AM - 10:30 AM</span>
                                     </div>
-                                    <div class="flex justify-between items-center pb-3 border-b border-[#b89a78]/20">
+                                    <div class="flex justify-between items-center pb-3 border-b border-[#2d5a4a]/20">
                                         <span class="text-[#5c524a] font-medium">Lunch</span>
-                                        <span class="text-[#b89a78]">12:30 PM - 3:00 PM</span>
+                                        <span class="text-[#2d5a4a]">12:30 PM - 3:00 PM</span>
                                     </div>
-                                    <div class="flex justify-between items-center pb-3 border-b border-[#b89a78]/20">
+                                    <div class="flex justify-between items-center pb-3 border-b border-[#2d5a4a]/20">
                                         <span class="text-[#5c524a] font-medium">Dinner</span>
-                                        <span class="text-[#b89a78]">6:30 PM - 10:30 PM</span>
+                                        <span class="text-[#2d5a4a]">6:30 PM - 10:30 PM</span>
                                     </div>
                                     <div class="flex justify-between items-center">
                                         <span class="text-[#5c524a] font-medium">Sunday Brunch</span>
-                                        <span class="text-[#b89a78]">11:00 AM - 3:00 PM</span>
+                                        <span class="text-[#2d5a4a]">11:00 AM - 3:00 PM</span>
                                     </div>
                                 </div>
                                 
-                                <p class="text-[#8a735b] text-sm mt-8 italic">Last orders 30 minutes before closing</p>
+                                <p class="text-[#1e4d40] text-sm mt-8 italic">Last orders 30 minutes before closing</p>
                             </div>
                         </div>
                     </div>
@@ -459,17 +459,17 @@ $sampleMenus = getAllSampleMenus($pdo);
         <!-- ===== SIGNATURE DISHES ===== -->
         <section class="relative py-28 px-6 bg-[#2c3e4a] overflow-hidden">
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
-            <div class="absolute top-20 left-[5%] w-64 h-64 border border-[#b89a78]/10 rounded-full animate-rotate-slow"></div>
+            <div class="absolute top-20 left-[5%] w-64 h-64 border border-[#2d5a4a]/10 rounded-full animate-rotate-slow"></div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#b89a78] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">SIGNATURE CREATIONS</span>
+                    <span class="text-[#2d5a4a] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">SIGNATURE CREATIONS</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-white mt-4 mb-6 font-light">Our Signature Dishes</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -486,7 +486,7 @@ $sampleMenus = getAllSampleMenus($pdo);
                         <div class="dish-content">
                             <h3 class="font-['Cormorant_Garamond'] text-3xl text-white mb-2"><?php echo htmlspecialchars($dish['name']); ?></h3>
                             <p class="text-white/80 text-sm mb-3"><?php echo htmlspecialchars($dish['description']); ?></p>
-                            <div class="flex items-center gap-2 text-[#b89a78] text-sm">
+                            <div class="flex items-center gap-2 text-[#2d5a4a] text-sm">
                                 <span>View details</span>
                                 <i class="fas fa-arrow-right group-hover:translate-x-2 transition-transform"></i>
                             </div>
@@ -503,15 +503,15 @@ $sampleMenus = getAllSampleMenus($pdo);
         <!-- ===== SAMPLE MENU CARDS ===== -->
         <section class="relative py-28 px-6 bg-[#fcf8f3] overflow-hidden">
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Culinary Offerings</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Culinary Offerings</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Sample Menus</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
                 </div>
                 
                 <div class="grid md:grid-cols-3 gap-8">
@@ -523,19 +523,19 @@ $sampleMenus = getAllSampleMenus($pdo);
                     <div class="sample-menu-block <?php echo $index === 0 ? 'reveal-left' : ($index === 2 ? 'reveal-right' : 'reveal'); ?>" style="transition-delay: <?php echo $delay; ?>s;">
                         <div class="flex justify-between items-start mb-6">
                             <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a]"><?php echo htmlspecialchars($menu['title']); ?></h3>
-                            <span class="text-[#b89a78] text-sm"><?php echo htmlspecialchars($menu['subtitle']); ?></span>
+                            <span class="text-[#2d5a4a] text-sm"><?php echo htmlspecialchars($menu['subtitle']); ?></span>
                         </div>
                         
                         <div class="space-y-3 mb-8">
                             <?php foreach ($menu['items'] as $item): ?>
                             <div class="menu-item">
                                 <span class="text-[#5c524a]"><?php echo htmlspecialchars($item['name']); ?></span>
-                                <span class="text-[#8a735b] text-sm font-medium"><?php echo htmlspecialchars($item['price']); ?></span>
+                                <span class="text-[#1e4d40] text-sm font-medium"><?php echo htmlspecialchars($item['price']); ?></span>
                             </div>
                             <?php endforeach; ?>
                         </div>
                         
-                        <a href="#" class="inline-flex items-center gap-2 text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm">
+                        <a href="#" class="inline-flex items-center gap-2 text-[#2d5a4a] hover:text-[#1e4d40] transition-colors text-sm">
                             <i class="fas fa-file-pdf"></i>
                             <span>Download Menu (PDF)</span>
                         </a>
@@ -551,15 +551,15 @@ $sampleMenus = getAllSampleMenus($pdo);
         <!-- ===== SPECIAL DINING EXPERIENCES ===== -->
         <section class="relative py-28 px-6 bg-[#f4ede5] overflow-hidden">
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Beyond the Ordinary</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Beyond the Ordinary</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Special Dining Experiences</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
                 </div>
                 
                 <div class="space-y-20">
@@ -579,11 +579,11 @@ $sampleMenus = getAllSampleMenus($pdo);
                         </div>
                         <div>
                             <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-4"><?php echo htmlspecialchars($experience['name']); ?></h3>
-                            <div class="w-16 h-px bg-[#b89a78] mb-6"></div>
+                            <div class="w-16 h-px bg-[#2d5a4a] mb-6"></div>
                             <p class="text-[#5c524a] text-lg leading-relaxed mb-6">
                                 <?php echo htmlspecialchars($experience['description']); ?>
                             </p>
-                            <p class="text-[#8a735b] text-sm mb-6"><i class="fas fa-users mr-2"></i>Maximum <?php echo intval($experience['max_people']); ?> guests per table</p>
+                            <p class="text-[#1e4d40] text-sm mb-6"><i class="fas fa-users mr-2"></i>Maximum <?php echo intval($experience['max_people']); ?> guests per table</p>
                             <button style="display: none;" onclick="reserveExperience('<?php echo htmlspecialchars($experience['name']); ?>')" class="reserve-button px-6 py-3 text-white uppercase tracking-wider text-sm">
                                 Reserve This Experience
                             </button>
@@ -598,11 +598,11 @@ $sampleMenus = getAllSampleMenus($pdo);
                         </div>
                         <div class="lg:order-1">
                             <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-4"><?php echo htmlspecialchars($experience['name']); ?></h3>
-                            <div class="w-16 h-px bg-[#b89a78] mb-6"></div>
+                            <div class="w-16 h-px bg-[#2d5a4a] mb-6"></div>
                             <p class="text-[#5c524a] text-lg leading-relaxed mb-6">
                                 <?php echo htmlspecialchars($experience['description']); ?>
                             </p>
-                            <p class="text-[#8a735b] text-sm mb-6"><i class="fas fa-users mr-2"></i>Maximum <?php echo intval($experience['max_people']); ?> guests per table</p>
+                            <p class="text-[#1e4d40] text-sm mb-6"><i class="fas fa-users mr-2"></i>Maximum <?php echo intval($experience['max_people']); ?> guests per table</p>
                             <button style="display: none;" onclick="reserveExperience('<?php echo htmlspecialchars($experience['name']); ?>')" class="reserve-button px-6 py-3 text-white uppercase tracking-wider text-sm">
                                 Reserve This Experience
                             </button>
@@ -620,15 +620,15 @@ $sampleMenus = getAllSampleMenus($pdo);
         <!-- ===== RESERVATION FORM SECTION ===== -->
         <section class="relative py-28 px-6 bg-[#fcf8f3] overflow-hidden">
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-4xl mx-auto relative z-10">
                 <div class="text-center mb-12 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Reserve Your Table</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Reserve Your Table</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Join Us for Our Meals</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
                 </div>
                 
                 <div class="bg-[#f4ede5] p-8 md:p-12 reveal">
@@ -711,9 +711,9 @@ $sampleMenus = getAllSampleMenus($pdo);
                         
                         <div>
                             <label class="block mb-2">Pre-order Menu Items (Optional)</label>
-                            <p class="text-[#8a735b] text-xs mb-4">Select items you'd like to pre-order for your visit</p>
-                            <div id="menuItemsCheckboxes" class="max-h-64 overflow-y-auto border border-[#b89a78]/20 rounded-lg p-4 bg-white/50">
-                                <p class="text-[#8a735b] text-sm text-center py-4">Loading menu items...</p>
+                            <p class="text-[#1e4d40] text-xs mb-4">Select items you'd like to pre-order for your visit</p>
+                            <div id="menuItemsCheckboxes" class="max-h-64 overflow-y-auto border border-[#2d5a4a]/20 rounded-lg p-4 bg-white/50">
+                                <p class="text-[#1e4d40] text-sm text-center py-4">Loading menu items...</p>
                             </div>
                         </div>
                         
@@ -724,7 +724,7 @@ $sampleMenus = getAllSampleMenus($pdo);
                         </div>
                     </form>
                     
-                    <p class="text-center text-[#8a735b] text-xs mt-6">
+                    <p class="text-center text-[#1e4d40] text-xs mt-6">
                         We'll confirm your reservation within 2 hours via email or SMS.
                     </p>
                 </div>
@@ -735,7 +735,7 @@ $sampleMenus = getAllSampleMenus($pdo);
     <!-- ===== DISH MODAL ===== -->
     <div id="dishModal" class="modal">
         <div class="modal-content mx-auto my-8 p-8 relative">
-            <button onclick="closeDishModal()" class="absolute top-4 right-4 w-10 h-10 bg-[#b89a78] text-white rounded-full flex items-center justify-center hover:bg-[#8a735b] transition-all z-10">
+            <button onclick="closeDishModal()" class="absolute top-4 right-4 w-10 h-10 bg-[#2d5a4a] text-white rounded-full flex items-center justify-center hover:bg-[#1e4d40] transition-all z-10">
                 <i class="fas fa-times"></i>
             </button>
             
@@ -775,31 +775,31 @@ $sampleMenus = getAllSampleMenus($pdo);
                     
                     <div>
                         <h2 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-2">${dish.name}</h2>
-                        <div class="w-12 h-px bg-[#b89a78] mb-4"></div>
+                        <div class="w-12 h-px bg-[#2d5a4a] mb-4"></div>
                         
                         <p class="text-[#5c524a] text-lg mb-4">${dish.description}</p>
-                        <p class="text-[#8a735b] text-sm mb-6 leading-relaxed">${dish.longDescription}</p>
+                        <p class="text-[#1e4d40] text-sm mb-6 leading-relaxed">${dish.longDescription}</p>
                         
                         <div class="mb-6">
-                            <span class="text-[#b89a78] font-['DM_Serif_Display'] text-2xl">${dish.price}</span>
+                            <span class="text-[#2d5a4a] font-['DM_Serif_Display'] text-2xl">${dish.price}</span>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4 mb-6">
                             <div>
-                                <p class="text-[#8a735b] text-xs uppercase">Spice Level</p>
+                                <p class="text-[#1e4d40] text-xs uppercase">Spice Level</p>
                                 <p class="text-[#5c524a]">${dish.spiceLevel}</p>
                             </div>
                             <div>
-                                <p class="text-[#8a735b] text-xs uppercase">Dietary</p>
+                                <p class="text-[#1e4d40] text-xs uppercase">Dietary</p>
                                 <p class="text-[#5c524a]">${dish.dietary}</p>
                             </div>
                         </div>
                         
                         <div class="mb-8">
-                            <p class="text-[#8a735b] text-xs uppercase mb-2">Ingredients</p>
+                            <p class="text-[#1e4d40] text-xs uppercase mb-2">Ingredients</p>
                             <div class="flex flex-wrap gap-2">
                                 ${dish.ingredients.map(ing => `
-                                    <span class="px-3 py-1 border border-[#b89a78]/30 text-sm">${ing}</span>
+                                    <span class="px-3 py-1 border border-[#2d5a4a]/30 text-sm">${ing}</span>
                                 `).join('')}
                             </div>
                         </div>
@@ -979,7 +979,7 @@ $sampleMenus = getAllSampleMenus($pdo);
             loader.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:9999;display:flex;justify-content:center;align-items:center;flex-direction:column;';
             loader.innerHTML = `
                 <div style="text-align:center;">
-                    <div style="width:60px;height:60px;border:4px solid #f3f3f3;border-top:4px solid #b89a78;border-radius:50%;animation:spin 1s linear infinite;"></div>
+                    <div style="width:60px;height:60px;border:4px solid #f3f3f3;border-top:4px solid #2d5a4a;border-radius:50%;animation:spin 1s linear infinite;"></div>
                     <p style="color:white;margin-top:20px;font-size:18px;">Submitting your reservation...</p>
                 </div>
                 <style>@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}</style>
@@ -1036,16 +1036,16 @@ $sampleMenus = getAllSampleMenus($pdo);
             let html = '';
             for (const [category, categoryItems] of Object.entries(groupedItems)) {
                 html += `<div class="mb-4">`;
-                html += `<h4 class="text-[#8a735b] text-xs uppercase mb-2 font-semibold">${category}</h4>`;
+                html += `<h4 class="text-[#1e4d40] text-xs uppercase mb-2 font-semibold">${category}</h4>`;
                 html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-2">`;
                 
                 categoryItems.forEach(item => {
                     const price = parseFloat(item.price).toLocaleString();
                     html += `
-                        <label class="flex items-center gap-2 p-2 border border-[#b89a78]/20 rounded-lg hover:bg-[#f4ede5] cursor-pointer transition-colors">
+                        <label class="flex items-center gap-2 p-2 border border-[#2d5a4a]/20 rounded-lg hover:bg-[#f4ede5] cursor-pointer transition-colors">
                             <input type="checkbox" class="menu-item-checkbox" value="${item.name} - KSh ${price}">
                             <span class="text-[#5c524a] text-sm">${item.name}</span>
-                            <span class="text-[#b89a78] text-xs ml-auto">KSh ${price}</span>
+                            <span class="text-[#2d5a4a] text-xs ml-auto">KSh ${price}</span>
                         </label>
                     `;
                 });
@@ -1135,3 +1135,6 @@ $sampleMenus = getAllSampleMenus($pdo);
         }
     </script>
 <?php include 'footer.php'; ?>
+
+
+

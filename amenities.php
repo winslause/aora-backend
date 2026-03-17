@@ -7,20 +7,25 @@ $amenityCategories = getAllAmenityCategories($pdo);
 
 // Convert to JavaScript object for modal functionality
 $amenitiesJS = [];
-foreach ($amenityCategories as $category) {
-    foreach ($category['amenities'] as $amenity) {
-        $features = json_decode($amenity['features'], true);
-        $gallery = json_decode($amenity['gallery'], true);
-        $amenitiesJS[$amenity['slug']] = [
-            'name' => $amenity['name'],
-            'description' => $amenity['description'],
-            'longDescription' => $amenity['long_description'],
-            'features' => $features,
-            'hours' => $amenity['hours'],
-            'phone' => $amenity['phone'],
-            'image' => $amenity['image'],
-            'gallery' => $gallery
-        ];
+if (!empty($amenityCategories)) {
+    foreach ($amenityCategories as $category) {
+        $categoryAmenities = isset($category['amenities']) ? $category['amenities'] : [];
+        if (!empty($categoryAmenities)) {
+            foreach ($categoryAmenities as $amenity) {
+                $features = json_decode($amenity['features'] ?? '[]', true);
+                $gallery = json_decode($amenity['gallery'] ?? '[]', true);
+                $amenitiesJS[$amenity['slug']] = [
+                    'name' => $amenity['name'],
+                    'description' => $amenity['description'],
+                    'longDescription' => $amenity['long_description'] ?? '',
+                    'features' => is_array($features) ? $features : [],
+                    'hours' => $amenity['hours'] ?? '',
+                    'phone' => $amenity['phone'] ?? '',
+                    'image' => $amenity['image'] ?? '',
+                    'gallery' => is_array($gallery) ? $gallery : []
+                ];
+            }
+        }
     }
 }
 ?>
@@ -39,24 +44,24 @@ foreach ($amenityCategories as $category) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxury Hotel Amenities at Aora45 | Spa, Pool, Fitness Center Nairobi</title>
-    <meta name="description" content="Discover Aora45 hotel amenities in Nairobi: luxury spa, infinity pool, fitness center, business center, and more. Experience world-class facilities during your stay.">
-    <meta name="keywords" content="hotel amenities Nairobi, luxury spa Kenya, hotel pool Nairobi, fitness center hotel, business center Nairobi, wellness center Kenya, Aora45 amenities, resort facilities">
+    <title>Luxury Hotel Amenities at AORA 45 | Spa, Pool, Fitness Center Siaya County</title>
+    <meta name="description" content="Discover AORA 45 hotel amenities in Siaya County: luxury spa, infinity pool, fitness center, business center, and more. Experience world-class facilities during your stay.">
+    <meta name="keywords" content="hotel amenities Siaya County, luxury spa Kenya, hotel pool Siaya County, fitness center hotel, business center Siaya County, wellness center Kenya, AORA 45 amenities, resort facilities">
     <!-- Open Graph -->
-    <meta property="og:title" content="Luxury Hotel Amenities at Aora45">
-    <meta property="og:description" content="Discover Aora45 hotel amenities in Nairobi: luxury spa, infinity pool, fitness center, and more.">
+    <meta property="og:title" content="Luxury Hotel Amenities at AORA 45">
+    <meta property="og:description" content="Discover AORA 45 hotel amenities in Siaya County: luxury spa, infinity pool, fitness center, and more.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://aora45.com/amenities.php">
+    <meta property="og:url" content="https://AORA 45.com/amenities.php">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Luxury Hotel Amenities at Aora45">
-    <meta name="twitter:description" content="Discover Aora45 hotel amenities in Nairobi.">
+    <meta name="twitter:title" content="Luxury Hotel Amenities at AORA 45">
+    <meta name="twitter:description" content="Discover AORA 45 hotel amenities in Siaya County.">
     <!-- Schema.org -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Hotel",
-        "name": "Aora45",
+        "name": "AORA 45",
         "amenityFeature": [
             {"@type": "LocationFeatureSpecification", "name": "Spa", "description": "Full-service luxury spa"},
             {"@type": "LocationFeatureSpecification", "name": "Swimming Pool", "description": "Infinity pool"},
@@ -192,7 +197,7 @@ foreach ($amenityCategories as $category) {
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #b89a78;
+            background: #2d5a4a;
             border-radius: 4px;
         }
         
@@ -264,11 +269,11 @@ foreach ($amenityCategories as $category) {
         
         .amenity-item:hover .amenity-icon {
             background: rgba(184, 154, 120, 0.4);
-            border-color: #b89a78;
+            border-color: #2d5a4a;
         }
         
         .amenity-icon i {
-            color: #b89a78;
+            color: #2d5a4a;
             font-size: 1.5rem;
             transition: all 0.3s ease;
         }
@@ -320,7 +325,7 @@ foreach ($amenityCategories as $category) {
             left: 0;
             width: 0;
             height: 2px;
-            background: #b89a78;
+            background: #2d5a4a;
             transition: width 0.8s ease;
         }
         
@@ -410,7 +415,7 @@ foreach ($amenityCategories as $category) {
         }
         
         .feature-icon i {
-            color: #b89a78;
+            color: #2d5a4a;
             font-size: 1.2rem;
         }
         
@@ -447,26 +452,26 @@ foreach ($amenityCategories as $category) {
             </div>
             
             <!-- Floating Orbs - Subtle -->
-            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#b89a78]/20 rounded-full blur-3xl animate-pulse-soft"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#8a735b]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#2d5a4a]/20 rounded-full blur-3xl animate-pulse-soft"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#1e4d40]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
             
             <!-- Content -->
             <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
                 <!-- Decorative Line -->
                 <div class="flex justify-center mb-8">
-                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent animate-pulse"></div>
+                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent animate-pulse"></div>
                 </div>
                 
                 <!-- Main Heading -->
                 <h1 class="font-['DM_Serif_Display'] text-6xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-2xl tracking-wide">
                     <span class="block reveal-left" style="transition-delay: 0.2s;">Unparalleled</span>
-                    <span class="block reveal-right text-[#b89a78]" style="transition-delay: 0.4s;">Amenities</span>
+                    <span class="block reveal-right text-[#2d5a4a]" style="transition-delay: 0.4s;">Amenities</span>
                 </h1>
                 
                 <!-- Decorative Element -->
                 <div class="relative flex justify-center items-center gap-4 mb-12">
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
-                    <i class="fas fa-spa text-[#b89a78] text-xl"></i>
+                    <i class="fas fa-spa text-[#2d5a4a] text-xl"></i>
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
                 </div>
                 
@@ -476,12 +481,12 @@ foreach ($amenityCategories as $category) {
                 </p>
                 
                 <!-- Scroll Indicator -->
-                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
+                <!-- <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
                     <span class="text-white/60 text-xs uppercase tracking-widest">Discover</span>
                     <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
                         <div class="w-1 h-2 bg-white/60 rounded-full mt-2 animate-bounce"></div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -490,21 +495,30 @@ foreach ($amenityCategories as $category) {
         $bgClasses = ['bg-[#fcf8f3]', 'bg-[#f4ede5]', 'bg-[#fcf8f3]', 'bg-[#f4ede5]'];
         $i = 0;
         
-        foreach ($amenityCategories as $category): 
-            $bgClass = $bgClasses[$i % count($bgClasses)];
-            $i++;
+        if (empty($amenityCategories)) {
+            // Show a message if no categories exist
+            echo '<section class="relative py-24 px-6 bg-[#fcf8f3]">
+                    <div class="max-w-7xl mx-auto text-center">
+                        <p class="text-gray-500">No amenities available at this time.</p>
+                    </div>
+                  </section>';
+        } else {
+            foreach ($amenityCategories as $category): 
+                $bgClass = $bgClasses[$i % count($bgClasses)];
+                $i++;
+                $categoryAmenities = isset($category['amenities']) ? $category['amenities'] : [];
         ?>
         <section class="relative py-24 px-6 <?php echo $bgClass; ?> overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <!-- Category Title -->
                 <div class="mb-12 reveal-left">
                     <h2 class="category-title"><?php echo htmlspecialchars($category['name']); ?></h2>
-                    <p class="text-[#8a735b] text-sm max-w-2xl"><?php echo htmlspecialchars($category['description']); ?></p>
+                    <p class="text-[#1e4d40] text-sm max-w-2xl"><?php echo htmlspecialchars($category['description']); ?></p>
                 </div>
                 
                 <!-- Amenities Grid -->
@@ -517,7 +531,8 @@ foreach ($amenityCategories as $category) {
                 <div class="grid <?php echo $colClass; ?> gap-6">
                     <?php 
                     $delay = 0.1;
-                    foreach ($category['amenities'] as $amenity): 
+                    if (!empty($categoryAmenities)) {
+                        foreach ($categoryAmenities as $amenity): 
                     ?>
                     <div class="amenity-item reveal" style="transition-delay: <?php echo $delay; ?>s;" onclick="openModal('<?php echo htmlspecialchars($amenity['slug']); ?>')">
                         <img src="<?php echo htmlspecialchars($amenity['image']); ?>" 
@@ -533,29 +548,32 @@ foreach ($amenityCategories as $category) {
                         </div>
                     </div>
                     <?php 
-                    $delay += 0.1;
-                    endforeach; 
+                        $delay += 0.1;
+                        endforeach; 
+                    }
                     ?>
                 </div>
             </div>
         </section>
-        <?php endforeach; ?>
+        <?php endforeach; 
+        } // End else
+        ?>
 
         <!-- ===== CLOSING NOTE ===== -->
         <section class="relative py-20 px-6 bg-[#2c3e4a] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-3xl mx-auto relative z-10 text-center">
-                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto mb-8"></div>
+                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto mb-8"></div>
                 
                 <p class="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-white/90 italic leading-relaxed">
                     "At Aora, every amenity is thoughtfully designed to elevate your stay—because true luxury is in the details."
                 </p>
                 
-                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto mt-8"></div>
+                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto mt-8"></div>
             </div>
         </section>
     </main>
@@ -564,7 +582,7 @@ foreach ($amenityCategories as $category) {
     <div id="amenityModal" class="modal">
         <div class="modal-content mx-auto my-8 p-8 relative">
             <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-[#b89a78] text-white rounded-full flex items-center justify-center hover:bg-[#8a735b] transition-all z-10">
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-10 h-10 bg-[#2d5a4a] text-white rounded-full flex items-center justify-center hover:bg-[#1e4d40] transition-all z-10">
                 <i class="fas fa-times"></i>
             </button>
             
@@ -612,19 +630,19 @@ foreach ($amenityCategories as $category) {
                     <!-- Right Column - Details -->
                     <div>
                         <h2 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-2">${amenity.name}</h2>
-                        <div class="w-12 h-px bg-[#b89a78] mb-4"></div>
+                        <div class="w-12 h-px bg-[#2d5a4a] mb-4"></div>
                         
                         <p class="text-[#5c524a] text-lg mb-4">${amenity.description}</p>
-                        <p class="text-[#8a735b] text-sm mb-6 leading-relaxed">${amenity.longDescription}</p>
+                        <p class="text-[#1e4d40] text-sm mb-6 leading-relaxed">${amenity.longDescription}</p>
                         
                         <!-- Key Info -->
                         <div class="mb-6 p-4 bg-[#f4ede5]">
                             <div class="flex items-center gap-3 mb-3">
-                                <i class="fas fa-clock text-[#b89a78]"></i>
+                                <i class="fas fa-clock text-[#2d5a4a]"></i>
                                 <span class="text-[#5c524a] text-sm">${amenity.hours}</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <i class="fas fa-phone-alt text-[#b89a78]"></i>
+                                <i class="fas fa-phone-alt text-[#2d5a4a]"></i>
                                 <span class="text-[#5c524a] text-sm">${amenity.phone}</span>
                             </div>
                         </div>
@@ -636,7 +654,7 @@ foreach ($amenityCategories as $category) {
                         </div>
                         
                         <!-- Reserve/Inquiry Button -->
-                        <button onclick="inquireAmenity('${amenity.name}')" class="w-full py-4 bg-[#b89a78] text-white hover:bg-[#8a735b] transition-colors">
+                        <button onclick="inquireAmenity('${amenity.name}')" class="w-full py-4 bg-[#2d5a4a] text-white hover:bg-[#1e4d40] transition-colors">
                             Inquire About This Amenity
                         </button>
                     </div>
@@ -654,7 +672,7 @@ foreach ($amenityCategories as $category) {
         }
         
         function inquireAmenity(amenityName) {
-            alert(`Thank you for your interest in ${amenityName}. A member of our concierge team will contact you shortly.`);
+            showToast(`Thank you for your interest in ${amenityName}. A member of our concierge team will contact you shortly.`, 'success');
             closeModal();
         }
         
@@ -691,3 +709,5 @@ foreach ($amenityCategories as $category) {
         window.addEventListener('load', reveal);
     </script>
 <?php include 'footer.php'; ?>
+
+

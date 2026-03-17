@@ -18,24 +18,24 @@ include 'header.php'; ?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exclusive Hotel Offers & Packages | Aora45 Nairobi - Special Packages</title>
-    <meta name="description" content="Book exclusive hotel offers and packages at Aora45 Nairobi. Special deals on romantic getaways, safari packages, honeymoon retreats, family adventures, and wellness escapes.">
-    <meta name="keywords" content="hotel offers Nairobi, exclusive packages Kenya, safari packages, honeymoon packages Nairobi, romantic getaway Kenya, family safari deals, wellness retreat Nairobi, Aora45 special offers, hotel promotions">
+    <title>Exclusive Hotel Offers & Packages | AORA 45 Siaya County - Special Packages</title>
+    <meta name="description" content="Book exclusive hotel offers and packages at AORA 45 Siaya County. Special deals on romantic getaways, riverfront retreats, honeymoon retreats, family adventures, and wellness escapes.">
+    <meta name="keywords" content="hotel offers Siaya County, exclusive packages Kenya, riverfront packages, honeymoon packages Siaya County, romantic getaway Kenya, family getaway deals, wellness retreat Siaya County, AORA 45 special offers, hotel promotions">
     <!-- Open Graph -->
-    <meta property="og:title" content="Exclusive Hotel Offers & Packages at Aora45">
-    <meta property="og:description" content="Book exclusive hotel offers and packages at Aora45 Nairobi. Special deals on romantic getaways, safari packages, and more.">
+    <meta property="og:title" content="Exclusive Hotel Offers & Packages at AORA 45">
+    <meta property="og:description" content="Book exclusive hotel offers and packages at AORA 45 Siaya County. Special deals on romantic getaways, safari packages, and more.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://aora45.com/offers.php">
+    <meta property="og:url" content="https://AORA 45.com/offers.php">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Exclusive Hotel Offers & Packages at Aora45">
-    <meta name="twitter:description" content="Book exclusive hotel offers and packages at Aora45 Nairobi.">
+    <meta name="twitter:title" content="Exclusive Hotel Offers & Packages at AORA 45">
+    <meta name="twitter:description" content="Book exclusive hotel offers and packages at AORA 45 Siaya County.">
     <!-- Schema.org Offer -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "OfferCatalog",
-        "name": "Aora45 Special Offers",
+        "name": "AORA 45 Special Offers",
         "description": "Exclusive hotel packages and special offers",
         "itemListElement": [
             {"@type": "Offer", "name": "Romance in the Wild", "price": "KSh 85,000", "priceCurrency": "KES"},
@@ -196,7 +196,7 @@ include 'header.php'; ?>
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #b89a78;
+            background: #2d5a4a;
             border-radius: 4px;
         }
         
@@ -254,7 +254,7 @@ include 'header.php'; ?>
             position: absolute;
             top: 20px;
             left: -5px;
-            background: #b89a78;
+            background: #2d5a4a;
             color: white;
             padding: 8px 20px;
             font-size: 0.8rem;
@@ -275,7 +275,7 @@ include 'header.php'; ?>
             height: 0;
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
-            border-top: 5px solid #8a735b;
+            border-top: 5px solid #1e4d40;
             transform: rotate(45deg);
         }
         
@@ -286,7 +286,7 @@ include 'header.php'; ?>
             right: -10px;
             width: 0;
             height: 0;
-            border-left: 10px solid #b89a78;
+            border-left: 10px solid #2d5a4a;
             border-right: 10px solid transparent;
             border-bottom: 15px solid transparent;
         }
@@ -305,15 +305,15 @@ include 'header.php'; ?>
         }
         
         .offer-card:hover .price-tag {
-            background: #b89a78;
+            background: #2d5a4a;
             color: white;
-            border-color: #b89a78;
+            border-color: #2d5a4a;
         }
         
         .offer-card .price-tag .price {
             font-family: 'DM Serif Display', serif;
             font-size: 1.5rem;
-            color: #b89a78;
+            color: #2d5a4a;
             transition: all 0.3s ease;
         }
         
@@ -334,7 +334,7 @@ include 'header.php'; ?>
             transform: translateX(-50%);
             width: 0;
             height: 2px;
-            background: #b89a78;
+            background: #2d5a4a;
             transition: width 0.5s ease;
         }
         
@@ -346,7 +346,7 @@ include 'header.php'; ?>
             background: rgba(184, 154, 120, 0.05);
             padding: 1rem;
             margin: 1.5rem 0;
-            border-left: 3px solid #b89a78;
+            border-left: 3px solid #2d5a4a;
         }
         
         .offer-card .inclusions-item {
@@ -359,7 +359,7 @@ include 'header.php'; ?>
         }
         
         .offer-card .inclusions-item i {
-            color: #b89a78;
+            color: #2d5a4a;
             width: 20px;
         }
         
@@ -368,12 +368,12 @@ include 'header.php'; ?>
             align-items: center;
             gap: 0.75rem;
             font-size: 0.85rem;
-            color: #8a735b;
+            color: #1e4d40;
             margin-bottom: 1.5rem;
         }
         
         .offer-card .validity i {
-            color: #b89a78;
+            color: #2d5a4a;
         }
         
         /* Button Styles */
@@ -382,8 +382,8 @@ include 'header.php'; ?>
             width: 100%;
             padding: 1rem;
             background: transparent;
-            border: 1px solid #b89a78;
-            color: #b89a78;
+            border: 1px solid #2d5a4a;
+            color: #2d5a4a;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             font-size: 0.85rem;
@@ -399,7 +399,7 @@ include 'header.php'; ?>
             left: -100%;
             width: 100%;
             height: 100%;
-            background: #b89a78;
+            background: #2d5a4a;
             transition: left 0.4s ease;
             z-index: -1;
         }
@@ -462,7 +462,7 @@ include 'header.php'; ?>
             right: 20px;
             width: 40px;
             height: 40px;
-            background: #b89a78;
+            background: #2d5a4a;
             color: white;
             border-radius: 50%;
             display: flex;
@@ -475,7 +475,7 @@ include 'header.php'; ?>
         
         .modal-close:hover {
             transform: rotate(90deg);
-            background: #8a735b;
+            background: #1e4d40;
         }
         
         .modal-gallery {
@@ -496,11 +496,11 @@ include 'header.php'; ?>
         
         .modal-gallery img:hover {
             transform: scale(1.05);
-            border-color: #b89a78;
+            border-color: #2d5a4a;
         }
         
         .modal-gallery img.active {
-            border-color: #b89a78;
+            border-color: #2d5a4a;
         }
         
         .modal-feature-list {
@@ -516,11 +516,11 @@ include 'header.php'; ?>
             gap: 1rem;
             padding: 0.75rem;
             background: rgba(184, 154, 120, 0.05);
-            border-left: 3px solid #b89a78;
+            border-left: 3px solid #2d5a4a;
         }
         
         .modal-feature-item i {
-            color: #b89a78;
+            color: #2d5a4a;
             font-size: 1.2rem;
         }
         
@@ -550,33 +550,33 @@ include 'header.php'; ?>
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
             <!-- Background Image - Luxury Offer -->
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                <img src="https://png.pngtree.com/thumb_back/fh260/back_our/20190621/ourmid/pngtree-western-restaurant-promotion-orange-simple-creative-banner-image_194021.jpg" 
                      alt="Luxury Offer" 
                      class="w-full h-full object-cover animate-drift">
                 <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>
             </div>
             
             <!-- Floating Orbs -->
-            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#b89a78]/20 rounded-full blur-3xl animate-pulse-soft"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#8a735b]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#2d5a4a]/20 rounded-full blur-3xl animate-pulse-soft"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#1e4d40]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
             
             <!-- Content -->
             <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
                 <!-- Decorative Line -->
                 <div class="flex justify-center mb-8">
-                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent animate-pulse"></div>
+                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent animate-pulse"></div>
                 </div>
                 
                 <!-- Main Heading -->
                 <h1 class="font-['DM_Serif_Display'] text-6xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-2xl tracking-wide">
                     <span class="block reveal-left" style="transition-delay: 0.2s;">Exclusive</span>
-                    <span class="block reveal-right text-[#b89a78]" style="transition-delay: 0.4s;">Offers</span>
+                    <span class="block reveal-right text-[#2d5a4a]" style="transition-delay: 0.4s;">Offers</span>
                 </h1>
                 
                 <!-- Decorative Element -->
                 <div class="relative flex justify-center items-center gap-4 mb-12">
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
-                    <i class="fas fa-tag text-[#b89a78] text-xl"></i>
+                    <i class="fas fa-tag text-[#2d5a4a] text-xl"></i>
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
                 </div>
                 
@@ -599,330 +599,35 @@ include 'header.php'; ?>
         <section class="relative py-24 px-6 bg-[#fcf8f3] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Limited Time</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Limited Time</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Signature Packages</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
-                    <p class="text-[#8a735b] text-sm max-w-2xl mx-auto mt-6">
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
+                    <p class="text-[#1e4d40] text-sm max-w-2xl mx-auto mt-6">
                         Curated escapes designed to create unforgettable memories in the heart of Kenya.
                     </p>
                 </div>
                 
                 <!-- Offers Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    
-                    <!-- Offer 1 - Romance in the Wild -->
-                    <div class="offer-card rounded-2xl reveal" style="transition-delay: 0.1s;">
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1522673607200-164d1b3ce5aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Romance in the Wild">
-                            <div class="offer-ribbon animate-ribbon">Best Seller</div>
-                            <div class="price-tag">
-                                <span class="text-xs uppercase tracking-wider">from</span>
-                                <span class="price">KSh 85K</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">Romance in the Wild</h3>
-                            
-                            <p class="text-[#5c524a] text-sm leading-relaxed mb-4">
-                                A 4-day romantic escape for couples featuring private dinners, spa treatments, and sunset safari experiences.
-                            </p>
-                            
-                            <div class="inclusions">
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Private villa with plunge pool</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Sunset champagne safari</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Couples massage</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Candlelit bush dinner</span>
-                                </div>
-                            </div>
-                            
-                            <div class="validity">
-                                <i class="far fa-calendar-alt"></i>
-                                <span>Valid: Jan 15 - Apr 30, 2025</span>
-                            </div>
-                            
-                            <button onclick="openOfferModal('romance')" class="btn-offer flex items-center justify-center gap-2">
-                                <span>View Details & Book</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
+                <div id="offersGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <?php if (empty($allOffers)): ?>
+                    <div class="col-span-full text-center py-8">
+                        <p class="text-[#5c524a]">No offers available at the moment. Please check back later.</p>
                     </div>
-                    
-                    <!-- Offer 2 - Weekend Wilderness Getaway -->
-                    <div class="offer-card rounded-2xl reveal" style="transition-delay: 0.2s;">
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Weekend Wilderness">
-                            <div class="offer-ribbon animate-ribbon">Popular</div>
-                            <div class="price-tag">
-                                <span class="text-xs uppercase tracking-wider">from</span>
-                                <span class="price">KSh 65K</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">Weekend Wilderness</h3>
-                            
-                            <p class="text-[#5c524a] text-sm leading-relaxed mb-4">
-                                Immerse yourself in the wild with guided game drives, bush dinners, and stargazing under the African sky.
-                            </p>
-                            
-                            <div class="inclusions">
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>2 nights in luxury tented camp</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Morning & evening game drives</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Bush breakfast</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Maasai guide</span>
-                                </div>
-                            </div>
-                            
-                            <div class="validity">
-                                <i class="far fa-calendar-alt"></i>
-                                <span>Valid: Mar 1 - Aug 31, 2025</span>
-                            </div>
-                            
-                            <button onclick="openOfferModal('wilderness')" class="btn-offer flex items-center justify-center gap-2">
-                                <span>View Details & Book</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Offer 3 - Family Safari Adventure -->
-                    <div class="offer-card rounded-2xl reveal" style="transition-delay: 0.3s;">
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
-                                 alt="Family Safari">
-                            <div class="offer-ribbon animate-ribbon">Family Fun</div>
-                            <div class="price-tag">
-                                <span class="text-xs uppercase tracking-wider">from</span>
-                                <span class="price">KSh 120K</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">Family Safari Adventure</h3>
-                            
-                            <p class="text-[#5c524a] text-sm leading-relaxed mb-4">
-                                Create lasting memories with kid-friendly game drives, cultural visits, and interactive wildlife experiences.
-                            </p>
-                            
-                            <div class="inclusions">
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Family suite (2 bedrooms)</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Junior ranger program</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Family game drive</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Cultural village visit</span>
-                                </div>
-                            </div>
-                            
-                            <div class="validity">
-                                <i class="far fa-calendar-alt"></i>
-                                <span>Valid: Jun 1 - Dec 20, 2025</span>
-                            </div>
-                            
-                            <button onclick="openOfferModal('family')" class="btn-offer flex items-center justify-center gap-2">
-                                <span>View Details & Book</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Offer 4 - Honeymoon Paradise -->
-                    <div class="offer-card rounded-2xl reveal" style="transition-delay: 0.4s;">
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Honeymoon Paradise">
-                            <div class="offer-ribbon animate-ribbon">Romance</div>
-                            <div class="price-tag">
-                                <span class="text-xs uppercase tracking-wider">from</span>
-                                <span class="price">KSh 95K</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">Honeymoon Paradise</h3>
-                            
-                            <p class="text-[#5c524a] text-sm leading-relaxed mb-4">
-                                Celebrate your love with a luxurious 5-day honeymoon package including private dining and spa rituals.
-                            </p>
-                            
-                            <div class="inclusions">
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Honeymoon suite with ocean view</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Champagne & rose petal turndown</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Couples spa journey</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Private beach dinner</span>
-                                </div>
-                            </div>
-                            
-                            <div class="validity">
-                                <i class="far fa-calendar-alt"></i>
-                                <span>Valid: All year round</span>
-                            </div>
-                            
-                            <button onclick="openOfferModal('honeymoon')" class="btn-offer flex items-center justify-center gap-2">
-                                <span>View Details & Book</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Offer 5 - Wellness Retreat -->
-                    <div class="offer-card rounded-2xl reveal" style="transition-delay: 0.5s;">
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Wellness Retreat">
-                            <div class="offer-ribbon animate-ribbon">Rejuvenate</div>
-                            <div class="price-tag">
-                                <span class="text-xs uppercase tracking-wider">from</span>
-                                <span class="price">KSh 75K</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">Wellness Retreat</h3>
-                            
-                            <p class="text-[#5c524a] text-sm leading-relaxed mb-4">
-                                Rejuvenate mind, body, and soul with daily yoga, spa treatments, and healthy cuisine.
-                            </p>
-                            
-                            <div class="inclusions">
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Daily yoga & meditation</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>3 spa treatments</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Healthy meal plan</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Wellness consultation</span>
-                                </div>
-                            </div>
-                            
-                            <div class="validity">
-                                <i class="far fa-calendar-alt"></i>
-                                <span>Valid: Feb 1 - May 31, 2025</span>
-                            </div>
-                            
-                            <button onclick="openOfferModal('wellness')" class="btn-offer flex items-center justify-center gap-2">
-                                <span>View Details & Book</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Offer 6 - Anniversary Celebration -->
-                    <div class="offer-card rounded-2xl reveal" style="transition-delay: 0.6s;">
-                        <div class="card-image">
-                            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                 alt="Anniversary Celebration">
-                            <div class="offer-ribbon animate-ribbon">Special</div>
-                            <div class="price-tag">
-                                <span class="text-xs uppercase tracking-wider">from</span>
-                                <span class="price">KSh 80K</span>
-                            </div>
-                        </div>
-                        
-                        <div class="card-content">
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-3">Anniversary Celebration</h3>
-                            
-                            <p class="text-[#5c524a] text-sm leading-relaxed mb-4">
-                                Mark your milestone with a romantic getaway featuring special touches and memorable experiences.
-                            </p>
-                            
-                            <div class="inclusions">
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Suite upgrade (subject to availability)</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Anniversary cake & champagne</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Private dinner setup</span>
-                                </div>
-                                <div class="inclusions-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Couples photography session</span>
-                                </div>
-                            </div>
-                            
-                            <div class="validity">
-                                <i class="far fa-calendar-alt"></i>
-                                <span>Valid: All year round</span>
-                            </div>
-                            
-                            <button onclick="openOfferModal('anniversary')" class="btn-offer flex items-center justify-center gap-2">
-                                <span>View Details & Book</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
                 
                 <!-- Note about custom packages -->
-                <div class="text-center mt-16 reveal">
-                    <p class="text-[#8a735b] text-sm italic">
-                        Looking for something unique? <button onclick="openCustomModal()" class="text-[#b89a78] underline hover:no-underline">Create your own package</button>
+                <!-- <div class="text-center mt-16 reveal">
+                    <p class="text-[#1e4d40] text-sm italic">
+                        Looking for something unique? <button onclick="openCustomModal()" class="text-[#2d5a4a] underline hover:no-underline">Create your own package</button>
                     </p>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -930,17 +635,17 @@ include 'header.php'; ?>
         <section class="relative py-20 px-6 bg-[#2c3e4a] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-3xl mx-auto relative z-10 text-center">
-                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto mb-8"></div>
+                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto mb-8"></div>
                 
                 <p class="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-white/90 italic leading-relaxed">
                     "Experience the extraordinary. Book your exclusive offer today."
                 </p>
                 
-                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto mt-8"></div>
+                <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto mt-8"></div>
             </div>
         </section>
     </main>
@@ -957,196 +662,133 @@ include 'header.php'; ?>
         </div>
     </div>
 
-    <!-- Offer Data -->
+    
+    <!-- Offer Data - Loaded from Database -->
     <script>
-        const offerData = {
-            romance: {
-                title: 'Romance in the Wild',
-                price: 'KSh 85,000',
-                description: 'A 4-day romantic escape for couples featuring private dinners, spa treatments, and sunset safari experiences.',
-                longDescription: 'Designed for couples seeking intimacy and adventure, this package combines luxury accommodation with unforgettable moments in the wild. From champagne sunsets to starlit dinners, every detail is crafted to celebrate your love.',
-                validity: 'January 15 - April 30, 2025',
-                duration: '4 days / 3 nights',
-                occupancy: '2 adults',
-                inclusions: [
-                    'Private villa with plunge pool',
-                    'Sunset champagne safari',
-                    'Couples massage (90 minutes)',
-                    'Candlelit bush dinner',
-                    'Rose petal turndown service',
-                    'Private butler service'
-                ],
-                exclusions: [
-                    'International flights',
-                    'Travel insurance',
-                    'Additional spa treatments',
-                    'Gratuities'
-                ],
-                finePrint: 'Advance booking required. Subject to availability. Blackout dates apply.',
-                image: 'https://images.unsplash.com/photo-1522673607200-164d1b3ce5aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1522673607200-164d1b3ce5aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            wilderness: {
-                title: 'Weekend Wilderness Getaway',
-                price: 'KSh 65,000',
-                description: 'Immerse yourself in the wild with guided game drives, bush dinners, and stargazing under the African sky.',
-                longDescription: 'Escape the city for a weekend of authentic safari adventure. Stay in our luxury tented camp, explore the savanna with expert guides, and fall asleep to the sounds of the wild.',
-                validity: 'March 1 - August 31, 2025',
-                duration: '3 days / 2 nights',
-                occupancy: '2 adults',
-                inclusions: [
-                    '2 nights in luxury tented camp',
-                    'Morning & evening game drives',
-                    'Bush breakfast',
-                    'Maasai guide',
-                    'Sundowner cocktails',
-                    'Stargazing experience'
-                ],
-                exclusions: [
-                    'Park fees',
-                    'Alcoholic beverages',
-                    'Gratuities'
-                ],
-                finePrint: 'Minimum 2 guests. Safari drives subject to weather conditions.',
-                image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-                    'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80',
-                    'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            family: {
-                title: 'Family Safari Adventure',
-                price: 'KSh 120,000',
-                description: 'Create lasting memories with kid-friendly game drives, cultural visits, and interactive wildlife experiences.',
-                longDescription: 'Designed for families, this package ensures both parents and children have an unforgettable safari experience. Educational, fun, and safe—perfect for young explorers.',
-                validity: 'June 1 - December 20, 2025',
-                duration: '5 days / 4 nights',
-                occupancy: '2 adults + 2 children',
-                inclusions: [
-                    'Family suite (2 bedrooms)',
-                    'Junior ranger program',
-                    'Family game drive',
-                    'Cultural village visit',
-                    'Kids\' cooking class',
-                    'Child-friendly meals'
-                ],
-                exclusions: [
-                    'International flights',
-                    'Baby-sitting services',
-                    'Personal purchases'
-                ],
-                finePrint: 'Children must be accompanied by an adult. Activities age-appropriate.',
-                image: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
-                    'https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80',
-                    'https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            honeymoon: {
-                title: 'Honeymoon Paradise',
-                price: 'KSh 95,000',
-                description: 'Celebrate your love with a luxurious 5-day honeymoon package including private dining and spa rituals.',
-                longDescription: 'Start your journey together in paradise. This exclusive honeymoon package offers the perfect blend of romance, luxury, and unforgettable experiences.',
-                validity: 'All year round',
-                duration: '5 days / 4 nights',
-                occupancy: '2 adults',
-                inclusions: [
-                    'Honeymoon suite with ocean view',
-                    'Champagne & rose petal turndown',
-                    'Couples spa journey',
-                    'Private beach dinner',
-                    'Sunset dhow cruise',
-                    'Breakfast in bed'
-                ],
-                exclusions: [
-                    'Spa treatments beyond package',
-                    'Premium alcoholic beverages'
-                ],
-                finePrint: 'Marriage certificate required for honeymoon benefits.',
-                image: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1522673607200-164d1b3ce5aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            wellness: {
-                title: 'Wellness Retreat',
-                price: 'KSh 75,000',
-                description: 'Rejuvenate mind, body, and soul with daily yoga, spa treatments, and healthy cuisine.',
-                longDescription: 'Escape the stresses of daily life and embark on a journey of holistic wellness. From sunrise yoga to nourishing meals, every element is designed to restore balance.',
-                validity: 'February 1 - May 31, 2025',
-                duration: '4 days / 3 nights',
-                occupancy: '1-2 adults',
-                inclusions: [
-                    'Daily yoga & meditation',
-                    '3 spa treatments',
-                    'Healthy meal plan',
-                    'Wellness consultation',
-                    'Nature walks',
-                    'Detox juices'
-                ],
-                exclusions: [
-                    'Additional spa services',
-                    'Alcoholic beverages'
-                ],
-                finePrint: 'Suitable for all fitness levels. Dietary restrictions accommodated.',
-                image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1545389336-cf0905564355?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1584132967334-10e028bd69f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1600334129128-685c5582fd35?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
-            },
-            anniversary: {
-                title: 'Anniversary Celebration',
-                price: 'KSh 80,000',
-                description: 'Mark your milestone with a romantic getaway featuring special touches and memorable experiences.',
-                longDescription: 'Celebrate your love story with a package designed to honor your journey together. From suite upgrades to private moments, every detail is thoughtfully curated.',
-                validity: 'All year round',
-                duration: '3 days / 2 nights',
-                occupancy: '2 adults',
-                inclusions: [
-                    'Suite upgrade (subject to availability)',
-                    'Anniversary cake & champagne',
-                    'Private dinner setup',
-                    'Couples photography session',
-                    'Spa credit',
-                    'Late checkout'
-                ],
-                exclusions: [
-                    'Additional guests',
-                    'Premium alcohol'
-                ],
-                finePrint: 'Must be celebrating anniversary within 30 days of stay.',
-                image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                gallery: [
-                    'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1522673607200-164d1b3ce5aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-                    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
-                ]
+        // Database offers loaded from PHP
+        const dbOffers = <?php echo json_encode($allOffers); ?>;
+        
+        console.log('Offers loaded:', dbOffers);
+        console.log('Number of offers:', dbOffers.length);
+        
+        const offerData = {};
+        
+        function formatDateRange(startDate, endDate) {
+            if (!startDate && !endDate) return 'Contact for details';
+            if (!startDate) return 'Until ' + endDate;
+            if (!endDate) return 'From ' + startDate;
+            return startDate + ' to ' + endDate;
+        }
+        
+        function getRibbon(index) {
+            const ribbons = ['Best Seller', 'Popular', 'Family Fun', 'Romance', 'Rejuvenate', 'Special'];
+            return ribbons[index % ribbons.length];
+        }
+        
+        function renderInclusions(inclusions) {
+            if (!inclusions || inclusions.length === 0) return '<p class="text-sm text-gray-500">Contact for details</p>';
+            let html = '';
+            const items = inclusions.slice(0, 4);
+            items.forEach(function(item) {
+                html += '<div class="inclusions-item"><i class="fas fa-check-circle"></i><span>' + item + '</span></div>';
+            });
+            if (inclusions.length > 4) {
+                html += '<div class="inclusions-item"><i class="fas fa-ellipsis-h"></i><span>+' + (inclusions.length - 4) + ' more</span></div>';
             }
-        };
-
+            return html;
+        }
+        
+        // Convert database offers to JavaScript object
+        dbOffers.forEach(function(offer, index) {
+            // Parse inclusions if it's a JSON string
+            let inclusions = offer.inclusions;
+            if (typeof inclusions === 'string') {
+                try {
+                    inclusions = JSON.parse(inclusions);
+                } catch (e) {
+                    inclusions = [];
+                }
+            }
+            if (!Array.isArray(inclusions)) {
+                inclusions = [];
+            }
+            
+            offerData[offer.slug] = {
+                title: offer.title,
+                price: 'KSh ' + (offer.price || '0'),
+                description: offer.description,
+                longDescription: offer.description || 'Contact for details',
+                validity: formatDateRange(offer.start_date, offer.end_date),
+                duration: 'Contact for details',
+                occupancy: 'Varies by package',
+                inclusions: inclusions,
+                exclusions: [],
+                finePrint: 'Subject to availability. Contact us for booking.',
+                image: offer.image1 || 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                gallery: [
+                    offer.image1 || 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                    offer.image2 || 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                    offer.image3 || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                    offer.image4 || 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                    offer.image5 || 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'
+                ]
+            };
+        });
+        
+        // Generate dynamic offer cards on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, offers:', dbOffers.length);
+            const offersGrid = document.getElementById('offersGrid');
+            
+            if (!offersGrid) {
+                console.error('offersGrid element not found!');
+                return;
+            }
+            
+            if (!dbOffers || dbOffers.length === 0) {
+                console.log('No offers to display');
+                offersGrid.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-[#5c524a]">No offers available at the moment. Please check back later.</p></div>';
+                return;
+            }
+            
+            try {
+                let html = '';
+                const defaultImg = 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80';
+                dbOffers.forEach(function(offer, index) {
+                    console.log('Rendering offer:', offer.title);
+                    html += '<div class="offer-card rounded-2xl reveal" style="transition-delay: ' + (0.1 + index * 0.1) + 's;">' +
+                        '<div class="card-image">' +
+                            '<img src="' + (offer.image1 || defaultImg) + '" alt="' + offer.title + '">' +
+                            '<div class="offer-ribbon animate-ribbon">' + getRibbon(index) + '</div>' +
+                            '<div class="price-tag">' +
+                                '<span class="text-xs uppercase tracking-wider">from</span>' +
+                                '<span class="price">KSh ' + (offer.price || '0') + '</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="card-content">' +
+                            '<h3 class="font-["Cormorant_Garamond"] text-2xl text-[#2c3e4a] mb-3">' + offer.title + '</h3>' +
+                            '<p class="text-[#5c524a] text-sm leading-relaxed mb-4">' + (offer.subtitle || (offer.description ? offer.description.substring(0, 100) + '...' : 'Contact for details')) + '</p>' +
+                            '<div class="inclusions">' + renderInclusions(offerData[offer.slug] ? offerData[offer.slug].inclusions : []) + '</div>' +
+                            '<div class="validity">' +
+                                '<i class="far fa-calendar-alt"></i>' +
+                                '<span>Valid: ' + formatDateRange(offer.start_date, offer.end_date) + '</span>' +
+                            '</div>' +
+                            '<button onclick="openOfferModal(\'' + offer.slug + '\')" class="btn-offer flex items-center justify-center gap-2">' +
+                                '<span>View Details & Book</span>' +
+                                '<i class="fas fa-arrow-right"></i>' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>';
+                });
+                offersGrid.innerHTML = html;
+                console.log('Offers rendered successfully');
+                setTimeout(reveal, 300);
+            } catch (e) {
+                console.error('Error rendering offers:', e);
+                offersGrid.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-[#5c524a]">Error loading offers. Please try again later.</p></div>';
+            }
+        });
+        
         // Current main image for modal gallery
         let currentMainImage = '';
 
@@ -1174,7 +816,7 @@ include 'header.php'; ?>
             
             // Generate exclusions list
             const exclusionsHTML = offer.exclusions.map(item => `
-                <div class="flex items-center gap-3 text-[#8a735b]">
+                <div class="flex items-center gap-3 text-[#1e4d40]">
                     <i class="fas fa-times-circle text-sm"></i>
                     <span class="text-sm">${item}</span>
                 </div>
@@ -1184,8 +826,8 @@ include 'header.php'; ?>
                 <div>
                     <h2 class="font-['Cormorant_Garamond'] text-3xl text-[#2c3e4a] mb-2">${offer.title}</h2>
                     <div class="flex items-center gap-4 mb-6">
-                        <span class="text-[#b89a78] font-['DM_Serif_Display'] text-3xl">${offer.price}</span>
-                        <span class="text-[#8a735b] text-xs">per package</span>
+                        <span class="text-[#2d5a4a] font-['DM_Serif_Display'] text-3xl">${offer.price}</span>
+                        <span class="text-[#1e4d40] text-xs">per package</span>
                     </div>
                     
                     <!-- Main Image -->
@@ -1204,18 +846,18 @@ include 'header.php'; ?>
                     <!-- Quick Details -->
                     <div class="grid grid-cols-3 gap-4 mb-6 p-4 bg-[#f4ede5]">
                         <div class="text-center">
-                            <i class="fas fa-calendar-alt text-[#b89a78] mb-2"></i>
-                            <p class="text-xs text-[#8a735b]">Validity</p>
+                            <i class="fas fa-calendar-alt text-[#2d5a4a] mb-2"></i>
+                            <p class="text-xs text-[#1e4d40]">Validity</p>
                             <p class="text-sm text-[#2c3e4a] font-medium">${offer.validity}</p>
                         </div>
                         <div class="text-center">
-                            <i class="fas fa-clock text-[#b89a78] mb-2"></i>
-                            <p class="text-xs text-[#8a735b]">Duration</p>
+                            <i class="fas fa-clock text-[#2d5a4a] mb-2"></i>
+                            <p class="text-xs text-[#1e4d40]">Duration</p>
                             <p class="text-sm text-[#2c3e4a] font-medium">${offer.duration}</p>
                         </div>
                         <div class="text-center">
-                            <i class="fas fa-users text-[#b89a78] mb-2"></i>
-                            <p class="text-xs text-[#8a735b]">Occupancy</p>
+                            <i class="fas fa-users text-[#2d5a4a] mb-2"></i>
+                            <p class="text-xs text-[#1e4d40]">Occupancy</p>
                             <p class="text-sm text-[#2c3e4a] font-medium">${offer.occupancy}</p>
                         </div>
                     </div>
@@ -1237,15 +879,15 @@ include 'header.php'; ?>
                     </div>
                     
                     <!-- Fine Print -->
-                    <div class="mb-6 p-4 bg-[#f4ede5] border-l-4 border-[#b89a78]">
-                        <p class="text-sm text-[#8a735b] italic">
-                            <i class="fas fa-info-circle mr-2 text-[#b89a78]"></i>
+                    <div class="mb-6 p-4 bg-[#f4ede5] border-l-4 border-[#2d5a4a]">
+                        <p class="text-sm text-[#1e4d40] italic">
+                            <i class="fas fa-info-circle mr-2 text-[#2d5a4a]"></i>
                             ${offer.finePrint}
                         </p>
                     </div>
                     
                     <!-- Book Button -->
-                    <button onclick="bookOffer('${offer.title}')" class="w-full py-4 bg-[#b89a78] text-white hover:bg-[#8a735b] transition-colors flex items-center justify-center gap-2">
+                    <button onclick="bookOffer('${offer.title}')" class="w-full py-4 bg-[#2d5a4a] text-white hover:bg-[#1e4d40] transition-colors flex items-center justify-center gap-2">
                         <span>Book This Offer</span>
                         <i class="fas fa-arrow-right"></i>
                     </button>
@@ -1268,12 +910,20 @@ include 'header.php'; ?>
         }
         
         function bookOffer(offerTitle) {
-            alert(`Thank you for your interest in ${offerTitle}! A member of our team will contact you within 24 hours to complete your booking.`);
+            // Close modal first
             closeModal();
+            
+            // Create WhatsApp message with offer details
+            const phoneNumber = '254769525570';
+            const message = `Hello AORA 45, I'm interested in booking the "${offerTitle}" package. Please provide more information about availability and how to proceed with the booking.`;
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Redirect to WhatsApp
+            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
         }
         
         function openCustomModal() {
-            alert('Please contact our concierge team to create your custom package. Call +254 769 525 570 or email concierge@aora.kenya');
+            showToast('Please contact our concierge team to create your custom package. Call +254 769 525 570 or email concierge@AORA.kenya', 'info');
         }
         
         function closeModal() {
@@ -1315,3 +965,4 @@ include 'header.php'; ?>
         window.addEventListener('load', reveal);
     </script>
 <?php include 'footer.php'; ?>
+

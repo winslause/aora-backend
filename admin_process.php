@@ -188,7 +188,10 @@ switch ($action) {
         $name = $_POST['name'];
         $slug = strtolower(str_replace(' ', '-', $name));
         $description = $_POST['description'] ?? '';
-        $display_order = $_POST['display_order'] ?? 0;
+        
+        // Get next display order automatically
+        $stmt = $pdo->query("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM room_types");
+        $display_order = $stmt->fetch()['next_order'];
         
         try {
             $stmt = $pdo->prepare("INSERT INTO room_types (name, slug, description, display_order) VALUES (:name, :slug, :description, :display_order)");
@@ -466,52 +469,65 @@ switch ($action) {
         checkAdminSession();
         $id = $_POST['id'];
         
-        // Get existing gallery images
+        // Get existing gallery images from database
         $stmt = $pdo->prepare("SELECT gallery FROM amenities WHERE id = ?");
         $stmt->execute([$id]);
         $existingAmenity = $stmt->fetch();
         $existingGallery = $existingAmenity ? json_decode($existingAmenity['gallery'], true) : [];
+        if (!is_array($existingGallery)) {
+            $existingGallery = [];
+        }
         
-        // Handle image uploads (3 images)
-        $uploadedImages = [];
+        // Start with existing gallery images
+        $allImages = $existingGallery;
+        
+        // Handle image uploads (3 images) - replace at specific positions
         $uploadDir = __DIR__ . '/uploads/amenities/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
         
-        // Process up to 3 image uploads
+        // Process up to 3 image uploads - they replace at positions 0, 1, 2
         for ($i = 1; $i <= 3; $i++) {
             $fileKey = 'amenityImage' . $i;
-            if (!empty($_FILES[$fileKey]['name'])) {
-                if ($_FILES[$fileKey]['error'] === UPLOAD_ERR_OK) {
-                    $tmpName = $_FILES[$fileKey]['tmp_name'];
-                    $name = basename($_FILES[$fileKey]['name']);
-                    $ext = pathinfo($name, PATHINFO_EXTENSION);
-                    $newName = 'amenity_' . uniqid() . '_' . $i . '.' . $ext;
-                    $targetPath = $uploadDir . $newName;
-                    
-                    if (move_uploaded_file($tmpName, $targetPath)) {
-                        $uploadedImages[] = 'uploads/amenities/' . $newName;
-                    }
+            if (!empty($_FILES[$fileKey]['name']) && $_FILES[$fileKey]['error'] === UPLOAD_ERR_OK) {
+                $tmpName = $_FILES[$fileKey]['tmp_name'];
+                $name = basename($_FILES[$fileKey]['name']);
+                $ext = pathinfo($name, PATHINFO_EXTENSION);
+                $newName = 'amenity_' . uniqid() . '_' . $i . '.' . $ext;
+                $targetPath = $uploadDir . $newName;
+                
+                if (move_uploaded_file($tmpName, $targetPath)) {
+                    // Replace at position i-1
+                    $allImages[$i - 1] = 'uploads/amenities/' . $newName;
                 }
             }
         }
         
-        // Get image URLs from form (for URLs entered manually)
-        $imageUrls = [];
+        // Handle new URLs from form inputs - replace at specific positions
         for ($i = 1; $i <= 3; $i++) {
             $urlKey = 'amenityImageUrl' . $i;
             if (!empty($_POST[$urlKey])) {
-                $imageUrls[] = $_POST[$urlKey];
+                // Replace at position i-1
+                $allImages[$i - 1] = $_POST[$urlKey];
             }
         }
         
-        // Get existing images that should be kept
-        $keepExisting = $_POST['existingImages'] ?? '[]';
-        $keepExistingArray = json_decode($keepExisting, true);
+        // Also check if frontend sent explicit existingImages array (from URL replacement)
+        if (isset($_POST['existingImages']) && is_array($_POST['existingImages'])) {
+            $frontendImages = $_POST['existingImages'];
+            // Replace at positions where frontend has values
+            for ($i = 0; $i < count($frontendImages); $i++) {
+                if (!empty($frontendImages[$i])) {
+                    $allImages[$i] = $frontendImages[$i];
+                }
+            }
+        }
         
-        // Merge: keep existing + new uploads + new URLs
-        $allImages = array_merge($keepExistingArray, $uploadedImages, $imageUrls);
+        // Re-index array to remove gaps and empty values
+        $allImages = array_values(array_filter($allImages, function($val) {
+            return !empty(trim($val));
+        }));
         
         // Set main image to first image
         $mainImage = !empty($allImages) ? $allImages[0] : '';
@@ -569,7 +585,10 @@ switch ($action) {
         checkAdminSession();
         $name = $_POST['name'];
         $description = $_POST['description'] ?? '';
-        $display_order = $_POST['display_order'] ?? 0;
+        
+        // Get next display order automatically
+        $stmt = $pdo->query("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM amenity_categories");
+        $display_order = $stmt->fetch()['next_order'];
         
         try {
             $stmt = $pdo->prepare("INSERT INTO amenity_categories (name, description, display_order) VALUES (:name, :description, :display_order)");
@@ -934,7 +953,8 @@ switch ($action) {
             ]);
             echo json_encode(['success' => true, 'message' => 'Venue added successfully', 'id' => $pdo->lastInsertId()]);
         } catch (PDOException $e) {
-            echo json_encode(['success' => false, 'message' => 'Error adding venue']);
+            error_log('Error adding venue: ' . $e->getMessage());
+            echo json_encode(['success' => false, 'message' => 'Error adding venue: ' . $e->getMessage()]);
         }
         break;
     
@@ -1090,7 +1110,10 @@ switch ($action) {
         $cover_image = $_POST['cover_image'] ?? '';
         $icon = $_POST['icon'] ?? 'fa-images';
         $photo_count = $_POST['photo_count'] ?? 0;
-        $display_order = $_POST['display_order'] ?? 0;
+        
+        // Get next display order automatically
+        $stmt = $pdo->query("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM gallery_albums");
+        $display_order = $stmt->fetch()['next_order'];
         
         try {
             $stmt = $pdo->prepare("INSERT INTO gallery_albums (title, slug, description, cover_image, icon, photo_count, display_order) VALUES (:title, :slug, :description, :cover_image, :icon, :photo_count, :display_order)");
@@ -1185,7 +1208,11 @@ switch ($action) {
         $caption = $_POST['caption'] ?? '';
         $category = $_POST['category'] ?? '';
         $grid_size = $_POST['grid_size'] ?? 'regular';
-        $display_order = $_POST['display_order'] ?? 0;
+        
+        // Get next display order automatically
+        $stmt = $pdo->prepare("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM gallery_images WHERE album_id = ?");
+        $stmt->execute([$album_id]);
+        $display_order = $stmt->fetch()['next_order'];
         
         // Handle file upload if present
         if (!empty($_FILES['imageFile']['name'])) {
@@ -1343,15 +1370,20 @@ switch ($action) {
         $image4 = $_POST['image4'] ?? '';
         $image5 = $_POST['image5'] ?? '';
         $inclusions = $_POST['inclusions'] ?? '[]';
-        $display_order = $_POST['display_order'] ?? 0;
+        $start_date = $_POST['start_date'] ?? null;
+        $end_date = $_POST['end_date'] ?? null;
+        
+        // Get next display order automatically
+        $stmt = $pdo->query("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM offers");
+        $display_order = $stmt->fetch()['next_order'];
         
         try {
-            $stmt = $pdo->prepare("INSERT INTO offers (title, slug, subtitle, description, price, price_label, icon, icon_color, image1, image2, image3, image4, image5, inclusions, display_order) VALUES (:title, :slug, :subtitle, :description, :price, :price_label, :icon, :icon_color, :image1, :image2, :image3, :image4, :image5, :inclusions, :display_order)");
+            $stmt = $pdo->prepare("INSERT INTO offers (title, slug, subtitle, description, price, price_label, icon, icon_color, image1, image2, image3, image4, image5, inclusions, start_date, end_date, display_order) VALUES (:title, :slug, :subtitle, :description, :price, :price_label, :icon, :icon_color, :image1, :image2, :image3, :image4, :image5, :inclusions, :start_date, :end_date, :display_order)");
             $stmt->execute([
                 'title' => $title, 'slug' => $slug, 'subtitle' => $subtitle, 'description' => $description,
                 'price' => $price, 'price_label' => $price_label, 'icon' => $icon, 'icon_color' => $icon_color,
                 'image1' => $image1, 'image2' => $image2, 'image3' => $image3, 'image4' => $image4, 'image5' => $image5,
-                'inclusions' => $inclusions, 'display_order' => $display_order
+                'inclusions' => $inclusions, 'start_date' => $start_date, 'end_date' => $end_date, 'display_order' => $display_order
             ]);
             echo json_encode(['success' => true, 'message' => 'Offer added successfully', 'id' => $pdo->lastInsertId()]);
         } catch (PDOException $e) {
@@ -1377,15 +1409,17 @@ switch ($action) {
         $image4 = $_POST['image4'] ?? '';
         $image5 = $_POST['image5'] ?? '';
         $inclusions = $_POST['inclusions'] ?? '[]';
+        $start_date = $_POST['start_date'] ?? null;
+        $end_date = $_POST['end_date'] ?? null;
         $display_order = $_POST['display_order'] ?? 0;
         
         try {
-            $stmt = $pdo->prepare("UPDATE offers SET title = :title, slug = :slug, subtitle = :subtitle, description = :description, price = :price, price_label = :price_label, icon = :icon, icon_color = :icon_color, image1 = :image1, image2 = :image2, image3 = :image3, image4 = :image4, image5 = :image5, inclusions = :inclusions, display_order = :display_order WHERE id = :id");
+            $stmt = $pdo->prepare("UPDATE offers SET title = :title, slug = :slug, subtitle = :subtitle, description = :description, price = :price, price_label = :price_label, icon = :icon, icon_color = :icon_color, image1 = :image1, image2 = :image2, image3 = :image3, image4 = :image4, image5 = :image5, inclusions = :inclusions, start_date = :start_date, end_date = :end_date, display_order = :display_order WHERE id = :id");
             $stmt->execute([
                 'title' => $title, 'slug' => $slug, 'subtitle' => $subtitle, 'description' => $description,
                 'price' => $price, 'price_label' => $price_label, 'icon' => $icon, 'icon_color' => $icon_color,
                 'image1' => $image1, 'image2' => $image2, 'image3' => $image3, 'image4' => $image4, 'image5' => $image5,
-                'inclusions' => $inclusions, 'display_order' => $display_order, 'id' => $id
+                'inclusions' => $inclusions, 'start_date' => $start_date, 'end_date' => $end_date, 'display_order' => $display_order, 'id' => $id
             ]);
             echo json_encode(['success' => true, 'message' => 'Offer updated successfully']);
         } catch (PDOException $e) {
@@ -1400,6 +1434,50 @@ switch ($action) {
         $stmt = $pdo->prepare("UPDATE offers SET is_active = 0 WHERE id = ?");
         $stmt->execute([$id]);
         echo json_encode(['success' => true, 'message' => 'Offer deleted successfully']);
+        break;
+    
+    // ==================== OFFER INCLUSIONS MANAGEMENT ====================
+    
+    // Get all inclusions
+    case 'get_all_inclusions':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT * FROM offer_inclusions ORDER BY display_order ASC");
+        $inclusions = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'inclusions' => $inclusions]);
+        break;
+    
+    // Add inclusion
+    case 'add_inclusion':
+        checkAdminSession();
+        $name = $_POST['name'] ?? '';
+        $description = $_POST['description'] ?? '';
+        $icon = $_POST['icon'] ?? 'fa-check';
+        
+        if (empty($name)) {
+            echo json_encode(['success' => false, 'message' => 'Name is required']);
+            break;
+        }
+        
+        // Get next display order
+        $stmt = $pdo->query("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM offer_inclusions");
+        $nextOrder = $stmt->fetch()['next_order'];
+        
+        try {
+            $stmt = $pdo->prepare("INSERT INTO offer_inclusions (name, description, icon, display_order) VALUES (:name, :description, :icon, :display_order)");
+            $stmt->execute(['name' => $name, 'description' => $description, 'icon' => $icon, 'display_order' => $nextOrder]);
+            echo json_encode(['success' => true, 'message' => 'Inclusion added successfully', 'id' => $pdo->lastInsertId()]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error adding inclusion']);
+        }
+        break;
+    
+    // Delete inclusion
+    case 'delete_inclusion':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM offer_inclusions WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Inclusion deleted successfully']);
         break;
     
     // ==================== MENU MANAGEMENT ====================
@@ -1425,7 +1503,10 @@ switch ($action) {
         $name = $_POST['name'] ?? '';
         $description = $_POST['description'] ?? '';
         $icon = $_POST['icon'] ?? 'fa-utensils';
-        $display_order = $_POST['display_order'] ?? 0;
+        
+        // Get next display order automatically
+        $stmt = $pdo->query("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM menu_categories");
+        $display_order = $stmt->fetch()['next_order'];
         
         try {
             $stmt = $pdo->prepare("INSERT INTO menu_categories (name, description, icon, display_order) VALUES (:name, :description, :icon, :display_order)");
@@ -1532,9 +1613,13 @@ switch ($action) {
         $image = $_POST['image'] ?? '';
         $is_signature = $_POST['is_signature'] ?? 0;
         $is_available = $_POST['is_available'] ?? 1;
-        $display_order = $_POST['display_order'] ?? 0;
         $ingredients = $_POST['ingredients'] ?? '[]';
         $allergens = $_POST['allergens'] ?? '[]';
+        
+        // Get next display order automatically for this category
+        $stmt = $pdo->prepare("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM menu_items WHERE category_id = ?");
+        $stmt->execute([$category_id]);
+        $display_order = $stmt->fetch()['next_order'];
         
         // Handle image upload
         if (!empty($_FILES['image']['name'])) {
@@ -1842,7 +1927,10 @@ switch ($action) {
         checkAdminSession();
         $title = $_POST['title'] ?? '';
         $description = $_POST['description'] ?? '';
-        $display_order = $_POST['display_order'] ?? 0;
+        
+        // Get next display order automatically
+        $stmt = $pdo->query("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM sample_menus");
+        $display_order = $stmt->fetch()['next_order'];
         
         try {
             $stmt = $pdo->prepare("INSERT INTO sample_menus (title, description, display_order) VALUES (:title, :description, :display_order)");
@@ -1897,12 +1985,16 @@ switch ($action) {
         $menu_id = $_POST['menu_id'] ?? null;
         $name = $_POST['name'] ?? '';
         $price = $_POST['price'] ?? '';
-        $display_order = $_POST['display_order'] ?? 0;
         
         if (!$menu_id || !$name) {
             echo json_encode(['success' => false, 'message' => 'Menu ID and name are required']);
             break;
         }
+        
+        // Get next display order automatically
+        $stmt = $pdo->prepare("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM sample_menu_items WHERE menu_id = ?");
+        $stmt->execute([$menu_id]);
+        $display_order = $stmt->fetch()['next_order'];
         
         try {
             $stmt = $pdo->prepare("INSERT INTO sample_menu_items (menu_id, name, price, display_order) VALUES (:menu_id, :name, :price, :display_order)");
@@ -1966,7 +2058,10 @@ switch ($action) {
         $price = $_POST['price'] ?? 0;
         $image = $_POST['image'] ?? '';
         $features = $_POST['features'] ?? '[]';
-        $display_order = $_POST['display_order'] ?? 0;
+        
+        // Get next display order automatically
+        $stmt = $pdo->query("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM table_types");
+        $display_order = $stmt->fetch()['next_order'];
         
         // Handle image upload
         if (!empty($_FILES['image']['name'])) {

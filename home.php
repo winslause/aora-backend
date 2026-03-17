@@ -19,23 +19,23 @@ include 'header.php'; ?>
         <div class="cinema-showcase">
             <!-- Frame 1 - Resort Pool -->
             <div class="cinema-frame">
-                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Infinity Pool at Sunset" class="cinema-image">
+                <img src="https://samburunationalreservekenya.com/wp-content/uploads/2024/04/IMG_0870.jpg" alt="Infinity Pool at Sunset" class="cinema-image">
             </div>
             <!-- Frame 2 - Beach -->
             <div class="cinema-frame">
-                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Private Beach Paradise" class="cinema-image">
+                <img src="https://www.goseeko.com/blog/wp-content/uploads/2021/07/kermit-nicou-j7Eww2PvSvk-unsplash-scaled-1.jpg" alt="Private Beach Paradise" class="cinema-image">
             </div>
             <!-- Frame 3 - Luxury Suite -->
             <div class="cinema-frame">
-                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" alt="Oceanfront Suite" class="cinema-image">
+                <img src="https://m.media-amazon.com/images/I/81M-eUz7tTL._AC_UF894,1000_QL80_.jpg" alt="Oceanfront Suite" class="cinema-image">
             </div>
             <!-- Frame 4 - Restaurant -->
             <div class="cinema-frame">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Fine Dining Restaurant" class="cinema-image">
+                <img src="https://cdn.prod.website-files.com/63a02e61e7ffb565c30bcfc7/677f90e23b8737da7632b66e_65852c6fbbbe0d60a85cedcb_patio%2520gazebo%2520ideas.webp" alt="Fine Dining Restaurant" class="cinema-image">
             </div>
             <!-- Frame 5 - Spa -->
             <div class="cinema-frame">
-                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Luxury Spa Treatment" class="cinema-image">
+                <img src="https://i0.wp.com/blog.education.nationalgeographic.org/wp-content/uploads/2013/10/29598.jpg" alt="Luxury Spa Treatment" class="cinema-image">
             </div>
             <!-- Frame 6 - Sunset -->
             <div class="cinema-frame">
@@ -64,8 +64,8 @@ include 'header.php'; ?>
                     <!-- Center text - Main tagline -->
                     <div class="arrow-center-text">
                         <div class="center-title">
-                            Unearth Timeless Luxury
-                            <span class="brand">Aora45</span>
+                            Stay in Your Element
+                            <span class="brand">AORA 45</span>
                         </div>
                         <div class="center-subtitle">Begin Your Journey</div>
                     </div>
@@ -97,23 +97,22 @@ include 'header.php'; ?>
     <!-- Decorative Elements - Subtle Skeuomorphic Details -->
     <div class="absolute inset-0 pointer-events-none">
         <div class="absolute top-0 left-0 w-64 h-64 bg-[#e8d9c5] rounded-full blur-3xl opacity-20"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 bg-[#d4b48c] rounded-full blur-3xl opacity-10"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-[#4a90a0] rounded-full blur-3xl opacity-10"></div>
     </div>
     
     <div class="max-w-5xl mx-auto relative">
         <!-- Ornate Divider - Top -->
         <div class="flex justify-center items-center gap-4 mb-8">
             <div class="w-12 h-px bg-gradient-to-r from-transparent via-[#b8a084] to-transparent"></div>
-            <i class="fas fa-tree text-[#b89a78] text-sm"></i>
+            <i class="fas fa-tree text-[#2d5a4a] text-sm"></i>
             <div class="w-12 h-px bg-gradient-to-r from-transparent via-[#b8a084] to-transparent"></div>
         </div>
         
         <!-- Main Content - Brief, Evocative Paragraph -->
         <div class="text-center mb-10">
             <p class="font-['Cormorant_Garamond'] text-2xl md:text-3xl lg:text-4xl text-[#3f352e] leading-relaxed max-w-3xl mx-auto italic">
-                "Where the <span class="font-semibold text-[#8a735b]">highlands' whisper</span> meets 
-                <span class="font-semibold text-[#8a735b]">Swahili coast flavors</span>, and every 
-                <span class="font-['DM_Serif_Display'] text-[#b89a78]">Nairobi sunset</span> paints a new story."
+                "Where timeless elegance meets nature's embrace,<br>
+                and every sunset paints a new story of luxury."
             </p>
         </div>
         
@@ -121,8 +120,8 @@ include 'header.php'; ?>
         <div class="flex flex-col items-center">
             <div class="max-w-2xl text-center mb-8">
                 <p class="font-['Montserrat'] text-sm md:text-base text-[#6b5d51] leading-relaxed tracking-wide">
-                    In the heart of Nairobi's vibrant landscape, Aora45 offers an urban sanctuary—<br class="hidden sm:block">
-                    where Kenyan hospitality meets timeless elegance.
+                    Nestled in the heart of Kenya's most breathtaking landscape, AORA 45 offers an unparalleled escape—<br class="hidden sm:block">
+                    where luxury meets nature, and every moment becomes an unforgettable memory.
                 </p>
             </div>
             
@@ -135,7 +134,7 @@ include 'header.php'; ?>
                 <span class="font-['Montserrat'] text-sm uppercase tracking-[0.2em] text-[#5c524a] group-hover:text-[#3f352e] transition-colors">
                     DISCOVER MORE ABOUT US
                 </span>
-                <i class="fas fa-arrow-right text-[#b89a78] text-sm group-hover:translate-x-1 transition-transform duration-300"></i>
+                <i class="fas fa-arrow-right text-[#2d5a4a] text-sm group-hover:translate-x-1 transition-transform duration-300"></i>
                 
                 <!-- Decorative right line -->
                 <span class="w-6 h-px bg-gradient-to-r from-transparent via-[#b8a084] to-transparent group-hover:w-8 transition-all duration-300"></span>
@@ -148,7 +147,7 @@ include 'header.php'; ?>
         <!-- Ornate Divider - Bottom - with Kenyan inspired icon -->
         <div class="flex justify-center items-center gap-4 mt-12">
             <div class="w-12 h-px bg-gradient-to-r from-transparent via-[#b8a084] to-transparent"></div>
-            <i class="fas fa-mountain text-[#b89a78] text-xs"></i>
+            <i class="fas fa-mountain text-[#2d5a4a] text-xs"></i>
             <div class="w-12 h-px bg-gradient-to-r from-transparent via-[#b8a084] to-transparent"></div>
         </div>
     </div>
@@ -168,16 +167,14 @@ include 'header.php'; ?>
 
     <!-- Section Header -->
     <div class="relative z-10 max-w-7xl mx-auto text-center mb-12">
-        <span class="text-[#d4b48c] font-['Montserrat'] text-sm uppercase tracking-[0.3em]">Luxury Stays</span>
+        <span class="text-[#4a90a0] font-['Montserrat'] text-sm uppercase tracking-[0.3em]">Luxury Stays</span>
         <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-white mt-4 mb-6">Rooms & Suites</h2>
-        <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+        <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
     </div>
 
     <!-- Slideshow Container -->
     <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
-        <!-- Gradient Overlays for fade effect on edges -->
-        <div class="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-[#1a2a32] to-transparent z-20 pointer-events-none"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-[#1a2a32] to-transparent z-20 pointer-events-none"></div>
+        <!-- No gradient overlays - relying on mask to hide 4th card -->
         
         <!-- Loading indicator -->
         <div id="indexLoadingIndicator" class="flex justify-center items-center py-20">
@@ -186,10 +183,10 @@ include 'header.php'; ?>
         </div>
         
         <!-- Cards Slider - Loaded dynamically from database -->
-        <div class="slider-container overflow-hidden py-4" style="mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);">
+        <div class="slider-container overflow-hidden" id="sliderContainer">
             <div class="slider-track flex gap-0" id="roomSlider">
                 <!-- Placeholder slides for loading state - will be replaced by dynamic content -->
-                <div class="slide flex-none w-full md:w-1/3 px-2">
+                <div class="slide flex-none w-full md:w-1/3">
                     <div class="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 h-full animate-pulse">
                         <div class="relative h-48 bg-white/10"></div>
                         <div class="p-4 space-y-3">
@@ -199,7 +196,7 @@ include 'header.php'; ?>
                         </div>
                     </div>
                 </div>
-                <div class="slide flex-none w-full md:w-1/3 px-2">
+                <div class="slide flex-none w-full md:w-1/3">
                     <div class="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 h-full animate-pulse">
                         <div class="relative h-48 bg-white/10"></div>
                         <div class="p-4 space-y-3">
@@ -209,7 +206,7 @@ include 'header.php'; ?>
                         </div>
                     </div>
                 </div>
-                <div class="slide flex-none w-full md:w-1/3 px-2">
+                <div class="slide flex-none w-full md:w-1/3">
                     <div class="bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 h-full animate-pulse">
                         <div class="relative h-48 bg-white/10"></div>
                         <div class="p-4 space-y-3">
@@ -256,7 +253,7 @@ include 'header.php'; ?>
 .loader {
     border: 3px solid rgba(255,255,255,0.3);
     border-radius: 50%;
-    border-top: 3px solid #d4b48c;
+    border-top: 3px solid #4a90a0;
     width: 24px;
     height: 24px;
     -webkit-animation: spin 1s linear infinite;
@@ -272,7 +269,16 @@ include 'header.php'; ?>
 .slider-container {
     width: 100%;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
+}
+
+/* Mobile-specific: use clip-path to hide cards at edges */
+@media (max-width: 767px) {
+    .slider-container {
+        overflow: visible;
+        -webkit-clip-path: inset(0 0 0 0);
+        clip-path: inset(0 0 0 0);
+    }
 }
 
 .slider-track {
@@ -292,7 +298,7 @@ include 'header.php'; ?>
 }
 
 .dot.active {
-    background-color: #d4b48c;
+    background-color: #4a90a0;
     transform: scale(1.2);
 }
 
@@ -316,7 +322,7 @@ include 'header.php'; ?>
 }
 
 #roomModal .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: #d4b48c;
+    background: #4a90a0;
     border-radius: 10px;
 }
 
@@ -368,10 +374,31 @@ include 'header.php'; ?>
     .slider-container {
         padding-top: 8px;
         padding-bottom: 8px;
+        overflow: hidden;
+    }
+    
+    .slider-track {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    .slide {
+        /* Force 1 card per slide on mobile - remove padding that affects width */
+        width: 100% !important;
+        flex: 0 0 100% !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        box-sizing: border-box;
     }
     
     .accommodation-card .relative.h-48 {
         height: 220px;
+    }
+    
+    /* Adjust mask for mobile to show full card */
+    .slider-container {
+        mask-image: none !important;
+        -webkit-mask-image: none !important;
     }
 }
 
@@ -380,14 +407,26 @@ include 'header.php'; ?>
     .slider-track {
         padding-top: 4px;
         padding-bottom: 4px;
+        padding-left: 24px;
+        padding-right: 48px;
     }
     
     .accommodation-card .relative.h-48 {
         height: 200px;
     }
+    
+    /* Hide overflow to show only 3 cards */
+    #sliderContainer {
+        overflow: hidden !important;
+    }
+    
+    /* Mask to hide fourth card on right - increased fade */
+    #sliderContainer {
+        mask-image: linear-gradient(to right, black 0%, black 85%, transparent 100%) !important;
+        -webkit-mask-image: linear-gradient(to right, black 0%, black 85%, transparent 100%) !important;
+    }
 }
->
-//</style>
+</style>
 
 <script>
 // Global variables for rooms data
@@ -449,7 +488,7 @@ function renderRoomCards(rooms) {
         const image = room.images && room.images.length > 0 ? room.images[0] : 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80';
         
         cardsHTML += `
-            <div class="slide flex-none w-full md:w-1/3 px-2" data-room-type="${roomType}">
+            <div class="slide flex-none w-full md:w-1/3" data-room-type="${roomType}">
                 <div class="accommodation-card bg-white/10 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300 h-full">
                     <div class="relative h-48 overflow-hidden">
                         <img src="${image}" alt="${room.name}" class="w-full h-full object-cover">
@@ -460,14 +499,14 @@ function renderRoomCards(rooms) {
                     </div>
                     <div class="p-4">
                         <div class="flex items-center justify-between mb-3">
-                            <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh ${price}</span>
+                            <span class="text-[#4a90a0] font-['DM_Serif_Display'] text-xl">KSh ${price}</span>
                             <span class="text-white/60 text-xs">/ night</span>
                         </div>
                         <div class="flex items-center gap-3 text-white/70 text-xs mb-3">
                             <span><i class="fas fa-user mr-1"></i> ${room.occupancy}</span>
                             <span><i class="fas fa-ruler-combined mr-1"></i> ${room.size}</span>
                         </div>
-                        <button onclick="openRoomModal('${roomType}')" class="w-full py-2.5 bg-[#d4b48c] text-[#1a2a32] rounded-full text-sm font-medium hover:bg-[#c4a47c] transition-colors">
+                        <button onclick="openRoomModal('${roomType}')" class="w-full py-2.5 bg-[#4a90a0] text-[#1a2a32] rounded-full text-sm font-medium hover:bg-[#c4a47c] transition-colors">
                             Check Availability & Book
                         </button>
                     </div>
@@ -508,7 +547,9 @@ function initSlideshow() {
         if (!slides.length || isAnimating) return;
         
         const slideWidth = getSlideWidth();
-        const translateX = -(index * slideWidth);
+        
+        // On mobile, the slide is 100% width so it should be naturally centered
+        let translateX = -(index * slideWidth);
         
         if (animate) {
             sliderTrack.style.transition = 'transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
@@ -531,10 +572,10 @@ function initSlideshow() {
                 // Calculate which set we're showing (modulo for looping)
                 const effectiveSet = currentSet % maxSets;
                 if (i === effectiveSet) {
-                    dot.classList.add('active', 'bg-[#d4b48c]');
+                    dot.classList.add('active', 'bg-[#4a90a0]');
                     dot.classList.remove('bg-white/30');
                 } else {
-                    dot.classList.remove('active', 'bg-[#d4b48c]');
+                    dot.classList.remove('active', 'bg-[#4a90a0]');
                     dot.classList.add('bg-white/30');
                 }
             }
@@ -559,7 +600,12 @@ function initSlideshow() {
             setTimeout(() => {
                 sliderTrack.style.transition = 'none';
                 currentIndex = currentIndex - totalOriginalCards;
-                sliderTrack.style.transform = `translateX(${-(currentIndex * getSlideWidth())}px)`;
+                
+                // Simple translate without offset since slides are 100% width on mobile
+                const slideWidth = getSlideWidth();
+                const translateX = -(currentIndex * slideWidth);
+                
+                sliderTrack.style.transform = `translateX(${translateX}px)`;
                 
                 // Force reflow
                 sliderTrack.offsetHeight;
@@ -589,7 +635,7 @@ function initSlideshow() {
         
         for (let i = 0; i < maxSets; i++) {
             const dot = document.createElement('div');
-            dot.className = `w-1.5 h-1.5 rounded-full dot ${i === 0 ? 'bg-[#d4b48c] active' : 'bg-white/30'}`;
+            dot.className = `w-1.5 h-1.5 rounded-full dot ${i === 0 ? 'bg-[#4a90a0] active' : 'bg-white/30'}`;
             dot.dataset.index = i;
             dot.addEventListener('click', () => {
                 clearInterval(autoPlayInterval);
@@ -626,9 +672,9 @@ function initSlideshow() {
                 createDots();
             }
             
-            // Reset to beginning on resize
+            // Reset to beginning on resize and apply centering offset if mobile
             currentIndex = 0;
-            sliderTrack.style.transform = 'translateX(0)';
+            updateSlider(0, false);
             
             // Restart autoplay with new interval
             startAutoPlay();
@@ -688,7 +734,7 @@ function openRoomModal(roomType) {
                     <div class="text-white">
                         <div class="flex items-center justify-between mb-3">
                             <h2 class="font-['Cormorant_Garamond'] text-2xl text-white">${room.name}</h2>
-                            <div class="flex text-[#d4b48c]">
+                            <div class="flex text-[#4a90a0]">
                                 <i class="fas fa-star text-xs"></i>
                                 <i class="fas fa-star text-xs"></i>
                                 <i class="fas fa-star text-xs"></i>
@@ -698,7 +744,7 @@ function openRoomModal(roomType) {
                         </div>
                         
                         <div class="flex items-center gap-3 mb-4">
-                            <span class="text-[#d4b48c] font-['DM_Serif_Display'] text-xl">KSh ${price}</span>
+                            <span class="text-[#4a90a0] font-['DM_Serif_Display'] text-xl">KSh ${price}</span>
                             <span class="text-white/60 text-xs">/ night</span>
                             <span class="text-white/40">|</span>
                             <span class="text-white/80 text-xs">${room.size}</span>
@@ -712,7 +758,7 @@ function openRoomModal(roomType) {
                         <div class="grid grid-cols-2 gap-2 mb-6">
                             ${room.amenities.map(amenity => `
                                 <div class="flex items-center gap-2 text-white/70">
-                                    <i class="fas fa-check-circle text-[#d4b48c] text-[10px]"></i>
+                                    <i class="fas fa-check-circle text-[#4a90a0] text-[10px]"></i>
                                     <span class="text-xs">${amenity}</span>
                                 </div>
                             `).join('')}
@@ -754,7 +800,7 @@ function openRoomModal(roomType) {
                                 </div>
                             </div>
                             
-                            <button type="submit" id="indexCheckBtn" class="w-full px-5 py-2.5 bg-[#d4b48c] text-[#1a2a32] rounded-full text-sm font-medium hover:bg-[#c4a47c] transition-colors">
+                            <button type="submit" id="indexCheckBtn" class="w-full px-5 py-2.5 bg-[#4a90a0] text-[#1a2a32] rounded-full text-sm font-medium hover:bg-[#c4a47c] transition-colors">
                                 Check Availability
                             </button>
                         </form>
@@ -843,7 +889,7 @@ function checkAvailabilityIndex(event, roomType) {
                             <img src="${altImage}" alt="${alt.name}" class="w-10 h-10 object-cover rounded">
                             <div class="flex-1 min-w-0">
                                 <p class="text-white text-xs truncate">${alt.name}</p>
-                                <p class="text-[#d4b48c] text-xs">KSh ${altPrice}/night</p>
+                                <p class="text-[#4a90a0] text-xs">KSh ${altPrice}/night</p>
                             </div>
                         </div>
                     `;
@@ -977,7 +1023,7 @@ function confirmBookingIndex(event, roomType, totalPrice) {
                         <p class="text-white/80"><strong>Total:</strong> KSh ${data.booking.total_price.toLocaleString()}</p>
                     </div>
                     <p class="text-white/60 text-xs mb-3">Confirmation sent to ${guestEmail}</p>
-                    <button onclick="closeRoomModal()" class="px-5 py-2 bg-[#d4b48c] text-[#1a2a32] rounded-full text-xs hover:bg-[#c4a47c]">
+                    <button onclick="closeRoomModal()" class="px-5 py-2 bg-[#4a90a0] text-[#1a2a32] rounded-full text-xs hover:bg-[#c4a47c]">
                         Close
                     </button>
                 </div>
@@ -1015,6 +1061,15 @@ document.addEventListener('keydown', function(e) {
         closeRoomModal();
     }
 });
+
+// Claim Offer - Opens WhatsApp with pre-filled message
+function claimOffer(offerTitle, offerPrice, priceLabel) {
+    const phoneNumber = '254769525570';
+    const price = parseInt(offerPrice).toLocaleString();
+    const message = `Hello AORA 45, I'm interested in claiming the "${offerTitle}" package.\n\nPrice: KSh ${price} ${priceLabel}\n\nPlease provide more information about availability and how to proceed with the booking.`;
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+}
 </script>
 
 
@@ -1024,19 +1079,19 @@ document.addEventListener('keydown', function(e) {
     <!-- Decorative Elements - Luxury Restaurant Ambiance -->
     <div class="absolute inset-0 pointer-events-none">
         <!-- Warm ambient glow -->
-        <div class="absolute top-20 right-20 w-96 h-96 bg-[#d4b48c]/20 rounded-full blur-[100px]"></div>
-        <div class="absolute bottom-20 left-20 w-80 h-80 bg-[#8a735b]/20 rounded-full blur-[100px]"></div>
+        <div class="absolute top-20 right-20 w-96 h-96 bg-[#4a90a0]/20 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-20 left-20 w-80 h-80 bg-[#1e4d40]/20 rounded-full blur-[100px]"></div>
         
         <!-- Subtle pattern overlay - fine dining texture -->
-        <div class="absolute inset-0 opacity-[0.02]" style="background-image: repeating-linear-gradient(45deg, #8a735b 0px, #8a735b 2px, transparent 2px, transparent 8px);"></div>
+        <div class="absolute inset-0 opacity-[0.02]" style="background-image: repeating-linear-gradient(45deg, #1e4d40 0px, #1e4d40 2px, transparent 2px, transparent 8px);"></div>
     </div>
 
     <div class="max-w-7xl mx-auto relative">
         <!-- Section Header - Minimalist Elegance -->
         <div class="text-center mb-16">
-            <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Welcome to Aora</span>
-            <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">Exquisite Dining Experience</h2>
-            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+            <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Culinary Excellence</span>
+            <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">Curated Flavors & Spirits</h2>
+            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
         </div>
 
         <!-- Main Content Grid - Asymmetric Luxury Layout -->
@@ -1045,8 +1100,8 @@ document.addEventListener('keydown', function(e) {
             <!-- Left Column - Signature Dish with Cinematic Presentation -->
             <div class="relative order-2 lg:order-1">
                 <!-- Floating decoration - gold leaf effect -->
-                <div class="absolute -top-8 -left-8 w-32 h-32 border border-[#d4b48c]/30 rounded-full"></div>
-                <div class="absolute -bottom-6 -right-6 w-40 h-40 border border-[#d4b48c]/20 rounded-full"></div>
+                <div class="absolute -top-8 -left-8 w-32 h-32 border border-[#4a90a0]/30 rounded-full"></div>
+                <div class="absolute -bottom-6 -right-6 w-40 h-40 border border-[#4a90a0]/20 rounded-full"></div>
                 
                 <!-- Main Image Container with Unique Frame -->
                 <div class="relative group">
@@ -1065,7 +1120,7 @@ document.addEventListener('keydown', function(e) {
                         <div class="absolute bottom-8 left-8 right-8">
                             <div class="inline-block bg-white/10 backdrop-blur-md px-6 py-3 rounded-full border border-white/20">
                                 <span class="text-white font-['Cormorant_Garamond'] text-xl tracking-wide">Nyama Choma</span>
-                                <span class="text-[#d4b48c] mx-3">•</span>
+                                <span class="text-[#4a90a0] mx-3">•</span>
                                 <span class="text-white/80 text-sm font-light">with Kachumbari</span>
                             </div>
                         </div>
@@ -1076,8 +1131,8 @@ document.addEventListener('keydown', function(e) {
                     
                     <!-- Animated Accent - Floating Particles -->
                     <div class="absolute -top-4 -right-4 w-20 h-20">
-                        <div class="absolute w-2 h-2 bg-[#d4b48c] rounded-full animate-ping" style="animation-duration: 3s;"></div>
-                        <div class="absolute top-8 left-8 w-1.5 h-1.5 bg-[#d4b48c]/60 rounded-full animate-ping" style="animation-duration: 4s; animation-delay: 1s;"></div>
+                        <div class="absolute w-2 h-2 bg-[#4a90a0] rounded-full animate-ping" style="animation-duration: 3s;"></div>
+                        <div class="absolute top-8 left-8 w-1.5 h-1.5 bg-[#4a90a0]/60 rounded-full animate-ping" style="animation-duration: 4s; animation-delay: 1s;"></div>
                     </div>
                 </div>
             </div>
@@ -1086,13 +1141,13 @@ document.addEventListener('keydown', function(e) {
             <div class="relative order-1 lg:order-2 space-y-8">
                 <!-- Restaurant Credentials - Elegant Badge -->
                 <div class="inline-flex items-center gap-4 bg-white/50 backdrop-blur-sm px-5 py-2 rounded-full border border-[#e0d6cc]">
-                    <div class="w-10 h-10 rounded-full overflow-hidden bg-[#8a735b] flex items-center justify-center">
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-[#1e4d40] flex items-center justify-center">
                         <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2080&q=80" 
                              alt="Restaurant" 
                              class="w-full h-full object-cover">
                     </div>
                     <div>
-                        <span class="text-[#8a735b] text-xs uppercase tracking-wider font-medium">Our Kitchen</span>
+                        <span class="text-[#1e4d40] text-xs uppercase tracking-wider font-medium">Our Kitchen</span>
                         <h3 class="font-['Cormorant_Garamond'] text-xl text-[#3f352e]">Aora Restaurant</h3>
                     </div>
                 </div>
@@ -1100,8 +1155,8 @@ document.addEventListener('keydown', function(e) {
                 <!-- Main Headline -->
                 <div>
                     <h2 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl lg:text-5xl text-[#3f352e] leading-tight">
-                        Where <span class="italic text-[#8a735b]">Swahili spices</span><br>
-                        meet <span class="italic text-[#8a735b]">modern artistry</span>
+                        Where <span class="italic text-[#1e4d40]">local flavors</span><br>
+                        meet <span class="italic text-[#1e4d40]">modern artistry</span>
                     </h2>
                 </div>
 
@@ -1112,8 +1167,8 @@ document.addEventListener('keydown', function(e) {
                     </p>
                     <p class="text-[#6b5d51] text-sm leading-relaxed">
                         At Aora, we bring 20 years of culinary mastery, weaving together Kenya's rich coastal heritage 
-                        with contemporary techniques. Our philosophy celebrates <span class="text-[#8a735b] font-medium">farm-to-table freshness</span>, 
-                        <span class="text-[#8a735b] font-medium">indigenous ingredients</span>, and the vibrant stories of 
+                        with contemporary techniques. Our philosophy celebrates <span class="text-[#1e4d40] font-medium">farm-to-table freshness</span>, 
+                        <span class="text-[#1e4d40] font-medium">indigenous ingredients</span>, and the vibrant stories of 
                         Kenyan cuisine.
                     </p>
                 </div>
@@ -1121,28 +1176,28 @@ document.addEventListener('keydown', function(e) {
                 <!-- Signature Philosophy Points - Minimal Icons -->
                 <div class="grid grid-cols-2 gap-4 py-4">
                     <div class="flex items-start gap-3">
-                        <i class="fas fa-leaf text-[#d4b48c] text-sm mt-1"></i>
+                        <i class="fas fa-leaf text-[#4a90a0] text-sm mt-1"></i>
                         <div>
                             <p class="font-['Cormorant_Garamond'] text-sm text-[#3f352e] font-semibold">Farm to Table</p>
                             <p class="text-[10px] text-[#6b5d51] uppercase tracking-wider">Local sourcing</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-3">
-                        <i class="fas fa-fire text-[#d4b48c] text-sm mt-1"></i>
+                        <i class="fas fa-fire text-[#4a90a0] text-sm mt-1"></i>
                         <div>
                             <p class="font-['Cormorant_Garamond'] text-sm text-[#3f352e] font-semibold">Open Flame</p>
                             <p class="text-[10px] text-[#6b5d51] uppercase tracking-wider">Traditional techniques</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-3">
-                        <i class="fas fa-seedling text-[#d4b48c] text-sm mt-1"></i>
+                        <i class="fas fa-seedling text-[#4a90a0] text-sm mt-1"></i>
                         <div>
                             <p class="font-['Cormorant_Garamond'] text-sm text-[#3f352e] font-semibold">Seasonal</p>
                             <p class="text-[10px] text-[#6b5d51] uppercase tracking-wider">Changing menus</p>
                         </div>
                     </div>
                     <div class="flex items-start gap-3">
-                        <i class="fas fa-wine-glass-alt text-[#d4b48c] text-sm mt-1"></i>
+                        <i class="fas fa-wine-glass-alt text-[#4a90a0] text-sm mt-1"></i>
                         <div>
                             <p class="font-['Cormorant_Garamond'] text-sm text-[#3f352e] font-semibold">Pairings</p>
                             <p class="text-[10px] text-[#6b5d51] uppercase tracking-wider">African wines</p>
@@ -1155,7 +1210,7 @@ document.addEventListener('keydown', function(e) {
                     <!-- Primary Button - View Menu & Reserve -->
                     <a href="index.php?page=restaurant" class="group relative inline-flex items-center gap-4 px-8 py-4 bg-[#3f352e] rounded-full overflow-hidden shadow-[0_10px_20px_-8px_rgba(40,30,20,0.3)] hover:shadow-[0_15px_25px_-8px_rgba(40,30,20,0.4)] transition-shadow duration-300">
                         <!-- Background Hover Effect -->
-                        <span class="absolute inset-0 bg-gradient-to-r from-[#8a735b] to-[#6b5d51] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-[#1e4d40] to-[#6b5d51] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                         
                         <!-- Text and Icons -->
                         <span class="relative text-white font-['Montserrat'] text-xs uppercase tracking-[0.25em]">View Menu & Reserve</span>
@@ -1166,7 +1221,7 @@ document.addEventListener('keydown', function(e) {
                     </a>
 
                     <!-- Secondary Button - Explore Menu Pdf -->
-                    <a href="index.php?page=offers" class="group inline-flex items-center gap-2 text-[#8a735b] hover:text-[#3f352e] transition-colors duration-300">
+                    <a href="index.php?page=offers" class="group inline-flex items-center gap-2 text-[#1e4d40] hover:text-[#3f352e] transition-colors duration-300">
                         <i class="fas fa-file-pdf text-sm"></i>
                         <span class="font-['Montserrat'] text-xs uppercase tracking-wider">Sample Menu</span>
                         <i class="fas fa-download text-xs group-hover:translate-y-0.5 transition-transform duration-300"></i>
@@ -1175,11 +1230,11 @@ document.addEventListener('keydown', function(e) {
 
                 <!-- Opening Hours - Subtle Display -->
                 <div class="flex items-center gap-4 pt-6 border-t border-[#e0d6cc]">
-                    <i class="far fa-clock text-[#d4b48c] text-sm"></i>
+                    <i class="far fa-clock text-[#4a90a0] text-sm"></i>
                     <div class="flex flex-wrap gap-4 text-xs">
                         <span class="text-[#6b5d51]">Lunch <span class="text-[#3f352e] font-medium">12:00 - 15:00</span></span>
                         <span class="text-[#6b5d51]">Dinner <span class="text-[#3f352e] font-medium">18:30 - 23:00</span></span>
-                        <span class="text-[#d4b48c]">•</span>
+                        <span class="text-[#4a90a0]">•</span>
                         <span class="text-[#6b5d51]">Last orders 22:30</span>
                     </div>
                 </div>
@@ -1187,7 +1242,7 @@ document.addEventListener('keydown', function(e) {
         </div>
 
         <!-- Bottom Decorative Element - Wave -->
-        <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4b48c]/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#4a90a0]/30 to-transparent"></div>
     </div>
 
     <!-- Unique Animations for this Section -->
@@ -1233,7 +1288,7 @@ document.addEventListener('keydown', function(e) {
         }
         
         .restaurant-scroll::-webkit-scrollbar-thumb {
-            background: #d4b48c;
+            background: #4a90a0;
             border-radius: 4px;
         }
         
@@ -1268,16 +1323,16 @@ document.addEventListener('keydown', function(e) {
         </div>
         
         <!-- Subtle Light Streaks -->
-        <div class="absolute top-1/4 left-1/4 w-40 h-40 bg-[#d4b48c]/5 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div class="absolute top-1/4 left-1/4 w-40 h-40 bg-[#4a90a0]/5 rounded-full blur-3xl animate-pulse-slow"></div>
         <div class="absolute bottom-1/3 right-1/3 w-60 h-60 bg-[#5f8a9f]/10 rounded-full blur-3xl animate-pulse-slower"></div>
     </div>
 
     <div class="max-w-7xl mx-auto relative z-10">
         <!-- Section Header - Elegant Light Text -->
         <div class="text-center mb-16">
-            <span class="text-[#d4b48c] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Experiences Await</span>
+            <span class="text-[#4a90a0] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Experiences Await</span>
             <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-white mt-4 mb-6 font-light">World-Class Amenities</h2>
-            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
             <p class="text-[#a5b9c4] text-sm max-w-2xl mx-auto mt-6 font-light tracking-wide">
                 Indulge in unparalleled luxury with our curated collection of amenities designed for your well-being and pleasure.
             </p>
@@ -1289,7 +1344,7 @@ document.addEventListener('keydown', function(e) {
             <?php 
             // Define unique colors for each amenity based on index
             $colors = [
-                ['from' => '#d4b48c', 'to' => '#8a735b'],
+                ['from' => '#4a90a0', 'to' => '#1e4d40'],
                 ['from' => '#4a90a0', 'to' => '#2c5f73'],
                 ['from' => '#b87333', 'to' => '#8b5a2b'],
                 ['from' => '#e6b87e', 'to' => '#c9a87c'],
@@ -1301,11 +1356,11 @@ document.addEventListener('keydown', function(e) {
             <!-- Amenity Card - Dynamic -->
             <div class="amenity-card group relative bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-[0_30px_40px_-15px_rgba(0,0,0,0.4)]">
                 <!-- Card Glow Effect on Hover -->
-                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#d4b48c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                <div class="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#4a90a0]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 
                 <!-- Icon Container with Animated Background -->
                 <div class="relative mb-6">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#d4b48c]/20 to-[#5f8a9f]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#4a90a0]/20 to-[#5f8a9f]/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                         <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[<?php echo $color['from']; ?>] to-[<?php echo $color['to']; ?>] flex items-center justify-center shadow-[0_10px_20px_-5px_rgba(212,180,140,0.3)] overflow-hidden">
                             <img src="<?php echo htmlspecialchars($amenity['image']); ?>" 
                                  alt="<?php echo htmlspecialchars($amenity['name']); ?>" 
@@ -1314,7 +1369,7 @@ document.addEventListener('keydown', function(e) {
                     </div>
                     
                     <!-- Animated Ring -->
-                    <div class="absolute inset-0 rounded-full border-2 border-[#d4b48c]/0 group-hover:border-[#d4b48c]/30 group-hover:scale-150 transition-all duration-700 opacity-0 group-hover:opacity-100"></div>
+                    <div class="absolute inset-0 rounded-full border-2 border-[#4a90a0]/0 group-hover:border-[#4a90a0]/30 group-hover:scale-150 transition-all duration-700 opacity-0 group-hover:opacity-100"></div>
                 </div>
                 
                 <!-- Content -->
@@ -1337,7 +1392,7 @@ document.addEventListener('keydown', function(e) {
             <a href="index.php?page=amenities" class="group inline-flex items-center gap-3 px-8 py-3 bg-transparent border border-white/20 rounded-full text-white hover:bg-white/10 transition-all duration-300">
                 <span class="text-xs uppercase tracking-wider">Explore All Amenities</span>
                 <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
-                <span class="absolute inset-0 rounded-full bg-gradient-to-r from-[#d4b48c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                <span class="absolute inset-0 rounded-full bg-gradient-to-r from-[#4a90a0]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
             </a>
         </div>
     </div>
@@ -1429,7 +1484,7 @@ document.addEventListener('keydown', function(e) {
         }
         
         .amenity-scroll::-webkit-scrollbar-thumb {
-            background: #d4b48c;
+            background: #4a90a0;
             border-radius: 4px;
         }
         
@@ -1469,8 +1524,8 @@ document.addEventListener('keydown', function(e) {
     <!-- Background Image with Artistic Treatment -->
     <div class="absolute inset-0 z-0">
         <!-- Main Background Image -->
-        <img src="https://thumbs.dreamstime.com/b/african-landscape-poster-acacia-tree-giraffe-sunset-background-vector-illustration-51842210.jpg" 
-             alt="African Sunset Landscape" 
+        <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+             alt="Riverside Sunset at AORA 45" 
              class="w-full h-full object-cover">
         
         <!-- Light Gradient Shading - Only on Edges, Not Covering Center -->
@@ -1478,7 +1533,7 @@ document.addEventListener('keydown', function(e) {
         <div class="absolute inset-0 bg-gradient-to-r from-[#1a1a1a]/60 via-transparent to-[#1a1a1a]/60"></div>
         
         <!-- Warm Color Overlay - Very Subtle -->
-        <div class="absolute inset-0 bg-[#b89a78]/20 mix-blend-overlay"></div>
+        <div class="absolute inset-0 bg-[#2d5a4a]/20 mix-blend-overlay"></div>
         
         <!-- Textured Noise Overlay -->
         <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E'); background-repeat: repeat;"></div>
@@ -1487,9 +1542,9 @@ document.addEventListener('keydown', function(e) {
     <div class="max-w-7xl mx-auto relative z-10">
         <!-- Section Header - Light Text on Dark Background -->
         <div class="text-center mb-16">
-            <span class="text-[#d4b48c] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light drop-shadow-lg">Exclusive Experiences</span>
+            <span class="text-[#4a90a0] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light drop-shadow-lg">Exclusive Experiences</span>
             <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-white mt-4 mb-6 font-light drop-shadow-lg">Signature Offers</h2>
-            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
             <p class="text-white/80 text-sm max-w-2xl mx-auto mt-6 font-light tracking-wide drop-shadow">
                 Curated escapes designed to create unforgettable memories in the heart of Kenya.
             </p>
@@ -1500,8 +1555,8 @@ document.addEventListener('keydown', function(e) {
             
             <?php foreach ($indexOffers as $offerIndex => $offer): ?>
             <?php 
-            // Parse inclusions from JSON
-            $inclusions = json_decode($offer['inclusions'], true);
+            // Get inclusions - already decoded from getAllOffers()
+            $inclusions = is_array($offer['inclusions']) ? $offer['inclusions'] : json_decode($offer['inclusions'] ?? '[]', true);
             if (!is_array($inclusions)) {
                 $inclusions = [];
             }
@@ -1574,7 +1629,7 @@ document.addEventListener('keydown', function(e) {
                         </div>
                         
                         <!-- Claim Offer Button - Unique Design -->
-                        <button class="group/btn relative inline-flex items-center gap-4 px-8 py-3 bg-transparent border border-white/30 text-white rounded-full overflow-hidden hover:border-[<?php echo $offer['icon_color']; ?>] transition-colors duration-300">
+                        <button onclick="claimOffer('<?php echo htmlspecialchars($offer['title']); ?>', '<?php echo htmlspecialchars($offer['price']); ?>', '<?php echo htmlspecialchars($offer['price_label'] ?? ''); ?>')" class="group/btn relative inline-flex items-center gap-4 px-8 py-3 bg-transparent border border-white/30 text-white rounded-full overflow-hidden hover:border-[<?php echo $offer['icon_color']; ?>] transition-colors duration-300">
                             <!-- Background Slide Animation -->
                             <span class="absolute inset-0 bg-gradient-to-r from-[<?php echo $offer['icon_color']; ?>] to-[<?php echo $offer['icon_color']; ?>] translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></span>
                             
@@ -1715,25 +1770,25 @@ document.addEventListener('keydown', function(e) {
     <!-- Decorative Background Elements - Subtle and Artistic -->
     <div class="absolute inset-0 pointer-events-none">
         <!-- Floating Geometric Shapes -->
-        <div class="absolute top-20 left-[5%] w-64 h-64 border border-[#d4b48c]/20 rounded-full animate-rotate-slow"></div>
-        <div class="absolute bottom-40 right-[8%] w-80 h-80 border border-[#8a735b]/10 rounded-full animate-rotate-reverse"></div>
+        <div class="absolute top-20 left-[5%] w-64 h-64 border border-[#4a90a0]/20 rounded-full animate-rotate-slow"></div>
+        <div class="absolute bottom-40 right-[8%] w-80 h-80 border border-[#1e4d40]/10 rounded-full animate-rotate-reverse"></div>
         
         <!-- Scattered Dots Pattern -->
-        <div class="absolute inset-0 opacity-[0.15]" style="background-image: radial-gradient(#b89a78 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="absolute inset-0 opacity-[0.15]" style="background-image: radial-gradient(#2d5a4a 1px, transparent 1px); background-size: 40px 40px;"></div>
         
         <!-- Gentle Light Streaks -->
-        <div class="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-to-br from-[#d4b48c]/10 via-transparent to-transparent blur-3xl animate-drift"></div>
-        <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-gradient-to-tl from-[#b89a78]/10 via-transparent to-transparent blur-3xl animate-drift-slow"></div>
+        <div class="absolute top-1/3 left-1/4 w-96 h-96 bg-gradient-to-br from-[#4a90a0]/10 via-transparent to-transparent blur-3xl animate-drift"></div>
+        <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-gradient-to-tl from-[#2d5a4a]/10 via-transparent to-transparent blur-3xl animate-drift-slow"></div>
     </div>
 
     <div class="max-w-7xl mx-auto relative z-10">
         <!-- Section Header - Minimal and Elegant -->
         <div class="text-center mb-16">
-            <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Visual Stories</span>
+            <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Visual Stories</span>
             <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">Moments Captured</h2>
-            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
             <p class="text-[#6b5d51] text-sm max-w-2xl mx-auto mt-6 font-light tracking-wide">
-                A glimpse into the world of Aora45—where every corner tells a story, and every moment is a masterpiece.
+                A glimpse into the world of AORA 45—where every corner tells a story, and every moment is a masterpiece.
             </p>
         </div>
 
@@ -1781,14 +1836,14 @@ document.addEventListener('keydown', function(e) {
             <div class="absolute -top-8 -right-4 md:-right-8 w-32 h-32 rotate-12 opacity-30 group-hover:opacity-50 transition-opacity pointer-events-none">
                 <div class="relative">
                     <div class="absolute inset-0 bg-white shadow-xl rotate-3"></div>
-                    <div class="absolute top-2 left-2 right-2 bottom-8 bg-gradient-to-br from-[#d4b48c] to-[#b89a78]"></div>
+                    <div class="absolute top-2 left-2 right-2 bottom-8 bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a]"></div>
                 </div>
             </div>
             
             <div class="absolute -bottom-6 -left-4 md:-left-8 w-28 h-28 -rotate-6 opacity-20 pointer-events-none">
                 <div class="relative">
                     <div class="absolute inset-0 bg-white shadow-xl -rotate-2"></div>
-                    <div class="absolute top-2 left-2 right-2 bottom-8 bg-gradient-to-br from-[#8a735b] to-[#6b5d51]"></div>
+                    <div class="absolute top-2 left-2 right-2 bottom-8 bg-gradient-to-br from-[#1e4d40] to-[#6b5d51]"></div>
                 </div>
             </div>
         </div>
@@ -1797,34 +1852,34 @@ document.addEventListener('keydown', function(e) {
         <div class="relative mt-16 flex justify-center">
             <!-- Film Perforations Decoration -->
             <div class="absolute left-1/2 -translate-x-1/2 -top-6 flex gap-2">
-                <div class="w-2 h-2 rounded-full bg-[#d4b48c]/30"></div>
-                <div class="w-2 h-2 rounded-full bg-[#d4b48c]/30"></div>
-                <div class="w-2 h-2 rounded-full bg-[#d4b48c]/30"></div>
-                <div class="w-2 h-2 rounded-full bg-[#d4b48c]/50"></div>
-                <div class="w-2 h-2 rounded-full bg-[#d4b48c]/30"></div>
-                <div class="w-2 h-2 rounded-full bg-[#d4b48c]/30"></div>
-                <div class="w-2 h-2 rounded-full bg-[#d4b48c]/30"></div>
+                <div class="w-2 h-2 rounded-full bg-[#4a90a0]/30"></div>
+                <div class="w-2 h-2 rounded-full bg-[#4a90a0]/30"></div>
+                <div class="w-2 h-2 rounded-full bg-[#4a90a0]/30"></div>
+                <div class="w-2 h-2 rounded-full bg-[#4a90a0]/50"></div>
+                <div class="w-2 h-2 rounded-full bg-[#4a90a0]/30"></div>
+                <div class="w-2 h-2 rounded-full bg-[#4a90a0]/30"></div>
+                <div class="w-2 h-2 rounded-full bg-[#4a90a0]/30"></div>
             </div>
 
             <a href="index.php?page=gallery" class="group relative inline-flex items-center gap-3 px-10 py-4 bg-[#ffffff] border border-[#d6cbbc] rounded-full shadow-[0_8px_20px_-8px_rgba(100,70,40,0.2)] hover:shadow-[0_12px_25px_-8px_rgba(100,70,40,0.3)] transition-all duration-300">
                 <!-- Left Decoration - Film Strip Style -->
                 <span class="flex gap-1 mr-2">
-                    <span class="w-1 h-2 bg-[#d4b48c] rounded-full group-hover:animate-pulse"></span>
-                    <span class="w-1 h-2 bg-[#d4b48c] rounded-full group-hover:animate-pulse animation-delay-200"></span>
-                    <span class="w-1 h-2 bg-[#d4b48c] rounded-full group-hover:animate-pulse animation-delay-400"></span>
+                    <span class="w-1 h-2 bg-[#4a90a0] rounded-full group-hover:animate-pulse"></span>
+                    <span class="w-1 h-2 bg-[#4a90a0] rounded-full group-hover:animate-pulse animation-delay-200"></span>
+                    <span class="w-1 h-2 bg-[#4a90a0] rounded-full group-hover:animate-pulse animation-delay-400"></span>
                 </span>
 
                 <!-- Text -->
                 <span class="font-['Montserrat'] text-sm uppercase tracking-[0.25em] text-[#5c524a] group-hover:text-[#3f352e] transition-colors">
                     View Full Gallery
                 </span>
-                <i class="fas fa-arrow-right text-[#b89a78] text-sm group-hover:translate-x-1 transition-transform duration-300"></i>
+                <i class="fas fa-arrow-right text-[#2d5a4a] text-sm group-hover:translate-x-1 transition-transform duration-300"></i>
 
                 <!-- Right Decoration -->
                 <span class="flex gap-1 ml-2">
-                    <span class="w-1 h-2 bg-[#d4b48c] rounded-full group-hover:animate-pulse animation-delay-600"></span>
-                    <span class="w-1 h-2 bg-[#d4b48c] rounded-full group-hover:animate-pulse animation-delay-800"></span>
-                    <span class="w-1 h-2 bg-[#d4b48c] rounded-full group-hover:animate-pulse animation-delay-1000"></span>
+                    <span class="w-1 h-2 bg-[#4a90a0] rounded-full group-hover:animate-pulse animation-delay-600"></span>
+                    <span class="w-1 h-2 bg-[#4a90a0] rounded-full group-hover:animate-pulse animation-delay-800"></span>
+                    <span class="w-1 h-2 bg-[#4a90a0] rounded-full group-hover:animate-pulse animation-delay-1000"></span>
                 </span>
 
                 <!-- Hover Background Effect -->
@@ -1976,16 +2031,16 @@ document.addEventListener('keydown', function(e) {
         <div class="absolute inset-0 opacity-[0.05]" style="background-image: url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 20 L25 20 L20 35 L15 35 Z' fill='%23d4b48c'/%3E%3Cpath d='M35 20 L45 20 L40 35 L35 35 Z' fill='%23d4b48c'/%3E%3C/svg%3E'); background-size: 80px 80px;"></div>
         
         <!-- Gentle Light Orbs - Warm Glow in Deep Blue -->
-        <div class="absolute top-1/4 left-[10%] w-72 h-72 bg-[#d4b48c]/15 rounded-full blur-[100px] animate-float-orb"></div>
-        <div class="absolute bottom-1/3 right-[15%] w-96 h-96 bg-[#b89a78]/15 rounded-full blur-[120px] animate-float-orb-slow"></div>
+        <div class="absolute top-1/4 left-[10%] w-72 h-72 bg-[#4a90a0]/15 rounded-full blur-[100px] animate-float-orb"></div>
+        <div class="absolute bottom-1/3 right-[15%] w-96 h-96 bg-[#2d5a4a]/15 rounded-full blur-[120px] animate-float-orb-slow"></div>
         
         <!-- Scattered Sparkles - Gold on Deep Blue -->
-        <div class="absolute top-40 left-[20%] w-1 h-1 bg-[#d4b48c] rounded-full animate-twinkle"></div>
-        <div class="absolute top-60 right-[25%] w-1.5 h-1.5 bg-[#d4b48c] rounded-full animate-twinkle-delay"></div>
-        <div class="absolute bottom-40 left-[40%] w-1 h-1 bg-[#b89a78] rounded-full animate-twinkle-slow"></div>
+        <div class="absolute top-40 left-[20%] w-1 h-1 bg-[#4a90a0] rounded-full animate-twinkle"></div>
+        <div class="absolute top-60 right-[25%] w-1.5 h-1.5 bg-[#4a90a0] rounded-full animate-twinkle-delay"></div>
+        <div class="absolute bottom-40 left-[40%] w-1 h-1 bg-[#2d5a4a] rounded-full animate-twinkle-slow"></div>
         
         <!-- Subtle Noise Texture -->
-        <div class="absolute inset-0 opacity-[0.02]" style="background-image: repeating-linear-gradient(45deg, #d4b48c 0px, #d4b48c 1px, transparent 1px, transparent 8px);"></div>
+        <div class="absolute inset-0 opacity-[0.02]" style="background-image: repeating-linear-gradient(45deg, #4a90a0 0px, #4a90a0 1px, transparent 1px, transparent 8px);"></div>
         
         <!-- Star Field Effect - Tiny Dots -->
         <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 30%, white 0.5px, transparent 0.5px), radial-gradient(circle at 80% 70%, white 0.5px, transparent 0.5px); background-size: 50px 50px;"></div>
@@ -1994,11 +2049,11 @@ document.addEventListener('keydown', function(e) {
     <div class="max-w-6xl mx-auto relative z-10">
         <!-- Section Header - Light Text on Dark Background -->
         <div class="text-center mb-16">
-            <span class="text-[#d4b48c] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light drop-shadow-lg">Guest Voices</span>
+            <span class="text-[#4a90a0] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light drop-shadow-lg">Guest Voices</span>
             <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-white mt-4 mb-6 font-light drop-shadow-lg">Treasured Memories</h2>
-            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
             <p class="text-white/70 text-sm max-w-2xl mx-auto mt-6 font-light tracking-wide drop-shadow">
-                Not just stays—stories. Hear from those who've experienced the magic of Aora45.
+                Not just stays—stories. Hear from those who've experienced the magic of AORA 45.
             </p>
         </div>
 
@@ -2012,52 +2067,52 @@ document.addEventListener('keydown', function(e) {
                     <div class="testimonial-slide flex-none w-full md:w-1/2 lg:w-1/3 px-4">
                         <div class="relative testimonial-card">
                             <!-- Floating Quote Mark - Gold on Dark -->
-                            <div class="absolute -top-6 -left-2 text-8xl text-[#d4b48c]/20 font-['DM_Serif_Display'] leading-none">&ldquo;</div>
+                            <div class="absolute -top-6 -left-2 text-8xl text-[#4a90a0]/20 font-['DM_Serif_Display'] leading-none">&ldquo;</div>
                             
                             <!-- Content Container - No Background, No Border, No Shadow -->
                             <div class="relative pt-8">
                                 <!-- Stars - Gold on Dark -->
                                 <div class="flex gap-1 mb-4">
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-200"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-400"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-600"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-800"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-200"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-400"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-600"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-800"></i>
                                 </div>
                                 
                                 <!-- Testimonial Text - White on Dark -->
                                 <div class="relative mb-6">
                                     <p class="font-['Cormorant_Garamond'] text-lg md:text-xl text-white/90 leading-relaxed italic drop-shadow-lg">
-                                        "Aora45 made our honeymoon feel like a dream. The private dinner under the acacia tree, the sound of the wind through the savanna—we've never felt more connected."
+                                        "AORA 45 made our honeymoon feel like a dream. The private dinner by the river, the sound of flowing water, the sunset over the horizon—we've never felt more connected."
                                     </p>
                                     <!-- Decorative Line - Grows on Hover -->
-                                    <div class="w-12 h-0.5 bg-gradient-to-r from-[#d4b48c] to-transparent mt-4 group-hover:w-20 transition-all duration-500"></div>
+                                    <div class="w-12 h-0.5 bg-gradient-to-r from-[#4a90a0] to-transparent mt-4 group-hover:w-20 transition-all duration-500"></div>
                                 </div>
                                 
                                 <!-- Guest Info - Floating Avatar Design (No Container) -->
                                 <div class="flex items-center gap-4">
                                     <!-- Avatar with Ring Animation -->
                                     <div class="relative">
-                                        <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#d4b48c]/40 ring-offset-2 ring-offset-[#1e2f3a]">
+                                        <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#4a90a0]/40 ring-offset-2 ring-offset-[#1e2f3a]">
                                             <img src="https://indochinatodaytravel.com/wp-content/uploads/2025/12/Honeymoon-in-Halong-Bay-7.jpg" 
                                                  alt="Sarah" 
                                                  class="w-full h-full object-cover">
                                         </div>
                                         <!-- Animated Ring -->
-                                        <div class="absolute inset-0 rounded-full border-2 border-[#d4b48c] opacity-0 hover:opacity-100 animate-ping-slow"></div>
+                                        <div class="absolute inset-0 rounded-full border-2 border-[#4a90a0] opacity-0 hover:opacity-100 animate-ping-slow"></div>
                                     </div>
                                     
                                     <div>
                                         <h4 class="font-['Cormorant_Garamond'] text-lg text-white">Sarah & David</h4>
-                                        <p class="text-[#d4b48c]/80 text-xs tracking-wide">Honeymoon, Nairobi</p>
+                                        <p class="text-[#4a90a0]/80 text-xs tracking-wide">Honeymoon, Siaya County</p>
                                     </div>
                                 </div>
                             </div>
                             
                             <!-- Floating Date Badge - No Card -->
                             <div class="absolute top-0 right-0 flex items-center gap-2">
-                                <span class="w-8 h-px bg-[#d4b48c]/40"></span>
-                                <span class="text-[#d4b48c]/70 text-[10px] uppercase tracking-wider">Feb 2025</span>
+                                <span class="w-8 h-px bg-[#4a90a0]/40"></span>
+                                <span class="text-[#4a90a0]/70 text-[10px] uppercase tracking-wider">Feb 2025</span>
                             </div>
                         </div>
                     </div>
@@ -2065,44 +2120,44 @@ document.addEventListener('keydown', function(e) {
                     <!-- Testimonial 2 - Family Story -->
                     <div class="testimonial-slide flex-none w-full md:w-1/2 lg:w-1/3 px-4">
                         <div class="relative testimonial-card">
-                            <div class="absolute -top-6 -left-2 text-8xl text-[#d4b48c]/20 font-['DM_Serif_Display'] leading-none">&ldquo;</div>
+                            <div class="absolute -top-6 -left-2 text-8xl text-[#4a90a0]/20 font-['DM_Serif_Display'] leading-none">&ldquo;</div>
                             
                             <div class="relative pt-8">
                                 <div class="flex gap-1 mb-4">
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-200"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-400"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-600"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-800"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-200"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-400"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-600"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-800"></i>
                                 </div>
                                 
                                 <div class="relative mb-6">
                                     <p class="font-['Cormorant_Garamond'] text-lg md:text-xl text-white/90 leading-relaxed italic drop-shadow-lg">
                                         "Our kids still talk about the junior ranger program! The staff treated them like family, and we actually got to relax. That's the real luxury when you're traveling with children."
                                     </p>
-                                    <div class="w-12 h-0.5 bg-gradient-to-r from-[#d4b48c] to-transparent mt-4 group-hover:w-20 transition-all duration-500"></div>
+                                    <div class="w-12 h-0.5 bg-gradient-to-r from-[#4a90a0] to-transparent mt-4 group-hover:w-20 transition-all duration-500"></div>
                                 </div>
                                 
                                 <div class="flex items-center gap-4">
                                     <div class="relative">
-                                        <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#d4b48c]/40 ring-offset-2 ring-offset-[#1e2f3a]">
+                                        <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#4a90a0]/40 ring-offset-2 ring-offset-[#1e2f3a]">
                                             <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
                                                  alt="Michael" 
                                                  class="w-full h-full object-cover">
                                         </div>
-                                        <div class="absolute inset-0 rounded-full border-2 border-[#d4b48c] opacity-0 hover:opacity-100 animate-ping-slow"></div>
+                                        <div class="absolute inset-0 rounded-full border-2 border-[#4a90a0] opacity-0 hover:opacity-100 animate-ping-slow"></div>
                                     </div>
                                     
                                     <div>
                                         <h4 class="font-['Cormorant_Garamond'] text-lg text-white">The Johnson Family</h4>
-                                        <p class="text-[#d4b48c]/80 text-xs tracking-wide">Family Safari, UK</p>
+                                        <p class="text-[#4a90a0]/80 text-xs tracking-wide">Family Getaway, UK</p>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="absolute top-0 right-0 flex items-center gap-2">
-                                <span class="w-8 h-px bg-[#d4b48c]/40"></span>
-                                <span class="text-[#d4b48c]/70 text-[10px] uppercase tracking-wider">Feb 2026</span>
+                                <span class="w-8 h-px bg-[#4a90a0]/40"></span>
+                                <span class="text-[#4a90a0]/70 text-[10px] uppercase tracking-wider">Feb 2026</span>
                             </div>
                         </div>
                     </div>
@@ -2110,44 +2165,44 @@ document.addEventListener('keydown', function(e) {
                     <!-- Testimonial 3 - Solo Traveler Story -->
                     <div class="testimonial-slide flex-none w-full md:w-1/2 lg:w-1/3 px-4">
                         <div class="relative testimonial-card">
-                            <div class="absolute -top-6 -left-2 text-8xl text-[#d4b48c]/20 font-['DM_Serif_Display'] leading-none">&ldquo;</div>
+                            <div class="absolute -top-6 -left-2 text-8xl text-[#4a90a0]/20 font-['DM_Serif_Display'] leading-none">&ldquo;</div>
                             
                             <div class="relative pt-8">
                                 <div class="flex gap-1 mb-4">
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-200"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-400"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-600"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-800"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-200"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-400"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-600"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-800"></i>
                                 </div>
                                 
                                 <div class="relative mb-6">
                                     <p class="font-['Cormorant_Garamond'] text-lg md:text-xl text-white/90 leading-relaxed italic drop-shadow-lg">
-                                        "As a solo traveler, I was nervous. But Aora45 felt like home from the moment I arrived. The staff remembered my name, my coffee order—everything. Pure magic."
+                                        "As a solo traveler, I was nervous. But AORA 45 felt like home from the moment I arrived. The staff remembered my name, my coffee order—everything. Pure magic."
                                     </p>
-                                    <div class="w-12 h-0.5 bg-gradient-to-r from-[#d4b48c] to-transparent mt-4 group-hover:w-20 transition-all duration-500"></div>
+                                    <div class="w-12 h-0.5 bg-gradient-to-r from-[#4a90a0] to-transparent mt-4 group-hover:w-20 transition-all duration-500"></div>
                                 </div>
                                 
                                 <div class="flex items-center gap-4">
                                     <div class="relative">
-                                        <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#d4b48c]/40 ring-offset-2 ring-offset-[#1e2f3a]">
+                                        <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#4a90a0]/40 ring-offset-2 ring-offset-[#1e2f3a]">
                                             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1964&q=80" 
                                                  alt="Elena" 
                                                  class="w-full h-full object-cover">
                                         </div>
-                                        <div class="absolute inset-0 rounded-full border-2 border-[#d4b48c] opacity-0 hover:opacity-100 animate-ping-slow"></div>
+                                        <div class="absolute inset-0 rounded-full border-2 border-[#4a90a0] opacity-0 hover:opacity-100 animate-ping-slow"></div>
                                     </div>
                                     
                                     <div>
                                         <h4 class="font-['Cormorant_Garamond'] text-lg text-white">Elena Rossi</h4>
-                                        <p class="text-[#d4b48c]/80 text-xs tracking-wide">Solo Retreat, Italy</p>
+                                        <p class="text-[#4a90a0]/80 text-xs tracking-wide">Solo Retreat, Italy</p>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="absolute top-0 right-0 flex items-center gap-2">
-                                <span class="w-8 h-px bg-[#d4b48c]/40"></span>
-                                <span class="text-[#d4b48c]/70 text-[10px] uppercase tracking-wider">Mar 2025</span>
+                                <span class="w-8 h-px bg-[#4a90a0]/40"></span>
+                                <span class="text-[#4a90a0]/70 text-[10px] uppercase tracking-wider">Mar 2025</span>
                             </div>
                         </div>
                     </div>
@@ -2155,44 +2210,44 @@ document.addEventListener('keydown', function(e) {
                     <!-- Testimonial 4 - Business Traveler Story -->
                     <div class="testimonial-slide flex-none w-full md:w-1/2 lg:w-1/3 px-4">
                         <div class="relative testimonial-card">
-                            <div class="absolute -top-6 -left-2 text-8xl text-[#d4b48c]/20 font-['DM_Serif_Display'] leading-none">&ldquo;</div>
+                            <div class="absolute -top-6 -left-2 text-8xl text-[#4a90a0]/20 font-['DM_Serif_Display'] leading-none">&ldquo;</div>
                             
                             <div class="relative pt-8">
                                 <div class="flex gap-1 mb-4">
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-200"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-400"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-600"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-sm animate-star-pulse animation-delay-800"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-200"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-400"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-600"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-sm animate-star-pulse animation-delay-800"></i>
                                 </div>
                                 
                                 <div class="relative mb-6">
                                     <p class="font-['Cormorant_Garamond'] text-lg md:text-xl text-white/90 leading-relaxed italic drop-shadow-lg">
-                                        "The business lounge was impeccable—fast WiFi, private meeting rooms, and the most incredible coffee. I closed a deal while watching giraffes from the window. Unreal."
+                                        "The business lounge was impeccable—fast WiFi, private meeting rooms, and the most incredible views of the river. I closed a deal while watching the sunset over the water. Unreal."
                                     </p>
-                                    <div class="w-12 h-0.5 bg-gradient-to-r from-[#d4b48c] to-transparent mt-4 group-hover:w-20 transition-all duration-500"></div>
+                                    <div class="w-12 h-0.5 bg-gradient-to-r from-[#4a90a0] to-transparent mt-4 group-hover:w-20 transition-all duration-500"></div>
                                 </div>
                                 
                                 <div class="flex items-center gap-4">
                                     <div class="relative">
-                                        <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#d4b48c]/40 ring-offset-2 ring-offset-[#1e2f3a]">
+                                        <div class="w-14 h-14 rounded-full overflow-hidden ring-2 ring-[#4a90a0]/40 ring-offset-2 ring-offset-[#1e2f3a]">
                                             <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80" 
                                                  alt="James" 
                                                  class="w-full h-full object-cover">
                                         </div>
-                                        <div class="absolute inset-0 rounded-full border-2 border-[#d4b48c] opacity-0 hover:opacity-100 animate-ping-slow"></div>
+                                        <div class="absolute inset-0 rounded-full border-2 border-[#4a90a0] opacity-0 hover:opacity-100 animate-ping-slow"></div>
                                     </div>
                                     
                                     <div>
                                         <h4 class="font-['Cormorant_Garamond'] text-lg text-white">James Mwangi</h4>
-                                        <p class="text-[#d4b48c]/80 text-xs tracking-wide">Business, Nairobi</p>
+                                        <p class="text-[#4a90a0]/80 text-xs tracking-wide">Business, Siaya County</p>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="absolute top-0 right-0 flex items-center gap-2">
-                                <span class="w-8 h-px bg-[#d4b48c]/40"></span>
-                                <span class="text-[#d4b48c]/70 text-[10px] uppercase tracking-wider">Jan 2025</span>
+                                <span class="w-8 h-px bg-[#4a90a0]/40"></span>
+                                <span class="text-[#4a90a0]/70 text-[10px] uppercase tracking-wider">Jan 2025</span>
                             </div>
                         </div>
                     </div>
@@ -2200,27 +2255,27 @@ document.addEventListener('keydown', function(e) {
             </div>
 
             <!-- Carousel Controls - Gold on Dark -->
-            <button class="carousel-prev absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[#d4b48c]/30 text-[#d4b48c] hover:bg-[#d4b48c] hover:text-[#1e2f3a] transition-all duration-300 flex items-center justify-center group" onclick="moveSlide(-1)">
+            <button class="carousel-prev absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[#4a90a0]/30 text-[#4a90a0] hover:bg-[#4a90a0] hover:text-[#1e2f3a] transition-all duration-300 flex items-center justify-center group" onclick="moveSlide(-1)">
                 <i class="fas fa-arrow-left text-sm group-hover:-translate-x-0.5 transition-transform"></i>
             </button>
-            <button class="carousel-next absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[#d4b48c]/30 text-[#d4b48c] hover:bg-[#d4b48c] hover:text-[#1e2f3a] transition-all duration-300 flex items-center justify-center group" onclick="moveSlide(1)">
+            <button class="carousel-next absolute right-0 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full border border-[#4a90a0]/30 text-[#4a90a0] hover:bg-[#4a90a0] hover:text-[#1e2f3a] transition-all duration-300 flex items-center justify-center group" onclick="moveSlide(1)">
                 <i class="fas fa-arrow-right text-sm group-hover:translate-x-0.5 transition-transform"></i>
             </button>
 
             <!-- Navigation Dots - Gold on Dark -->
             <div class="flex justify-center gap-3 mt-10" id="testimonialDots">
-                <button class="dot w-2 h-2 rounded-full bg-[#d4b48c] transition-all duration-300" data-index="0"></button>
-                <button class="dot w-2 h-2 rounded-full bg-[#d4b48c]/30 hover:bg-[#d4b48c]/50 transition-all duration-300" data-index="1"></button>
-                <button class="dot w-2 h-2 rounded-full bg-[#d4b48c]/30 hover:bg-[#d4b48c]/50 transition-all duration-300" data-index="2"></button>
-                <button class="dot w-2 h-2 rounded-full bg-[#d4b48c]/30 hover:bg-[#d4b48c]/50 transition-all duration-300" data-index="3"></button>
+                <button class="dot w-2 h-2 rounded-full bg-[#4a90a0] transition-all duration-300" data-index="0"></button>
+                <button class="dot w-2 h-2 rounded-full bg-[#4a90a0]/30 hover:bg-[#4a90a0]/50 transition-all duration-300" data-index="1"></button>
+                <button class="dot w-2 h-2 rounded-full bg-[#4a90a0]/30 hover:bg-[#4a90a0]/50 transition-all duration-300" data-index="2"></button>
+                <button class="dot w-2 h-2 rounded-full bg-[#4a90a0]/30 hover:bg-[#4a90a0]/50 transition-all duration-300" data-index="3"></button>
             </div>
         </div>
 
         <!-- Floating Quote Collection Decoration - Gold on Dark -->
         <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 flex gap-6 opacity-20 pointer-events-none">
-            <i class="fas fa-quote-right text-4xl text-[#d4b48c] rotate-12"></i>
-            <i class="fas fa-quote-right text-6xl text-[#b89a78] -rotate-12"></i>
-            <i class="fas fa-quote-right text-3xl text-[#8a735b] rotate-45"></i>
+            <i class="fas fa-quote-right text-4xl text-[#4a90a0] rotate-12"></i>
+            <i class="fas fa-quote-right text-6xl text-[#2d5a4a] -rotate-12"></i>
+            <i class="fas fa-quote-right text-3xl text-[#1e4d40] rotate-45"></i>
         </div>
     </div>
 
@@ -2261,7 +2316,7 @@ document.addEventListener('keydown', function(e) {
         }
         
         @keyframes starPulse {
-            0%, 100% { transform: scale(1); opacity: 1; color: #d4b48c; }
+            0%, 100% { transform: scale(1); opacity: 1; color: #4a90a0; }
             50% { transform: scale(1.2); opacity: 0.9; color: #f4d03f; }
         }
         
@@ -2324,7 +2379,7 @@ document.addEventListener('keydown', function(e) {
         /* Active Dot Styling */
         .dot.active {
             width: 24px;
-            background-color: #d4b48c;
+            background-color: #4a90a0;
             border-radius: 12px;
         }
         
@@ -2405,10 +2460,10 @@ document.addEventListener('keydown', function(e) {
                 dots.forEach((dot, index) => {
                     if (index === currentIndex) {
                         dot.classList.add('active');
-                        dot.classList.remove('bg-[#d4b48c]/30');
+                        dot.classList.remove('bg-[#4a90a0]/30');
                     } else {
                         dot.classList.remove('active');
-                        dot.classList.add('bg-[#d4b48c]/30');
+                        dot.classList.add('bg-[#4a90a0]/30');
                     }
                 });
             }
@@ -2457,16 +2512,16 @@ document.addEventListener('keydown', function(e) {
         <div class="absolute inset-0 opacity-[0.02]" style="background-image: url('data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 10 L52 20 L50 18 L48 20 L50 10' fill='%238a735b'/%3E%3Cpath d='M50 90 L52 80 L50 82 L48 80 L50 90' fill='%238a735b'/%3E%3Cpath d='M10 50 L20 52 L18 50 L20 48 L10 50' fill='%238a735b'/%3E%3Cpath d='M90 50 L80 52 L82 50 L80 48 L90 50' fill='%238a735b'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%238a735b'/%3E%3C/svg%3E'); background-size: 60px 60px;"></div>
         
         <!-- Gentle Light Orbs -->
-        <div class="absolute top-1/3 left-[5%] w-64 h-64 bg-[#d4b48c]/10 rounded-full blur-[80px]"></div>
-        <div class="absolute bottom-1/3 right-[8%] w-72 h-72 bg-[#b89a78]/10 rounded-full blur-[90px]"></div>
+        <div class="absolute top-1/3 left-[5%] w-64 h-64 bg-[#4a90a0]/10 rounded-full blur-[80px]"></div>
+        <div class="absolute bottom-1/3 right-[8%] w-72 h-72 bg-[#2d5a4a]/10 rounded-full blur-[90px]"></div>
     </div>
 
     <div class="max-w-7xl mx-auto relative z-10">
         <!-- Section Header - Minimal -->
         <div class="text-center mb-12">
-            <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Find Us</span>
+            <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Find Us</span>
             <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">Our Location</h2>
-            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+            <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
         </div>
 
         <!-- Location Content - Split Layout -->
@@ -2476,35 +2531,35 @@ document.addEventListener('keydown', function(e) {
             <div class="space-y-8 order-2 lg:order-1">
                 <!-- Location Badge - Floating Pin -->
                 <div class="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm px-5 py-2.5 rounded-full border border-[#e0d6cc] shadow-sm">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#b89a78] flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] flex items-center justify-center">
                         <i class="fas fa-map-pin text-white text-sm"></i>
                     </div>
-                    <span class="font-['Montserrat'] text-xs uppercase tracking-wider text-[#5c524a]">Proudly Nairobi</span>
+                    <span class="font-['Montserrat'] text-xs uppercase tracking-wider text-[#5c524a]">Proudly Siaya County</span>
                 </div>
 
                 <!-- Main Address - Elegant Typography -->
                 <div class="space-y-4">
-                    <h3 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3f352e]">Aora45 Resort & Restaurant</h3>
+                    <h3 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#3f352e]">AORA 45 Resort & Restaurant</h3>
                     
                     <div class="space-y-3">
                         <div class="flex items-start gap-4">
-                            <i class="fas fa-location-dot text-[#d4b48c] text-lg mt-1"></i>
+                            <i class="fas fa-location-dot text-[#4a90a0] text-lg mt-1"></i>
                             <div>
                                 <p class="font-['Montserrat'] text-[#5c524a] text-base leading-relaxed">
-                                    109 Karura Road, Gigiri<br>
-                                    Nairobi, Kenya 00100
+                                    Along River Nyandera, River Nyandera<br>
+                                    Siaya County, Kenya 00100
                                 </p>
                             </div>
                         </div>
                         
                         <div class="flex items-center gap-4">
-                            <i class="fas fa-phone-alt text-[#d4b48c] text-lg"></i>
-                            <a href="tel:+254769525570" class="font-['Montserrat'] text-[#5c524a] text-base hover:text-[#d4b48c]">+254 769 525 570</a>
+                            <i class="fas fa-phone-alt text-[#4a90a0] text-lg"></i>
+                            <a href="tel:+254769525570" class="font-['Montserrat'] text-[#5c524a] text-base hover:text-[#4a90a0]">+254 769 525 570</a>
                         </div>
                         
                         <div class="flex items-center gap-4">
-                            <i class="fas fa-envelope text-[#d4b48c] text-lg"></i>
-                            <p class="font-['Montserrat'] text-[#5c524a] text-base">info@aora45.com</p>
+                            <i class="fas fa-envelope text-[#4a90a0] text-lg"></i>
+                            <p class="font-['Montserrat'] text-[#5c524a] text-base">info@AORA 45.com</p>
                         </div>
                     </div>
                 </div>
@@ -2512,55 +2567,65 @@ document.addEventListener('keydown', function(e) {
                 <!-- Landmark Highlights - Minimal Chips -->
                 <div class="flex flex-wrap gap-3 pt-4">
                     <div class="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full border border-[#e0d6cc] text-xs text-[#5c524a]">
-                        <i class="fas fa-tree mr-2 text-[#8a735b]"></i>Karura Forest
+                        <i class="fas fa-water mr-2 text-[#1e4d40]"></i>River Nyandera
                     </div>
                     <div class="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full border border-[#e0d6cc] text-xs text-[#5c524a]">
-                        <i class="fas fa-building mr-2 text-[#8a735b]"></i>UNEP Headquarters
+                        <i class="fas fa-place-of-worship mr-2 text-[#1e4d40]"></i>Siaya Town
                     </div>
                     <div class="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full border border-[#e0d6cc] text-xs text-[#5c524a]">
-                        <i class="fas fa-landmark mr-2 text-[#8a735b]"></i>Village Market
+                        <i class="fas fa-tree mr-2 text-[#1e4d40]"></i>Lake Victoria
                     </div>
                 </div>
 
-                <!-- View on Map Link - Opens Google Maps -->
+                <!-- View on Map Link - Opens Google Maps with Get Directions -->
                 <div class="pt-6">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Aora+Resort+Gigiri+Nairobi" 
-                       target="_blank" 
-                       rel="noopener noreferrer" 
-                       class="group inline-flex items-center gap-4 px-8 py-4 bg-[#ffffff] border border-[#d6cbbc] rounded-full shadow-[0_8px_20px_-8px_rgba(100,70,40,0.2)] hover:shadow-[0_12px_25px_-8px_rgba(100,70,40,0.3)] transition-all duration-300">
-                        <!-- Compass Icon with Animation -->
-                        <span class="relative">
-                            <i class="fas fa-compass text-[#d4b48c] text-xl group-hover:rotate-45 transition-transform duration-500"></i>
-                            <span class="absolute -top-1 -right-1 w-2 h-2 bg-[#d4b48c] rounded-full animate-ping-slow opacity-75"></span>
-                        </span>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="https://www.google.com/maps/dir//AORA+45+Resort+River+Nyandera+Siaya+County" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="group inline-flex items-center gap-4 px-8 py-4 bg-[#ffffff] border border-[#d6cbbc] rounded-full shadow-[0_8px_20px_-8px_rgba(100,70,40,0.2)] hover:shadow-[0_12px_25px_-8px_rgba(100,70,40,0.3)] transition-all duration-300">
+                            <!-- Compass Icon with Animation -->
+                            <span class="relative">
+                                <i class="fas fa-compass text-[#4a90a0] text-xl group-hover:rotate-45 transition-transform duration-500"></i>
+                            </span>
+                            
+                            <!-- Text -->
+                            <span class="font-['Montserrat'] text-sm uppercase tracking-[0.25em] text-[#5c524a] group-hover:text-[#3f352e] transition-colors">
+                                Get Directions
+                            </span>
+                            
+                            <!-- Arrow -->
+                            <i class="fas fa-arrow-up-right-from-square text-[#2d5a4a] text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"></i>
+                            
+                            <!-- Hover Background Effect -->
+                            <span class="absolute inset-0 rounded-full bg-gradient-to-r from-[#f0e7dd] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></span>
+                        </a>
                         
-                        <!-- Text -->
-                        <span class="font-['Montserrat'] text-sm uppercase tracking-[0.25em] text-[#5c524a] group-hover:text-[#3f352e] transition-colors">
-                            Open in Google Maps
-                        </span>
-                        
-                        <!-- Arrow -->
-                        <i class="fas fa-arrow-up-right-from-square text-[#b89a78] text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"></i>
-                        
-                        <!-- Hover Background Effect -->
-                        <span class="absolute inset-0 rounded-full bg-gradient-to-r from-[#f0e7dd] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></span>
-                    </a>
+                        <!-- Open in Maps Button -->
+                        <a href="https://www.google.com/maps/search/?api=1&query=AORA+45+River+Nyandera+Siaya+County" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="inline-flex items-center gap-2 px-4 py-3 text-[#4a90a0] hover:text-[#2d5a4a] text-sm transition-colors">
+                            <i class="fas fa-map text-lg"></i>
+                            <span class="underline">View on Map</span>
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Distance Indicator - Minimal -->
-                <div class="flex items-center gap-2 text-xs text-[#8a735b] pt-2">
+                <!-- <div class="flex items-center gap-2 text-xs text-[#1e4d40] pt-2">
                     <i class="fas fa-plane"></i>
                     <span>45 min from Jomo Kenyatta International Airport</span>
-                </div>
+                </div> -->
             </div>
 
             <!-- Right Column - Real Google Map -->
             <div class="relative order-1 lg:order-2 group/map">
                 <!-- Map Container - No Card, Just Map with Frame Effect -->
                 <div class="relative rounded-3xl overflow-hidden shadow-[0_25px_40px_-15px_rgba(0,0,0,0.3)] h-[400px] md:h-[500px]">
-                    <!-- Google Maps iframe - Exact Location: Gigiri, Nairobi -->
+                    <!-- Google Maps iframe - Exact Location: River Nyandera, Siaya County -->
                     <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.789123456789!2d36.802847!3d-1.234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTQnMDQuNCJTIDM2wrA0OCcxMC4yIkU!5e0!3m2!1sen!2ske!4v1234567890123!5m2!1sen!2ske"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.5!2d34.2!3d-0.05!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMDInNTkuNCJTIDM0wrAyMCcxMC4yIkU!5e0!3m2!1sen!2ske!4v1234567890123!5m2!1sen!2ske"
                         width="100%" 
                         height="100%" 
                         style="border:0; filter: grayscale(20%) sepia(10%) hue-rotate(350deg) brightness(1.05);" 
@@ -2568,61 +2633,45 @@ document.addEventListener('keydown', function(e) {
                         loading="lazy" 
                         referrerpolicy="no-referrer-when-downgrade"
                         class="w-full h-full object-cover transition-all duration-7000 group-hover/map:scale-105"
-                        title="Google Map showing Aora45 Resort location in Gigiri, Nairobi">
+                        title="Google Map showing AORA 45 Resort location in River Nyandera, Siaya County">
                     </iframe>
                     
                     <!-- Artistic Overlay - Subtle Gradient (preserves map visibility) -->
                     <div class="absolute inset-0 bg-gradient-to-t from-[#1e2f3a]/20 via-transparent to-transparent pointer-events-none"></div>
-                    
-                    <!-- Location Marker - Pulsing Pin (overlay on map) -->
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                        <div class="relative">
-                            <!-- Pin Shadow -->
-                            <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-2 bg-black/30 blur-md rounded-full"></div>
-                            
-                            <!-- Main Pin -->
-                            <div class="relative w-14 h-14 bg-gradient-to-br from-[#d4b48c] to-[#b89a78] rounded-full flex items-center justify-center shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] animate-bounce-slow">
-                                <i class="fas fa-map-pin text-white text-2xl"></i>
-                                <div class="absolute -top-1 -right-1 w-4 h-4 bg-white rounded-full border-2 border-[#d4b48c]"></div>
-                            </div>
-                            
-                            <!-- Pulse Rings -->
-                            <div class="absolute inset-0 rounded-full border-2 border-[#d4b48c] animate-ping-slow opacity-75"></div>
-                            <div class="absolute -inset-4 rounded-full border border-[#d4b48c]/40 animate-pulse-slower"></div>
-                        </div>
-                    </div>
 
                     <!-- Mini Info Card - Floating Address on Map -->
                     <div class="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-lg">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-[#3f352e] font-['Cormorant_Garamond'] text-lg font-medium">Aora45 Resort</p>
-                                <p class="text-[#8a735b] text-xs">109 Karura Road, Gigiri, Nairobi</p>
+                                <p class="text-[#3f352e] font-['Cormorant_Garamond'] text-lg font-medium">AORA 45 Resort</p>
+                                <p class="text-[#1e4d40] text-xs">Along River Nyandera, Siaya County</p>
                                 <div class="flex items-center gap-2 mt-1">
-                                    <i class="fas fa-star text-[#d4b48c] text-[10px]"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-[10px]"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-[10px]"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-[10px]"></i>
-                                    <i class="fas fa-star text-[#d4b48c] text-[10px]"></i>
-                                    <span class="text-[#8a735b] text-[10px] ml-1">(4.9)</span>
+                                    <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                    <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                    <span class="text-[#1e4d40] text-[10px] ml-1">(4.9)</span>
                                 </div>
                             </div>
-                            <div class="w-10 h-10 bg-gradient-to-br from-[#d4b48c] to-[#b89a78] rounded-full flex items-center justify-center">
-                                <i class="fas fa-check text-white text-sm"></i>
-                            </div>
+                            <a href="https://www.google.com/maps/dir//AORA+45+Resort+River+Nyandera+Siaya+County" 
+                               target="_blank"
+                               class="w-10 h-10 bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] rounded-full flex items-center justify-center hover:from-[#2d5a4a] hover:to-[#1e4d40] transition-all">
+                                <i class="fas fa-directions text-white text-sm"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Map Attribution - Minimal -->
-                <p class="text-center text-[#8a735b] text-[10px] uppercase tracking-wider mt-3">
+                <p class="text-center text-[#1e4d40] text-[10px] uppercase tracking-wider mt-3">
                     Exact location • Google Maps integration
                 </p>
             </div>
         </div>
 
         <!-- Bottom Divider - Decorative -->
-        <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d4b48c]/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#4a90a0]/30 to-transparent"></div>
     </div>
 
     <!-- Unique Animations for this Section -->
@@ -2737,3 +2786,7 @@ document.addEventListener('keydown', function(e) {
 
 
 <?php include 'footer.php'; ?>
+
+
+
+

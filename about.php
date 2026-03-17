@@ -1,8 +1,8 @@
 <?php include 'header.php'; ?>
 <?php
 // Page-specific SEO
-$pageTitle = "About Aora45 - Our Story, Mission & Vision | Luxury Resort Nairobi";
-$pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn about our mission, vision, awards, and the unique Kenyan hospitality experience we offer. Book your stay at Africa's leading resort.";
+$pageTitle = "About AORA 45 - Our Story, Mission & Vision | Luxury Resort Siaya County";
+$pageDescription = "Discover the story of AORA 45 45 luxury resort in Siaya County. Learn about our mission, vision, awards, and the unique Kenyan hospitality experience we offer. Book your stay at Best Riverside Destination.";
 ?>
 
 <style>
@@ -166,12 +166,12 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #d4b48c;
+            background: #4a90a0;
             border-radius: 4px;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: #b89a78;
+            background: #2d5a4a;
         }
         
         /* 3D Tilt Effect */
@@ -211,41 +211,41 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
             </div>
             
             <!-- Floating Orbs -->
-            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#d4b48c]/20 rounded-full blur-3xl animate-pulse-soft"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#b89a78]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#4a90a0]/20 rounded-full blur-3xl animate-pulse-soft"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#2d5a4a]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
             
             <!-- Content -->
             <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
                 <!-- Floating Gold Line -->
                 <div class="flex justify-center mb-8">
-                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent animate-pulse"></div>
+                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent animate-pulse"></div>
                 </div>
                 
                 <!-- Main Heading with Split Reveal -->
                 <h1 class="font-['DM_Serif_Display'] text-7xl md:text-8xl lg:text-9xl text-white mb-6 drop-shadow-2xl tracking-wide reveal" style="text-shadow: 2px 2px 20px rgba(0,0,0,0.3);">
                     <span class="block reveal-left" style="transition-delay: 0.2s;">The Story</span>
-                    <span class="block reveal-right text-[#d4b48c]" style="transition-delay: 0.4s;">of Aora</span>
+                    <span class="block reveal-right text-[#4a90a0]" style="transition-delay: 0.4s;">of AORA 45</span>
                 </h1>
                 
                 <!-- Decorative Element -->
                 <div class="relative flex justify-center items-center gap-4 mb-12">
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
-                    <i class="fas fa-gem text-[#d4b48c] text-xl animate-pulse"></i>
+                    <i class="fas fa-gem text-[#4a90a0] text-xl animate-pulse"></i>
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
                 </div>
                 
                 <!-- Subheading with Typing Effect -->
                 <p class="font-['Cormorant_Garamond'] text-2xl md:text-3xl text-white/90 max-w-2xl mx-auto italic leading-relaxed reveal" style="transition-delay: 0.6s;">
-                    "Where the earth meets the sky, and every sunrise tells a new story."
+                    "Where the river flows gently, and every sunset paints a new story."
                 </p>
                 
                 <!-- Scroll Indicator -->
-                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
+                <!-- <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
                     <span class="text-white/60 text-xs uppercase tracking-widest">Discover</span>
                     <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
                         <div class="w-1 h-2 bg-white/60 rounded-full mt-2 animate-bounce"></div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -256,23 +256,23 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
         <section class="relative py-28 px-6 bg-[#f5efe8] overflow-hidden">
             <!-- Decorative Background -->
             <div class="absolute inset-0 pointer-events-none">
-                <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4b48c]/30 to-transparent"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4b48c]/30 to-transparent"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#4a90a0]/30 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#4a90a0]/30 to-transparent"></div>
                 
                 <!-- Floating Circles -->
-                <div class="absolute top-20 left-[5%] w-40 h-40 border border-[#d4b48c]/20 rounded-full animate-float-slow"></div>
-                <div class="absolute bottom-20 right-[8%] w-60 h-60 border border-[#8a735b]/10 rounded-full animate-float" style="animation-duration: 15s;"></div>
+                <div class="absolute top-20 left-[5%] w-40 h-40 border border-[#4a90a0]/20 rounded-full animate-float-slow"></div>
+                <div class="absolute bottom-20 right-[8%] w-60 h-60 border border-[#1e4d40]/10 rounded-full animate-float" style="animation-duration: 15s;"></div>
                 
                 <!-- Subtle Pattern -->
-                <div class="absolute inset-0 opacity-[0.02]" style="background-image: repeating-linear-gradient(45deg, #8a735b 0px, #8a735b 2px, transparent 2px, transparent 20px);"></div>
+                <div class="absolute inset-0 opacity-[0.02]" style="background-image: repeating-linear-gradient(45deg, #1e4d40 0px, #1e4d40 2px, transparent 2px, transparent 20px);"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-20 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Our Essence</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Our Essence</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">Mission & Vision</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- Grid Layout -->
@@ -281,17 +281,17 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     <!-- Mission Column -->
                     <div class="relative group reveal-left">
                         <!-- Background Image -->
-                        <div class="absolute -inset-4 bg-gradient-to-br from-[#d4b48c]/20 to-transparent rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div class="absolute -inset-4 bg-gradient-to-br from-[#4a90a0]/20 to-transparent rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                         
                         <div class="relative bg-white/40 backdrop-blur-sm p-8 md:p-10 rounded-3xl border border-white/60 shadow-xl">
                             <!-- Icon -->
-                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#b89a78] flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500">
                                 <i class="fas fa-compass text-3xl text-white"></i>
                             </div>
                             
                             <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#3f352e] mb-4">Our Mission</h3>
                             
-                            <div class="w-12 h-1 bg-gradient-to-r from-[#d4b48c] to-transparent mb-6"></div>
+                            <div class="w-12 h-1 bg-gradient-to-r from-[#4a90a0] to-transparent mb-6"></div>
                             
                             <p class="text-[#5c524a] text-lg leading-relaxed mb-6">
                                 To curate unforgettable experiences that honor Kenyan heritage while delivering world-class luxury.
@@ -300,15 +300,15 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                             <!-- Key Points -->
                             <div class="space-y-3">
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-leaf text-[#d4b48c]"></i>
+                                    <i class="fas fa-leaf text-[#4a90a0]"></i>
                                     <span class="text-[#5c524a]">Sustainable luxury</span>
                                 </div>
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-hands text-[#d4b48c]"></i>
+                                    <i class="fas fa-hands text-[#4a90a0]"></i>
                                     <span class="text-[#5c524a]">Authentic hospitality</span>
                                 </div>
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-star text-[#d4b48c]"></i>
+                                    <i class="fas fa-star text-[#4a90a0]"></i>
                                     <span class="text-[#5c524a]">Uncompromising quality</span>
                                 </div>
                             </div>
@@ -318,17 +318,17 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     <!-- Vision Column -->
                     <div class="relative group reveal-right">
                         <!-- Background Image -->
-                        <div class="absolute -inset-4 bg-gradient-to-br from-[#b89a78]/20 to-transparent rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div class="absolute -inset-4 bg-gradient-to-br from-[#2d5a4a]/20 to-transparent rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                         
                         <div class="relative bg-white/40 backdrop-blur-sm p-8 md:p-10 rounded-3xl border border-white/60 shadow-xl">
                             <!-- Icon -->
-                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#b89a78] to-[#8a735b] flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-20 h-20 rounded-full bg-gradient-to-br from-[#2d5a4a] to-[#1e4d40] flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500">
                                 <i class="fas fa-eye text-3xl text-white"></i>
                             </div>
                             
                             <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#3f352e] mb-4">Our Vision</h3>
                             
-                            <div class="w-12 h-1 bg-gradient-to-r from-[#b89a78] to-transparent mb-6"></div>
+                            <div class="w-12 h-1 bg-gradient-to-r from-[#2d5a4a] to-transparent mb-6"></div>
                             
                             <p class="text-[#5c524a] text-lg leading-relaxed mb-6">
                                 To be Africa's most cherished sanctuary where stories begin and memories never end.
@@ -337,15 +337,15 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                             <!-- Key Points -->
                             <div class="space-y-3">
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-globe-africa text-[#b89a78]"></i>
+                                    <i class="fas fa-globe-africa text-[#2d5a4a]"></i>
                                     <span class="text-[#5c524a]">Pan-African excellence</span>
                                 </div>
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-heart text-[#b89a78]"></i>
+                                    <i class="fas fa-heart text-[#2d5a4a]"></i>
                                     <span class="text-[#5c524a]">Heartfelt connections</span>
                                 </div>
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-infinity text-[#b89a78]"></i>
+                                    <i class="fas fa-infinity text-[#2d5a4a]"></i>
                                     <span class="text-[#5c524a]">Timeless legacy</span>
                                 </div>
                             </div>
@@ -369,8 +369,8 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
             </div>
             
             <!-- Floating Elements -->
-            <div class="absolute top-20 right-20 w-40 h-40 border border-[#d4b48c]/20 rounded-full animate-float"></div>
-            <div class="absolute bottom-20 left-20 w-60 h-60 border border-[#d4b48c]/10 rounded-full animate-float-slow"></div>
+            <div class="absolute top-20 right-20 w-40 h-40 border border-[#4a90a0]/20 rounded-full animate-float"></div>
+            <div class="absolute bottom-20 left-20 w-60 h-60 border border-[#4a90a0]/10 rounded-full animate-float-slow"></div>
             
             <div class="max-w-6xl mx-auto relative z-10">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -379,26 +379,26 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     <div class="reveal-left">
                         <!-- Decorative Line -->
                         <div class="flex items-center gap-4 mb-6">
-                            <div class="w-12 h-px bg-[#d4b48c]"></div>
-                            <span class="text-[#8a735b] text-xs uppercase tracking-widest">Since 2010</span>
+                            <div class="w-12 h-px bg-[#4a90a0]"></div>
+                            <span class="text-[#1e4d40] text-xs uppercase tracking-widest">Our Story</span>
                         </div>
                         
                         <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl lg:text-6xl text-[#3f352e] mb-8 leading-tight">
-                            Born from a <span class="italic text-[#b89a78]">dream</span><br>to share Kenya's soul
+                            Born from a <span class="italic text-[#2d5a4a]">dream</span><br>to share Kenya's soul
                         </h2>
                         
                         <div class="space-y-6 text-[#5c524a]">
                             <p class="text-lg leading-relaxed">
-                                What began as a family's vision to create a haven where travelers could experience the true warmth of Kenyan hospitality has blossomed into one of Nairobi's most beloved retreats.
+                                What began as a family's vision to create a haven where travelers could experience the true warmth of Kenyan hospitality has blossomed into one of Siaya County's most beloved retreats.
                             </p>
                             <p class="text-base leading-relaxed">
-                                Nestled in the lush greenery of Gigiri, Aora stands as a testament to the belief that luxury need not be detached from nature—that the finest experiences are those that connect us to the land, the culture, and the people.
+                                Nestled in the lush greenery of River Nyandera, Aora stands as a testament to the belief that luxury need not be detached from nature—that the finest experiences are those that connect us to the land, the culture, and the people.
                             </p>
                             
                             <!-- Signature -->
                             <div class="flex items-center gap-4 pt-6">
-                                <div class="w-16 h-px bg-[#d4b48c]"></div>
-                                <div class="font-['DM_Serif_Display'] text-xl text-[#b89a78]">The Founders</div>
+                                <div class="w-16 h-px bg-[#4a90a0]"></div>
+                                <div class="font-['DM_Serif_Display'] text-xl text-[#2d5a4a]">The Founders</div>
                             </div>
                         </div>
                     </div>
@@ -421,8 +421,8 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                         
                         <!-- Floating Badge -->
                         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full shadow-xl border border-white flex items-center gap-2 animate-float-slow">
-                            <i class="fas fa-heart text-[#d4b48c]"></i>
-                            <span class="text-[#3f352e] font-medium">15 years of excellence</span>
+                            <i class="fas fa-heart text-[#4a90a0]"></i>
+                            <span class="text-[#3f352e] font-medium">years of excellence</span>
                         </div>
                     </div>
                 </div>
@@ -432,14 +432,14 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
         <!-- ===== WHY CHOOSE US SECTION ===== -->
         <section class="relative py-28 px-6 bg-[#f5efe8] overflow-hidden">
             <!-- Background Pattern -->
-            <div class="absolute inset-0 opacity-[0.02]" style="background-image: repeating-linear-gradient(45deg, #8a735b 0px, #8a735b 4px, transparent 4px, transparent 24px);"></div>
+            <div class="absolute inset-0 opacity-[0.02]" style="background-image: repeating-linear-gradient(45deg, #1e4d40 0px, #1e4d40 4px, transparent 4px, transparent 24px);"></div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Why Choose Us</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Why Choose Us</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">The Aora Difference</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- Features Grid -->
@@ -447,33 +447,33 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     
                     <!-- Feature 1 -->
                     <div class="group relative p-8 bg-white/30 backdrop-blur-sm rounded-3xl border border-white/60 hover:bg-white/40 transition-all duration-500 hover:-translate-y-2 reveal" style="transition-delay: 0.1s;">
-                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#d4b48c]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#4a90a0]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div class="relative">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#b89a78] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
                                 <i class="fas fa-map-pin text-2xl text-white"></i>
                             </div>
                             <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-3">Prime Location</h3>
-                            <p class="text-[#5c524a]">Nestled in Gigiri, moments from Karura Forest and Nairobi's finest attractions.</p>
+                            <p class="text-[#5c524a]">Nestled in River Nyandera, away from the city and Siaya County's finest attractions.</p>
                         </div>
                     </div>
                     
                     <!-- Feature 2 -->
                     <div class="group relative p-8 bg-white/30 backdrop-blur-sm rounded-3xl border border-white/60 hover:bg-white/40 transition-all duration-500 hover:-translate-y-2 reveal" style="transition-delay: 0.2s;">
-                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#d4b48c]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#4a90a0]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div class="relative">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#b89a78] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
                                 <i class="fas fa-utensils text-2xl text-white"></i>
                             </div>
                             <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-3">Culinary Excellence</h3>
-                            <p class="text-[#5c524a]">Award-winning cuisine blending Swahili flavors with international techniques.</p>
+                            <p class="text-[#5c524a]">A curated food and beverage experience featuring local cuisine, grilled specialties, cocktails, poolside snacks, and social dining experiences.</p>
                         </div>
                     </div>
                     
                     <!-- Feature 3 -->
                     <div class="group relative p-8 bg-white/30 backdrop-blur-sm rounded-3xl border border-white/60 hover:bg-white/40 transition-all duration-500 hover:-translate-y-2 reveal" style="transition-delay: 0.3s;">
-                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#d4b48c]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#4a90a0]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div class="relative">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#b89a78] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
                                 <i class="fas fa-spa text-2xl text-white"></i>
                             </div>
                             <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-3">Holistic Wellness</h3>
@@ -483,9 +483,9 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     
                     <!-- Feature 4 -->
                     <div class="group relative p-8 bg-white/30 backdrop-blur-sm rounded-3xl border border-white/60 hover:bg-white/40 transition-all duration-500 hover:-translate-y-2 reveal" style="transition-delay: 0.4s;">
-                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#d4b48c]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#4a90a0]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div class="relative">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#b89a78] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
                                 <i class="fas fa-leaf text-2xl text-white"></i>
                             </div>
                             <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-3">Sustainable Luxury</h3>
@@ -495,9 +495,9 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     
                     <!-- Feature 5 -->
                     <div class="group relative p-8 bg-white/30 backdrop-blur-sm rounded-3xl border border-white/60 hover:bg-white/40 transition-all duration-500 hover:-translate-y-2 reveal" style="transition-delay: 0.5s;">
-                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#d4b48c]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#4a90a0]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div class="relative">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#b89a78] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
                                 <i class="fas fa-hand-holding-heart text-2xl text-white"></i>
                             </div>
                             <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-3">Warm Hospitality</h3>
@@ -507,13 +507,13 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     
                     <!-- Feature 6 -->
                     <div class="group relative p-8 bg-white/30 backdrop-blur-sm rounded-3xl border border-white/60 hover:bg-white/40 transition-all duration-500 hover:-translate-y-2 reveal" style="transition-delay: 0.6s;">
-                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#d4b48c]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="absolute -inset-0.5 bg-gradient-to-br from-[#4a90a0]/20 to-transparent rounded-3xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div class="relative">
-                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4b48c] to-[#b89a78] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
                                 <i class="fas fa-calendar-check text-2xl text-white"></i>
                             </div>
                             <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#3f352e] mb-3">Exclusive Experiences</h3>
-                            <p class="text-[#5c524a]">Curated safaris, cultural tours, and bespoke events.</p>
+                            <p class="text-[#5c524a]">Poolside relaxation, fire pit evenings, and riverfront dining.</p>
                         </div>
                     </div>
                 </div>
@@ -521,16 +521,16 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
         </section>
 
         <!-- ===== AWARDS SECTION ===== -->
-        <section class="relative py-20 px-6 bg-gradient-to-br from-[#1e2f3a] to-[#2a3f4a] overflow-hidden">
+        <section class="relative py-20 px-6 bg-gradient-to-br from-[#1e2f3a] to-[#2a3f4a] overflow-hidden" style="display:none;">
             <!-- Background Pattern -->
             <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(circle at 20% 30%, white 1px, transparent 1px), radial-gradient(circle at 80% 70%, white 1px, transparent 1px); background-size: 40px 40px;"></div>
             
             <div class="max-w-6xl mx-auto relative z-10">
                 <!-- Section Header - Light Text -->
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#d4b48c] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Recognition</span>
+                    <span class="text-[#4a90a0] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Recognition</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-white mt-4 mb-6 font-light">Awards & Accolades</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- Awards Grid -->
@@ -539,37 +539,37 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     <!-- Award 1 -->
                     <div class="text-center group reveal" style="transition-delay: 0.1s;">
                         <div class="w-24 h-24 mx-auto bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500 border border-white/20">
-                            <i class="fas fa-trophy text-4xl text-[#d4b48c]"></i>
+                            <i class="fas fa-trophy text-4xl text-[#4a90a0]"></i>
                         </div>
-                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Africa's Leading Resort</h3>
-                        <p class="text-[#d4b48c] text-xs mt-1">2024</p>
+                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Best Riverside Destination</h3>
+                        <p class="text-[#4a90a0] text-xs mt-1">2024</p>
                     </div>
                     
                     <!-- Award 2 -->
                     <div class="text-center group reveal" style="transition-delay: 0.2s;">
                         <div class="w-24 h-24 mx-auto bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500 border border-white/20">
-                            <i class="fas fa-star text-4xl text-[#d4b48c]"></i>
+                            <i class="fas fa-star text-4xl text-[#4a90a0]"></i>
                         </div>
-                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Forbes Travel Guide</h3>
-                        <p class="text-[#d4b48c] text-xs mt-1">5-Star Rating</p>
+                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Kenya Tourism Board</h3>
+                        <p class="text-[#4a90a0] text-xs mt-1">Certified Excellence</p>
                     </div>
                     
                     <!-- Award 3 -->
                     <div class="text-center group reveal" style="transition-delay: 0.3s;">
                         <div class="w-24 h-24 mx-auto bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500 border border-white/20">
-                            <i class="fas fa-utensils text-4xl text-[#d4b48c]"></i>
+                            <i class="fas fa-utensils text-4xl text-[#4a90a0]"></i>
                         </div>
-                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Best Restaurant Nairobi</h3>
-                        <p class="text-[#d4b48c] text-xs mt-1">2023, 2024</p>
+                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Best Restaurant Siaya County</h3>
+                        <p class="text-[#4a90a0] text-xs mt-1">2023, 2024</p>
                     </div>
                     
                     <!-- Award 4 -->
                     <div class="text-center group reveal" style="transition-delay: 0.4s;">
                         <div class="w-24 h-24 mx-auto bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500 border border-white/20">
-                            <i class="fas fa-leaf text-4xl text-[#d4b48c]"></i>
+                            <i class="fas fa-leaf text-4xl text-[#4a90a0]"></i>
                         </div>
-                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Green Key Award</h3>
-                        <p class="text-[#d4b48c] text-xs mt-1">Sustainable Tourism</p>
+                        <h3 class="font-['Cormorant_Garamond'] text-lg text-white">Environmental Stewardship Award</h3>
+                        <p class="text-[#4a90a0] text-xs mt-1">Community Impact</p>
                     </div>
                 </div>
             </div>
@@ -597,32 +597,32 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                         <!-- Circular Image Grid -->
                         <div class="relative h-[300px] md:h-[500px] flex items-center justify-center">
                             <!-- Main Circular Frame -->
-                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 md:w-72 md:h-72 rounded-full border-8 border-[#d4b48c]/30 overflow-hidden shadow-2xl animate-scale-pulse">
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 md:w-72 md:h-72 rounded-full border-8 border-[#4a90a0]/30 overflow-hidden shadow-2xl animate-scale-pulse">
                                 <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                     alt="Maasai Warrior" 
+                                     alt="River View" 
                                      class="w-full h-full object-cover">
                             </div>
                             
                             <!-- Orbiting Images -->
-                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 md:w-32 md:h-32 rounded-full border-4 border-[#d4b48c] overflow-hidden shadow-xl animate-float">
+                            <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 md:w-32 md:h-32 rounded-full border-4 border-[#4a90a0] overflow-hidden shadow-xl animate-float">
                                 <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
                                      alt="Wildlife" 
                                      class="w-full h-full object-cover">
                             </div>
                             
-                            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-16 h-16 md:w-32 md:h-32 rounded-full border-4 border-[#d4b48c] overflow-hidden shadow-xl animate-float" style="animation-delay: 2s;">
+                            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-16 h-16 md:w-32 md:h-32 rounded-full border-4 border-[#4a90a0] overflow-hidden shadow-xl animate-float" style="animation-delay: 2s;">
                                 <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80" 
                                      alt="Traditional Beads" 
                                      class="w-full h-full object-cover">
                             </div>
                             
-                            <div class="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-1/2 w-16 h-16 md:w-32 md:h-32 rounded-full border-4 border-[#d4b48c] overflow-hidden shadow-xl animate-float" style="animation-delay: 3s;">
+                            <div class="absolute top-1/2 left-0 transform -translate-y-1/2 -translate-x-1/2 w-16 h-16 md:w-32 md:h-32 rounded-full border-4 border-[#4a90a0] overflow-hidden shadow-xl animate-float" style="animation-delay: 3s;">
                                 <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                                     alt="Safari" 
+                                     alt="Pool" 
                                      class="w-full h-full object-cover">
                             </div>
                             
-                            <div class="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 w-16 h-16 md:w-32 md:h-32 rounded-full border-4 border-[#d4b48c] overflow-hidden shadow-xl animate-float" style="animation-delay: 1s;">
+                            <div class="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 w-16 h-16 md:w-32 md:h-32 rounded-full border-4 border-[#4a90a0] overflow-hidden shadow-xl animate-float" style="animation-delay: 1s;">
                                 <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
                                      alt="Sunset" 
                                      class="w-full h-full object-cover">
@@ -635,19 +635,19 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                         <!-- Cultural Badge -->
                         <div class="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm px-5 py-2 rounded-full border border-white/30 mb-8">
                             <i class="fas fa-spa text-[#3f352e]"></i>
-                            <span class="text-xs uppercase tracking-wider text-[#3f352e]">A Sanctuary for the Senses</span>
+                            <span class="text-xs uppercase tracking-wider text-[#3f352e]">A Riverfront Paradise</span>
                         </div>
                         
                         <h2 class="font-['Cormorant_Garamond_Italic'] text-4xl md:text-5xl lg:text-6xl text-[#3f352e] mb-6 leading-tight italic">
-                            Where <span class="text-[#5c4a3a]">Timeless elegance</span><br>embraces modern luxury
+                            Where <span class="text-[#5c4a3a]">Timeless elegance</span><br>meets modern luxury
                         </h2>
                         
                         <div class="space-y-6 text-[#4a3f38] mb-10">
                             <p class="text-lg leading-relaxed italic">
-                                Every corner of Aora whispers stories of refinement and grace—from the handcrafted details in our suites to the warm welcomes that greet each guest.
+                                Every corner of AORA 45 whispers stories of refinement and grace—from the handcrafted details in our suites to the warm welcomes that greet each guest.
                             </p>
                             <p class="text-base leading-relaxed italic">
-                                We craft authentic experiences that celebrate the spirit of Kenya: sunset safaris, culinary journeys through local flavors, and moments of pure tranquility in nature's embrace.
+                                We craft authentic experiences that celebrate the spirit of Siaya: riverfront sunsets, curated culinary journeys, and moments of pure tranquility in nature's embrace.
                             </p>
                         </div>
                         
@@ -657,7 +657,7 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                                 <div class="w-16 h-16 mx-auto bg-[#5c4a3a]/20 rounded-full flex items-center justify-center mb-2 group-hover:bg-[#5c4a3a]/40 transition-all duration-300">
                                     <i class="fas fa-music text-2xl text-[#5c4a3a]"></i>
                                 </div>
-                                <p class="text-[#3f352e] text-sm">Rhythms of Kenya</p>
+                                <p class="text-[#3f352e] text-sm">River Sounds</p>
                             </div>
                             <div class="group">
                                 <div class="w-16 h-16 mx-auto bg-[#5c4a3a]/20 rounded-full flex items-center justify-center mb-2 group-hover:bg-[#5c4a3a]/40 transition-all duration-300">
@@ -669,7 +669,7 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                                 <div class="w-16 h-16 mx-auto bg-[#5c4a3a]/20 rounded-full flex items-center justify-center mb-2 group-hover:bg-[#5c4a3a]/40 transition-all duration-300">
                                     <i class="fas fa-sun text-2xl text-[#5c4a3a]"></i>
                                 </div>
-                                <p class="text-[#3f352e] text-sm">Golden Moments</p>
+                                <p class="text-[#3f352e] text-sm">Sunset Views</p>
                             </div>
                         </div>
                         
@@ -689,7 +689,7 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
             <!-- Background Image -->
             <div class="absolute inset-0 z-0">
                 <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                     alt="Kenyan Safari" 
+                     alt="AORA 45 Experience" 
                      class="w-full h-full object-cover opacity-10">
                 <div class="absolute inset-0 bg-gradient-to-br from-[#1a3a4a]/95 via-[#1a3a4a]/90 to-[#1a3a4a]/95"></div>
             </div>
@@ -697,9 +697,9 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
             <div class="max-w-6xl mx-auto relative z-10">
                 <!-- Section Header - Light Text -->
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#d4b48c] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Curated For You</span>
+                    <span class="text-[#4a90a0] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Our Experiences</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-white mt-4 mb-6 font-light">Signature Experiences</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#d4b48c] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- Experience Cards Grid -->
@@ -708,8 +708,8 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     <!-- Experience 1 -->
                     <div class="group relative h-96 rounded-3xl overflow-hidden shadow-2xl reveal" style="transition-delay: 0.1s;">
                         <!-- Background Image -->
-                        <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
-                             alt="Safari" 
+                        <img src="https://nobleparksandpools.co.ke/wp-content/uploads/2023/07/eventsswimming-1.jpg" 
+                             alt="Pool" 
                              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         
                         <!-- Overlay Gradient -->
@@ -717,12 +717,12 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                         
                         <!-- Content -->
                         <div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-0 group-hover:-translate-y-2 transition-transform duration-500">
-                            <div class="w-12 h-12 rounded-full bg-[#d4b48c] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <div class="w-12 h-12 rounded-full bg-[#4a90a0] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <i class="fas fa-paw text-white text-xl"></i>
                             </div>
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2">Safari Adventures</h3>
-                            <p class="text-white/80 text-sm mb-3">Private game drives with expert Maasai guides</p>
-                            <div class="flex items-center gap-2 text-[#d4b48c] text-xs uppercase tracking-wider cursor-pointer" onclick="openModal('safari')">
+                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2">Pool & Pool Bar</h3>
+                            <p class="text-white/80 text-sm mb-3">Vibrant cocktail experience with sunset views</p>
+                            <div class="flex items-center gap-2 text-[#4a90a0] text-xs uppercase tracking-wider cursor-pointer" onclick="openModal('pool')">
                                 <span>Learn more</span>
                                 <i class="fas fa-arrow-right transition-transform"></i>
                             </div>
@@ -731,17 +731,17 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     
                     <!-- Experience 2 -->
                     <div class="group relative h-96 rounded-3xl overflow-hidden shadow-2xl reveal" style="transition-delay: 0.2s;">
-                        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                        <img src="https://centralca.cdn-anvilcms.net/media/images/2021/05/26/images/Fire_Pit_pix.max-752x423.jpg" 
                              alt="Sunset Dining" 
                              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#1a3a4a] via-[#1a3a4a]/40 to-transparent opacity-90"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-0 group-hover:-translate-y-2 transition-transform duration-500">
-                            <div class="w-12 h-12 rounded-full bg-[#d4b48c] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <div class="w-12 h-12 rounded-full bg-[#4a90a0] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <i class="fas fa-utensils text-white text-xl"></i>
                             </div>
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2">Bush Dinners</h3>
-                            <p class="text-white/80 text-sm mb-3">Candlelit feasts under the African stars</p>
-                            <div class="flex items-center gap-2 text-[#d4b48c] text-xs uppercase tracking-wider cursor-pointer" onclick="openModal('bush')">
+                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2">Fire Pit Evenings</h3>
+                            <p class="text-white/80 text-sm mb-3">Bonfire evenings with storytelling and music</p>
+                            <div class="flex items-center gap-2 text-[#4a90a0] text-xs uppercase tracking-wider cursor-pointer" onclick="openModal('bush')">
                                 <span>Learn more</span>
                                 <i class="fas fa-arrow-right transition-transform"></i>
                             </div>
@@ -750,17 +750,17 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     
                     <!-- Experience 3 -->
                     <div class="group relative h-96 rounded-3xl overflow-hidden shadow-2xl reveal" style="transition-delay: 0.3s;">
-                        <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80" 
+                        <img src="https://interiordesign.co.ke/wp-content/uploads/2024/09/Asian-kitchen-gazebo-with-bamboo-accents-300x300.jpg" 
                              alt="Cultural Tour" 
                              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-[#1a3a4a] via-[#1a3a4a]/40 to-transparent opacity-90"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-0 group-hover:-translate-y-2 transition-transform duration-500">
-                            <div class="w-12 h-12 rounded-full bg-[#d4b48c] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <div class="w-12 h-12 rounded-full bg-[#4a90a0] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <i class="fas fa-hands text-white text-xl"></i>
                             </div>
-                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2">Cultural Immersion</h3>
-                            <p class="text-white/80 text-sm mb-3">Visit local villages and learn ancient traditions</p>
-                            <div class="flex items-center gap-2 text-[#d4b48c] text-xs uppercase tracking-wider cursor-pointer" onclick="openModal('cultural')">
+                            <h3 class="font-['Cormorant_Garamond'] text-2xl text-white mb-2">Gazebo Lounges</h3>
+                            <p class="text-white/80 text-sm mb-3">Three outdoor gazebos for relaxing and private gatherings</p>
+                            <div class="flex items-center gap-2 text-[#4a90a0] text-xs uppercase tracking-wider cursor-pointer" onclick="openModal('cultural')">
                                 <span>Learn more</span>
                                 <i class="fas fa-arrow-right transition-transform"></i>
                             </div>
@@ -780,101 +780,101 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
     </main>
 
     <!-- Modal Templates -->
-    <div id="modal-safari" class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden">
+    <div id="modal-pool" class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden flex items-start justify-center min-h-screen p-4 pt-16 md:pt-20">
         <!-- Backdrop -->
-        <div class="fixed inset-0 bg-black/70 backdrop-blur-sm" onclick="closeModal('safari')"></div>
+        <div class="fixed inset-0 bg-black/70 backdrop-blur-sm" onclick="closeModal('pool')"></div>
         <!-- Modal Content -->
-        <div class="relative top-4 left-1/2 transform -translate-x-1/2 md:translate-y-0 md:top-20 w-full max-w-2xl mx-auto px-4 mb-4 md:mb-20">
+        <div class="relative w-full max-w-2xl mx-auto mt-4 md:mt-0">
             <div class="bg-white rounded-3xl overflow-hidden shadow-2xl">
                 <!-- Close Button -->
-                <button class="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition-colors" onclick="closeModal('safari')">
+                <button class="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition-colors" onclick="closeModal('pool')">
                     <i class="fas fa-times text-gray-600 text-lg"></i>
                 </button>
-                <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80" 
-                     alt="Safari Adventures" 
+                <img src="https://nobleparksandpools.co.ke/wp-content/uploads/2023/07/eventsswimming-1.jpg" 
+                     alt="Pool & Pool Bar" 
                      class="w-full h-64 object-cover">
                 <div class="p-8">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-[#d4b48c] flex items-center justify-center">
+                        <div class="w-12 h-12 rounded-full bg-[#4a90a0] flex items-center justify-center">
                             <i class="fas fa-paw text-white text-xl"></i>
                         </div>
-                        <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#3f352e]">Safari Adventures</h3>
+                        <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#3f352e]">Pool & Pool Bar</h3>
                     </div>
                     <p class="text-[#5c524a] leading-relaxed mb-6">
-                        Experience the thrill of a lifetime with our exclusive private game drives through Kenya's most spectacular reserves. 
-                        Led by expert guides with decades of experience tracking wildlife, you'll witness the Big Five in their natural habitat 
-                        while learning about the delicate ecosystem that sustains them.
+                        Experience the ultimate poolside retreat at AORA 45. Our vibrant pool bar offers refreshing cocktails and light bites 
+                        with stunning sunset views over the river. Relax in our comfortable loungers while enjoying attentive service 
+                        and the serene atmosphere of our riverfront paradise.
                     </p>
                     <ul class="space-y-3 mb-6">
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Private 4x4 safari vehicle with expert guide</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Poolside cabana with Attentive host service</span>
                         </li>
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Full-day and half-day options available</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>All-day dining and beverage service</span>
                         </li>
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Breakfast or sunset picnic included</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Complimentary welcome drinks</span>
                         </li>
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Visit to authentic Maasai villages</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Access to exclusive gazebo areas</span>
                         </li>
                     </ul>
-                    <p class="text-lg italic text-[#8a735b]">
-                        "The safari of a lifetime awaits at Aora."
+                    <p class="text-lg italic text-[#1e4d40]">
+                        "The escape of a lifetime awaits at AORA 45."
                     </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="modal-bush" class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden">
+    <div id="modal-bush" class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden flex items-start justify-center min-h-screen p-4 pt-16 md:pt-20">
         <!-- Backdrop -->
         <div class="fixed inset-0 bg-black/70 backdrop-blur-sm" onclick="closeModal('bush')"></div>
         <!-- Modal Content -->
-        <div class="relative top-4 left-1/2 transform -translate-x-1/2 md:translate-y-0 md:top-20 w-full max-w-2xl mx-auto px-4 mb-4 md:mb-20">
+        <div class="relative w-full max-w-2xl mx-auto mt-4 md:mt-0">
             <div class="bg-white rounded-3xl overflow-hidden shadow-2xl">
                 <!-- Close Button -->
                 <button class="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition-colors" onclick="closeModal('bush')">
                     <i class="fas fa-times text-gray-600 text-lg"></i>
                 </button>
-                <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
-                     alt="Bush Dinners" 
+                <img src="https://centralca.cdn-anvilcms.net/media/images/2021/05/26/images/Fire_Pit_pix.max-752x423.jpg" 
+                     alt="Fire Pit Evenings" 
                      class="w-full h-64 object-cover">
                 <div class="p-8">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-[#d4b48c] flex items-center justify-center">
+                        <div class="w-12 h-12 rounded-full bg-[#4a90a0] flex items-center justify-center">
                             <i class="fas fa-utensils text-white text-xl"></i>
                         </div>
-                        <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#3f352e]">Bush Dinners</h3>
+                        <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#3f352e]">Fire Pit Evenings</h3>
                     </div>
                     <p class="text-[#5c524a] leading-relaxed mb-6">
-                        Indulge in an unforgettable dining experience beneath the African sky. Our bush dinners combine exquisite 
+                        Indulge in an unforgettable dining experience beneath the African sky. Our Fire Pit Evenings combine exquisite 
                         cuisine with the magic of the wilderness, featuring candlelit settings in secluded locations surrounded 
                         by nature's symphony.
                     </p>
                     <ul class="space-y-3 mb-6">
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Multi-course gourmet menu by our award-winning chefs</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Curated grilled specialties and local cuisine</span>
                         </li>
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Premium wine and cocktail selection</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Signature cocktails and beverages</span>
                         </li>
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Private butler service</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Attentive host service</span>
                         </li>
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Traditional entertainment on request</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Live music and storytelling</span>
                         </li>
                     </ul>
-                    <p class="text-lg italic text-[#8a735b]">
+                    <p class="text-lg italic text-[#1e4d40]">
                         "Dining under the stars, where memories are made."
                     </p>
                 </div>
@@ -882,25 +882,25 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
         </div>
     </div>
 
-    <div id="modal-cultural" class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden">
+    <div id="modal-cultural" class="fixed inset-0 z-50 hidden overflow-y-auto overflow-x-hidden flex items-start justify-center min-h-screen p-4 pt-16 md:pt-20">
         <!-- Backdrop -->
         <div class="fixed inset-0 bg-black/70 backdrop-blur-sm" onclick="closeModal('cultural')"></div>
         <!-- Modal Content -->
-        <div class="relative top-4 left-1/2 transform -translate-x-1/2 md:translate-y-0 md:top-20 w-full max-w-2xl mx-auto px-4 mb-4 md:mb-20">
+        <div class="relative w-full max-w-2xl mx-auto mt-4 md:mt-0">
             <div class="bg-white rounded-3xl overflow-hidden shadow-2xl">
                 <!-- Close Button -->
                 <button class="absolute top-4 right-4 z-10 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition-colors" onclick="closeModal('cultural')">
                     <i class="fas fa-times text-gray-600 text-lg"></i>
                 </button>
-                <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=2068&q=80" 
-                     alt="Cultural Immersion" 
+                <img src="https://interiordesign.co.ke/wp-content/uploads/2024/09/Asian-kitchen-gazebo-with-bamboo-accents-300x300.jpg" 
+                     alt="Gazebo Lounges" 
                      class="w-full h-64 object-cover">
                 <div class="p-8">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-[#d4b48c] flex items-center justify-center">
+                        <div class="w-12 h-12 rounded-full bg-[#4a90a0] flex items-center justify-center">
                             <i class="fas fa-hands text-white text-xl"></i>
                         </div>
-                        <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#3f352e]">Cultural Immersion</h3>
+                        <h3 class="font-['Cormorant_Garamond'] text-3xl text-[#3f352e]">Gazebo Lounges</h3>
                     </div>
                     <p class="text-[#5c524a] leading-relaxed mb-6">
                         Connect with Kenya's rich heritage through authentic cultural experiences. From traditional village visits 
@@ -908,23 +908,23 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
                     </p>
                     <ul class="space-y-3 mb-6">
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Guided visits to local communities</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Private gazebo reservations</span>
                         </li>
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Traditional beadwork and craft workshops</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>In-gazebo dining service</span>
                         </li>
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Storytelling evenings with local elders</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Scenic river views</span>
                         </li>
                         <li class="flex items-center gap-3 text-[#5c524a]">
-                            <i class="fas fa-check-circle text-[#d4b48c]"></i>
-                            <span>Traditional dance performances</span>
+                            <i class="fas fa-check-circle text-[#4a90a0]"></i>
+                            <span>Relaxation and leisure amenities</span>
                         </li>
                     </ul>
-                    <p class="text-lg italic text-[#8a735b]">
+                    <p class="text-lg italic text-[#1e4d40]">
                         "Touch the heart of Kenya through its people."
                     </p>
                 </div>
@@ -991,3 +991,15 @@ $pageDescription = "Discover the story of Aora45 luxury resort in Nairobi. Learn
         });
     </script>
 <?php include 'footer.php'; ?>
+
+
+
+
+
+
+
+
+
+
+
+

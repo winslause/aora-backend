@@ -66,7 +66,7 @@ Header always set Content-Security-Policy "default-src 'self'; script-src 'self'
 </IfModule>
 
 # ===========================================
-# 3. COMPRESSION
+# 3. COMPRESSION - Enhanced
 # ===========================================
 
 <IfModule mod_deflate.c>
@@ -76,18 +76,28 @@ Header always set Content-Security-Policy "default-src 'self'; script-src 'self'
     # Compress fonts
     AddOutputFilterByType DEFLATE application/font-woff application/font-woff2 application/x-font-ttf application/x-font-otf
     
-    # Exclude old browsers
+    # Exclude already compressed files
     SetEnvIfNoCase Request_URI "\.(gif|jpe?g|png|svg|ico|webp)$" no-gzip dont-vary
     SetEnvIfNoCase Request_URI "\.(rtf|css|js|xml|txt|html|php)$" no-gzip dont-vary
+    
+    # Enable better compression for text-based files
+    <IfModule mod_filter.c>
+        AddOutputFilterByType DEFLATE application/javascript application/rss+xml application/manifest+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json font/ttf font/opentype image/svg+xml image/x-icon
+    </IfModule>
 </IfModule>
 
 # ===========================================
-# 4. ETAGS
+# 4. ETAGS & LAST MODIFIED
 # ===========================================
 
 <IfModule mod_headers.c>
     # Remove ETag header (we use Cache-Control instead)
     Header unset ETag
+    
+    # Enable keep-alive for better performance
+    <IfModule mod_headers.c>
+        Header set Connection "keep-alive"
+    </IfModule>
 </IfModule>
 FileETag None
 
@@ -119,7 +129,7 @@ FileETag None
 </IfModule>
 
 # ===========================================
-# 6. FILE CACHING
+# 6. FILE CACHING - Enhanced
 # ===========================================
 
 <IfModule mod_headers.c>
@@ -131,6 +141,11 @@ FileETag None
     # Cache control for HTML
     <FilesMatch "\.(html|htm)$">
         Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+    
+    # Disable scripting for static files
+    <FilesMatch "\.(jpg|jpeg|png|gif|svg|ico|webp|css|js|woff|woff2)$">
+        Header set X-Content-Type-Options "nosniff"
     </FilesMatch>
 </IfModule>
 

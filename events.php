@@ -2,8 +2,8 @@
 include 'header.php';
 
 // Page-specific SEO
-$pageTitle = "Event Venues & Wedding Spaces in Nairobi | Aora45";
-$pageDescription = "Host your dream wedding, corporate event, or private party at Aora45 in Nairobi. Our luxury event venues include grand ballroom, beachfront, and garden pavilion. Book your special occasion today.";
+$pageTitle = "Event Venues & Wedding Spaces in Siaya County | AORA 45";
+$pageDescription = "Host your dream wedding, corporate event, or private party at AORA 45 in Siaya County. Our luxury event venues include grand ballroom, beachfront, and garden pavilion. Book your special occasion today.";
 
 // Include database connection
 include 'database.php';
@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #b89a78;
+            background: #2d5a4a;
             border-radius: 4px;
         }
         
@@ -226,7 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #b89a78, #8a735b, #b89a78);
+            background: linear-gradient(90deg, #2d5a4a, #1e4d40, #2d5a4a);
             transform: translateX(-100%);
             transition: transform 0.6s ease;
         }
@@ -270,9 +270,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         }
         
         .space-card:hover .capacity-badge {
-            background: #b89a78;
+            background: #2d5a4a;
             color: white;
-            border-color: #b89a78;
+            border-color: #2d5a4a;
         }
         
         .space-card .feature-item {
@@ -290,7 +290,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         }
         
         .space-card .feature-item i {
-            color: #b89a78;
+            color: #2d5a4a;
             width: 20px;
         }
         
@@ -339,14 +339,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         .inquiry-form select:focus,
         .inquiry-form textarea:focus {
             outline: none;
-            border-bottom-color: #b89a78;
+            border-bottom-color: #2d5a4a;
         }
         
         .inquiry-form label {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: #8a735b;
+            color: #1e4d40;
             margin-bottom: 0.25rem;
             display: block;
         }
@@ -355,7 +355,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         .gold-divider {
             width: 60px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, #b89a78, transparent);
+            background: linear-gradient(90deg, transparent, #2d5a4a, transparent);
             margin: 1rem 0;
         }
         
@@ -378,33 +378,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
             <!-- Background Image - Celebration -->
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                <img src="https://okashhotel.com/wp-content/uploads/2025/02/Best-Event-Places-in-Nairobi-scaled.jpg" 
                      alt="Celebration at Aora" 
                      class="w-full h-full object-cover animate-drift">
                 <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>
             </div>
             
             <!-- Floating Orbs -->
-            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#b89a78]/20 rounded-full blur-3xl animate-pulse-soft"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#8a735b]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-[#2d5a4a]/20 rounded-full blur-3xl animate-pulse-soft"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-[#1e4d40]/20 rounded-full blur-3xl animate-pulse-soft" style="animation-delay: 2s;"></div>
             
             <!-- Content -->
             <div class="relative z-10 text-center px-6 max-w-5xl mx-auto">
                 <!-- Decorative Line -->
                 <div class="flex justify-center mb-8">
-                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent animate-pulse"></div>
+                    <div class="w-24 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent animate-pulse"></div>
                 </div>
                 
                 <!-- Main Heading -->
                 <h1 class="font-['DM_Serif_Display'] text-6xl md:text-7xl lg:text-8xl text-white mb-6 drop-shadow-2xl tracking-wide">
                     <span class="block reveal-left" style="transition-delay: 0.2s;">Celebrate</span>
-                    <span class="block reveal-right text-[#b89a78]" style="transition-delay: 0.4s;">at Aora</span>
+                    <span class="block reveal-right text-[#2d5a4a]" style="transition-delay: 0.4s;">at Aora</span>
                 </h1>
                 
                 <!-- Decorative Element -->
                 <div class="relative flex justify-center items-center gap-4 mb-12">
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
-                    <i class="fas fa-glass-cheers text-[#b89a78] text-xl"></i>
+                    <i class="fas fa-glass-cheers text-[#2d5a4a] text-xl"></i>
                     <div class="w-12 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent"></div>
                 </div>
                 
@@ -414,12 +414,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                 </p>
                 
                 <!-- Scroll Indicator -->
-                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
+                <!-- <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2">
                     <span class="text-white/60 text-xs uppercase tracking-widest">Discover</span>
                     <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
                         <div class="w-1 h-2 bg-white/60 rounded-full mt-2 animate-bounce"></div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -436,19 +436,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                         <div class="absolute inset-0 bg-gradient-to-t from-[#2c3e4a]/40 to-transparent"></div>
                         
                         <!-- Floating Decoration -->
-                        <div class="absolute -bottom-10 -right-10 w-40 h-40 border border-[#b89a78]/30 rounded-full animate-float-slow"></div>
-                        <div class="absolute -top-10 -left-10 w-40 h-40 border border-[#b89a78]/20 rounded-full animate-float"></div>
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 border border-[#2d5a4a]/30 rounded-full animate-float-slow"></div>
+                        <div class="absolute -top-10 -left-10 w-40 h-40 border border-[#2d5a4a]/20 rounded-full animate-float"></div>
                     </div>
                     
                     <!-- Right Column - Content -->
                     <div class="reveal-right">
                         <div class="flex items-center gap-4 mb-6">
-                            <div class="w-12 h-px bg-[#b89a78]"></div>
-                            <span class="text-[#8a735b] text-xs uppercase tracking-widest">Forever Begins Here</span>
+                            <div class="w-12 h-px bg-[#2d5a4a]"></div>
+                            <span class="text-[#1e4d40] text-xs uppercase tracking-widest">Forever Begins Here</span>
                         </div>
                         
                         <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mb-8 leading-tight">
-                            Weddings at <span class="text-[#b89a78]">Aora</span>
+                            Weddings at <span class="text-[#2d5a4a]">Aora</span>
                         </h2>
                         
                         <p class="text-[#5c524a] text-lg leading-relaxed mb-8">
@@ -459,38 +459,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                         <!-- Packages -->
                         <div class="space-y-6 mb-8">
                             <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-[#b89a78]/20 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-check text-[#b89a78]"></i>
+                                <div class="w-10 h-10 rounded-full bg-[#2d5a4a]/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-check text-[#2d5a4a]"></i>
                                 </div>
                                 <div>
                                     <h3 class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a] mb-1">All-Inclusive Package</h3>
-                                    <p class="text-[#8a735b] text-sm">Venue, catering, decor, photography, and coordination</p>
+                                    <p class="text-[#1e4d40] text-sm">Venue, catering, decor, photography, and coordination</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-[#b89a78]/20 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-check text-[#b89a78]"></i>
+                                <div class="w-10 h-10 rounded-full bg-[#2d5a4a]/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-check text-[#2d5a4a]"></i>
                                 </div>
                                 <div>
                                     <h3 class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a] mb-1">Ceremony Only</h3>
-                                    <p class="text-[#8a735b] text-sm">Beautiful ceremony spaces with essential arrangements</p>
+                                    <p class="text-[#1e4d40] text-sm">Beautiful ceremony spaces with essential arrangements</p>
                                 </div>
                             </div>
                             
                             <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-full bg-[#b89a78]/20 flex items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-check text-[#b89a78]"></i>
+                                <div class="w-10 h-10 rounded-full bg-[#2d5a4a]/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-check text-[#2d5a4a]"></i>
                                 </div>
                                 <div>
                                     <h3 class="font-['Cormorant_Garamond'] text-xl text-[#2c3e4a] mb-1">Reception Only</h3>
-                                    <p class="text-[#8a735b] text-sm">Elegant reception spaces with customizable menus</p>
+                                    <p class="text-[#1e4d40] text-sm">Elegant reception spaces with customizable menus</p>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Button -->
-                        <button onclick="openInquiryForm('wedding')" class="btn-primary relative px-8 py-4 bg-[#b89a78] text-white text-sm uppercase tracking-wider overflow-hidden group">
+                        <button onclick="openInquiryForm('wedding')" class="btn-primary relative px-8 py-4 bg-[#2d5a4a] text-white text-sm uppercase tracking-wider overflow-hidden group">
                             <span class="relative z-10 flex items-center gap-2">
                                 Inquire About Weddings
                                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
@@ -509,12 +509,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                     <!-- Left Column - Content -->
                     <div class="reveal-left order-2 lg:order-1">
                         <div class="flex items-center gap-4 mb-6">
-                            <div class="w-12 h-px bg-[#b89a78]"></div>
-                            <span class="text-[#8a735b] text-xs uppercase tracking-widest">Business Excellence</span>
+                            <div class="w-12 h-px bg-[#2d5a4a]"></div>
+                            <span class="text-[#1e4d40] text-xs uppercase tracking-widest">Business Excellence</span>
                         </div>
                         
                         <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mb-8 leading-tight">
-                            Corporate <span class="text-[#b89a78]">Events</span>
+                            Corporate <span class="text-[#2d5a4a]">Events</span>
                         </h2>
                         
                         <p class="text-[#5c524a] text-lg leading-relaxed mb-8">
@@ -525,25 +525,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                         <!-- Features -->
                         <div class="space-y-4 mb-8">
                             <div class="flex items-center gap-3">
-                                <i class="fas fa-building text-[#b89a78] w-6"></i>
+                                <i class="fas fa-building text-[#2d5a4a] w-6"></i>
                                 <span class="text-[#5c524a]">Multiple meeting halls (20-200 capacity)</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <i class="fas fa-wifi text-[#b89a78] w-6"></i>
+                                <i class="fas fa-wifi text-[#2d5a4a] w-6"></i>
                                 <span class="text-[#5c524a]">High-speed WiFi and video conferencing</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <i class="fas fa-utensils text-[#b89a78] w-6"></i>
+                                <i class="fas fa-utensils text-[#2d5a4a] w-6"></i>
                                 <span class="text-[#5c524a]">Customizable catering and coffee breaks</span>
                             </div>
                             <div class="flex items-center gap-3">
-                                <i class="fas fa-microphone text-[#b89a78] w-6"></i>
+                                <i class="fas fa-microphone text-[#2d5a4a] w-6"></i>
                                 <span class="text-[#5c524a]">Professional AV equipment and support</span>
                             </div>
                         </div>
                         
                         <!-- Button -->
-                        <button onclick="openInquiryForm('corporate')" class="btn-primary relative px-8 py-4 bg-[#b89a78] text-white text-sm uppercase tracking-wider overflow-hidden group">
+                        <button onclick="openInquiryForm('corporate')" class="btn-primary relative px-8 py-4 bg-[#2d5a4a] text-white text-sm uppercase tracking-wider overflow-hidden group">
                             <span class="relative z-10 flex items-center gap-2">
                                 Plan Your Corporate Event
                                 <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
@@ -559,7 +559,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                         <div class="absolute inset-0 bg-gradient-to-t from-[#2c3e4a]/40 to-transparent"></div>
                         
                         <!-- Floating Decoration -->
-                        <div class="absolute -bottom-10 -left-10 w-40 h-40 border border-[#b89a78]/30 rounded-full animate-float-slow"></div>
+                        <div class="absolute -bottom-10 -left-10 w-40 h-40 border border-[#2d5a4a]/30 rounded-full animate-float-slow"></div>
                     </div>
                 </div>
             </div>
@@ -578,18 +578,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                         <div class="absolute inset-0 bg-gradient-to-t from-[#2c3e4a]/40 to-transparent"></div>
                         
                         <!-- Floating Decoration -->
-                        <div class="absolute -top-10 -right-10 w-40 h-40 border border-[#b89a78]/30 rounded-full animate-float"></div>
+                        <div class="absolute -top-10 -right-10 w-40 h-40 border border-[#2d5a4a]/30 rounded-full animate-float"></div>
                     </div>
                     
                     <!-- Right Column - Content -->
                     <div class="reveal-right">
                         <div class="flex items-center gap-4 mb-6">
-                            <div class="w-12 h-px bg-[#b89a78]"></div>
-                            <span class="text-[#8a735b] text-xs uppercase tracking-widest">Celebrate Life</span>
+                            <div class="w-12 h-px bg-[#2d5a4a]"></div>
+                            <span class="text-[#1e4d40] text-xs uppercase tracking-widest">Celebrate Life</span>
                         </div>
                         
                         <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mb-8 leading-tight">
-                            Private <span class="text-[#b89a78]">Parties</span>
+                            Private <span class="text-[#2d5a4a]">Parties</span>
                         </h2>
                         
                         <p class="text-[#5c524a] text-lg leading-relaxed mb-8">
@@ -599,28 +599,107 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                         
                         <!-- Options -->
                         <div class="grid grid-cols-2 gap-6 mb-8">
-                            <div class="text-center p-4 border border-[#b89a78]/20 hover:border-[#b89a78] transition-all">
-                                <i class="fas fa-birthday-cake text-3xl text-[#b89a78] mb-2"></i>
+                            <div class="text-center p-4 border border-[#2d5a4a]/20 hover:border-[#2d5a4a] transition-all">
+                                <i class="fas fa-birthday-cake text-3xl text-[#2d5a4a] mb-2"></i>
                                 <h3 class="font-['Cormorant_Garamond'] text-lg text-[#2c3e4a]">Birthdays</h3>
                             </div>
-                            <div class="text-center p-4 border border-[#b89a78]/20 hover:border-[#b89a78] transition-all">
-                                <i class="fas fa-heart text-3xl text-[#b89a78] mb-2"></i>
+                            <div class="text-center p-4 border border-[#2d5a4a]/20 hover:border-[#2d5a4a] transition-all">
+                                <i class="fas fa-heart text-3xl text-[#2d5a4a] mb-2"></i>
                                 <h3 class="font-['Cormorant_Garamond'] text-lg text-[#2c3e4a]">Anniversaries</h3>
                             </div>
-                            <div class="text-center p-4 border border-[#b89a78]/20 hover:border-[#b89a78] transition-all">
-                                <i class="fas fa-users text-3xl text-[#b89a78] mb-2"></i>
+                            <div class="text-center p-4 border border-[#2d5a4a]/20 hover:border-[#2d5a4a] transition-all">
+                                <i class="fas fa-users text-3xl text-[#2d5a4a] mb-2"></i>
                                 <h3 class="font-['Cormorant_Garamond'] text-lg text-[#2c3e4a]">Reunions</h3>
                             </div>
-                            <div class="text-center p-4 border border-[#b89a78]/20 hover:border-[#b89a78] transition-all">
-                                <i class="fas fa-gift text-3xl text-[#b89a78] mb-2"></i>
+                            <div class="text-center p-4 border border-[#2d5a4a]/20 hover:border-[#2d5a4a] transition-all">
+                                <i class="fas fa-gift text-3xl text-[#2d5a4a] mb-2"></i>
                                 <h3 class="font-['Cormorant_Garamond'] text-lg text-[#2c3e4a]">Milestones</h3>
                             </div>
                         </div>
                         
                         <!-- Note -->
-                        <p class="text-[#8a735b] text-sm italic">
+                        <p class="text-[#1e4d40] text-sm italic">
                             Fully customizable menus, decor, and entertainment options available.
                         </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== EVENTS & CELEBRATIONS SECTION ===== -->
+        <section class="event-section relative py-24 px-6 bg-[#f4ede5] overflow-hidden">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    
+                    <!-- Left Column - Image -->
+                    <div class="relative h-[500px] overflow-hidden reveal-left">
+                        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                             alt="Events & Celebrations" 
+                             class="event-image w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#2c3e4a]/40 to-transparent"></div>
+                        
+                        <!-- Floating Decoration -->
+                        <div class="absolute -bottom-10 -right-10 w-40 h-40 border border-[#2d5a4a]/30 rounded-full animate-float-slow"></div>
+                        <div class="absolute -top-10 -left-10 w-40 h-40 border border-[#2d5a4a]/20 rounded-full animate-float"></div>
+                    </div>
+                    
+                    <!-- Right Column - Content -->
+                    <div class="reveal-right">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-px bg-[#2d5a4a]"></div>
+                            <span class="text-[#1e4d40] text-xs uppercase tracking-widest">Unforgettable Moments</span>
+                        </div>
+                        
+                        <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mb-8 leading-tight">
+                            Events & <span class="text-[#2d5a4a]">Celebrations</span>
+                        </h2>
+                        
+                        <p class="text-[#5c524a] text-lg leading-relaxed mb-8">
+                            From milestone birthdays to corporate retreats, team building events to private parties—
+                            we create memorable experiences tailored to your unique vision and celebration.
+                        </p>
+                        
+                        <!-- Event Types -->
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="flex items-center gap-3 p-3 bg-white/50 rounded-lg">
+                                <div class="w-10 h-10 rounded-full bg-[#2d5a4a]/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-birthday-cake text-[#2d5a4a]"></i>
+                                </div>
+                                <span class="text-[#2c3e4a] text-sm">Birthdays</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/50 rounded-lg">
+                                <div class="w-10 h-10 rounded-full bg-[#2d5a4a]/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-rings-wedding text-[#2d5a4a]"></i>
+                                </div>
+                                <span class="text-[#2c3e4a] text-sm">Weddings</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/50 rounded-lg">
+                                <div class="w-10 h-10 rounded-full bg-[#2d5a4a]/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-briefcase text-[#2d5a4a]"></i>
+                                </div>
+                                <span class="text-[#2c3e4a] text-sm">Corporate Retreats</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/50 rounded-lg">
+                                <div class="w-10 h-10 rounded-full bg-[#2d5a4a]/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-users-rays text-[#2d5a4a]"></i>
+                                </div>
+                                <span class="text-[#2c3e4a] text-sm">Team Building</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-white/50 rounded-lg col-span-2">
+                                <div class="w-10 h-10 rounded-full bg-[#2d5a4a]/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-champagne-glasses text-[#2d5a4a]"></i>
+                                </div>
+                                <span class="text-[#2c3e4a] text-sm">Private Parties</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Button -->
+                        <button onclick="openInquiryForm('celebrations')" class="btn-primary relative px-8 py-4 bg-[#2d5a4a] text-white text-sm uppercase tracking-wider overflow-hidden group">
+                            <span class="relative z-10 flex items-center gap-2">
+                                Plan Your Event
+                                <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                            </span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -630,15 +709,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         <section class="relative py-24 px-6 bg-[#f4ede5] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-16 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Our Venues</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Our Venues</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Event Spaces</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
                 </div>
                 
                 <!-- Spaces Grid -->
@@ -676,11 +755,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                                     <?php endif; ?>
                                 </div>
                                 
-                                <p class="text-[#8a735b] text-sm mb-4">
+                                <p class="text-[#1e4d40] text-sm mb-4">
                                     <?php echo htmlspecialchars($venue['description']); ?>
                                 </p>
                                 
-                                <button onclick="openInquiryForm('<?php echo htmlspecialchars($venue['slug']); ?>')" class="text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm flex items-center gap-2 group">
+                                <button onclick="openInquiryForm('<?php echo htmlspecialchars($venue['slug']); ?>')" class="text-[#2d5a4a] hover:text-[#1e4d40] transition-colors text-sm flex items-center gap-2 group">
                                     <span>Send Inquiry</span>
                                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                                 </button>
@@ -721,11 +800,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                                     </div>
                                 </div>
                                 
-                                <p class="text-[#8a735b] text-sm mb-4">
+                                <p class="text-[#1e4d40] text-sm mb-4">
                                     Our most elegant space, perfect for grand weddings and galas.
                                 </p>
                                 
-                                <button onclick="openInquiryForm('ballroom')" class="text-[#b89a78] hover:text-[#8a735b] transition-colors text-sm flex items-center gap-2 group">
+                                <button onclick="openInquiryForm('ballroom')" class="text-[#2d5a4a] hover:text-[#1e4d40] transition-colors text-sm flex items-center gap-2 group">
                                     <span>Send Inquiry</span>
                                     <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                                 </button>
@@ -740,17 +819,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         <section class="relative py-24 px-6 bg-[#fcf8f3] overflow-hidden">
             <!-- Simple Background -->
             <div class="absolute inset-0">
-                <div class="absolute top-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
-                <div class="absolute bottom-0 left-0 w-full h-px bg-[#b89a78]/20"></div>
+                <div class="absolute top-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
+                <div class="absolute bottom-0 left-0 w-full h-px bg-[#2d5a4a]/20"></div>
             </div>
             
             <div class="max-w-4xl mx-auto relative z-10">
                 <!-- Section Header -->
                 <div class="text-center mb-12 reveal">
-                    <span class="text-[#8a735b] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Plan Your Event</span>
+                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Plan Your Event</span>
                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Send Inquiry</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#b89a78] to-transparent mx-auto"></div>
-                    <p class="text-[#8a735b] text-sm max-w-2xl mx-auto mt-6">
+                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
+                    <p class="text-[#1e4d40] text-sm max-w-2xl mx-auto mt-6">
                         Tell us about your vision, and we'll create a customized proposal.
                     </p>
                 </div>
@@ -760,7 +839,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                 <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-8 text-center">
                     <i class="fas fa-check-circle text-4xl text-green-500 mb-4"></i>
                     <h3 class="font-['Cormorant_Garamond'] text-2xl text-[#2c3e4a] mb-2">Thank You for Your Inquiry!</h3>
-                    <p class="text-[#8a735b]">Our events team will contact you within 24 hours.</p>
+                    <p class="text-[#1e4d40]">Our events team will contact you within 24 hours.</p>
                 </div>
                 <?php endif; ?>
                 
@@ -792,6 +871,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                                     <option value="" disabled selected>Select event type</option>
                                     <option value="wedding">Wedding</option>
                                     <option value="corporate">Corporate Event</option>
+                                    <option value="celebrations">Events & Celebrations</option>
                                     <option value="private">Private Party</option>
                                     <option value="other">Other</option>
                                 </select>
@@ -847,14 +927,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                         
                         <!-- Submit Button -->
                         <div class="text-center pt-4">
-                            <button type="submit" class="btn-primary px-12 py-4 bg-[#b89a78] text-white text-sm uppercase tracking-wider">
+                            <button type="submit" class="btn-primary px-12 py-4 bg-[#2d5a4a] text-white text-sm uppercase tracking-wider">
                                 Submit Inquiry
                             </button>
                         </div>
                     </form>
                     
                     <!-- Note -->
-                    <p class="text-center text-[#8a735b] text-xs mt-6">
+                    <p class="text-center text-[#1e4d40] text-xs mt-6">
                         We'll respond within 24 hours with availability and pricing.
                     </p>
                 </div>
@@ -873,6 +953,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
             'conference': 6,
             'wedding': null,
             'corporate': null,
+            'celebrations': null,
             'ballroom': 1,
             'beachfront-lawn': 2
         };
@@ -903,9 +984,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                     'grand-ballroom': 'wedding',
                     'beachfront': 'wedding',
                     'boardroom': 'corporate',
-                    'garden-pavilion': 'private',
-                    'rooftop': 'private',
-                    'conference': 'corporate'
+                    'garden-pavilion': 'celebrations',
+                    'rooftop': 'celebrations',
+                    'conference': 'corporate',
+                    'celebrations': 'celebrations'
                 };
                 
                 if (venueToEventType[eventType]) {
@@ -968,3 +1050,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         }
     </script>
 <?php include 'footer.php'; ?>
+

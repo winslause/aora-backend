@@ -1,6 +1,21 @@
 <?php
 // API Endpoint for Rooms and Bookings
+
+// CORS headers for cross-origin requests
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Accept');
+
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
+
+// Content-Type header for JSON
 header('Content-Type: application/json');
+header('Cache-Control: no-cache, must-revalidate');
+header('Pragma: no-cache');
 
 // Disable error display for production (errors are still logged)
 error_reporting(E_ALL);
@@ -339,6 +354,10 @@ if (empty($action)) {
     exit;
 }
 
+// Ensure no output before JSON
+ob_clean();
+ob_start();
+
 // Add error handling wrapper
 function handleRequest($callback) {
     try {
@@ -411,7 +430,20 @@ switch ($action) {
                 }
             }
             
-            return json_encode(['success' => true, 'rooms' => $rooms]);
+            // Create the response
+            $response = ['success' => true, 'rooms' => $rooms];
+            
+            // Encode to JSON with error checking
+            $json = json_encode($response);
+            if ($json === false) {
+                error_log("JSON encode error: " . json_last_error_msg());
+                return json_encode(['success' => false, 'message' => 'Error encoding rooms data']);
+            }
+            
+            // Log that JSON was created successfully
+            error_log("JSON created successfully, length: " . strlen($json));
+            
+            return $json;
         });
         break;
         
@@ -702,7 +734,6 @@ switch ($action) {
         
     case 'add_room_view':
         $name = isset($_POST['name']) ? trim($_POST['name']) : '';
-        $display_order = isset($_POST['display_order']) ? intval($_POST['display_order']) : 0;
         
         if (empty($name)) {
             echo json_encode(['success' => false, 'message' => 'View name is required']);
@@ -710,7 +741,7 @@ switch ($action) {
         }
         
         try {
-            $id = addRoomView($pdo, $name, $display_order);
+            $id = addRoomView($pdo, $name);
             echo json_encode(['success' => true, 'message' => 'View added successfully', 'id' => $id]);
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => 'View already exists or error occurred']);
@@ -737,7 +768,6 @@ switch ($action) {
         
     case 'add_bed_type':
         $name = isset($_POST['name']) ? trim($_POST['name']) : '';
-        $display_order = isset($_POST['display_order']) ? intval($_POST['display_order']) : 0;
         
         if (empty($name)) {
             echo json_encode(['success' => false, 'message' => 'Bed type name is required']);
@@ -745,7 +775,7 @@ switch ($action) {
         }
         
         try {
-            $id = addBedType($pdo, $name, $display_order);
+            $id = addBedType($pdo, $name);
             echo json_encode(['success' => true, 'message' => 'Bed type added successfully', 'id' => $id]);
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'message' => 'Bed type already exists or error occurred']);

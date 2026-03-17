@@ -65,6 +65,28 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
         .modal.open { display: flex; }
         .modal-content { background: white; border-radius: 16px; padding: 2rem; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto; }
+        
+        /* Toast Notification Styles */
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 350px; }
+        .toast { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); margin-bottom: 10px; animation: slideIn 0.3s ease; transform: translateX(400px); opacity: 0; }
+        .toast.show { transform: translateX(0); opacity: 1; }
+        .toast.toast-success { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .toast.toast-error { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+        .toast.toast-info { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+        .toast.toast-warning { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; }
+        .toast-icon { font-size: 20px; }
+        .toast-message { flex: 1; font-size: 14px; font-weight: 500; }
+        .toast-close { background: none; border: none; color: white; cursor: pointer; font-size: 18px; opacity: 0.8; transition: opacity 0.2s; }
+        .toast-close:hover { opacity: 1; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(400px); opacity: 0; }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -442,7 +464,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-                    <input type="number" id="roomTypeOrder" class="admin-input" value="0">
+                    <input type="number" id="roomTypeOrder" class="admin-input" value="0" readonly>
                 </div>
                 <div class="flex gap-3">
                     <button type="button" onclick="closeRoomTypeModal()" class="admin-btn-secondary flex-1">Cancel</button>
@@ -474,7 +496,6 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             <form id="bedTypeForm">
                 <div class="flex gap-2 mb-4">
                     <input type="text" id="bedTypeName" class="admin-input flex-1" placeholder="e.g., King, Queen, Twin">
-                    <input type="number" id="bedTypeOrder" class="admin-input w-24" placeholder="Order" value="0">
                     <button type="submit" class="admin-btn-primary px-4">
                         <i class="fas fa-plus"></i>
                     </button>
@@ -497,8 +518,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             </div>
             <form id="viewForm">
                 <div class="flex gap-2 mb-4">
-                    <input type="text" id="viewName" class="admin-input flex-1" placeholder="e.g., Garden, Pool, City">
-                    <input type="number" id="viewOrder" class="admin-input w-24" placeholder="Order" value="0">
+                    <input type="text" id="viewName" class="admin-input flex-1" placeholder="e.g., Garden, Pool, City" required>
                     <button type="submit" class="admin-btn-primary px-4">
                         <i class="fas fa-plus"></i>
                     </button>
@@ -522,7 +542,6 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             <form id="amenityCategoryForm">
                 <div class="flex gap-2 mb-4">
                     <input type="text" id="amenityCategoryName" class="admin-input flex-1" placeholder="Category name">
-                    <input type="number" id="amenityCategoryOrder" class="admin-input w-24" placeholder="Order" value="0">
                     <button type="submit" class="admin-btn-primary px-4">
                         <i class="fas fa-plus"></i>
                     </button>
@@ -644,7 +663,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-                    <input type="number" id="galleryAlbumOrder" class="admin-input" value="0">
+                    <input type="number" id="galleryAlbumOrder" class="admin-input" value="0" readonly>
                 </div>
                 <div class="flex gap-3">
                     <button type="button" onclick="closeGalleryAlbumModal()" class="admin-btn-secondary flex-1">Cancel</button>
@@ -695,7 +714,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-                    <input type="number" id="galleryImageOrder" class="admin-input" value="0">
+                    <input type="number" id="galleryImageOrder" class="admin-input" value="0" readonly>
                 </div>
                 <div class="flex gap-3">
                     <button type="button" onclick="closeGalleryImageModal()" class="admin-btn-secondary flex-1">Cancel</button>
@@ -801,11 +820,8 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                         <input type="text" id="offerPriceLabel" class="admin-input" placeholder="e.g., Per Person">
                     </div>
                     <div class="mb-3">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
-                        <div class="flex items-center gap-2 p-2 bg-gray-50 border border-gray-200 rounded-lg">
-                            <i class="fas fa-gift text-[#b89a78]"></i>
-                            <span class="text-sm text-gray-500">fa-gift (automatic)</span>
-                        </div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Icon Class</label>
+                        <input type="text" id="offerIcon" class="admin-input" placeholder="fa-gift" value="fa-gift">
                     </div>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Icon Color</label>
@@ -814,6 +830,14 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     <div class="mb-3 col-span-2">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                         <textarea id="offerDescription" class="admin-input" rows="2" placeholder="Offer description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                        <input type="date" id="offerStartDate" class="admin-input">
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                        <input type="date" id="offerEndDate" class="admin-input">
                     </div>
                 </div>
                 
@@ -850,18 +874,50 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 </div>
                 
                 <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Inclusions (one per line)</label>
-                    <textarea id="offerInclusions" class="admin-input" rows="4" placeholder="Breakfast included&#10;Free WiFi&#10;Spa access"></textarea>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Inclusions
+                        <button type="button" onclick="openInclusionsModal()" class="ml-2 text-xs text-[#b89a78] hover:text-[#8a735b]">+ Manage Inclusions</button>
+                    </label>
+                    <div class="border border-gray-200 rounded-lg max-h-48 overflow-y-auto p-3" id="inclusionsCheckboxes">
+                        <!-- Inclusions checkboxes will be loaded dynamically -->
+                    </div>
+                    <input type="hidden" id="selectedInclusions" value="[]">
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-                    <input type="number" id="offerOrder" class="admin-input" value="0">
+                    <input type="number" id="offerOrder" class="admin-input" value="0" readonly>
                 </div>
                 <div class="flex gap-3">
                     <button type="button" onclick="closeOfferModal()" class="admin-btn-secondary flex-1">Cancel</button>
                     <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Offer</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Offer Inclusions Management Modal -->
+    <div id="inclusionsModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Manage Offer Inclusions</h3>
+                <button onclick="closeInclusionsModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="inclusionForm">
+                <div class="flex gap-2 mb-4">
+                    <input type="text" id="inclusionName" class="admin-input flex-1" placeholder="e.g., Breakfast, Free WiFi, Spa Access">
+                    <button type="submit" class="admin-btn-primary px-4">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </form>
+            <div id="inclusionsList" class="max-h-60 overflow-y-auto border-t border-gray-200 pt-4">
+                <!-- Inclusions will be loaded here -->
+            </div>
+            <div class="flex gap-3 mt-4">
+                <button onclick="closeInclusionsModal()" class="admin-btn-secondary flex-1">Close</button>
+            </div>
         </div>
     </div>
 
@@ -886,7 +942,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-                    <input type="number" id="menuCategoryOrder" class="admin-input" value="0">
+                    <input type="number" id="menuCategoryOrder" class="admin-input" value="0" readonly>
                 </div>
                 <div class="flex gap-3">
                     <button type="button" onclick="closeMenuCategoryModal()" class="admin-btn-secondary flex-1">Cancel</button>
@@ -924,7 +980,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     </div>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-                        <input type="number" id="menuItemOrder" class="admin-input" value="0">
+                        <input type="number" id="menuItemOrder" class="admin-input" value="0" readonly>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -982,7 +1038,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-                    <input type="number" id="sampleMenuOrder" class="admin-input" value="0">
+                    <input type="number" id="sampleMenuOrder" class="admin-input" value="0" readonly>
                 </div>
                 <div class="flex gap-3">
                     <button type="button" onclick="closeSampleMenuModal()" class="admin-btn-secondary flex-1">Cancel</button>
@@ -1124,7 +1180,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     </div>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-                        <input type="number" id="tableTypeOrder" class="admin-input" value="0">
+                        <input type="number" id="tableTypeOrder" class="admin-input" value="0" readonly>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -1276,17 +1332,15 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         document.getElementById('bedTypeForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('bedTypeName').value.trim();
-            const display_order = document.getElementById('bedTypeOrder').value;
             
             if (!name) {
-                alert('Please enter a bed type name');
+                showToast('Please enter a bed type name', 'error');
                 return;
             }
             
             const formData = new FormData();
             formData.append('action', 'add_bed_type');
             formData.append('name', name);
-            formData.append('display_order', display_order);
             
             fetch('api.php', {
                 method: 'POST',
@@ -1294,10 +1348,9 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     document.getElementById('bedTypeForm').reset();
-                    document.getElementById('bedTypeOrder').value = '0';
                     loadBedTypesList();
                 }
             });
@@ -1315,7 +1368,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     loadBedTypesList();
                 });
             }
@@ -1360,17 +1413,15 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         document.getElementById('viewForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('viewName').value.trim();
-            const display_order = document.getElementById('viewOrder').value;
             
             if (!name) {
-                alert('Please enter a view name');
+                showToast('Please enter a view name', 'error');
                 return;
             }
             
             const formData = new FormData();
             formData.append('action', 'add_room_view');
             formData.append('name', name);
-            formData.append('display_order', display_order);
             
             fetch('api.php', {
                 method: 'POST',
@@ -1378,10 +1429,9 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     document.getElementById('viewForm').reset();
-                    document.getElementById('viewOrder').value = '0';
                     loadViewsList();
                 }
             });
@@ -1399,7 +1449,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     loadViewsList();
                 });
             }
@@ -1445,17 +1495,15 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         document.getElementById('amenityCategoryForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('amenityCategoryName').value.trim();
-            const display_order = document.getElementById('amenityCategoryOrder').value;
             
             if (!name) {
-                alert('Please enter a category name');
+                showToast('Please enter a category name', 'error');
                 return;
             }
             
             const formData = new FormData();
             formData.append('action', 'add_amenity_category');
             formData.append('name', name);
-            formData.append('display_order', display_order);
             
             fetch('admin_process.php', {
                 method: 'POST',
@@ -1463,10 +1511,9 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     document.getElementById('amenityCategoryForm').reset();
-                    document.getElementById('amenityCategoryOrder').value = '0';
                     loadAmenityCategoriesList();
                 }
             });
@@ -1484,7 +1531,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     loadAmenityCategoriesList();
                 });
             }
@@ -1564,7 +1611,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     loadAmenityFeaturesList();
                     loadAmenityFeaturesForForm(); // Refresh checkboxes too
                 });
@@ -1603,6 +1650,9 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         function closeEventVenueModal() {
             document.getElementById('eventVenueModal').classList.remove('open');
             document.getElementById('eventVenueForm').reset();
+            document.getElementById('eventVenueId').value = '';
+            document.getElementById('previewEventVenueImage').innerHTML = '';
+            document.getElementById('eventVenueImageUrl').value = '';
         }
         
         // Event Venue Form Submit
@@ -1622,13 +1672,19 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('size', document.getElementById('eventVenueSize').value);
             formData.append('description', document.getElementById('eventVenueDescription').value);
             formData.append('long_description', document.getElementById('eventVenueLongDescription').value);
-            formData.append('image', document.getElementById('eventVenueImageUrl').value);
             
-            // Add file if selected
+            // Handle image - prioritize file upload over URL
             const imageFile = document.getElementById('eventVenueImage').files[0];
+            const imageUrl = document.getElementById('eventVenueImageUrl').value;
+            
             if (imageFile) {
+                // Use the uploaded file
                 formData.append('image', imageFile);
+            } else if (imageUrl) {
+                // Use the URL if no file uploaded
+                formData.append('image', imageUrl);
             }
+            // If neither, leave empty (will use default or existing)
 
             fetch('admin_process.php', {
                 method: 'POST',
@@ -1636,11 +1692,15 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeEventVenueModal();
                     loadEventVenues();
                 }
+            })
+            .catch(error => {
+                console.error('Error saving venue:', error);
+                showToast('Error saving venue: ' + error.message, 'error');
             });
         });
         
@@ -1694,12 +1754,12 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     }
                 } else {
                     console.error('Server error:', data.message);
-                    alert(data.message || 'Error loading venues');
+                    showToast(data.message || 'Error loading venues', 'error');
                 }
             })
             .catch(error => {
                 console.error('Error loading venues:', error);
-                alert('Failed to load venues. Please refresh the page.');
+                showToast('Failed to load venues. Please refresh the page.', 'error');
             });
         }
         
@@ -1727,14 +1787,14 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     return JSON.parse(text);
                 })
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) {
                         loadEventVenues();
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Failed to delete venue. Please try again.');
+                    showToast('Failed to delete venue. Please try again.', 'error');
                 });
             }
         }
@@ -1743,7 +1803,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             e.preventDefault();
             // For features, we don't add them to database - we just add to the list for selection
             // The features are stored in each amenity's JSON array
-            alert('Feature added to the list! You can now select it when adding/editing amenities.');
+            showToast('Feature added to the list! You can now select it when adding/editing amenities.', 'success');
             document.getElementById('amenityFeatureForm').reset();
             loadAmenityFeaturesList();
         });
@@ -2131,7 +2191,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) {
                         loadRoomTypesList();
                         loadRoomTypesForRoom();
@@ -2160,7 +2220,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     document.getElementById('roomTypeForm').reset();
                     document.getElementById('roomTypeId').value = '';
@@ -2214,7 +2274,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeRoomModal();
                     loadRooms();
@@ -2232,29 +2292,44 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 selectedFeatures.push(cb.value);
             });
             
-            // Get existing URL images
-            const existingImages = JSON.parse(document.getElementById('existingAmenityImages').value || '[]');
-            const urlImages = [];
-            for (let i = 1; i <= 3; i++) {
-                const url = document.getElementById('amenityImageUrl' + i).value;
-                if (url && !amenityImages[i-1].startsWith('data:')) {
-                    urlImages.push(url);
+            // Get existing URL images from the hidden field
+            let existingImages = JSON.parse(document.getElementById('existingAmenityImages').value || '[]');
+            
+            // Build new images array - start with existing, then replace with new uploads/URLs
+            let allExistingImages = [...existingImages];
+            
+            // Handle new file uploads - they replace at specific positions
+            for (let i = 0; i < 3; i++) {
+                if (amenityUploadedFiles[i]) {
+                    // New file uploaded - will be processed separately
+                    // For now, we'll handle this in the backend
                 }
             }
             
-            // Filter out base64 images from amenityImages (those are previews, not URLs)
-            const finalImages = [];
-            for (let i = 0; i < 3; i++) {
-                if (amenityImages[i] && amenityImages[i].startsWith('http')) {
-                    finalImages.push(amenityImages[i]);
+            // Handle new URLs from form inputs - replace at specific positions
+            for (let i = 1; i <= 3; i++) {
+                const url = document.getElementById('amenityImageUrl' + i).value;
+                if (url) {
+                    // Replace at position i-1
+                    allExistingImages[i - 1] = url;
                 }
             }
+            
+            // Also check amenityImages array for any direct URL changes (from preview removal)
+            for (let i = 0; i < amenityImages.length; i++) {
+                if (amenityImages[i] && amenityImages[i].startsWith('http') && amenityImages[i] !== existingImages[i]) {
+                    allExistingImages[i] = amenityImages[i];
+                }
+            }
+            
+            // Filter out empty values
+            allExistingImages = allExistingImages.filter(img => img && img.trim() !== '');
             
             const formData = new FormData();
             formData.append('action', document.getElementById('amenityId').value ? 'update_amenity' : 'add_amenity');
             if (document.getElementById('amenityId').value) {
                 formData.append('id', document.getElementById('amenityId').value);
-                formData.append('existingImages', JSON.stringify(existingImages));
+                formData.append('existingImages', JSON.stringify(allExistingImages));
             }
             formData.append('category_id', document.getElementById('amenityCategory').value);
             formData.append('name', document.getElementById('amenityName').value);
@@ -2280,13 +2355,29 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Server returned ' + res.status);
+                }
+                return res.text();
+            })
+            .then(text => {
+                console.log('Server response:', text);
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                return JSON.parse(text);
+            })
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeAmenityModal();
                     loadAmenities();
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showToast('Error: ' + error.message, 'error');
             });
         });
 
@@ -2319,7 +2410,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeEmailModal();
                 }
@@ -2591,7 +2682,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadRooms();
                 });
             }
@@ -2610,7 +2701,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadAmenities();
                 });
             }
@@ -2629,7 +2720,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) loadBookings();
             });
         }
@@ -2647,7 +2738,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadBookings();
                 });
             }
@@ -2666,7 +2757,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) loadEventInquiries();
             });
         }
@@ -2684,7 +2775,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadEventInquiries();
                 });
             }
@@ -2796,7 +2887,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) loadContactMessages();
             });
         }
@@ -2820,7 +2911,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadContactMessages();
                 });
             }
@@ -2898,12 +2989,11 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('cover_image', document.getElementById('galleryAlbumCover').value);
             formData.append('icon', 'fa-images'); // Always use fa-images automatically
             formData.append('photo_count', document.getElementById('galleryAlbumCount').value);
-            formData.append('display_order', document.getElementById('galleryAlbumOrder').value);
 
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeGalleryAlbumModal();
                     loadGalleryAlbums();
@@ -2953,7 +3043,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadGalleryAlbums();
                 });
             }
@@ -3010,7 +3100,6 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('caption', document.getElementById('galleryImageCaption').value);
             formData.append('category', document.getElementById('galleryImageCategory').value);
             formData.append('grid_size', document.getElementById('galleryImageSize').value);
-            formData.append('display_order', document.getElementById('galleryImageOrder').value);
 
             // Add file if selected
             const imageFile = document.getElementById('galleryImageFile').files[0];
@@ -3021,7 +3110,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeGalleryImageModal();
                     loadGalleryImages();
@@ -3084,7 +3173,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadGalleryImages();
                 });
             }
@@ -3133,7 +3222,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const files = fileInput.files;
             
             if (files.length === 0) {
-                alert('Please select images to upload');
+                showToast('Please select images to upload', 'error');
                 return;
             }
             
@@ -3162,7 +3251,6 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                         addFormData.append('caption', '');
                         addFormData.append('category', '');
                         addFormData.append('grid_size', 'regular');
-                        addFormData.append('display_order', 0);
                         
                         fetch('admin_process.php', { method: 'POST', body: addFormData })
                         .then(res => res.json())
@@ -3186,7 +3274,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     loadAlbumImages(albumId);
                     loadGalleryAlbums();
                     loadGalleryImages();
@@ -3233,7 +3321,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeGalleryVideoModal();
                     loadGalleryVideos();
@@ -3279,15 +3367,46 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadGalleryVideos();
                 });
             }
         }
 
         // ==================== OFFERS MANAGEMENT ====================
+        let allInclusions = [];
+        
+        function loadInclusionsForForm(selectedInclusions = []) {
+            const formData = new FormData();
+            formData.append('action', 'get_all_inclusions');
+            
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    allInclusions = data.inclusions || [];
+                    const container = document.getElementById('inclusionsCheckboxes');
+                    container.innerHTML = allInclusions.map(inclusion => `
+                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+                            <input type="checkbox" name="offerInclusions" value="${inclusion.name}" class="w-4 h-4 rounded accent-[#b89a78]" ${selectedInclusions.includes(inclusion.name) ? 'checked' : ''}>
+                            <span class="text-sm text-gray-700">${inclusion.name}</span>
+                        </label>
+                    `).join('');
+                }
+            });
+        }
 
         function openOfferModal(offer = null) {
+            // Load inclusions for the checkbox dropdown
+            let selectedInclusions = [];
+            if (offer) {
+                selectedInclusions = offer.inclusions || [];
+            }
+            loadInclusionsForForm(selectedInclusions);
+            
             if (offer) {
                 document.getElementById('offerModalTitle').textContent = 'Edit Offer';
                 document.getElementById('offerId').value = offer.id;
@@ -3299,6 +3418,10 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 document.getElementById('offerIcon').value = offer.icon || 'fa-gift';
                 document.getElementById('offerIconColor').value = offer.icon_color || '#b89a78';
                 document.getElementById('offerOrder').value = offer.display_order || 0;
+                
+                // Set dates
+                document.getElementById('offerStartDate').value = offer.start_date || '';
+                document.getElementById('offerEndDate').value = offer.end_date || '';
                 
                 // Load images
                 document.getElementById('offerImage1').value = offer.image1 || '';
@@ -3314,14 +3437,12 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                         document.getElementById('previewOfferImage' + i).innerHTML = `<img src="${imgUrl}" class="w-full h-20 object-cover rounded">`;
                     }
                 }
-                
-                // Load inclusions
-                const inclusions = offer.inclusions || [];
-                document.getElementById('offerInclusions').value = inclusions.join('\n');
             } else {
                 document.getElementById('offerModalTitle').textContent = 'Add New Offer';
                 document.getElementById('offerForm').reset();
                 document.getElementById('offerId').value = '';
+                document.getElementById('offerStartDate').value = '';
+                document.getElementById('offerEndDate').value = '';
                 for (let i = 1; i <= 5; i++) {
                     document.getElementById('previewOfferImage' + i).innerHTML = '';
                 }
@@ -3336,9 +3457,11 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         document.getElementById('offerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Parse inclusions from textarea (one per line)
-            const inclusionsText = document.getElementById('offerInclusions').value;
-            const inclusions = inclusionsText.split('\n').map(line => line.trim()).filter(line => line !== '');
+            // Get selected inclusions from checkboxes
+            const selectedInclusions = [];
+            document.querySelectorAll('input[name="offerInclusions"]:checked').forEach(cb => {
+                selectedInclusions.push(cb.value);
+            });
             
             const formData = new FormData();
             const id = document.getElementById('offerId').value;
@@ -3356,13 +3479,14 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('image3', document.getElementById('offerImage3').value);
             formData.append('image4', document.getElementById('offerImage4').value);
             formData.append('image5', document.getElementById('offerImage5').value);
-            formData.append('inclusions', JSON.stringify(inclusions));
-            formData.append('display_order', document.getElementById('offerOrder').value);
+            formData.append('inclusions', JSON.stringify(selectedInclusions));
+            formData.append('start_date', document.getElementById('offerStartDate').value);
+            formData.append('end_date', document.getElementById('offerEndDate').value);
 
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeOfferModal();
                     loadOffers();
@@ -3419,8 +3543,93 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadOffers();
+                });
+            }
+        }
+
+        // ==================== INCLUSIONS MANAGEMENT ====================
+        
+        function openInclusionsModal() {
+            document.getElementById('inclusionsModal').classList.add('open');
+            loadInclusionsList();
+        }
+        
+        function closeInclusionsModal() {
+            document.getElementById('inclusionsModal').classList.remove('open');
+            document.getElementById('inclusionForm').reset();
+        }
+        
+        function loadInclusionsList() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_inclusions');
+            
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const container = document.getElementById('inclusionsList');
+                    if (data.inclusions.length === 0) {
+                        container.innerHTML = '<p class="text-gray-500 text-sm">No inclusions yet. Add some!</p>';
+                    } else {
+                        container.innerHTML = data.inclusions.map(inclusion => `
+                            <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                                <span class="font-medium text-sm">${inclusion.name}</span>
+                                <button onclick="deleteInclusion(${inclusion.id})" class="text-gray-400 hover:text-red-500">
+                                    <i class="fas fa-trash text-xs"></i>
+                                </button>
+                            </div>
+                        `).join('');
+                    }
+                }
+            });
+        }
+        
+        document.getElementById('inclusionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('inclusionName').value.trim();
+            
+            if (!name) {
+                showToast('Please enter an inclusion name', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('action', 'add_inclusion');
+            formData.append('name', name);
+            
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                showToast(data.message, data.success ? 'success' : 'error');
+                if (data.success) {
+                    document.getElementById('inclusionForm').reset();
+                    loadInclusionsList();
+                }
+            });
+        });
+        
+        function deleteInclusion(id) {
+            if (confirm('Are you sure you want to delete this inclusion?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_inclusion');
+                formData.append('id', id);
+                
+                fetch('admin_process.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    showToast(data.message, data.success ? 'success' : 'error');
+                    loadInclusionsList();
                 });
             }
         }
@@ -3456,12 +3665,11 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             if (id) formData.append('id', id);
             formData.append('name', document.getElementById('menuCategoryName').value);
             formData.append('description', document.getElementById('menuCategoryDescription').value);
-            formData.append('display_order', document.getElementById('menuCategoryOrder').value);
             
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeMenuCategoryModal();
                     loadMenuCategories();
@@ -3506,7 +3714,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadMenuCategories();
                 });
             }
@@ -3547,7 +3755,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeSampleMenuModal();
                     loadSampleMenus();
@@ -3596,7 +3804,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadSampleMenus();
                 });
             }
@@ -3677,7 +3885,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     resetSampleMenuItemForm();
                     loadSampleMenuItems(menuId);
@@ -3693,7 +3901,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) {
                         const menuId = document.getElementById('sampleMenuItemsMenuId').value;
                         loadSampleMenuItems(menuId);
@@ -3753,7 +3961,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeTableTypeModal();
                     loadTableTypes();
@@ -3800,7 +4008,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadTableTypes();
                 });
             }
@@ -3864,7 +4072,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) loadRestaurantReservations();
             });
         }
@@ -3877,7 +4085,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadRestaurantReservations();
                 });
             }
@@ -3965,7 +4173,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             fetch('admin_process.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                alert(data.message);
+                showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeMenuItemModal();
                     loadSignatureDishes();
@@ -4021,7 +4229,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) loadSignatureDishes();
                 });
             }
@@ -4039,12 +4247,12 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const confirmPassword = document.getElementById('confirmPassword').value;
                 
                 if (newPassword !== confirmPassword) {
-                    alert('New passwords do not match!');
+                    showToast('New passwords do not match!', 'error');
                     return;
                 }
                 
                 if (newPassword.length < 6) {
-                    alert('Password must be at least 6 characters!');
+                    showToast('Password must be at least 6 characters!', 'error');
                     return;
                 }
                 
@@ -4056,7 +4264,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                     if (data.success) {
                         document.getElementById('passwordForm').reset();
                     }
@@ -4078,11 +4286,64 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 fetch('admin_process.php', { method: 'POST', body: formData })
                 .then(res => res.json())
                 .then(data => {
-                    alert(data.message);
+                    showToast(data.message, data.success ? 'success' : 'error');
                 });
             });
         }
 
+    </script>
+    
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+    
+    <script>
+        // Toast Notification Function
+        function showToast(message, type = 'success', duration = 4000) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            let icon = '';
+            switch(type) {
+                case 'success':
+                    icon = '<i class="fas fa-check-circle toast-icon"></i>';
+                    break;
+                case 'error':
+                    icon = '<i class="fas fa-exclamation-circle toast-icon"></i>';
+                    break;
+                case 'info':
+                    icon = '<i class="fas fa-info-circle toast-icon"></i>';
+                    break;
+                case 'warning':
+                    icon = '<i class="fas fa-exclamation-triangle toast-icon"></i>';
+                    break;
+                default:
+                    icon = '<i class="fas fa-info-circle toast-icon"></i>';
+            }
+            
+            toast.innerHTML = `
+                ${icon}
+                <span class="toast-message">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            // Auto remove after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.remove();
+                    }
+                }, 300);
+            }, duration);
+        }
     </script>
 </body>
 </html>
