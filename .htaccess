@@ -183,3 +183,34 @@ Options -Indexes
 
 AddDefaultCharset UTF-8
 AddCharset UTF-8 .html .css .js .xml .json .txt
+
+
+# Force non-www to www (but not for sitemaps, robots, and other static files)
+RewriteCond %{HTTP_HOST} ^aora45\.com [NC]
+RewriteCond %{REQUEST_URI} !\.(xml|txt|css|js|jpg|jpeg|png|gif|ico|webp|svg|woff|woff2|ttf|otf)$ [NC]
+RewriteCond %{REQUEST_URI} !^/sitemap [NC]
+RewriteCond %{REQUEST_URI} !^/robots\.txt$ [NC]
+RewriteRule ^(.*)$ https://www.aora45.com/$1 [L,R=301]
+
+# Clean URL rewriting for pages (exclude sitemaps and existing files/dirs)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/sitemap
+RewriteCond %{REQUEST_URI} !^/robots\.txt
+RewriteRule ^([^/]+)$ /index.php?page=$1 [L,QSA]
+
+# Sitemap - serve static XML if exists, otherwise use PHP
+RewriteCond %{REQUEST_URI} ^/sitemap\.xml$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+# Ensure proper MIME type for sitemap files
+<Files "sitemap.xml">
+    ForceType application/xml
+</Files>
+<Files "sitemap.xml.php">
+    ForceType application/xml
+</Files>
+<Files "sitemap.php">
+    ForceType application/xml
+</Files>

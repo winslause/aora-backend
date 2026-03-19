@@ -21,34 +21,27 @@ if (isset($_SESSION['admin_id'])) {
 $error = '';
 $success = '';
 
-// Handle login via GET parameters (from footer modal)
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['email']) && isset($_GET['password'])) {
-    $email = $_GET['email'];
-    $password = $_GET['password'];
-    
-    // Hardcoded admin credentials
-    if ($email === 'admin@aora.com' && $password === 'admin123') {
-        $_SESSION['admin_id'] = 1;
-        $_SESSION['admin_email'] = $email;
-        $_SESSION['admin_name'] = 'Admin User';
-        header('Location: admin.php');
-        exit;
-    }
-}
-
+// Handle login via POST form
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     
-    // Hardcoded admin credentials
-    if ($email === 'admin@aora.com' && $password === 'admin123') {
-        $_SESSION['admin_id'] = 1;
-        $_SESSION['admin_email'] = $email;
-        $_SESSION['admin_name'] = 'Admin User';
-        header('Location: admin.php');
-        exit;
+    if (empty($email) || empty($password)) {
+        $error = 'Please enter email and password';
     } else {
-        $error = 'Invalid email or password';
+        // Use the database authentication function
+        include 'database.php';
+        $result = authenticateAdmin($pdo, $email, $password);
+        
+        if ($result['success']) {
+            $_SESSION['admin_id'] = $result['admin']['id'];
+            $_SESSION['admin_email'] = $result['admin']['email'];
+            $_SESSION['admin_name'] = $result['admin']['name'];
+            header('Location: admin.php');
+            exit;
+        } else {
+            $error = $result['message'];
+        }
     }
 }
 ?>
@@ -71,6 +64,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('togglePassword');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
     <div class="auth-card" style="width: 100%; max-width: 480px; margin: 1.5rem;">
         <div class="text-center mb-8">
             <div style="width: 80px; height: 80px; background: linear-gradient(145deg, #b89a78, #8a735b); border-radius: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
@@ -90,24 +99,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div style="margin-bottom: 1.5rem; position: relative;">
                 <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #4b3f35; margin-bottom: 0.5rem;">Email Address</label>
                 <i class="fas fa-envelope" style="position: absolute; left: 1.25rem; top: 42px; color: #b89a78;"></i>
-                <input type="email" name="email" class="input-field" placeholder="admin@aora.com" value="admin@aora.com" required>
+                <input type="email" name="email" class="input-field" placeholder="Enter your email" required>
             </div>
             
             <div style="margin-bottom: 1.5rem; position: relative;">
                 <label style="display: block; font-size: 0.85rem; font-weight: 500; color: #4b3f35; margin-bottom: 0.5rem;">Password</label>
                 <i class="fas fa-lock" style="position: absolute; left: 1.25rem; top: 42px; color: #b89a78;"></i>
-                <input type="password" name="password" class="input-field" placeholder="••••••••" value="admin123" required>
+                <input type="password" name="password" id="password" class="input-field" placeholder="Enter your password" required>
+                <i class="fas fa-eye" onclick="togglePassword()" style="position: absolute; right: 1.25rem; top: 42px; color: #b8a99a; cursor: pointer;" id="togglePassword"></i>
             </div>
             
             <button type="submit" class="login-btn">
                 <i class="fas fa-sign-in-alt mr-2"></i>Sign In to Dashboard
             </button>
         </form>
-        
-        <div style="margin-top: 1.5rem; padding: 0.75rem; background: rgba(184, 154, 120, 0.1); border-radius: 12px; border: 1px dashed rgba(184, 154, 120, 0.3); font-size: 0.8rem; color: #6b5d51; text-align: center;">
-            <i class="fas fa-info-circle" style="color: #b89a78; margin-right: 0.25rem;"></i>
-            Demo: admin@aora.com / admin123
-        </div>
         
         <p class="text-center text-sm text-[#8a7a6a] mt-6">
             <i class="far fa-copyright mr-1"></i>2026 Aora Luxury Resort. All rights reserved.

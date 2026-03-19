@@ -811,8 +811,8 @@
         }
     </style>
     <!-- Site Preloader -->
-    <div id="site-preloader">
-        <div class="preloader-content">
+    <div id="site-preloader" style="opacity: 1; visibility: visible; display: flex;">
+        <div class="preloader-content" style="opacity: 1; visibility: visible; display: flex;">
             <div class="preloader-logo">
                 <img src="logo1.jpeg" alt="AORA45" onerror="this.style.display='none'">
             </div>
@@ -857,7 +857,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            animation: fadeInUp 0.8s ease-out;
+            opacity: 1;
+            visibility: visible;
         }
 
         .preloader-logo {
@@ -871,7 +872,6 @@
             height: 80px;
             width: auto;
             filter: drop-shadow(0 4px 20px rgba(232, 168, 73, 0.3));
-            animation: logoFloat 2s ease-in-out infinite;
         }
 
         @keyframes logoFloat {
@@ -880,7 +880,7 @@
         }
 
         .preloader-text {
-            font-family: 'Playfair Display', serif;
+            font-family: Georgia, serif;
             font-size: 2.5rem;
             color: #e8a849;
             letter-spacing: 0.3em;
@@ -889,7 +889,7 @@
         }
 
         .preloader-subtext {
-            font-family: 'Montserrat', sans-serif;
+            font-family: Arial, sans-serif;
             font-size: 0.75rem;
             color: rgba(255, 255, 255, 0.5);
             letter-spacing: 0.4em;
@@ -911,19 +911,20 @@
             border: 2px solid rgba(232, 168, 73, 0.2);
             border-top-color: #e8a849;
             border-radius: 50%;
-            animation: spin 1s ease-in-out infinite;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .spinner-ring:nth-child(2) {
             animation-delay: 0.15s;
-            width: 10px;
-            height: 10px;
         }
 
         .spinner-ring:nth-child(3) {
             animation-delay: 0.3s;
-            width: 8px;
-            height: 8px;
         }
 
         @keyframes spin {
@@ -940,9 +941,7 @@
 
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #e8a849, #f4c06a, #e8a849);
-            background-size: 200% 100%;
-            animation: shimmer 2s linear infinite;
+            background: #e8a849;
             border-radius: 2px;
             width: 0%;
             transition: width 0.3s ease;
@@ -1289,21 +1288,28 @@
 
     <!-- Preloader Script - waits for hero image to load -->
     <script>
-        (function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const preloader = document.getElementById('site-preloader');
             const progressBar = document.querySelector('.progress-bar');
+            const preloaderContent = document.querySelector('.preloader-content');
             
             if (!preloader) return;
+
+            // Force show preloader content immediately
+            if (preloaderContent) {
+                preloaderContent.style.opacity = '1';
+                preloaderContent.style.visibility = 'visible';
+            }
 
             // Simulate progress while waiting for hero image
             let progress = 0;
             const loadingInterval = setInterval(function() {
-                progress += Math.random() * 40;
-                if (progress > 90) progress = 90;
+                progress += Math.random() * 30 + 10;
+                if (progress > 85) progress = 85;
                 if (progressBar) {
                     progressBar.style.width = progress + '%';
                 }
-            }, 60);
+            }, 100);
 
             // Hide preloader when hero image loads
             function hidePreloader() {
@@ -1318,50 +1324,53 @@
                     // Remove from DOM after transition
                     setTimeout(function() {
                         preloader.style.display = 'none';
-                    }, 400);
-                }, 150);
+                    }, 600);
+                }, 200);
             }
 
             // Find hero image and wait for it to load
-            const heroImages = document.querySelectorAll('.hero-section img, .cinema-image, section:first-of-type img');
-            
-            if (heroImages.length > 0) {
-                let loadedCount = 0;
-                heroImages.forEach(function(img) {
-                    if (img.complete) {
-                        loadedCount++;
-                    } else {
-                        img.addEventListener('load', function() {
+            // Use setTimeout to ensure body is fully parsed
+            setTimeout(function() {
+                const heroImages = document.querySelectorAll('.hero-section img, .cinema-image, section:first-of-type img');
+                
+                if (heroImages.length > 0) {
+                    let loadedCount = 0;
+                    heroImages.forEach(function(img) {
+                        if (img.complete) {
                             loadedCount++;
-                            if (loadedCount === heroImages.length) {
-                                hidePreloader();
-                            }
-                        });
-                        img.addEventListener('error', function() {
-                            // If image fails, count as loaded to prevent stuck preloader
-                            loadedCount++;
-                            if (loadedCount === heroImages.length) {
-                                hidePreloader();
-                            }
-                        });
+                        } else {
+                            img.addEventListener('load', function() {
+                                loadedCount++;
+                                if (loadedCount === heroImages.length) {
+                                    hidePreloader();
+                                }
+                            });
+                            img.addEventListener('error', function() {
+                                // If image fails, count as loaded to prevent stuck preloader
+                                loadedCount++;
+                                if (loadedCount === heroImages.length) {
+                                    hidePreloader();
+                                }
+                            });
+                        }
+                    });
+                    // If all already loaded
+                    if (loadedCount === heroImages.length) {
+                        hidePreloader();
                     }
-                });
-                // If all already loaded
-                if (loadedCount === heroImages.length) {
-                    hidePreloader();
-                }
-            } else {
-                // Fallback: wait for DOMContentLoaded if no hero image found
-                if (document.readyState === 'complete') {
-                    hidePreloader();
                 } else {
-                    window.addEventListener('load', hidePreloader);
+                    // Fallback: wait for DOMContentLoaded if no hero image found
+                    if (document.readyState === 'complete') {
+                        hidePreloader();
+                    } else {
+                        window.addEventListener('load', hidePreloader);
+                    }
                 }
-            }
-            
-            // Safety fallback: hide after 2 seconds max
-            setTimeout(hidePreloader, 2000);
-        })();
+                
+                // Safety fallback: hide after 3 seconds max
+                setTimeout(hidePreloader, 3000);
+            }, 100);
+        });
     </script>
 </head>
 <body>

@@ -4,8 +4,10 @@
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://aora45.com/sitemap.xml
+# Sitemaps
+Sitemap: https://www.aora45.com/sitemap.xml
+Sitemap: https://www.aora45.com/sitemap.xml.php
+Sitemap: https://www.aora45.com/sitemap.php
 
 # Crawl-delay (optional, for politeness)
 Crawl-delay: 1

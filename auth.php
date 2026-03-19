@@ -451,21 +451,21 @@
                     <div class="input-group">
                         <label class="input-label">Email Address</label>
                         <i class="fas fa-envelope input-icon"></i>
-                        <input type="email" class="input-field" placeholder="admin@aora.com" id="email" value="admin@aora.com" required>
+                        <input type="email" class="input-field" placeholder="Enter your email" id="email" required>
                     </div>
 
                     <!-- Password Input -->
                     <div class="input-group">
                         <label class="input-label">Password</label>
                         <i class="fas fa-lock input-icon"></i>
-                        <input type="password" class="input-field" placeholder="••••••••" id="password" value="admin123" required>
+                        <input type="password" class="input-field" placeholder="Enter your password" id="password" required>
                         <i class="fas fa-eye password-toggle" onclick="togglePassword()" id="togglePassword"></i>
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
                     <div class="form-options">
                         <label class="remember-me">
-                            <input type="checkbox" checked>
+                            <input type="checkbox">
                             <span>Remember me</span>
                         </label>
                         <a class="forgot-link" onclick="showResetSection()">Forgot password?</a>
@@ -477,12 +477,6 @@
                         Sign In to Dashboard
                     </button>
                 </form>
-
-                <!-- Demo Hint (remove in production) -->
-                <div class="demo-hint">
-                    <i class="fas fa-info-circle"></i>
-                    Demo credentials: admin@aora.com / admin123
-                </div>
             </div>
 
             <!-- Reset Password Section (initially hidden) -->
@@ -577,27 +571,55 @@
             const loginBtn = document.getElementById('loginBtn');
             const errorMsg = document.getElementById('loginError');
             
-            // Simple validation (demo purposes)
-            if (email === 'admin@aora.com' && password === 'admin123') {
-                // Show loading state
-                loginBtn.classList.add('loading');
-                
-                // Simulate API call
-                setTimeout(() => {
-                    loginBtn.classList.remove('loading');
-                    // Redirect to admin dashboard
-                    window.location.href = 'admin-dashboard.html';
-                }, 1000);
-            } else {
-                // Show error message
+            // Validate inputs
+            if (!email || !password) {
+                errorMsg.querySelector('span').textContent = 'Please enter both email and password.';
                 errorMsg.style.display = 'flex';
-                
-                // Shake animation for error
-                document.querySelector('.auth-card').style.animation = 'shake 0.5s ease';
-                setTimeout(() => {
-                    document.querySelector('.auth-card').style.animation = '';
-                }, 500);
+                return;
             }
+            
+            // Show loading state
+            loginBtn.classList.add('loading');
+            
+            // Make API call to authenticate
+            const formData = new FormData();
+            formData.append('action', 'admin_login');
+            formData.append('email', email);
+            formData.append('password', password);
+            
+            fetch('api.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                loginBtn.classList.remove('loading');
+                
+                if (data.success) {
+                    // Store session
+                    localStorage.setItem('admin_logged_in', 'true');
+                    localStorage.setItem('admin_email', email);
+                    
+                    // Redirect to admin dashboard
+                    window.location.href = 'admin.php';
+                } else {
+                    // Show error message
+                    errorMsg.querySelector('span').textContent = data.message || 'Invalid email or password. Please try again.';
+                    errorMsg.style.display = 'flex';
+                    
+                    // Shake animation for error
+                    document.querySelector('.auth-card').style.animation = 'shake 0.5s ease';
+                    setTimeout(() => {
+                        document.querySelector('.auth-card').style.animation = '';
+                    }, 500);
+                }
+            })
+            .catch(error => {
+                loginBtn.classList.remove('loading');
+                errorMsg.querySelector('span').textContent = 'Connection error. Please try again.';
+                errorMsg.style.display = 'flex';
+                console.error('Login error:', error);
+            });
         }
 
         // Handle Reset Password

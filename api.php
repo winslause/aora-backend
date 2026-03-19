@@ -340,6 +340,8 @@ function sendBookingNotificationToAdmin($booking_data, $room) {
 // Get action from GET or POST
 $action = isset($_GET['action']) ? $_GET['action'] : (isset($_POST['action']) ? $_POST['action'] : '');
 
+// Admin login handler - uses function from database.php
+
 // Log all requests for debugging
 error_log("API Request: action=$action, GET=" . print_r($_GET, true) . ", POST=" . print_r($_POST, true));
 
@@ -372,6 +374,19 @@ function handleRequest($callback) {
 }
 
 switch ($action) {
+    case 'admin_login':
+        $email = isset($_POST['email']) ? $_POST['email'] : '';
+        $password = isset($_POST['password']) ? $_POST['password'] : '';
+        
+        if (empty($email) || empty($password)) {
+            echo json_encode(['success' => false, 'message' => 'Email and password are required']);
+            break;
+        }
+        
+        $result = authenticateAdmin($pdo, $email, $password);
+        echo json_encode($result);
+        break;
+        
     case 'debug':
         // Debug endpoint to check database connection
         $debug = [];
@@ -728,8 +743,13 @@ switch ($action) {
         
     // Room Views API
     case 'get_room_views':
-        $views = getAllRoomViews($pdo);
-        echo json_encode(['success' => true, 'views' => $views]);
+        try {
+            $views = getAllRoomViews($pdo);
+            echo json_encode(['success' => true, 'views' => $views]);
+        } catch (Exception $e) {
+            error_log("Error getting room views: " . $e->getMessage());
+            echo json_encode(['success' => true, 'views' => []]);
+        }
         break;
         
     case 'add_room_view':
@@ -762,8 +782,13 @@ switch ($action) {
         
     // Bed Types API
     case 'get_bed_types':
-        $bedTypes = getAllBedTypes($pdo);
-        echo json_encode(['success' => true, 'bed_types' => $bedTypes]);
+        try {
+            $bedTypes = getAllBedTypes($pdo);
+            echo json_encode(['success' => true, 'bed_types' => $bedTypes]);
+        } catch (Exception $e) {
+            error_log("Error getting bed types: " . $e->getMessage());
+            echo json_encode(['success' => true, 'bed_types' => []]);
+        }
         break;
         
     case 'add_bed_type':

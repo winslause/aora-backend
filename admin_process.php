@@ -108,18 +108,6 @@ class SMTP_mailer {
     }
 }
 
-// Admin authentication
-function authenticateAdmin($email, $password) {
-    // Hardcoded admin credentials (can be moved to database later)
-    $adminEmail = 'admin@aora.com';
-    $adminPassword = 'admin123';
-    
-    if ($email === $adminEmail && $password === $adminPassword) {
-        return ['id' => 1, 'email' => $adminEmail, 'name' => 'Admin User'];
-    }
-    return null;
-}
-
 // Get action from request
 $action = isset($_POST['action']) ? $_POST['action'] : (isset($_GET['action']) ? $_GET['action'] : '');
 
@@ -143,12 +131,13 @@ switch ($action) {
         $email = isset($_POST['email']) ? $_POST['email'] : '';
         $password = isset($_POST['password']) ? $_POST['password'] : '';
         
-        $admin = authenticateAdmin($email, $password);
-        if ($admin) {
-            $_SESSION['admin_id'] = $admin['id'];
-            $_SESSION['admin_email'] = $admin['email'];
-            $_SESSION['admin_name'] = $admin['name'];
-            echo json_encode(['success' => true, 'message' => 'Login successful', 'admin' => $admin]);
+        $admin = authenticateAdmin($pdo, $email, $password);
+        if ($admin && isset($admin['success']) && $admin['success']) {
+            $adminData = $admin['admin'];
+            $_SESSION['admin_id'] = $adminData['id'];
+            $_SESSION['admin_email'] = $adminData['email'];
+            $_SESSION['admin_name'] = $adminData['name'];
+            echo json_encode(['success' => true, 'message' => 'Login successful', 'admin' => $adminData]);
         } else {
             echo json_encode(['success' => false, 'message' => 'Invalid credentials']);
         }
@@ -1364,11 +1353,38 @@ switch ($action) {
         $price_label = $_POST['price_label'] ?? '';
         $icon = $_POST['icon'] ?? 'fa-gift';
         $icon_color = $_POST['icon_color'] ?? '#b89a78';
-        $image1 = $_POST['image1'] ?? '';
-        $image2 = $_POST['image2'] ?? '';
-        $image3 = $_POST['image3'] ?? '';
-        $image4 = $_POST['image4'] ?? '';
-        $image5 = $_POST['image5'] ?? '';
+        
+        // Handle image uploads (5 images)
+        $uploadDir = __DIR__ . '/uploads/offers/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+        
+        $images = ['', '', '', '', ''];
+        
+        // Process up to 5 image uploads
+        for ($i = 1; $i <= 5; $i++) {
+            $fileKey = 'offerImageFile' . $i;
+            // First check if a file was uploaded
+            if (!empty($_FILES[$fileKey]['name']) && $_FILES[$fileKey]['error'] === UPLOAD_ERR_OK) {
+                $tmpName = $_FILES[$fileKey]['tmp_name'];
+                $name = basename($_FILES[$fileKey]['name']);
+                $ext = pathinfo($name, PATHINFO_EXTENSION);
+                $newName = 'offer_' . uniqid() . '_' . $i . '.' . $ext;
+                $targetPath = $uploadDir . $newName;
+                
+                if (move_uploaded_file($tmpName, $targetPath)) {
+                    $images[$i - 1] = 'uploads/offers/' . $newName;
+                }
+            } else {
+                // Fall back to URL input if no file uploaded
+                $urlKey = 'image' . $i;
+                if (!empty($_POST[$urlKey])) {
+                    $images[$i - 1] = $_POST[$urlKey];
+                }
+            }
+        }
+        
         $inclusions = $_POST['inclusions'] ?? '[]';
         $start_date = $_POST['start_date'] ?? null;
         $end_date = $_POST['end_date'] ?? null;
@@ -1382,7 +1398,7 @@ switch ($action) {
             $stmt->execute([
                 'title' => $title, 'slug' => $slug, 'subtitle' => $subtitle, 'description' => $description,
                 'price' => $price, 'price_label' => $price_label, 'icon' => $icon, 'icon_color' => $icon_color,
-                'image1' => $image1, 'image2' => $image2, 'image3' => $image3, 'image4' => $image4, 'image5' => $image5,
+                'image1' => $images[0], 'image2' => $images[1], 'image3' => $images[2], 'image4' => $images[3], 'image5' => $images[4],
                 'inclusions' => $inclusions, 'start_date' => $start_date, 'end_date' => $end_date, 'display_order' => $display_order
             ]);
             echo json_encode(['success' => true, 'message' => 'Offer added successfully', 'id' => $pdo->lastInsertId()]);
@@ -1403,22 +1419,60 @@ switch ($action) {
         $price_label = $_POST['price_label'] ?? '';
         $icon = $_POST['icon'] ?? 'fa-gift';
         $icon_color = $_POST['icon_color'] ?? '#b89a78';
-        $image1 = $_POST['image1'] ?? '';
-        $image2 = $_POST['image2'] ?? '';
-        $image3 = $_POST['image3'] ?? '';
-        $image4 = $_POST['image4'] ?? '';
-        $image5 = $_POST['image5'] ?? '';
         $inclusions = $_POST['inclusions'] ?? '[]';
         $start_date = $_POST['start_date'] ?? null;
         $end_date = $_POST['end_date'] ?? null;
         $display_order = $_POST['display_order'] ?? 0;
+        
+        // Get existing images from database
+        $stmt = $pdo->prepare("SELECT image1, image2, image3, image4, image5 FROM offers WHERE id = ?");
+        $stmt->execute([$id]);
+        $existingOffer = $stmt->fetch();
+        $images = [
+            $existingOffer['image1'] ?? '',
+            $existingOffer['image2'] ?? '',
+            $existingOffer['image3'] ?? '',
+            $existingOffer['image4'] ?? '',
+            $existingOffer['image5'] ?? ''
+        ];
+        
+        // Handle image uploads (5 images)
+        $uploadDir = __DIR__ . '/uploads/offers/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+        
+        // Process up to 5 image uploads - they replace at positions 0, 1, 2, 3, 4
+        for ($i = 1; $i <= 5; $i++) {
+            $fileKey = 'offerImageFile' . $i;
+            // First check if a new file was uploaded
+            if (!empty($_FILES[$fileKey]['name']) && $_FILES[$fileKey]['error'] === UPLOAD_ERR_OK) {
+                $tmpName = $_FILES[$fileKey]['tmp_name'];
+                $name = basename($_FILES[$fileKey]['name']);
+                $ext = pathinfo($name, PATHINFO_EXTENSION);
+                $newName = 'offer_' . uniqid() . '_' . $i . '.' . $ext;
+                $targetPath = $uploadDir . $newName;
+                
+                if (move_uploaded_file($tmpName, $targetPath)) {
+                    // Replace at position i-1
+                    $images[$i - 1] = 'uploads/offers/' . $newName;
+                }
+            } else {
+                // Check if URL was provided (for URL input replacement)
+                $urlKey = 'image' . $i;
+                if (!empty($_POST[$urlKey])) {
+                    // Replace at position i-1
+                    $images[$i - 1] = $_POST[$urlKey];
+                }
+            }
+        }
         
         try {
             $stmt = $pdo->prepare("UPDATE offers SET title = :title, slug = :slug, subtitle = :subtitle, description = :description, price = :price, price_label = :price_label, icon = :icon, icon_color = :icon_color, image1 = :image1, image2 = :image2, image3 = :image3, image4 = :image4, image5 = :image5, inclusions = :inclusions, start_date = :start_date, end_date = :end_date, display_order = :display_order WHERE id = :id");
             $stmt->execute([
                 'title' => $title, 'slug' => $slug, 'subtitle' => $subtitle, 'description' => $description,
                 'price' => $price, 'price_label' => $price_label, 'icon' => $icon, 'icon_color' => $icon_color,
-                'image1' => $image1, 'image2' => $image2, 'image3' => $image3, 'image4' => $image4, 'image5' => $image5,
+                'image1' => $images[0], 'image2' => $images[1], 'image3' => $images[2], 'image4' => $images[3], 'image5' => $images[4],
                 'inclusions' => $inclusions, 'start_date' => $start_date, 'end_date' => $end_date, 'display_order' => $display_order, 'id' => $id
             ]);
             echo json_encode(['success' => true, 'message' => 'Offer updated successfully']);

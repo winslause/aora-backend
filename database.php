@@ -18,12 +18,15 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Check if setup has been run, if not run it
+// Setup check disabled - database already configured
+// To re-enable, uncomment the following lines if needed
+/*
 $stmt = $pdo->query("SHOW TABLES LIKE 'site_config'");
 if ($stmt->rowCount() == 0) {
     // First time loading - run setup
     include 'database_setup.php';
 }
+*/
 
 // ==================== ROOM FUNCTIONS ====================
 
@@ -99,14 +102,18 @@ function checkAvailability($pdo, $roomId, $checkIn, $checkOut) {
     $stmt = $pdo->prepare("SELECT * FROM bookings 
                            WHERE room_id = :room_id 
                            AND status = 'confirmed' 
-                           AND ((check_in <= :check_in AND check_out > :check_in) 
-                           OR (check_in < :check_out AND check_out >= :check_out) 
-                           OR (check_in >= :check_in AND check_out <= :check_out))");
+                           AND ((check_in <= :check_in1 AND check_out > :check_in2) 
+                           OR (check_in < :check_out1 AND check_out >= :check_out2) 
+                           OR (check_in >= :check_in3 AND check_out <= :check_out3))");
     
     $stmt->execute([
         ':room_id' => $roomId,
-        ':check_in' => $checkIn,
-        ':check_out' => $checkOut
+        ':check_in1' => $checkIn,
+        ':check_in2' => $checkIn,
+        ':check_in3' => $checkIn,
+        ':check_out1' => $checkOut,
+        ':check_out2' => $checkOut,
+        ':check_out3' => $checkOut
     ]);
     
     return $stmt->fetchAll(); // Returns existing bookings if any
@@ -117,9 +124,9 @@ function getAlternativeRooms($pdo, $checkIn, $checkOut, $excludeRoomId = null) {
     $sql = "SELECT r.* FROM rooms r WHERE r.is_active = 1 AND r.id NOT IN (
         SELECT b.room_id FROM bookings b 
         WHERE b.status = 'confirmed' 
-        AND ((b.check_in <= :check_in AND b.check_out > :check_in) 
-        OR (b.check_in < :check_out AND b.check_out >= :check_out) 
-        OR (b.check_in >= :check_in AND b.check_out <= :check_out))
+        AND ((b.check_in <= :check_in1 AND b.check_out > :check_in2) 
+        OR (b.check_in < :check_out1 AND b.check_out >= :check_out2) 
+        OR (b.check_in >= :check_in3 AND b.check_out <= :check_out3))
     )";
     
     if ($excludeRoomId) {
@@ -128,8 +135,12 @@ function getAlternativeRooms($pdo, $checkIn, $checkOut, $excludeRoomId = null) {
     
     $stmt = $pdo->prepare($sql);
     $params = [
-        ':check_in' => $checkIn,
-        ':check_out' => $checkOut
+        ':check_in1' => $checkIn,
+        ':check_in2' => $checkIn,
+        ':check_in3' => $checkIn,
+        ':check_out1' => $checkOut,
+        ':check_out2' => $checkOut,
+        ':check_out3' => $checkOut
     ];
     
     if ($excludeRoomId) {
@@ -559,14 +570,24 @@ function deleteEventInquiry($pdo, $inquiryId) {
 
 // Function to get all room views
 function getAllRoomViews($pdo) {
-    $stmt = $pdo->query("SELECT * FROM room_views WHERE is_active = 1 ORDER BY display_order ASC");
-    return $stmt->fetchAll();
+    try {
+        $stmt = $pdo->query("SELECT * FROM room_views ORDER BY is_active DESC, display_order ASC");
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        // Table might not exist, return empty array
+        return [];
+    }
 }
 
 // Function to get all bed types
 function getAllBedTypes($pdo) {
-    $stmt = $pdo->query("SELECT * FROM bed_types WHERE is_active = 1 ORDER BY display_order ASC");
-    return $stmt->fetchAll();
+    try {
+        $stmt = $pdo->query("SELECT * FROM bed_types ORDER BY is_active DESC, display_order ASC");
+        return $stmt->fetchAll();
+    } catch (Exception $e) {
+        // Table might not exist, return empty array
+        return [];
+    }
 }
 
 // Function to add a room view
@@ -603,4 +624,36 @@ function addBedType($pdo, $name) {
 function deleteBedType($pdo, $id) {
     $stmt = $pdo->prepare("DELETE FROM bed_types WHERE id = :id");
     $stmt->execute(['id' => $id]);
+}
+
+// Function to authenticate admin user
+function authenticateAdmin($pdo, $email, $password) {
+    // Check if admin_users table exists
+    $stmt = $pdo->query("SHOW TABLES LIKE 'admin_users'");
+    if ($stmt->rowCount() == 0) {
+        // Table doesn't exist, create it with default admin
+        $pdo->exec("CREATE TABLE IF NOT EXISTS admin_users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            name VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )");
+        
+        // Insert default admin (password: admin123)
+        $hashedPassword = password_hash('admin123', PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("INSERT INTO admin_users (email, password, name) VALUES (?, ?, ?)");
+        $stmt->execute(['admin@aora.com', $hashedPassword, 'Administrator']);
+    }
+    
+    // Try to authenticate
+    $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE email = ?");
+    $stmt->execute([$email]);
+    $admin = $stmt->fetch();
+    
+    if ($admin && password_verify($password, $admin['password'])) {
+        return ['success' => true, 'admin' => ['id' => $admin['id'], 'email' => $admin['email'], 'name' => $admin['name']]];
+    }
+    
+    return ['success' => false, 'message' => 'Invalid email or password.'];
 }

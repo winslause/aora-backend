@@ -693,7 +693,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Image (Upload or URL)</label>
                     <input type="file" id="galleryImageFile" class="admin-input mb-2" accept="image/*">
-                    <input type="url" id="galleryImageSrc" class="admin-input" placeholder="Or paste URL" required>
+                    <input type="url" id="galleryImageSrc" class="admin-input" placeholder="Or paste URL" >
                     <div id="previewGalleryImage" class="mt-2"></div>
                 </div>
                 <div class="mb-3">
@@ -802,6 +802,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             </div>
             <form id="offerForm">
                 <input type="hidden" id="offerId">
+                <input type="hidden" id="existingOfferImages" value="[]">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Offer Title</label>
@@ -847,27 +848,27 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     <div class="grid grid-cols-5 gap-2">
                         <div>
                             <input type="file" id="offerImageFile1" class="admin-input text-xs" accept="image/*">
-                            <input type="url" id="offerImage1" class="admin-input text-xs mt-1" placeholder="Or URL">
+                            <input type="text" id="offerImage1" class="admin-input text-xs mt-1" placeholder="Or paste image URL">
                             <div id="previewOfferImage1" class="mt-1"></div>
                         </div>
                         <div>
                             <input type="file" id="offerImageFile2" class="admin-input text-xs" accept="image/*">
-                            <input type="url" id="offerImage2" class="admin-input text-xs mt-1" placeholder="Or URL">
+                            <input type="text" id="offerImage2" class="admin-input text-xs mt-1" placeholder="Or paste image URL">
                             <div id="previewOfferImage2" class="mt-1"></div>
                         </div>
                         <div>
                             <input type="file" id="offerImageFile3" class="admin-input text-xs" accept="image/*">
-                            <input type="url" id="offerImage3" class="admin-input text-xs mt-1" placeholder="Or URL">
+                            <input type="text" id="offerImage3" class="admin-input text-xs mt-1" placeholder="Or paste image URL">
                             <div id="previewOfferImage3" class="mt-1"></div>
                         </div>
                         <div>
                             <input type="file" id="offerImageFile4" class="admin-input text-xs" accept="image/*">
-                            <input type="url" id="offerImage4" class="admin-input text-xs mt-1" placeholder="Or URL">
+                            <input type="text" id="offerImage4" class="admin-input text-xs mt-1" placeholder="Or paste image URL">
                             <div id="previewOfferImage4" class="mt-1"></div>
                         </div>
                         <div>
                             <input type="file" id="offerImageFile5" class="admin-input text-xs" accept="image/*">
-                            <input type="url" id="offerImage5" class="admin-input text-xs mt-1" placeholder="Or URL">
+                            <input type="text" id="offerImage5" class="admin-input text-xs mt-1" placeholder="Or paste image URL">
                             <div id="previewOfferImage5" class="mt-1"></div>
                         </div>
                     </div>
@@ -1260,14 +1261,34 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Server returned ' + res.status);
+                }
+                return res.json();
+            })
             .then(data => {
-                if (data.success) {
+                if (data.success && data.bed_types && data.bed_types.length > 0) {
                     const select = document.getElementById('roomBedType');
-                    select.innerHTML = '<option value="">Select Bed Type</option>' + 
-                        data.bed_types.map(type => 
-                            `<option value="${type.name}">${type.name}</option>`
-                        ).join('');
+                    if (select) {
+                        select.innerHTML = '<option value="">Select Bed Type</option>' + 
+                            data.bed_types.map(type => 
+                                `<option value="${type.name}">${type.name}</option>`
+                            ).join('');
+                    }
+                } else {
+                    // If no bed types, show empty with option to add
+                    const select = document.getElementById('roomBedType');
+                    if (select) {
+                        select.innerHTML = '<option value="">No Bed Types - Add Some</option>';
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error loading bed types:', error);
+                const select = document.getElementById('roomBedType');
+                if (select) {
+                    select.innerHTML = '<option value="">Error loading bed types</option>';
                 }
             });
         }
@@ -1313,19 +1334,33 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 method: 'POST',
                 body: formData
             })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    const container = document.getElementById('bedTypesList');
-                    container.innerHTML = data.bed_types.map(type => `
-                        <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
-                            <span class="font-medium text-sm">${type.name}</span>
-                            <button onclick="deleteBedType(${type.id})" class="text-gray-400 hover:text-red-500">
-                                <i class="fas fa-trash text-xs"></i>
-                            </button>
-                        </div>
-                    `).join('');
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Server returned ' + res.status);
                 }
+                return res.json();
+            })
+            .then(data => {
+                if (data.success && data.bed_types) {
+                    const container = document.getElementById('bedTypesList');
+                    if (container) {
+                        if (data.bed_types.length === 0) {
+                            container.innerHTML = '<p class="text-gray-500 text-sm">No bed types yet. Add some!</p>';
+                        } else {
+                            container.innerHTML = data.bed_types.map(type => `
+                                <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                                    <span class="font-medium text-sm">${type.name}</span>
+                                    <button onclick="deleteBedType(${type.id})" class="text-gray-400 hover:text-red-500">
+                                        <i class="fas fa-trash text-xs"></i>
+                                    </button>
+                                </div>
+                            `).join('');
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error loading bed types list:', error);
             });
         }
         
@@ -2990,7 +3025,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('icon', 'fa-images'); // Always use fa-images automatically
             formData.append('photo_count', document.getElementById('galleryAlbumCount').value);
 
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 showToast(data.message, data.success ? 'success' : 'error');
@@ -3004,7 +3039,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         function loadGalleryAlbums() {
             const formData = new FormData();
             formData.append('action', 'get_all_gallery_albums');
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -3040,7 +3075,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_gallery_album');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -3054,7 +3089,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             // Load albums first
             const formData = new FormData();
             formData.append('action', 'get_all_gallery_albums');
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -3107,7 +3142,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 formData.append('imageFile', imageFile);
             }
 
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 showToast(data.message, data.success ? 'success' : 'error');
@@ -3124,7 +3159,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const formData = new FormData();
             formData.append('action', 'get_gallery_images_paginated');
             formData.append('page', page);
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Server returned ' + response.status);
@@ -3170,7 +3205,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_gallery_image');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -3197,7 +3232,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const formData = new FormData();
             formData.append('action', 'get_gallery_images_by_album');
             formData.append('album_id', albumId);
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById('albumImagesGrid');
@@ -3226,6 +3261,8 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 return;
             }
             
+            let uploadedCount = 0;
+            
             for (let i = 0; i < files.length; i++) {
                 const formData = new FormData();
                 formData.append('action', 'add_gallery_image');
@@ -3239,7 +3276,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 uploadFormData.append('album_id', albumId);
                 uploadFormData.append('imageFile', files[i]);
                 
-                fetch('admin_process.php', { method: 'POST', body: uploadFormData })
+                fetch('admin_process.php', { method: 'POST', body: uploadFormData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
@@ -3252,10 +3289,13 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                         addFormData.append('category', '');
                         addFormData.append('grid_size', 'regular');
                         
-                        fetch('admin_process.php', { method: 'POST', body: addFormData })
+                        fetch('admin_process.php', { method: 'POST', body: addFormData, credentials: 'include' })
                         .then(res => res.json())
                         .then(addData => {
-                            if (i === files.length - 1) {
+                            uploadedCount++;
+                            if (uploadedCount === files.length) {
+                                // All images uploaded successfully - show success toast
+                                showToast(`${uploadedCount} image(s) uploaded successfully!`, 'success');
                                 loadAlbumImages(albumId);
                                 loadGalleryAlbums();
                                 loadGalleryImages();
@@ -3271,7 +3311,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_gallery_image');
                 formData.append('id', imageId);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -3318,7 +3358,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('thumbnail', document.getElementById('galleryVideoThumbnail').value);
             formData.append('video_url', document.getElementById('galleryVideoUrl').value);
 
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 showToast(data.message, data.success ? 'success' : 'error');
@@ -3332,7 +3372,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         function loadGalleryVideos() {
             const formData = new FormData();
             formData.append('action', 'get_all_gallery_videos');
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -3364,7 +3404,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_gallery_video');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -3399,7 +3439,78 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         }
 
+        // Offer image handling
+        let offerUploadedFiles = [null, null, null, null, null];
+        
+        function initOfferImagePreviews() {
+            for (let i = 1; i <= 5; i++) {
+                const fileInput = document.getElementById('offerImageFile' + i);
+                if (fileInput) {
+                    fileInput.onchange = function(event) { handleOfferImageSelect(i, event); };
+                }
+                
+                const urlInput = document.getElementById('offerImage' + i);
+                if (urlInput) {
+                    urlInput.onchange = function() { handleOfferUrlChange(i); };
+                }
+            }
+        }
+        
+        function handleOfferImageSelect(index, event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Store the file for upload
+                offerUploadedFiles[index - 1] = file;
+                
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    showOfferPreview(index, e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function handleOfferUrlChange(index) {
+            const url = document.getElementById('offerImage' + index).value;
+            if (url) {
+                showOfferPreview(index, url);
+            }
+        }
+        
+        function showOfferPreview(index, src) {
+            const container = document.getElementById('previewOfferImage' + index);
+            if (container) {
+                container.innerHTML = `
+                    <div class="relative">
+                        <img src="${src}" class="w-full h-20 object-cover rounded">
+                        <button type="button" onclick="removeOfferImage(${index})" class="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+            }
+        }
+        
+        function removeOfferImage(index) {
+            offerUploadedFiles[index - 1] = null;
+            document.getElementById('offerImageFile' + index).value = '';
+            document.getElementById('offerImage' + index).value = '';
+            document.getElementById('previewOfferImage' + index).innerHTML = '';
+        }
+        
         function openOfferModal(offer = null) {
+            // Reset file arrays
+            offerUploadedFiles = [null, null, null, null, null];
+            
+            // Initialize image preview handlers
+            initOfferImagePreviews();
+            
+            // Clear previews
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById('previewOfferImage' + i).innerHTML = '';
+            }
+            
             // Load inclusions for the checkbox dropdown
             let selectedInclusions = [];
             if (offer) {
@@ -3423,6 +3534,16 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 document.getElementById('offerStartDate').value = offer.start_date || '';
                 document.getElementById('offerEndDate').value = offer.end_date || '';
                 
+                // Store existing images for update
+                const existingImages = [
+                    offer.image1 || '',
+                    offer.image2 || '',
+                    offer.image3 || '',
+                    offer.image4 || '',
+                    offer.image5 || ''
+                ];
+                document.getElementById('existingOfferImages').value = JSON.stringify(existingImages);
+                
                 // Load images
                 document.getElementById('offerImage1').value = offer.image1 || '';
                 document.getElementById('offerImage2').value = offer.image2 || '';
@@ -3430,17 +3551,18 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 document.getElementById('offerImage4').value = offer.image4 || '';
                 document.getElementById('offerImage5').value = offer.image5 || '';
                 
-                // Show previews
+                // Show previews - also trigger the preview function for proper display
                 for (let i = 1; i <= 5; i++) {
                     const imgUrl = offer['image' + i];
                     if (imgUrl) {
-                        document.getElementById('previewOfferImage' + i).innerHTML = `<img src="${imgUrl}" class="w-full h-20 object-cover rounded">`;
+                        showOfferPreview(i, imgUrl);
                     }
                 }
             } else {
                 document.getElementById('offerModalTitle').textContent = 'Add New Offer';
                 document.getElementById('offerForm').reset();
                 document.getElementById('offerId').value = '';
+                document.getElementById('existingOfferImages').value = '[]';
                 document.getElementById('offerStartDate').value = '';
                 document.getElementById('offerEndDate').value = '';
                 for (let i = 1; i <= 5; i++) {
@@ -3474,23 +3596,59 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('price_label', document.getElementById('offerPriceLabel').value);
             formData.append('icon', document.getElementById('offerIcon').value);
             formData.append('icon_color', document.getElementById('offerIconColor').value);
-            formData.append('image1', document.getElementById('offerImage1').value);
-            formData.append('image2', document.getElementById('offerImage2').value);
-            formData.append('image3', document.getElementById('offerImage3').value);
-            formData.append('image4', document.getElementById('offerImage4').value);
-            formData.append('image5', document.getElementById('offerImage5').value);
+            
+            // Add display order - THIS WAS MISSING!
+            formData.append('display_order', document.getElementById('offerOrder').value || 0);
+            
+            // Add URL inputs (for backward compatibility)
+            // When updating, if URL input is empty but there's an existing image, use the existing
+            const existingImages = id ? JSON.parse(document.getElementById('existingOfferImages').value || '[]') : [];
+            for (let i = 0; i < 5; i++) {
+                const urlInput = document.getElementById('offerImage' + (i + 1)).value;
+                const fileInput = offerUploadedFiles[i];
+                
+                // Priority: 1) File uploaded, 2) URL provided, 3) Existing image (for updates), 4) Empty
+                if (fileInput) {
+                    // File was uploaded - don't add URL, the file will be processed separately
+                    formData.append('image' + (i + 1), '');
+                } else if (urlInput && urlInput.trim() !== '') {
+                    // URL provided
+                    formData.append('image' + (i + 1), urlInput);
+                } else if (id && existingImages[i]) {
+                    // No file and no URL, but we're updating - use existing
+                    formData.append('image' + (i + 1), existingImages[i]);
+                } else {
+                    // Nothing provided
+                    formData.append('image' + (i + 1), '');
+                }
+            }
+            
+            // Add file uploads
+            for (let i = 0; i < offerUploadedFiles.length; i++) {
+                if (offerUploadedFiles[i]) {
+                    formData.append('offerImageFile' + (i + 1), offerUploadedFiles[i]);
+                }
+            }
+            
             formData.append('inclusions', JSON.stringify(selectedInclusions));
             formData.append('start_date', document.getElementById('offerStartDate').value);
             formData.append('end_date', document.getElementById('offerEndDate').value);
 
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            console.log('Submitting offer with display_order:', document.getElementById('offerOrder').value);
+            
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
+                console.log('Offer save response:', data);
                 showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     closeOfferModal();
                     loadOffers();
                 }
+            })
+            .catch(err => {
+                console.error('Error saving offer:', err);
+                showToast('Error saving offer: ' + err.message, 'error');
             });
         });
 
@@ -3499,7 +3657,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const formData = new FormData();
             formData.append('action', 'get_all_offers_admin');
             formData.append('page', page);
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -3540,7 +3698,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_offer');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -3666,7 +3824,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('name', document.getElementById('menuCategoryName').value);
             formData.append('description', document.getElementById('menuCategoryDescription').value);
             
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 showToast(data.message, data.success ? 'success' : 'error');
@@ -3682,7 +3840,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const formData = new FormData();
             formData.append('action', 'get_all_menu_categories');
             formData.append('page', page);
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -3711,7 +3869,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_menu_category');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -3752,7 +3910,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('description', document.getElementById('sampleMenuDescription').value);
             formData.append('display_order', document.getElementById('sampleMenuOrder').value);
             
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 showToast(data.message, data.success ? 'success' : 'error');
@@ -3768,7 +3926,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const formData = new FormData();
             formData.append('action', 'get_all_sample_menus');
             formData.append('page', page);
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -3801,7 +3959,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_sample_menu');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -3836,7 +3994,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const formData = new FormData();
             formData.append('action', 'get_sample_menu_items');
             formData.append('menu_id', menuId);
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -3882,7 +4040,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('price', document.getElementById('sampleMenuItemPrice').value);
             formData.append('display_order', document.getElementById('sampleMenuItemOrder').value);
             
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 showToast(data.message, data.success ? 'success' : 'error');
@@ -3898,7 +4056,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_sample_menu_item');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -3958,7 +4116,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 formData.append('image', imageFile);
             }
             
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 showToast(data.message, data.success ? 'success' : 'error');
@@ -3974,7 +4132,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const formData = new FormData();
             formData.append('action', 'get_all_table_types');
             formData.append('page', page);
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -4005,7 +4163,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_table_type');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -4021,7 +4179,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const formData = new FormData();
             formData.append('action', 'get_all_restaurant_reservations');
             formData.append('page', page);
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -4069,7 +4227,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             formData.append('id', id);
             formData.append('status', status);
             
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 showToast(data.message, data.success ? 'success' : 'error');
@@ -4082,7 +4240,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_restaurant_reservation');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -4107,7 +4265,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             // Load categories first
             const formData = new FormData();
             formData.append('action', 'get_all_menu_categories');
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -4170,7 +4328,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 formData.append('imageFile', imageFile);
             }
 
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 showToast(data.message, data.success ? 'success' : 'error');
@@ -4186,7 +4344,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             const formData = new FormData();
             formData.append('action', signatureOnly ? 'get_signature_menu_items' : 'get_all_menu_items');
             formData.append('page', page);
-            fetch('admin_process.php', { method: 'POST', body: formData })
+            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
@@ -4226,7 +4384,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 const formData = new FormData();
                 formData.append('action', 'delete_menu_item');
                 formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -4261,7 +4419,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 formData.append('current_password', currentPassword);
                 formData.append('new_password', newPassword);
                 
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
@@ -4283,7 +4441,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 formData.append('contact_email', document.getElementById('contactEmail').value);
                 formData.append('contact_phone', document.getElementById('contactPhone').value);
                 
-                fetch('admin_process.php', { method: 'POST', body: formData })
+                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
                 .then(res => res.json())
                 .then(data => {
                     showToast(data.message, data.success ? 'success' : 'error');
