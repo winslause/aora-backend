@@ -672,7 +672,21 @@ if (!empty($amenityCategories)) {
         }
         
         function inquireAmenity(amenityName) {
-            showToast(`Thank you for your interest in ${amenityName}. A member of our concierge team will contact you shortly.`, 'success');
+            // WhatsApp number
+            const phoneNumber = '254769525570';
+            
+            // Create pre-filled message
+            const message = `Hi Aora Hotel, I'm interested in learning more about your ${amenityName} amenity. Could you please provide more details?`;
+            
+            // Encode message for WhatsApp URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Open WhatsApp with pre-filled message
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            // Open in new tab
+            window.open(whatsappUrl, '_blank');
+            
             closeModal();
         }
         

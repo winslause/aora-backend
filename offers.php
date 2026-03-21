@@ -681,7 +681,7 @@ include 'header.php'; ?>
         }
         
         function getRibbon(index) {
-            const ribbons = ['Best Seller', 'Popular', 'Family Fun', 'Romance', 'Rejuvenate', 'Special'];
+            const ribbons = ['coming soon', 'Popular', 'Family Fun', 'Romance', 'Rejuvenate', 'Special'];
             return ribbons[index % ribbons.length];
         }
         

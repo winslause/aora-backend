@@ -87,6 +87,32 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             from { transform: translateX(0); opacity: 1; }
             to { transform: translateX(400px); opacity: 0; }
         }
+        
+        /* Button Loader Styles */
+        .btn-loader {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+        
+        .btn-loader-dark {
+            border-color: #b89a78;
+            border-top-color: transparent;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .button-loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -540,10 +566,17 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 </button>
             </div>
             <form id="amenityCategoryForm">
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category Name</label>
+                    <input type="text" id="amenityCategoryName" class="admin-input" placeholder="e.g., Leisure" required>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="amenityCategoryDescription" class="admin-input" rows="2" placeholder="Brief description..."></textarea>
+                </div>
                 <div class="flex gap-2 mb-4">
-                    <input type="text" id="amenityCategoryName" class="admin-input flex-1" placeholder="Category name">
-                    <button type="submit" class="admin-btn-primary px-4">
-                        <i class="fas fa-plus"></i>
+                    <button type="submit" class="admin-btn-primary flex-1">
+                        <i class="fas fa-plus mr-2"></i>Add Category
                     </button>
                 </div>
             </form>
@@ -822,7 +855,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     </div>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Icon Class</label>
-                        <input type="text" id="offerIcon" class="admin-input" placeholder="fa-gift" value="fa-gift">
+                        <input type="text" id="offerIcon" class="admin-input" placeholder="fa-gift" value="fa-gift" disabled>
                     </div>
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-2">Icon Color</label>
@@ -1203,6 +1236,81 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
     </div>
 
     <script>
+        // ==================== BUTTON LOADER FUNCTIONS ====================
+        // Track active requests
+        let activeRequestCount = 0;
+        let currentSubmitButton = null;
+
+        function setButtonLoading(button, isLoading, loadingText = 'Loading...') {
+            if (!button) return;
+            
+            if (isLoading) {
+                // Store original HTML if not already stored
+                if (!button.dataset.originalHtml) {
+                    button.dataset.originalHtml = button.innerHTML;
+                }
+                // Add loader
+                const isDark = button.classList.contains('btn-loader-dark') || button.classList.contains('admin-btn-primary') || button.classList.contains('bg-[#b89a78]');
+                button.innerHTML = '<span class="btn-loader' + (isDark ? ' btn-loader-dark' : '') + '"></span>' + loadingText;
+                button.classList.add('button-loading');
+                button.disabled = true;
+            } else {
+                // Restore original HTML
+                button.innerHTML = button.dataset.originalHtml || button.innerHTML;
+                button.classList.remove('button-loading');
+                button.disabled = false;
+                delete button.dataset.originalHtml;
+            }
+        }
+
+        // Override fetch to track requests and auto-remove loading
+        (function() {
+            const originalFetch = window.fetch;
+            window.fetch = function(input, init) {
+                // Get the submit button from the current form if available
+                currentSubmitButton = document.querySelector('button.button-loading');
+                activeRequestCount++;
+                
+                return originalFetch.call(this, input, init).finally(() => {
+                    activeRequestCount--;
+                    if (activeRequestCount <= 0 && currentSubmitButton) {
+                        setButtonLoading(currentSubmitButton, false);
+                        currentSubmitButton = null;
+                        activeRequestCount = 0;
+                    }
+                });
+            };
+        })();
+
+        // Add loading to all form submit handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle all forms with submit buttons
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    if (submitBtn && !submitBtn.classList.contains('no-loader')) {
+                        // Check if form has image uploads - show "Uploading..." for those
+                        const hasFileInputs = form.querySelector('input[type="file"]');
+                        const loadingText = hasFileInputs ? 'Uploading...' : 'Saving...';
+                        setButtonLoading(submitBtn, true, loadingText);
+                    }
+                });
+            });
+            
+            // Special handling for Upload Images button in album
+            const uploadImgBtn = document.querySelector('button[onclick*="uploadAlbumImages"]');
+            if (uploadImgBtn) {
+                uploadImgBtn.id = 'uploadAlbumImagesBtn';
+                const originalFunc = window.uploadAlbumImages;
+                window.uploadAlbumImages = function() {
+                    const btn = document.getElementById('uploadAlbumImagesBtn');
+                    setButtonLoading(btn, true, 'Uploading Images...');
+                    return originalFunc.apply(this, arguments);
+                };
+            }
+        });
+
         // Mobile menu functionality
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -1517,19 +1625,47 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     const container = document.getElementById('amenityCategoriesList');
                     container.innerHTML = data.categories.map(cat => `
                         <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
-                            <span class="font-medium text-sm">${cat.name}</span>
-                            <button onclick="deleteAmenityCategory(${cat.id})" class="text-gray-400 hover:text-red-500">
-                                <i class="fas fa-trash text-xs"></i>
-                            </button>
+                            <div class="flex-1">
+                                <span class="font-medium text-sm">${cat.name}</span>
+                                ${cat.description ? `<span class="text-xs text-gray-500 ml-2">${cat.description}</span>` : ''}
+                            </div>
+                            <div>
+                                <button onclick="editAmenityCategory(${cat.id}, '${cat.name}', '${cat.description || ''}')" class="text-[#b89a78] hover:text-[#8a735b] mr-2">
+                                    <i class="fas fa-edit text-xs"></i>
+                                </button>
+                                <button onclick="deleteAmenityCategory(${cat.id})" class="text-gray-400 hover:text-red-500">
+                                    <i class="fas fa-trash text-xs"></i>
+                                </button>
+                            </div>
                         </div>
                     `).join('');
                 }
             });
         }
         
+        function editAmenityCategory(id, name, description) {
+            document.getElementById('amenityCategoryName').value = name;
+            document.getElementById('amenityCategoryDescription').value = description || '';
+            // Add hidden input for ID if not exists
+            let hiddenId = document.getElementById('amenityCategoryEditId');
+            if (!hiddenId) {
+                hiddenId = document.createElement('input');
+                hiddenId.type = 'hidden';
+                hiddenId.id = 'amenityCategoryEditId';
+                document.getElementById('amenityCategoryForm').appendChild(hiddenId);
+            }
+            hiddenId.value = id;
+            
+            // Change button text
+            const submitBtn = document.querySelector('#amenityCategoryForm button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-edit mr-2"></i>Update Category';
+        }
+        
         document.getElementById('amenityCategoryForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const name = document.getElementById('amenityCategoryName').value.trim();
+            const description = document.getElementById('amenityCategoryDescription').value.trim();
+            const editId = document.getElementById('amenityCategoryEditId')?.value;
             
             if (!name) {
                 showToast('Please enter a category name', 'error');
@@ -1537,8 +1673,12 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             }
             
             const formData = new FormData();
-            formData.append('action', 'add_amenity_category');
+            formData.append('action', editId ? 'update_amenity_category' : 'add_amenity_category');
+            if (editId) {
+                formData.append('id', editId);
+            }
             formData.append('name', name);
+            formData.append('description', description);
             
             fetch('admin_process.php', {
                 method: 'POST',
@@ -1549,6 +1689,11 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 showToast(data.message, data.success ? 'success' : 'error');
                 if (data.success) {
                     document.getElementById('amenityCategoryForm').reset();
+                    // Remove edit ID and reset button
+                    const hiddenId = document.getElementById('amenityCategoryEditId');
+                    if (hiddenId) hiddenId.remove();
+                    const submitBtn = document.querySelector('#amenityCategoryForm button[type="submit"]');
+                    submitBtn.innerHTML = '<i class="fas fa-plus mr-2"></i>Add Category';
                     loadAmenityCategoriesList();
                 }
             });
@@ -1836,11 +1981,40 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         
         document.getElementById('amenityFeatureForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            // For features, we don't add them to database - we just add to the list for selection
-            // The features are stored in each amenity's JSON array
-            showToast('Feature added to the list! You can now select it when adding/editing amenities.', 'success');
-            document.getElementById('amenityFeatureForm').reset();
-            loadAmenityFeaturesList();
+            
+            const featureName = document.getElementById('amenityFeatureName').value.trim();
+            
+            if (!featureName) {
+                showToast('Please enter a feature name', 'error');
+                return;
+            }
+            
+            // Get the submit button and set loading state
+            const submitBtn = document.querySelector('#amenityFeatureForm button[type="submit"]');
+            setButtonLoading(submitBtn, true, 'Saving...');
+            
+            // Send feature to server
+            const formData = new FormData();
+            formData.append('action', 'add_amenity_feature');
+            formData.append('feature', featureName);
+            
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                showToast(data.message, data.success ? 'success' : 'error');
+                if (data.success) {
+                    document.getElementById('amenityFeatureForm').reset();
+                    loadAmenityFeaturesList();
+                    loadAmenityFeaturesForForm(); // Refresh checkboxes too
+                }
+            })
+            .catch(error => {
+                console.error('Error adding feature:', error);
+                showToast('Error adding feature: ' + error.message, 'error');
+            });
         });
         
         function loadAmenityFeaturesForForm(selectedFeatures = []) {
@@ -2994,7 +3168,6 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 document.getElementById('galleryAlbumTitle').value = album.title || '';
                 document.getElementById('galleryAlbumDescription').value = album.description || '';
                 document.getElementById('galleryAlbumCover').value = album.cover_image || '';
-                document.getElementById('galleryAlbumIcon').value = album.icon || 'fa-images';
                 document.getElementById('galleryAlbumCount').value = album.photo_count || 0;
                 document.getElementById('galleryAlbumOrder').value = album.display_order || 0;
                 if (album.cover_image) {
@@ -3013,6 +3186,18 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             document.getElementById('galleryAlbumModal').classList.remove('open');
         }
 
+        // Preview cover image when file is selected
+        document.getElementById('galleryAlbumCoverFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('previewGalleryAlbumCover').innerHTML = `<img src="${event.target.result}" class="w-full h-32 object-cover rounded">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         document.getElementById('galleryAlbumForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData();
@@ -3021,7 +3206,15 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             if (id) formData.append('id', id);
             formData.append('title', document.getElementById('galleryAlbumTitle').value);
             formData.append('description', document.getElementById('galleryAlbumDescription').value);
-            formData.append('cover_image', document.getElementById('galleryAlbumCover').value);
+            
+            // Handle cover image - use file if selected, otherwise use URL
+            const coverFile = document.getElementById('galleryAlbumCoverFile').files[0];
+            const coverUrl = document.getElementById('galleryAlbumCover').value;
+            if (coverFile) {
+                formData.append('cover_image_file', coverFile);
+            } else if (coverUrl) {
+                formData.append('cover_image', coverUrl);
+            }
             formData.append('icon', 'fa-images'); // Always use fa-images automatically
             formData.append('photo_count', document.getElementById('galleryAlbumCount').value);
 
@@ -4003,17 +4196,29 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                         if (data.items.length === 0) {
                             tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500 py-4">No items yet. Add some!</td></tr>';
                         } else {
-                            tbody.innerHTML = data.items.map(item => `
-                                <tr>
+                            tbody.innerHTML = data.items.map(item => {
+                                // Parse price - handle "KSh X,XXX" format or ranges
+                                let displayPrice = '-';
+                                if (item.price && item.price !== '') {
+                                    // Check if it's a range (contains "-")
+                                    if (item.price.includes('-')) {
+                                        displayPrice = 'KSh ' + item.price.replace('KSh ', '');
+                                    } else {
+                                        // Try to parse single price
+                                        const num = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+                                        displayPrice = isNaN(num) ? item.price : 'KSh ' + num.toLocaleString();
+                                    }
+                                }
+                                return `<tr>
                                     <td class="font-medium">${item.name}</td>
-                                    <td>${item.price && item.price !== '' ? 'KSh ' + parseFloat(item.price).toLocaleString() : '-'}</td>
+                                    <td>${displayPrice}</td>
                                     <td>${item.display_order || 0}</td>
                                     <td>
                                         <button onclick='editSampleMenuItem(${JSON.stringify(item).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
                                         <button onclick="deleteSampleMenuItem(${item.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
                                     </td>
-                                </tr>
-                            `).join('');
+                                </tr>`;
+                            }).join('');
                         }
                     }
                 }

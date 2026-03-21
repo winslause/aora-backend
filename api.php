@@ -506,12 +506,16 @@ switch ($action) {
         $checkInDate = new DateTime($checkIn);
         $checkOutDate = new DateTime($checkOut);
         $today = new DateTime();
+        $todayDate = new DateTime($today->format('Y-m-d'));
         
-        if ($checkInDate < $today) {
+        // Allow check-in today (check-in time is from 1pm)
+        // Minimum check-in date is today
+        if ($checkInDate < $todayDate) {
             echo json_encode(['success' => false, 'message' => 'Check-in date cannot be in the past']);
             break;
         }
         
+        // Check-out must be after check-in
         if ($checkOutDate <= $checkInDate) {
             echo json_encode(['success' => false, 'message' => 'Check-out must be after check-in']);
             break;

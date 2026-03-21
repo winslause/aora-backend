@@ -637,8 +637,12 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
         var serverViews = [];
         var serverBedTypes = [];
         
-        // Get minimum date (today)
+        // Get minimum date (today) - but allow today for check-in (check-in from 1pm)
         const today = new Date().toISOString().split('T')[0];
+        
+        // Check-in time: 1pm (13:00), Check-out time: 10am
+        const CHECK_IN_TIME = '13:00';
+        const CHECK_OUT_TIME = '10:00';
         
         // Load rooms on page load - use server-side data if available
         document.addEventListener('DOMContentLoaded', function() {
@@ -976,9 +980,7 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                             <div>
                                 <div class="relative">
                                     <img id="mainImage" src="${room.images[0]}" alt="${room.name}" class="main-image">
-                                    <div class="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs text-[#3f352e]">
-                                        <i class="fas fa-play-circle text-[#4a90a0] mr-1"></i> Auto-rotating
-                                    </div>
+                                    
                                 </div>
                                 
                                 <div class="thumbnail-container mt-4">
@@ -1037,10 +1039,12 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                                         <div>
                                             <label class="block text-[#1e4d40] text-xs uppercase mb-1">Check-in</label>
                                             <input type="date" id="checkIn" class="w-full px-4 py-2 rounded-lg bg-white" min="${today}" required>
+                                            <p class="text-[10px] text-[#4a90a0] mt-1">From 1:00 PM</p>
                                         </div>
                                         <div>
                                             <label class="block text-[#1e4d40] text-xs uppercase mb-1">Check-out</label>
                                             <input type="date" id="checkOut" class="w-full px-4 py-2 rounded-lg bg-white" min="${today}" required>
+                                            <p class="text-[10px] text-[#4a90a0] mt-1">By 10:00 AM</p>
                                         </div>
                                     </div>
                                     
@@ -1083,6 +1087,26 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                     
                     modalContent.innerHTML = galleryHTML;
                     
+                    // Add event listener to check-in date to update check-out minimum
+                    const checkInField = document.getElementById('checkIn');
+                    const checkOutField = document.getElementById('checkOut');
+                    
+                    if (checkInField && checkOutField) {
+                        checkInField.addEventListener('change', function() {
+                            const checkInDate = new Date(this.value);
+                            const nextDay = new Date(checkInDate);
+                            nextDay.setDate(nextDay.getDate() + 1);
+                            
+                            // Update checkout min to next day
+                            checkOutField.min = nextDay.toISOString().split('T')[0];
+                            
+                            // If checkout is now invalid, clear it
+                            if (checkOutField.value && new Date(checkOutField.value) < nextDay) {
+                                checkOutField.value = '';
+                            }
+                        });
+                    }
+                    
                     // Start auto-carousel
                     startAutoCarousel(room.images);
                 } else {
@@ -1114,8 +1138,10 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
             const effectiveRoomId = roomIdInput ? roomIdInput.value : roomId;
             const effectiveRoomType = roomType;
             
-            const checkIn = document.getElementById('checkIn').value;
-            const checkOut = document.getElementById('checkOut').value;
+            const checkInInput = document.getElementById('checkIn');
+            const checkOutInput = document.getElementById('checkOut');
+            const checkIn = checkInInput.value;
+            const checkOut = checkOutInput.value;
             const adults = document.getElementById('adults').value;
             const children = document.getElementById('children').value;
             const specialRequests = document.getElementById('specialRequests').value;
@@ -1127,6 +1153,21 @@ error_log('rooms.php - pageDescription: ' . (isset($pageDescription) ? $pageDesc
                 resultContainer.innerHTML = `
                     <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
                         <p class="text-red-600 text-sm"><i class="fas fa-exclamation-circle mr-2"></i>Please select check-in and check-out dates.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Validate check-out is after check-in (at least next day)
+            const checkInDate = new Date(checkIn);
+            const checkOutDate = new Date(checkOut);
+            const minCheckOut = new Date(checkInDate);
+            minCheckOut.setDate(minCheckOut.getDate() + 1);
+            
+            if (checkOutDate < minCheckOut) {
+                resultContainer.innerHTML = `
+                    <div class="p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-red-600 text-sm"><i class="fas fa-exclamation-circle mr-2"></i>Check-out must be at least one day after check-in (check-out by 10:00 AM).</p>
                     </div>
                 `;
                 return;

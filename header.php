@@ -1418,13 +1418,13 @@
                             <a href="index.php?page=rooms" class="nav-link">Accommodation</a>
                             <div class="nav-dropdown-content">
                                 <a href="index.php?page=rooms"><i class="fas fa-bed"></i>Rooms</a>
-                                <a href="index.php?page=amenities"><i class="fas fa-spa"></i>Amenities</a>
                             </div>
                         </div>
                         <div class="nav-dropdown">
                             <a href="index.php?page=restaurant" class="nav-link">Restaurant</a>
                             <div class="nav-dropdown-content">
                                 <a href="index.php?page=restaurant"><i class="fas fa-utensils"></i>Our Menu</a>
+                                <a href="index.php?page=amenities"><i class="fas fa-spa"></i>Amenities</a>
                                 <a href="index.php?page=offers"><i class="fas fa-tag"></i>Offers</a>
                                 <a href="index.php?page=gallery"><i class="fas fa-images"></i>Gallery</a>
                             </div>

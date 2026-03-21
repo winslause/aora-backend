@@ -638,6 +638,53 @@ switch ($action) {
         echo json_encode(['success' => true, 'features' => $allFeatures]);
         break;
     
+    // Add amenity feature
+    case 'add_amenity_feature':
+        checkAdminSession();
+        $featureToAdd = isset($_POST['feature']) ? trim($_POST['feature']) : '';
+        
+        if (empty($featureToAdd)) {
+            echo json_encode(['success' => false, 'message' => 'Feature name is required']);
+            break;
+        }
+        
+        // Get all amenities to check if feature already exists
+        $stmt = $pdo->query("SELECT id, features FROM amenities");
+        $amenities = $stmt->fetchAll();
+        
+        $featureExists = false;
+        foreach ($amenities as $amenity) {
+            $features = json_decode($amenity['features'], true);
+            if (is_array($features) && in_array($featureToAdd, $features)) {
+                $featureExists = true;
+                break;
+            }
+        }
+        
+        if ($featureExists) {
+            echo json_encode(['success' => false, 'message' => 'Feature already exists']);
+            break;
+        }
+        
+        // Add feature to the first amenity (or create a placeholder)
+        if (count($amenities) > 0) {
+            $firstAmenityId = $amenities[0]['id'];
+            $existingFeatures = json_decode($amenities[0]['features'], true);
+            if (!is_array($existingFeatures)) {
+                $existingFeatures = [];
+            }
+            $existingFeatures[] = $featureToAdd;
+            
+            $updateStmt = $pdo->prepare("UPDATE amenities SET features = ? WHERE id = ?");
+            $updateStmt->execute([json_encode($existingFeatures), $firstAmenityId]);
+            
+            echo json_encode(['success' => true, 'message' => 'Feature added successfully']);
+        } else {
+            // No amenities exist - create a placeholder
+            echo json_encode(['success' => false, 'message' => 'Please add at least one amenity first before adding features']);
+        }
+        break;
+    
     // Delete amenity feature
     case 'delete_amenity_feature':
         checkAdminSession();
@@ -1125,6 +1172,23 @@ switch ($action) {
         $photo_count = $_POST['photo_count'] ?? 0;
         $display_order = $_POST['display_order'] ?? 0;
         
+        // Handle file upload for cover image
+        if (!empty($_FILES['cover_image_file']['name'])) {
+            $uploadDir = __DIR__ . '/uploads/gallery/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            
+            $tmpName = $_FILES['cover_image_file']['tmp_name'];
+            $fileName = basename($_FILES['cover_image_file']['name']);
+            $uniqueName = 'cover_' . time() . '_' . $fileName;
+            $targetPath = $uploadDir . $uniqueName;
+            
+            if (move_uploaded_file($tmpName, $targetPath)) {
+                $cover_image = 'uploads/gallery/' . $uniqueName;
+            }
+        }
+        
         try {
             $stmt = $pdo->prepare("UPDATE gallery_albums SET title = :title, slug = :slug, description = :description, cover_image = :cover_image, icon = :icon, photo_count = :photo_count, display_order = :display_order WHERE id = :id");
             $stmt->execute(['title' => $title, 'slug' => $slug, 'description' => $description, 'cover_image' => $cover_image, 'icon' => $icon, 'photo_count' => $photo_count, 'display_order' => $display_order, 'id' => $id]);
@@ -1331,10 +1395,10 @@ switch ($action) {
         $limit = 10;
         $offset = ($page - 1) * $limit;
         
-        $stmt = $pdo->query("SELECT COUNT(*) as total FROM offers");
+        $stmt = $pdo->query("SELECT COUNT(*) as total FROM offers WHERE is_active = 1");
         $total = $stmt->fetch()['total'];
         
-        $stmt = $pdo->query("SELECT * FROM offers ORDER BY display_order ASC LIMIT $limit OFFSET $offset");
+        $stmt = $pdo->query("SELECT * FROM offers WHERE is_active = 1 ORDER BY display_order ASC LIMIT $limit OFFSET $offset");
         $offers = $stmt->fetchAll();
         foreach ($offers as &$offer) {
             $offer['inclusions'] = json_decode($offer['inclusions'], true);

@@ -535,7 +535,7 @@ $sampleMenus = getAllSampleMenus($pdo);
                             <?php endforeach; ?>
                         </div>
                         
-                        <a href="#" class="inline-flex items-center gap-2 text-[#2d5a4a] hover:text-[#1e4d40] transition-colors text-sm">
+                        <a href="menu-pdf.php" target="_blank" class="inline-flex items-center gap-2 text-[#2d5a4a] hover:text-[#1e4d40] transition-colors text-sm">
                             <i class="fas fa-file-pdf"></i>
                             <span>Download Menu (PDF)</span>
                         </a>

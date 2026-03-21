@@ -782,20 +782,20 @@ function openRoomModal(roomType) {
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label class="block text-white/60 text-xs uppercase mb-1">Adults</label>
-                                    <select id="indexAdults" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
-                                        <option value="1">1</option>
-                                        <option value="2" selected>2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                    <select id="indexAdults" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white" style="color: white;">
+                                        <option value="1" style="color: black;">1</option>
+                                        <option value="2" selected style="color: black;">2</option>
+                                        <option value="3" style="color: black;">3</option>
+                                        <option value="4" style="color: black;">4</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label class="block text-white/60 text-xs uppercase mb-1">Children</label>
-                                    <select id="indexChildren" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white">
-                                        <option value="0" selected>0</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
+                                    <select id="indexChildren" class="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-white" style="color: white;">
+                                        <option value="0" selected style="color: black;">0</option>
+                                        <option value="1" style="color: black;">1</option>
+                                        <option value="2" style="color: black;">2</option>
+                                        <option value="3" style="color: black;">3</option>
                                     </select>
                                 </div>
                             </div>
@@ -1221,7 +1221,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                     </a>
 
                     <!-- Secondary Button - Explore Menu Pdf -->
-                    <a href="index.php?page=offers" class="group inline-flex items-center gap-2 text-[#1e4d40] hover:text-[#3f352e] transition-colors duration-300">
+                    <a href="menu-pdf.php" target="_blank" class="group inline-flex items-center gap-2 text-[#1e4d40] hover:text-[#3f352e] transition-colors duration-300">
                         <i class="fas fa-file-pdf text-sm"></i>
                         <span class="font-['Montserrat'] text-xs uppercase tracking-wider">Sample Menu</span>
                         <i class="fas fa-download text-xs group-hover:translate-y-0.5 transition-transform duration-300"></i>
