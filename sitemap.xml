@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url>
-<loc>https://www.aora45.com/</loc>
-<changefreq>daily</changefreq>
-<priority>1.0</priority>
-<lastmod>2026-03-19</lastmod>
-</url>
-<url>
-<loc>https://www.aora45.com/rooms</loc>
-<changefreq>weekly</changefreq>
-<priority>0.9</priority>
-<lastmod>2026-03-19</lastmod>
-</url>
-<url>
-<loc>https://www.aora45.com/restaurant</loc>
-<changefreq>weekly</changefreq>
-<priority>0.9</priority>
-<lastmod>2026-03-19</lastmod>
-</url>
-<url>
-<loc>https://www.aora45.com/events</loc>
-<changefreq>weekly</changefreq>
-<priority>0.8</priority>
-<lastmod>2026-03-19</lastmod>
-</url>
-<url>
-<loc>https://www.aora45.com/amenities</loc>
-<changefreq>weekly</changefreq>
-<priority>0.8</priority>
-<lastmod>2026-03-19</lastmod>
-</url>
-<url>
-<loc>https://www.aora45.com/gallery</loc>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-<lastmod>2026-03-19</lastmod>
-</url>
-<url>
-<loc>https://www.aora45.com/offers</loc>
-<changefreq>weekly</changefreq>
-<priority>0.8</priority>
-<lastmod>2026-03-19</lastmod>
-</url>
-<url>
-<loc>https://www.aora45.com/about</loc>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-<lastmod>2026-03-19</lastmod>
-</url>
-<url>
-<loc>https://www.aora45.com/contact</loc>
-<changefreq>monthly</changefreq>
-<priority>0.9</priority>
-<lastmod>2026-03-19</lastmod>
-</url>
+  <url>
+    <loc>https://www.aora45.com/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.aora45.com/rooms</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.aora45.com/restaurant</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.aora45.com/events</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.aora45.com/amenities</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.aora45.com/gallery</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.aora45.com/offers</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.aora45.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-03-19</lastmod>
+  </url>
+  <url>
+    <loc>https://www.aora45.com/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-03-19</lastmod>
+  </url>
 </urlset>

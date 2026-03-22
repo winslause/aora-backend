@@ -126,7 +126,7 @@ include 'header.php'; ?>
             </div>
             
             <!-- Unique Link to About Page - with skeuomorphic button -->
-            <a href="index.php?page=about" class="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#ffffff] border border-[#d6cbbc] rounded-full shadow-[0_8px_20px_-8px_rgba(100,70,40,0.2)] hover:shadow-[0_12px_25px_-8px_rgba(100,70,40,0.3)] transition-all duration-300">
+            <a href="<?php echo BASE_PATH; ?>about" class="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#ffffff] border border-[#d6cbbc] rounded-full shadow-[0_8px_20px_-8px_rgba(100,70,40,0.2)] hover:shadow-[0_12px_25px_-8px_rgba(100,70,40,0.3)] transition-all duration-300">
                 <!-- Decorative left line -->
                 <span class="w-6 h-px bg-gradient-to-r from-transparent via-[#b8a084] to-transparent group-hover:w-8 transition-all duration-300"></span>
                 
@@ -226,7 +226,7 @@ include 'header.php'; ?>
 
     <!-- View All Rooms Link -->
     <div class="relative z-10 text-center mt-8">
-        <a href="index.php?page=rooms" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group">
+        <a href="<?php echo BASE_PATH; ?>rooms" class="inline-flex items-center gap-2 px-6 py-2.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group">
             <span class="text-xs uppercase tracking-wider">Explore All Rooms</span>
             <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
         </a>
@@ -1208,7 +1208,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                 <!-- Action Buttons - Unique Design -->
                 <div class="flex flex-wrap items-center gap-5 pt-6">
                     <!-- Primary Button - View Menu & Reserve -->
-                    <a href="index.php?page=restaurant" class="group relative inline-flex items-center gap-4 px-8 py-4 bg-[#3f352e] rounded-full overflow-hidden shadow-[0_10px_20px_-8px_rgba(40,30,20,0.3)] hover:shadow-[0_15px_25px_-8px_rgba(40,30,20,0.4)] transition-shadow duration-300">
+                    <a href="<?php echo BASE_PATH; ?>restaurant" class="group relative inline-flex items-center gap-4 px-8 py-4 bg-[#3f352e] rounded-full overflow-hidden shadow-[0_10px_20px_-8px_rgba(40,30,20,0.3)] hover:shadow-[0_15px_25px_-8px_rgba(40,30,20,0.4)] transition-shadow duration-300">
                         <!-- Background Hover Effect -->
                         <span class="absolute inset-0 bg-gradient-to-r from-[#1e4d40] to-[#6b5d51] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                         
@@ -1389,7 +1389,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
 
         <!-- Bottom Call to Action -->
         <div class="text-center mt-16">
-            <a href="index.php?page=amenities" class="group inline-flex items-center gap-3 px-8 py-3 bg-transparent border border-white/20 rounded-full text-white hover:bg-white/10 transition-all duration-300">
+            <a href="<?php echo BASE_PATH; ?>amenities" class="group inline-flex items-center gap-3 px-8 py-3 bg-transparent border border-white/20 rounded-full text-white hover:bg-white/10 transition-all duration-300">
                 <span class="text-xs uppercase tracking-wider">Explore All Amenities</span>
                 <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
                 <span class="absolute inset-0 rounded-full bg-gradient-to-r from-[#4a90a0]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
@@ -1660,7 +1660,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
 
         <!-- View All Offers Link -->
         <div class="relative mt-12 text-center">
-            <a href="index.php?page=offers" class="group inline-flex items-center gap-3 px-8 py-3 bg-transparent border border-white/30 rounded-full text-white hover:bg-white/10 transition-all duration-300">
+            <a href="<?php echo BASE_PATH; ?>offers" class="group inline-flex items-center gap-3 px-8 py-3 bg-transparent border border-white/30 rounded-full text-white hover:bg-white/10 transition-all duration-300">
                 <span class="text-xs uppercase tracking-wider">View All Offers</span>
                 <i class="fas fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
             </a>
@@ -1861,7 +1861,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                 <div class="w-2 h-2 rounded-full bg-[#4a90a0]/30"></div>
             </div>
 
-            <a href="index.php?page=gallery" class="group relative inline-flex items-center gap-3 px-10 py-4 bg-[#ffffff] border border-[#d6cbbc] rounded-full shadow-[0_8px_20px_-8px_rgba(100,70,40,0.2)] hover:shadow-[0_12px_25px_-8px_rgba(100,70,40,0.3)] transition-all duration-300">
+            <a href="<?php echo BASE_PATH; ?>gallery" class="group relative inline-flex items-center gap-3 px-10 py-4 bg-[#ffffff] border border-[#d6cbbc] rounded-full shadow-[0_8px_20px_-8px_rgba(100,70,40,0.2)] hover:shadow-[0_12px_25px_-8px_rgba(100,70,40,0.3)] transition-all duration-300">
                 <!-- Left Decoration - Film Strip Style -->
                 <span class="flex gap-1 mr-2">
                     <span class="w-1 h-2 bg-[#4a90a0] rounded-full group-hover:animate-pulse"></span>

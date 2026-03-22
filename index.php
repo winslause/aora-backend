@@ -2,6 +2,13 @@
 // Start session first
 session_start();
 
+// Determine the base path dynamically
+$base_path = '/';
+if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
+    $base_path = '/aora-backend/';
+}
+define('BASE_PATH', $base_path);
+
 // Enable output buffering for faster rendering
 ob_start();
 
@@ -29,7 +36,7 @@ $page = $_GET['page'] ?? 'home';
 // Handle logout before any output
 if ($page === 'logout') {
     session_destroy();
-    header('Location: index.php');
+    header('Location: ' . BASE_PATH);
     exit;
 }
 
@@ -38,7 +45,7 @@ $protected_pages = ['admin', 'profile', 'payments'];
 
 // Check if user is logged in for protected pages
 if (in_array($page, $protected_pages) && !isset($_SESSION['user_id'])) {
-    header('Location: index.php?page=login');
+    header('Location: ' . BASE_PATH . 'login');
     exit;
 }
 

@@ -592,3 +592,169 @@
     [room_type] => deluxe
 )
 
+[22-Mar-2026 16:52:04 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[22-Mar-2026 16:52:04 Europe/Berlin] get_rooms called
+[22-Mar-2026 16:52:04 Europe/Berlin] Rooms found: 8
+[22-Mar-2026 16:52:04 Europe/Berlin] JSON created successfully, length: 8526
+[22-Mar-2026 16:54:14 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[22-Mar-2026 16:54:14 Europe/Berlin] get_rooms called
+[22-Mar-2026 16:54:14 Europe/Berlin] Rooms found: 8
+[22-Mar-2026 16:54:14 Europe/Berlin] JSON created successfully, length: 8526
+[22-Mar-2026 16:54:28 Europe/Berlin] rooms.php accessed at 2026-03-22 16:54:28
+[22-Mar-2026 16:54:28 Europe/Berlin] rooms.php - pageTitle: Luxury Rooms & Suites in Siaya County, Kenya | AORA 45
+[22-Mar-2026 16:54:28 Europe/Berlin] rooms.php - pageDescription: Discover our elegant rooms and suites at AORA 45 resort in Siaya County. From standard rooms to luxury suites, book your stay with amenities like free WiFi, pool, spa, and fine dining.
+[22-Mar-2026 16:54:29 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+    [action] => get_rooms
+    [view] => all
+    [bed] => all
+    [sort] => price_asc
+)
+, POST=Array
+(
+)
+
+[22-Mar-2026 16:54:29 Europe/Berlin] get_rooms called
+[22-Mar-2026 16:54:29 Europe/Berlin] Rooms found: 8
+[22-Mar-2026 16:54:29 Europe/Berlin] JSON created successfully, length: 8526
+[22-Mar-2026 16:54:30 Europe/Berlin] API Request: action=get_filter_options, GET=Array
+(
+    [action] => get_filter_options
+)
+, POST=Array
+(
+)
+
+[22-Mar-2026 17:09:52 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[22-Mar-2026 17:09:52 Europe/Berlin] get_rooms called
+[22-Mar-2026 17:09:52 Europe/Berlin] Rooms found: 8
+[22-Mar-2026 17:09:52 Europe/Berlin] JSON created successfully, length: 8526
+[22-Mar-2026 17:11:07 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[22-Mar-2026 17:11:07 Europe/Berlin] get_rooms called
+[22-Mar-2026 17:11:07 Europe/Berlin] Rooms found: 8
+[22-Mar-2026 17:11:07 Europe/Berlin] JSON created successfully, length: 8526
+[22-Mar-2026 17:11:35 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[22-Mar-2026 17:11:35 Europe/Berlin] get_rooms called
+[22-Mar-2026 17:11:35 Europe/Berlin] Rooms found: 8
+[22-Mar-2026 17:11:35 Europe/Berlin] JSON created successfully, length: 8526
+[22-Mar-2026 17:15:50 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[22-Mar-2026 17:15:50 Europe/Berlin] get_rooms called
+[22-Mar-2026 17:15:50 Europe/Berlin] Rooms found: 8
+[22-Mar-2026 17:15:50 Europe/Berlin] JSON created successfully, length: 8526
+[22-Mar-2026 17:16:02 Europe/Berlin] rooms.php accessed at 2026-03-22 17:16:02
+[22-Mar-2026 17:16:02 Europe/Berlin] rooms.php - pageTitle: Luxury Rooms & Suites in Siaya County, Kenya | AORA 45
+[22-Mar-2026 17:16:02 Europe/Berlin] rooms.php - pageDescription: Discover our elegant rooms and suites at AORA 45 resort in Siaya County. From standard rooms to luxury suites, book your stay with amenities like free WiFi, pool, spa, and fine dining.
+[22-Mar-2026 17:16:03 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+    [action] => get_rooms
+    [view] => all
+    [bed] => all
+    [sort] => price_asc
+)
+, POST=Array
+(
+)
+
+[22-Mar-2026 17:16:03 Europe/Berlin] get_rooms called
+[22-Mar-2026 17:16:03 Europe/Berlin] Rooms found: 8
+[22-Mar-2026 17:16:03 Europe/Berlin] JSON created successfully, length: 8526
+[22-Mar-2026 17:16:03 Europe/Berlin] API Request: action=get_filter_options, GET=Array
+(
+    [action] => get_filter_options
+)
+, POST=Array
+(
+)
+
+[22-Mar-2026 17:16:10 Europe/Berlin] API Request: action=get_menu_items, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_menu_items
+)
+
+[22-Mar-2026 17:16:11 Europe/Berlin] API Request: action=get_table_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_table_types
+)
+
+[22-Mar-2026 17:17:57 Europe/Berlin] API Request: action=get_menu_items, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_menu_items
+)
+
+[22-Mar-2026 17:17:57 Europe/Berlin] API Request: action=get_table_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_table_types
+)
+
+[22-Mar-2026 17:55:45 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[22-Mar-2026 17:55:45 Europe/Berlin] get_rooms called
+[22-Mar-2026 17:55:45 Europe/Berlin] Rooms found: 8
+[22-Mar-2026 17:55:45 Europe/Berlin] JSON created successfully, length: 8526

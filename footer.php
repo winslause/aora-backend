@@ -92,37 +92,37 @@
                     
                     <ul class="space-y-3">
                         <li>
-                            <a href="index.php?page=about" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="<?php echo BASE_PATH; ?>about" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>About AORA 45</span>
                             </a>
                         </li>
                         <li>
-                            <a href="index.php?page=rooms" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="<?php echo BASE_PATH; ?>rooms" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Rooms & Suites</span>
                             </a>
                         </li>
                         <li>
-                            <a href="index.php?page=restaurant" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="<?php echo BASE_PATH; ?>restaurant" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Dining Experiences</span>
                             </a>
                         </li>
                         <li>
-                            <a href="index.php?page=amenities" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="<?php echo BASE_PATH; ?>amenities" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Spa & Wellness</span>
                             </a>
                         </li>
                         <li>
-                            <a href="index.php?page=events" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="<?php echo BASE_PATH; ?>events" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Events & Weddings</span>
                             </a>
                         </li>
                         <li>
-                            <a href="index.php?page=gallery" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
+                            <a href="<?php echo BASE_PATH; ?>gallery" class="group flex items-center gap-2 text-[#1e3a2f] hover:text-[#8fb89a] transition-colors duration-300">
                                 <i class="fas fa-chevron-right text-xs text-[#8fb89a] group-hover:translate-x-1 transition-transform"></i>
                                 <span>Gallery</span>
                             </a>

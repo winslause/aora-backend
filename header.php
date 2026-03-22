@@ -1,3 +1,15 @@
+<?php
+// Get base path if not defined - works for both localhost and live domain
+if (!defined('BASE_PATH')) {
+    $host = $_SERVER['HTTP_HOST'] ?? '';
+    if (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false) {
+        $base_path = '/aora-backend/';
+    } else {
+        $base_path = '/';
+    }
+    define('BASE_PATH', $base_path);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1088,11 +1100,11 @@
                     
                     <!-- CTA Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 mt-8 justify-center">
-                        <a href="index.php?page=rooms" class="popup-cta inline-flex items-center justify-center gap-2 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all transform hover:scale-105" style="background: linear-gradient(135deg, #1e5f74 0%, #145a6e 100%); box-shadow: 0 4px 15px rgba(30, 95, 116, 0.4);">
+                        <a href="<?php echo BASE_PATH; ?>rooms" class="popup-cta inline-flex items-center justify-center gap-2 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all transform hover:scale-105" style="background: linear-gradient(135deg, #1e5f74 0%, #145a6e 100%); box-shadow: 0 4px 15px rgba(30, 95, 116, 0.4);">
                             <i class="fas fa-calendar-check"></i>
                             <span>Book Your Stay</span>
                         </a>
-                        <a href="index.php?page=contact" class="popup-cta inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-3 rounded-full font-semibold border border-white/20 hover:bg-white/20 transition-all">
+                        <a href="<?php echo BASE_PATH; ?>contact" class="popup-cta inline-flex items-center justify-center gap-2 bg-white/10 text-white px-8 py-3 rounded-full font-semibold border border-white/20 hover:bg-white/20 transition-all">
                             <i class="fas fa-phone-alt"></i>
                             <span>Contact Us</span>
                         </a>
@@ -1413,28 +1425,28 @@
                 <!-- Desktop Navigation - right side with consolidated items -->
                 <div class="hidden lg:flex desktop-nav-wrapper">
                     <div class="desktop-nav">
-                        <a href="index.php" class="nav-link active">Home</a>
+                        <a href="<?php echo BASE_PATH; ?>" class="nav-link active">Home</a>
                         <div class="nav-dropdown">
-                            <a href="index.php?page=rooms" class="nav-link">Accommodation</a>
+                            <a href="<?php echo BASE_PATH; ?>rooms" class="nav-link">Accommodation</a>
                             <div class="nav-dropdown-content">
-                                <a href="index.php?page=rooms"><i class="fas fa-bed"></i>Rooms</a>
+                                <a href="<?php echo BASE_PATH; ?>rooms"><i class="fas fa-bed"></i>Rooms</a>
                             </div>
                         </div>
                         <div class="nav-dropdown">
-                            <a href="index.php?page=restaurant" class="nav-link">Restaurant</a>
+                            <a href="<?php echo BASE_PATH; ?>restaurant" class="nav-link">Restaurant</a>
                             <div class="nav-dropdown-content">
-                                <a href="index.php?page=restaurant"><i class="fas fa-utensils"></i>Our Menu</a>
-                                <a href="index.php?page=amenities"><i class="fas fa-spa"></i>Amenities</a>
-                                <a href="index.php?page=offers"><i class="fas fa-tag"></i>Offers</a>
-                                <a href="index.php?page=gallery"><i class="fas fa-images"></i>Gallery</a>
+                                <a href="<?php echo BASE_PATH; ?>restaurant"><i class="fas fa-utensils"></i>Our Menu</a>
+                                <a href="<?php echo BASE_PATH; ?>amenities"><i class="fas fa-spa"></i>Amenities</a>
+                                <a href="<?php echo BASE_PATH; ?>offers"><i class="fas fa-tag"></i>Offers</a>
+                                <a href="<?php echo BASE_PATH; ?>gallery"><i class="fas fa-images"></i>Gallery</a>
                             </div>
                         </div>
-                        <a href="index.php?page=events" class="nav-link">Events</a>
+                        <a href="<?php echo BASE_PATH; ?>events" class="nav-link">Events</a>
                         <div class="nav-dropdown">
-                            <a href="index.php?page=contact" class="nav-link">Contact</a>
+                            <a href="<?php echo BASE_PATH; ?>contact" class="nav-link">Contact</a>
                             <div class="nav-dropdown-content">
-                                <a href="index.php?page=contact"><i class="fas fa-envelope"></i>Contact Us</a>
-                                <a href="index.php?page=about"><i class="fas fa-info-circle"></i>About Us</a>
+                                <a href="<?php echo BASE_PATH; ?>contact"><i class="fas fa-envelope"></i>Contact Us</a>
+                                <a href="<?php echo BASE_PATH; ?>about"><i class="fas fa-info-circle"></i>About Us</a>
                             </div>
                         </div>
                     </div>
@@ -1454,15 +1466,15 @@
             <!-- Mobile Menu (hidden by default) -->
             <div id="mobileMenu" class="mobile-menu-skeu lg:hidden mx-4 mt-2 hidden">
                 <div class="flex flex-col">
-                    <a href="index.php" class="mobile-nav-link"><i class="fas fa-home"></i>Home</a>
-                    <a href="index.php?page=rooms" class="mobile-nav-link"><i class="fas fa-bed"></i>Rooms & Suites</a>
-                    <a href="index.php?page=restaurant" class="mobile-nav-link"><i class="fas fa-utensils"></i>Restaurant</a>
-                    <a href="index.php?page=amenities" class="mobile-nav-link"><i class="fas fa-spa"></i>Amenities</a>
-                    <a href="index.php?page=gallery" class="mobile-nav-link"><i class="fas fa-images"></i>Gallery</a>
-                    <a href="index.php?page=events" class="mobile-nav-link"><i class="fas fa-glass-cheers"></i>Events</a>
-                    <a href="index.php?page=offers" class="mobile-nav-link"><i class="fas fa-tag"></i>Offers</a>
-                    <a href="index.php?page=about" class="mobile-nav-link"><i class="fas fa-info-circle"></i>About</a>
-                    <a href="index.php?page=contact" class="mobile-nav-link"><i class="fas fa-envelope"></i>Contact</a>
+                    <a href="<?php echo BASE_PATH; ?>" class="mobile-nav-link"><i class="fas fa-home"></i>Home</a>
+                    <a href="<?php echo BASE_PATH; ?>rooms" class="mobile-nav-link"><i class="fas fa-bed"></i>Rooms & Suites</a>
+                    <a href="<?php echo BASE_PATH; ?>restaurant" class="mobile-nav-link"><i class="fas fa-utensils"></i>Restaurant</a>
+                    <a href="<?php echo BASE_PATH; ?>amenities" class="mobile-nav-link"><i class="fas fa-spa"></i>Amenities</a>
+                    <a href="<?php echo BASE_PATH; ?>gallery" class="mobile-nav-link"><i class="fas fa-images"></i>Gallery</a>
+                    <a href="<?php echo BASE_PATH; ?>events" class="mobile-nav-link"><i class="fas fa-glass-cheers"></i>Events</a>
+                    <a href="<?php echo BASE_PATH; ?>offers" class="mobile-nav-link"><i class="fas fa-tag"></i>Offers</a>
+                    <a href="<?php echo BASE_PATH; ?>about" class="mobile-nav-link"><i class="fas fa-info-circle"></i>About</a>
+                    <a href="<?php echo BASE_PATH; ?>contact" class="mobile-nav-link"><i class="fas fa-envelope"></i>Contact</a>
                     
                     <!-- Mobile menu extras -->
                     <div class="mt-4 pt-4 border-t border-[#eee7e0] px-4">
