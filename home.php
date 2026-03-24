@@ -2580,7 +2580,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                 <!-- View on Map Link - Opens Google Maps with Get Directions -->
                 <div class="pt-6">
                     <div class="flex flex-wrap items-center gap-4">
-                        <a href="https://www.google.com/maps/dir//AORA+45+Resort+River+Nyandera+Siaya+County" 
+                        <a href="https://maps.app.goo.gl/PhZbvTuPgF5mSqAy9" 
                            target="_blank" 
                            rel="noopener noreferrer" 
                            class="group inline-flex items-center gap-4 px-8 py-4 bg-[#ffffff] border border-[#d6cbbc] rounded-full shadow-[0_8px_20px_-8px_rgba(100,70,40,0.2)] hover:shadow-[0_12px_25px_-8px_rgba(100,70,40,0.3)] transition-all duration-300">
@@ -2602,7 +2602,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                         </a>
                         
                         <!-- Open in Maps Button -->
-                        <a href="https://www.google.com/maps/search/?api=1&query=AORA+45+River+Nyandera+Siaya+County" 
+                        <a href="https://maps.app.goo.gl/PhZbvTuPgF5mSqAy9" 
                            target="_blank" 
                            rel="noopener noreferrer" 
                            class="inline-flex items-center gap-2 px-4 py-3 text-[#4a90a0] hover:text-[#2d5a4a] text-sm transition-colors">
@@ -2623,9 +2623,9 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
             <div class="relative order-1 lg:order-2 group/map">
                 <!-- Map Container - No Card, Just Map with Frame Effect -->
                 <div class="relative rounded-3xl overflow-hidden shadow-[0_25px_40px_-15px_rgba(0,0,0,0.3)] h-[400px] md:h-[500px]">
-                    <!-- Google Maps iframe - Exact Location: River Nyandera, Siaya County -->
+                    <!-- Google Maps iframe - AORA 45 Resort location -->
                     <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.5!2d34.2!3d-0.05!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMDInNTkuNCJTIDM0wrAyMCcxMC4yIkU!5e0!3m2!1sen!2ske!4v1234567890123!5m2!1sen!2ske"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.816661321392!2d34.482963999999996!3d0.052250099999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177fffeec52159bf%3A0x8f5a21be3827600c!2sAora45%20Bar%20%26%20Restaurant!5e0!3m2!1sen!2ske!4v1774374960202!5m2!1sen!2ske"
                         width="100%" 
                         height="100%" 
                         style="border:0; filter: grayscale(20%) sepia(10%) hue-rotate(350deg) brightness(1.05);" 
@@ -2654,7 +2654,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                                     <span class="text-[#1e4d40] text-[10px] ml-1">(4.9)</span>
                                 </div>
                             </div>
-                            <a href="https://www.google.com/maps/dir//AORA+45+Resort+River+Nyandera+Siaya+County" 
+                            <a href="https://maps.app.goo.gl/PhZbvTuPgF5mSqAy9" 
                                target="_blank"
                                class="w-10 h-10 bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] rounded-full flex items-center justify-center hover:from-[#2d5a4a] hover:to-[#1e4d40] transition-all">
                                 <i class="fas fa-directions text-white text-sm"></i>
