@@ -914,7 +914,7 @@ include 'header.php'; ?>
             closeModal();
             
             // Create WhatsApp message with offer details
-            const phoneNumber = '254769525570';
+            const phoneNumber = '254700450450';
             const message = `Hello AORA 45, I'm interested in booking the "${offerTitle}" package. Please provide more information about availability and how to proceed with the booking.`;
             const encodedMessage = encodeURIComponent(message);
             

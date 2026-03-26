@@ -645,6 +645,21 @@ $createEventInquiriesTable = "CREATE TABLE IF NOT EXISTS event_inquiries (
 )";
 $pdo->exec($createEventInquiriesTable);
 
+// Create live events table
+$createLiveEventsTable = "CREATE TABLE IF NOT EXISTS live_events (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    description TEXT NOT NULL,
+    event_date DATE NOT NULL,
+    posted_date DATE NOT NULL,
+    image VARCHAR(255),
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_event_date (event_date),
+    INDEX idx_posted_date (posted_date),
+    INDEX idx_is_active (is_active)
+)";
+$pdo->exec($createLiveEventsTable);
+
 // Create amenity categories table
 $createAmenityCategoriesTable = "CREATE TABLE IF NOT EXISTS amenity_categories (
     id INT AUTO_INCREMENT PRIMARY KEY,

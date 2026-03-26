@@ -44,13 +44,13 @@ try {
 }
 
 // SMTP Configuration for Gmail
-$smtpHost = 'smtp.gmail.com';
+$smtpHost = 'mail.aora45.com';
 $smtpPort = 465; // Use SSL port
-$smtpUsername = 'wenbusale383@gmail.com';
-$smtpPassword = 'chqj uzdx dbev lpaa';
-$smtpFromEmail = 'wenbusale383@gmail.com';
+$smtpUsername = 'Info@aora45.com';
+$smtpPassword = '1n4M@tioN26';
+$smtpFromEmail = 'Info@aora45.com';
 $smtpFromName = 'Aora Hotel';
-$adminEmail = 'wenbusale383@gmail.com';
+$adminEmail = 'Info@aora45.com';
 
 // Simple SMTP Mailer Class using PHPMailer-style implementation
 class SMTP_mailer {

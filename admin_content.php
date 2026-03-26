@@ -394,6 +394,33 @@ try {
     </div>
 </div>
 
+<!-- Live Events Section -->
+<div class="admin-card p-6 mb-6">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-semibold text-gray-800">Live Events</h3>
+        <button onclick="openLiveEventModal()" class="admin-btn-primary">
+            <i class="fas fa-plus mr-2"></i>Add Live Event
+        </button>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Event Date</th>
+                    <th>Posted Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="liveEventsTableBody">
+                <!-- Loaded via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <!-- Event Enquiries Section -->
 <div class="admin-card p-6">
     <div class="flex items-center justify-between mb-6">

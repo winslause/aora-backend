@@ -57,7 +57,7 @@ if (!defined('BASE_PATH')) {
         "name": "AORA45 Resort",
         "description": "Experience luxury at our premium riverfront destination in Siaya County, Kenya. Featuring elegant cottages, pool bar, gazebo lounges, fire pits, and world-class hospitality.",
         "url": "https://AORA45.com",
-        "telephone": "+254769525570",
+        "telephone": "+254700450450",
         "email": "info@AORA45.com",
         "address": {
             "@type": "PostalAddress",
@@ -122,7 +122,7 @@ if (!defined('BASE_PATH')) {
         "name": "AORA45 Resort",
         "image": "https://AORA45.com/logo1.jpeg",
         "url": "https://AORA45.com",
-        "telephone": "+254769525570",
+        "telephone": "+254700450450",
         "email": "info@AORA45.com",
         "priceRange": "$",
         "address": {
@@ -1400,7 +1400,7 @@ if (!defined('BASE_PATH')) {
                     <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-pinterest-p"></i></a>
                     <span class="text-[#b09b88]">|</span>
-                    <span class="flex items-center"><i class="fas fa-phone-alt mr-2 text-[#b09b88] text-xs"></i> +254 769 525 570</span>
+                    <span class="flex items-center"><i class="fas fa-phone-alt mr-2 text-[#b09b88] text-xs"></i> +254 700 450 450</span>
                 </div>
             </div>
         </div>
@@ -1479,7 +1479,7 @@ if (!defined('BASE_PATH')) {
                     <!-- Mobile menu extras -->
                     <div class="mt-4 pt-4 border-t border-[#eee7e0] px-4">
                         <div class="flex items-center justify-between text-sm text-[#7a6b5e] mb-3">
-                            <span><i class="fas fa-phone-alt mr-2 text-[#b09b88]"></i>+254 769 525 570</span>
+                            <span><i class="fas fa-phone-alt mr-2 text-[#b09b88]"></i>+254 700 450 450</span>
                             <span><i class="fas fa-envelope mr-2 text-[#b09b88]"></i>info@AORA45.com</span>
                         </div>
                         <div class="flex justify-center space-x-5 py-2 text-[#b09b88]">

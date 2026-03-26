@@ -11,6 +11,9 @@ include 'database.php';
 // Get all event venues from database
 $eventVenues = getAllEventVenues($pdo);
 
+// Get all live events (ordered by event_date ascending - nearest first)
+$liveEvents = getAllLiveEvents($pdo);
+
 // Handle form submission
 $inquirySuccess = false;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted'])) {
@@ -370,9 +373,428 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                 padding: 0.3rem 0.8rem;
             }
         }
+        
+        /* Live Events Popup Styles */
+        .live-events-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .live-events-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .live-event-popup {
+            position: relative;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f6f3 100%);
+            border-radius: 20px;
+            max-width: 450px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            transform: translateX(100px) scale(0.9);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 1px solid rgba(184, 154, 120, 0.2);
+        }
+        
+        .live-events-overlay.active .live-event-popup {
+            transform: translateX(0) scale(1);
+        }
+        
+        @media (max-width: 768px) {
+            .live-events-overlay {
+                justify-content: center;
+                padding-right: 0;
+                padding: 1rem;
+            }
+            
+            .live-event-popup {
+                transform: scale(0.8) translateY(30px);
+            }
+            
+            .live-events-overlay.active .live-event-popup {
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .live-event-popup .popup-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, #2d5a4a 0%, #1e4d40 100%);
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid rgba(184, 154, 120, 0.3);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .live-event-popup .popup-scrollable-content {
+            margin-top: 70px;
+            padding-top: 20px;
+            overflow-y: auto;
+            max-height: calc(90vh - 70px);
+        }
+        
+        .live-event-popup .popup-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            color: white;
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        .live-event-popup .popup-header .event-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .live-event-popup .popup-image-container {
+            position: relative;
+            width: 95%;
+            margin: 0 auto;
+            background-color: #f8f6f3;
+            padding: 10px 0;
+        }
+        
+        .live-event-popup .popup-image {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .live-event-popup .view-image-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(45, 90, 74, 0.9);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .live-event-popup .popup-image-container:hover .view-image-btn {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .live-event-popup .view-image-btn:hover {
+            background: rgba(30, 77, 64, 1);
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+        
+        /* Image Modal Styles */
+        .image-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .image-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .image-modal {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .image-modal-overlay.active .image-modal {
+            transform: scale(1);
+        }
+        
+        .image-modal img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+        }
+        
+        .image-modal .close-modal-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.6);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .image-modal .close-modal-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .live-event-popup .popup-content {
+            padding: 1.5rem;
+            padding-top: 1rem;
+        }
+        
+        .live-event-popup .event-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #2d5a4a;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .live-event-popup .event-date i {
+            color: #b89a78;
+        }
+        
+        .live-event-popup .event-description {
+            color: #5c524a;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            max-height: 80px;
+            overflow-y: auto;
+        }
+        
+        .live-event-popup .event-description::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .live-event-popup .event-description::-webkit-scrollbar-track {
+            background: #f0e7dd;
+            border-radius: 2px;
+        }
+        
+        .live-event-popup .event-description::-webkit-scrollbar-thumb {
+            background: #b89a78;
+            border-radius: 2px;
+        }
+        
+        .live-event-popup .popup-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .live-event-popup .btn-confirm {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .live-event-popup .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+        
+        .live-event-popup .btn-confirm i {
+            font-size: 1.1rem;
+        }
+        
+        .live-event-popup .btn-dismiss {
+            padding: 0.8rem 1.2rem;
+            background: transparent;
+            color: #5c524a;
+            border: 1px solid rgba(184, 154, 120, 0.3);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .live-event-popup .btn-dismiss:hover {
+            background: rgba(184, 154, 120, 0.1);
+            border-color: #b89a78;
+        }
+        
+        .live-event-popup .close-popup {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 20;
+        }
+        
+        .live-event-popup .close-popup:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+        
+        .live-event-popup .popup-counter {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(45, 90, 74, 0.9);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            .live-event-popup {
+                max-width: 95%;
+                border-radius: 16px;
+            }
+            
+            .live-event-popup .popup-image {
+                height: 280px;
+            }
+            
+            .live-event-popup .popup-content {
+                padding: 1rem;
+            }
+            
+            .live-event-popup .popup-actions {
+                flex-direction: column;
+            }
+            
+            .live-event-popup .btn-confirm,
+            .live-event-popup .btn-dismiss {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-[#fcf8f3]">
+    <!-- Live Events Popup Overlay -->
+    <div class="live-events-overlay" id="liveEventsOverlay">
+        <div class="live-event-popup" id="liveEventPopup">
+            <!-- Static Header - Like Page Header -->
+            <div class="popup-header">
+                <h3 id="popupTitle">Upcoming Event</h3>
+                <button class="close-popup" onclick="closeAllPopups()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Scrollable Content Area -->
+            <div class="popup-scrollable-content">
+                <div class="popup-image-container">
+                    <img src="" alt="Event Image" class="popup-image" id="popupImage">
+                    <button class="view-image-btn" onclick="openImageModal()">
+                        <i class="fas fa-eye"></i>
+                        View
+                    </button>
+                </div>
+                <div class="popup-content">
+                    <div class="event-date" id="popupDate">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="popupDateText"></span>
+                    </div>
+                    <p class="event-description" id="popupDescription"></p>
+                    <div class="popup-actions">
+                        <a href="#" target="_blank" class="btn-confirm" id="popupWhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                            Confirm Attendance
+                        </a>
+                        <button class="btn-dismiss" onclick="dismissCurrentPopup()">
+                            Dismiss
+                        </button>
+                    </div>
+                </div>
+                <div class="popup-counter" id="popupCounter"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Image Modal for Full Size View -->
+    <div class="image-modal-overlay" id="imageModalOverlay" onclick="closeImageModal()">
+        <div class="image-modal" onclick="event.stopPropagation()">
+            <button class="close-modal-btn" onclick="closeImageModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="" alt="Full Size Event Image" id="modalImage">
+        </div>
+    </div>
+    
     <main class="relative">
         <!-- ===== HERO SECTION ===== -->
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
@@ -1048,6 +1470,122 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                 }
             }, 100);
         }
+        
+        // Live Events Popup System
+        const liveEvents = <?php echo json_encode($liveEvents); ?>;
+        let currentEventIndex = 0;
+        
+        // Filter out expired events (event_date must be today or in the future)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const unviewedEvents = liveEvents.filter(event => {
+            const eventDate = new Date(event.event_date);
+            eventDate.setHours(0, 0, 0, 0);
+            return eventDate >= today;
+        });
+        
+        // Format date nicely - shows full event date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+        
+        // Show popup for current event
+        function showEventPopup() {
+            if (unviewedEvents.length === 0) {
+                return; // No unviewed events
+            }
+            
+            const event = unviewedEvents[currentEventIndex];
+            const overlay = document.getElementById('liveEventsOverlay');
+            const popup = document.getElementById('liveEventPopup');
+            
+            // Update popup content
+            document.getElementById('popupTitle').textContent = 'Upcoming Event';
+            document.getElementById('popupImage').src = event.image || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80';
+            document.getElementById('popupDateText').textContent = formatDate(event.event_date);
+            document.getElementById('popupDescription').textContent = event.description;
+            
+            // Create WhatsApp link with pre-filled message
+            const eventDate = formatDate(event.event_date);
+            const whatsappMessage = encodeURIComponent(`Hello! I would like to confirm my attendance for the event on ${eventDate}. Event: ${event.description}`);
+            document.getElementById('popupWhatsApp').href = `https://wa.me/254700450450?text=${whatsappMessage}`;
+            
+            // Update counter
+            document.getElementById('popupCounter').textContent = `${currentEventIndex + 1} of ${unviewedEvents.length}`;
+            
+            // Show overlay
+            overlay.classList.add('active');
+        }
+        
+        // Dismiss current popup and show next
+        function dismissCurrentPopup() {
+            if (unviewedEvents.length === 0) {
+                return;
+            }
+            
+            // Remove from unviewed array
+            unviewedEvents.splice(currentEventIndex, 1);
+            
+            // Hide overlay
+            const overlay = document.getElementById('liveEventsOverlay');
+            overlay.classList.remove('active');
+            
+            // Show next event if any remain
+            if (unviewedEvents.length > 0) {
+                setTimeout(() => {
+                    showEventPopup();
+                }, 400);
+            }
+        }
+        
+        // Close all popups
+        function closeAllPopups() {
+            dismissCurrentPopup();
+        }
+        
+        // Open image modal with full size view
+        function openImageModal() {
+            const popupImage = document.getElementById('popupImage');
+            const modalImage = document.getElementById('modalImage');
+            const modalOverlay = document.getElementById('imageModalOverlay');
+            
+            if (popupImage && modalImage && modalOverlay) {
+                modalImage.src = popupImage.src;
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        // Close image modal
+        function closeImageModal() {
+            const modalOverlay = document.getElementById('imageModalOverlay');
+            if (modalOverlay) {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // Show popups on page load - completely independent from header popup
+        // This runs immediately and shows popup every time page loads
+        (function() {
+            function initLiveEventsPopup() {
+                if (unviewedEvents.length > 0) {
+                    setTimeout(() => {
+                        showEventPopup();
+                    }, 1000); // Show after 1 second delay
+                }
+            }
+            
+            // Check if DOM is already loaded
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initLiveEventsPopup);
+            } else {
+                // DOM is already loaded, run immediately
+                initLiveEventsPopup();
+            }
+        })();
     </script>
 <?php include 'footer.php'; ?>
 

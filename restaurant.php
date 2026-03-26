@@ -48,7 +48,7 @@ $sampleMenus = getAllSampleMenus($pdo);
             "addressLocality": "Siaya County",
             "addressCountry": "KE"
         },
-        "telephone": "+254769525570",
+        "telephone": "+254700450450",
         "priceRange": "KSh 1,200 - KSh 4,800",
         "servesCuisine": ["Kenyan", "Local", "International"],
         "openingHoursSpecification": [

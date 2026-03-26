@@ -658,6 +658,40 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         </div>
     </div>
 
+    <!-- Live Event Modal -->
+    <div id="liveEventModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="liveEventModalTitle" class="text-xl font-semibold">Add New Live Event</h3>
+                <button onclick="closeLiveEventModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="liveEventForm">
+                <input type="hidden" id="liveEventId">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Event Description</label>
+                    <textarea id="liveEventDescription" class="admin-input" rows="3" placeholder="Enter event description" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Event Date</label>
+                    <input type="date" id="liveEventDate" class="admin-input" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Event Image (Optional)</label>
+                    <input type="file" id="liveEventImage" class="admin-input" accept="image/*">
+                    <div id="previewLiveEventImage" class="mt-2"></div>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeLiveEventModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                    <button type="submit" class="admin-btn-primary flex-1">
+                        <i class="fas fa-save mr-2"></i>Save Event
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Gallery Album Modal -->
     <div id="galleryAlbumModal" class="modal">
         <div class="modal-content" style="max-width: 500px;">
@@ -1263,24 +1297,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             }
         }
 
-        // Override fetch to track requests and auto-remove loading
-        (function() {
-            const originalFetch = window.fetch;
-            window.fetch = function(input, init) {
-                // Get the submit button from the current form if available
-                currentSubmitButton = document.querySelector('button.button-loading');
-                activeRequestCount++;
-                
-                return originalFetch.call(this, input, init).finally(() => {
-                    activeRequestCount--;
-                    if (activeRequestCount <= 0 && currentSubmitButton) {
-                        setButtonLoading(currentSubmitButton, false);
-                        currentSubmitButton = null;
-                        activeRequestCount = 0;
-                    }
-                });
-            };
-        })();
+
 
         // Add loading to all form submit handlers
         document.addEventListener('DOMContentLoaded', function() {
@@ -1975,6 +1992,186 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 .catch(error => {
                     console.error('Error:', error);
                     showToast('Failed to delete venue. Please try again.', 'error');
+                });
+            }
+        }
+        
+        // ==================== LIVE EVENTS MANAGEMENT ====================
+        
+        function openLiveEventModal(event = null) {
+            if (event) {
+                document.getElementById('liveEventModalTitle').textContent = 'Edit Live Event';
+                document.getElementById('liveEventId').value = event.id;
+                document.getElementById('liveEventDescription').value = event.description || '';
+                document.getElementById('liveEventDate').value = event.event_date || '';
+                if (event.image) {
+                    document.getElementById('previewLiveEventImage').innerHTML = `<img src="${event.image}" class="w-full h-32 object-cover rounded">`;
+                }
+            } else {
+                document.getElementById('liveEventModalTitle').textContent = 'Add New Live Event';
+                document.getElementById('liveEventForm').reset();
+                document.getElementById('liveEventId').value = '';
+                document.getElementById('previewLiveEventImage').innerHTML = '';
+            }
+            document.getElementById('liveEventModal').classList.add('open');
+        }
+        
+        function closeLiveEventModal() {
+            document.getElementById('liveEventModal').classList.remove('open');
+            document.getElementById('liveEventForm').reset();
+            document.getElementById('liveEventId').value = '';
+            document.getElementById('previewLiveEventImage').innerHTML = '';
+        }
+        
+        // Live Event Form Submit
+        document.getElementById('liveEventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('#liveEventForm button[type="submit"]');
+            
+            const formData = new FormData();
+            const id = document.getElementById('liveEventId').value;
+            formData.append('action', id ? 'update_live_event' : 'add_live_event');
+            
+            if (id) {
+                formData.append('id', id);
+            }
+            
+            formData.append('description', document.getElementById('liveEventDescription').value);
+            formData.append('event_date', document.getElementById('liveEventDate').value);
+            // Automatically set posted_date to current date when creating new event
+            formData.append('posted_date', new Date().toISOString().split('T')[0]);
+            
+            // Handle image - file upload only
+            const imageFile = document.getElementById('liveEventImage').files[0];
+            
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                showToast(data.message, data.success ? 'success' : 'error');
+                if (data.success) {
+                    closeLiveEventModal();
+                    loadLiveEvents();
+                }
+            })
+            .catch(error => {
+                console.error('Error saving live event:', error);
+                showToast('Error saving live event: ' + error.message, 'error');
+            })
+            .finally(() => {
+                // Ensure loading state is removed
+                if (submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+            });
+        });
+        
+        function loadLiveEvents() {
+            const formData = new FormData();
+            formData.append('action', 'get_all_live_events');
+            
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData,
+                credentials: 'include'
+            })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error('Server returned ' + res.status);
+                }
+                return res.text();
+            })
+            .then(text => {
+                console.log('Live Events response:', text);
+                if (!text || text.trim() === '') {
+                    throw new Error('Empty response from server');
+                }
+                return JSON.parse(text);
+            })
+            .then(data => {
+                if (data.success) {
+                    const tbody = document.getElementById('liveEventsTableBody');
+                    if (tbody) {
+                        const today = new Date().toISOString().split('T')[0];
+                        tbody.innerHTML = data.events.map(event => {
+                            // Check if event is expired (event_date has passed)
+                            const isExpired = event.event_date < today;
+                            const statusClass = isExpired ? 'cancelled' : 'confirmed';
+                            const statusText = isExpired ? 'Expired' : 'Active';
+                            
+                            return `
+                                <tr>
+                                    <td>
+                                        <div class="flex items-center gap-3">
+                                            <img src="${event.image || 'https://via.placeholder.com/50x50'}" class="w-12 h-12 object-cover rounded">
+                                            <span class="font-medium">${event.description || '-'}</span>
+                                        </div>
+                                    </td>
+                                    <td>${event.event_date}</td>
+                                    <td>${event.posted_date}</td>
+                                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                                    <td>
+                                        <button onclick='openLiveEventModal(${JSON.stringify(event).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button onclick="deleteLiveEvent(${event.id})" class="text-gray-400 hover:text-red-500">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('');
+                    }
+                } else {
+                    console.error('Server error:', data.message);
+                    showToast(data.message || 'Error loading live events', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error loading live events:', error);
+                showToast('Failed to load live events. Please refresh the page.', 'error');
+            });
+        }
+        
+        function deleteLiveEvent(id) {
+            if (confirm('Are you sure you want to delete this live event?')) {
+                const formData = new FormData();
+                formData.append('action', 'delete_live_event');
+                formData.append('id', id);
+                
+                fetch('admin_process.php', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Server returned ' + res.status);
+                    }
+                    return res.text();
+                })
+                .then(text => {
+                    if (!text || text.trim() === '') {
+                        throw new Error('Empty response from server');
+                    }
+                    return JSON.parse(text);
+                })
+                .then(data => {
+                    showToast(data.message, data.success ? 'success' : 'error');
+                    if (data.success) {
+                        loadLiveEvents();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Failed to delete live event. Please try again.', 'error');
                 });
             }
         }
@@ -3137,6 +3334,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             if (currentTab === 'events') {
                 loadEventVenues();
                 loadEventInquiries();
+                loadLiveEvents();
             }
             if (currentTab === 'gallery') {
                 loadGalleryAlbums();

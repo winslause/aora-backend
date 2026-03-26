@@ -673,7 +673,7 @@ if (!empty($amenityCategories)) {
         
         function inquireAmenity(amenityName) {
             // WhatsApp number
-            const phoneNumber = '254769525570';
+            const phoneNumber = '254700450450';
             
             // Create pre-filled message
             const message = `Hi Aora Hotel, I'm interested in learning more about your ${amenityName} amenity. Could you please provide more details?`;

@@ -68,8 +68,8 @@
                             </div>
                             <div>
                                 <p class="text-[#1e3a2f] text-xs font-medium uppercase tracking-wider">Call</p>
-                                <a href="tel:+254769525570" class="text-[#1e3a2f] text-sm hover:text-[#8fb89a]">+254 769 525 570</a>
-                                <a href="https://wa.me/254769525570" class="text-[#1e3a2f] text-sm block hover:text-[#8fb89a]"><i class="fab fa-whatsapp mr-1"></i>WhatsApp</a>
+                                <a href="tel:+254700450450" class="text-[#1e3a2f] text-sm hover:text-[#8fb89a]">+254 769 525 570</a>
+                                <a href="https://wa.me/254700450450" class="text-[#1e3a2f] text-sm block hover:text-[#8fb89a]"><i class="fab fa-whatsapp mr-1"></i>WhatsApp</a>
                             </div>
                         </div>
                         
@@ -306,7 +306,7 @@
     </div>
 
     <!-- Floating WhatsApp Button -->
-    <a href="https://wa.me/254769525570?text=Hello%20AORA%2045%2C%20I%27m%20interested%20in%20your%20services.%20Please%20send%20me%20more%20information." 
+    <a href="https://wa.me/254700450450?text=Hello%20AORA%2045%2C%20I%27m%20interested%20in%20your%20services.%20Please%20send%20me%20more%20information." 
        target="_blank" 
        class="fixed bottom-6 right-6 z-50 w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl hover:shadow-3xl hover:scale-110 transition-all duration-300 animate-pulse"
        style="box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);">

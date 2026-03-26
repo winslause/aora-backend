@@ -1064,7 +1064,7 @@ document.addEventListener('keydown', function(e) {
 
 // Claim Offer - Opens WhatsApp with pre-filled message
 function claimOffer(offerTitle, offerPrice, priceLabel) {
-    const phoneNumber = '254769525570';
+    const phoneNumber = '254700450450';
     const price = parseInt(offerPrice).toLocaleString();
     const message = `Hello AORA 45, I'm interested in claiming the "${offerTitle}" package.\n\nPrice: KSh ${price} ${priceLabel}\n\nPlease provide more information about availability and how to proceed with the booking.`;
     const encodedMessage = encodeURIComponent(message);
@@ -2554,7 +2554,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                         
                         <div class="flex items-center gap-4">
                             <i class="fas fa-phone-alt text-[#4a90a0] text-lg"></i>
-                            <a href="tel:+254769525570" class="font-['Montserrat'] text-[#5c524a] text-base hover:text-[#4a90a0]">+254 769 525 570</a>
+                            <a href="tel:+254700450450" class="font-['Montserrat'] text-[#5c524a] text-base hover:text-[#4a90a0]">+254 769 525 570</a>
                         </div>
                         
                         <div class="flex items-center gap-4">

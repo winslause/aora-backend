@@ -22,13 +22,13 @@ try {
     include 'database.php';
 
 // SMTP Configuration (same as api.php)
-$smtpHost = 'smtp.gmail.com';
+$smtpHost = 'mail.aora45.com';
 $smtpPort = 465;
-$smtpUsername = 'wenbusale383@gmail.com';
-$smtpPassword = 'chqj uzdx dbev lpaa';
-$smtpFromEmail = 'wenbusale383@gmail.com';
+$smtpUsername = 'Info@aora45.com';
+$smtpPassword = '1n4M@tioN26';
+$smtpFromEmail = 'Info@aora45.com';
 $smtpFromName = 'Aora Hotel';
-$adminEmail = 'wenbusale383@gmail.com';
+$adminEmail = 'Info@aora45.com';
 
 // Simple SMTP Mailer Class
 class SMTP_mailer {
@@ -1065,6 +1065,109 @@ switch ($action) {
         $stmt = $pdo->prepare("UPDATE event_venues SET is_active = 0 WHERE id = ?");
         $stmt->execute([$id]);
         echo json_encode(['success' => true, 'message' => 'Venue deleted successfully']);
+        break;
+    
+    // ==================== LIVE EVENTS MANAGEMENT ====================
+    
+    // Get all live events
+    case 'get_all_live_events':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT * FROM live_events ORDER BY event_date DESC");
+        $events = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'events' => $events]);
+        break;
+    
+    // Add live event
+    case 'add_live_event':
+        checkAdminSession();
+        $description = $_POST['description'] ?? '';
+        $event_date = $_POST['event_date'] ?? '';
+        $posted_date = $_POST['posted_date'] ?? date('Y-m-d');
+        
+        if (empty($description) || empty($event_date)) {
+            echo json_encode(['success' => false, 'message' => 'Description and event date are required']);
+            break;
+        }
+        
+        // Handle image upload
+        $image = '';
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/uploads/live_events/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            $filename = 'live_event_' . uniqid() . '.' . $ext;
+            $targetPath = $uploadDir . $filename;
+            
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+                $image = 'uploads/live_events/' . $filename;
+            }
+        }
+        
+        try {
+            $stmt = $pdo->prepare("INSERT INTO live_events (description, event_date, posted_date, image) VALUES (:description, :event_date, :posted_date, :image)");
+            $stmt->execute(['description' => $description, 'event_date' => $event_date, 'posted_date' => $posted_date, 'image' => $image]);
+            echo json_encode(['success' => true, 'message' => 'Live event added successfully', 'id' => $pdo->lastInsertId()]);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error adding live event']);
+        }
+        break;
+    
+    // Update live event
+    case 'update_live_event':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $description = $_POST['description'] ?? '';
+        $event_date = $_POST['event_date'] ?? '';
+        $posted_date = $_POST['posted_date'] ?? '';
+        
+        if (empty($description) || empty($event_date)) {
+            echo json_encode(['success' => false, 'message' => 'Description and event date are required']);
+            break;
+        }
+        
+        // Get existing image
+        $stmt = $pdo->prepare("SELECT image FROM live_events WHERE id = ?");
+        $stmt->execute([$id]);
+        $existing = $stmt->fetch();
+        $image = $existing['image'] ?? '';
+        
+        // Handle image upload
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/uploads/live_events/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+            $ext = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+            $filename = 'live_event_' . uniqid() . '.' . $ext;
+            $targetPath = $uploadDir . $filename;
+            
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+                // Delete old image if exists
+                if (!empty($image) && file_exists(__DIR__ . '/' . $image)) {
+                    unlink(__DIR__ . '/' . $image);
+                }
+                $image = 'uploads/live_events/' . $filename;
+            }
+        }
+        
+        try {
+            $stmt = $pdo->prepare("UPDATE live_events SET description = :description, event_date = :event_date, posted_date = :posted_date, image = :image WHERE id = :id");
+            $stmt->execute(['description' => $description, 'event_date' => $event_date, 'posted_date' => $posted_date, 'image' => $image, 'id' => $id]);
+            echo json_encode(['success' => true, 'message' => 'Live event updated successfully']);
+        } catch (PDOException $e) {
+            echo json_encode(['success' => false, 'message' => 'Error updating live event']);
+        }
+        break;
+    
+    // Delete live event
+    case 'delete_live_event':
+        checkAdminSession();
+        $id = $_POST['id'];
+        $stmt = $pdo->prepare("DELETE FROM live_events WHERE id = ?");
+        $stmt->execute([$id]);
+        echo json_encode(['success' => true, 'message' => 'Live event deleted successfully']);
         break;
     
     // ==================== DASHBOARD STATS ====================
