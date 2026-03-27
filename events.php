@@ -503,18 +503,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
+            opacity: 1;
+            visibility: visible;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 0.5rem;
             z-index: 10;
-        }
-        
-        .live-event-popup .popup-image-container:hover .view-image-btn {
-            opacity: 1;
-            visibility: visible;
         }
         
         .live-event-popup .view-image-btn:hover {
@@ -708,8 +703,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         .live-event-popup .popup-counter {
             position: absolute;
             bottom: 1rem;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 1rem;
             background: rgba(45, 90, 74, 0.9);
             color: white;
             padding: 0.3rem 0.8rem;
@@ -771,7 +765,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
                     </div>
                     <p class="event-description" id="popupDescription"></p>
                     <div class="popup-actions">
-                        <a href="#" target="_blank" class="btn-confirm" id="popupWhatsApp">
+                        <a href="https://wa.me/254700450450" target="_blank" class="btn-confirm" id="popupWhatsApp" onclick="handleWhatsAppClick(event)">
                             <i class="fab fa-whatsapp"></i>
                             Confirm Attendance
                         </a>
@@ -1509,8 +1503,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
             
             // Create WhatsApp link with pre-filled message
             const eventDate = formatDate(event.event_date);
-            const whatsappMessage = encodeURIComponent(`Hello! I would like to confirm my attendance for the event on ${eventDate}. Event: ${event.description}`);
-            document.getElementById('popupWhatsApp').href = `https://wa.me/254700450450?text=${whatsappMessage}`;
+            const eventDescription = event.description || 'Upcoming Event';
+            const whatsappMessage = encodeURIComponent(`Hello! I would like to confirm my attendance for the event on ${eventDate}. ${eventDescription}`);
+            const whatsappLink = `https://wa.me/254700450450?text=${whatsappMessage}`;
+            
+            // Set the WhatsApp link - ensure it's always set
+            const whatsappBtn = document.getElementById('popupWhatsApp');
+            whatsappBtn.href = whatsappLink;
+            
+            // Debug: Log the WhatsApp link
+            console.log('WhatsApp Link:', whatsappLink);
+            console.log('Event Data:', event);
             
             // Update counter
             document.getElementById('popupCounter').textContent = `${currentEventIndex + 1} of ${unviewedEvents.length}`;
@@ -1543,6 +1546,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         // Close all popups
         function closeAllPopups() {
             dismissCurrentPopup();
+        }
+        
+        // Handle WhatsApp button click
+        function handleWhatsAppClick(event) {
+            const whatsappBtn = document.getElementById('popupWhatsApp');
+            const href = whatsappBtn.getAttribute('href');
+            
+            console.log('WhatsApp button clicked');
+            console.log('Current href:', href);
+            
+            // If href is still '#' or empty, prevent default and show alert
+            if (!href || href === '#' || href === '') {
+                event.preventDefault();
+                alert('Unable to open WhatsApp. Please try again or contact us directly at +254 700 450 450');
+                return false;
+            }
+            
+            // Otherwise, let the default action proceed (open WhatsApp)
+            return true;
         }
         
         // Open image modal with full size view

@@ -570,8 +570,13 @@ function deleteEventInquiry($pdo, $inquiryId) {
 
 // Function to get all live events (ordered by event_date ascending - nearest first)
 function getAllLiveEvents($pdo) {
-    $stmt = $pdo->query("SELECT * FROM live_events WHERE is_active = 1 AND event_date >= CURDATE() ORDER BY event_date ASC");
-    return $stmt->fetchAll();
+    try {
+        $stmt = $pdo->query("SELECT * FROM live_events WHERE is_active = 1 AND event_date >= CURDATE() ORDER BY event_date ASC");
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        error_log("Error fetching live events: " . $e->getMessage());
+        return [];
+    }
 }
 
 // Function to get all room views

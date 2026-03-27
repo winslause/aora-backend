@@ -1001,7 +1001,7 @@ $sampleMenus = getAllSampleMenus($pdo);
         // Load menu items for checkboxes on page load
         function loadMenuItemsForCheckboxes() {
             const formData = new FormData();
-            formData.append('action', 'get_menu_items');
+            formData.append('action', 'get_preorder_items');
             
             // FIXED: Use regex to correctly get directory path
             const basePath = window.location.protocol + '//' + window.location.host + window.location.pathname.replace(/\/[^\/]*$/, '');
@@ -1024,25 +1024,25 @@ $sampleMenus = getAllSampleMenus($pdo);
             const container = document.getElementById('menuItemsCheckboxes');
             if (!container) return;
             
-            const groupedItems = {};
-            items.forEach(item => {
-                const category = item.category_name || 'Other';
-                if (!groupedItems[category]) {
-                    groupedItems[category] = [];
-                }
-                groupedItems[category].push(item);
-            });
+            // Separate signature dishes and sample menu items
+            const signatureDishes = items.filter(item => item.is_signature == 1);
+            const sampleMenuItems = items.filter(item => item.source === 'sample_menu');
+            const regularMenuItems = items.filter(item => item.is_signature != 1 && item.source !== 'sample_menu');
             
             let html = '';
-            for (const [category, categoryItems] of Object.entries(groupedItems)) {
-                html += `<div class="mb-4">`;
-                html += `<h4 class="text-[#1e4d40] text-xs uppercase mb-2 font-semibold">${category}</h4>`;
+            
+            // Render Signature Dishes section
+            if (signatureDishes.length > 0) {
+                html += `<div class="mb-6">`;
+                html += `<h4 class="text-[#1e4d40] text-xs uppercase mb-3 font-semibold flex items-center gap-2">`;
+                html += `<i class="fas fa-star text-[#2d5a4a]"></i> Our Signature Dishes`;
+                html += `</h4>`;
                 html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-2">`;
                 
-                categoryItems.forEach(item => {
+                signatureDishes.forEach(item => {
                     const price = parseFloat(item.price).toLocaleString();
                     html += `
-                        <label class="flex items-center gap-2 p-2 border border-[#2d5a4a]/20 rounded-lg hover:bg-[#f4ede5] cursor-pointer transition-colors">
+                        <label class="flex items-center gap-2 p-2 border border-[#2d5a4a]/20 rounded-lg hover:bg-[#f4ede5] cursor-pointer transition-colors bg-[#f8f0e7]/50">
                             <input type="checkbox" class="menu-item-checkbox" value="${item.name} - KSh ${price}">
                             <span class="text-[#5c524a] text-sm">${item.name}</span>
                             <span class="text-[#2d5a4a] text-xs ml-auto">KSh ${price}</span>
@@ -1052,6 +1052,83 @@ $sampleMenus = getAllSampleMenus($pdo);
                 
                 html += `</div>`;
                 html += `</div>`;
+            }
+            
+            // Render Sample Menu Items section
+            if (sampleMenuItems.length > 0) {
+                html += `<div class="mb-6">`;
+                html += `<h4 class="text-[#1e4d40] text-xs uppercase mb-3 font-semibold flex items-center gap-2">`;
+                html += `<i class="fas fa-utensils text-[#2d5a4a]"></i> Sample Menus`;
+                html += `</h4>`;
+                
+                // Group by menu title
+                const groupedByMenu = {};
+                sampleMenuItems.forEach(item => {
+                    const menuTitle = item.category_name || 'Sample Menu';
+                    if (!groupedByMenu[menuTitle]) {
+                        groupedByMenu[menuTitle] = [];
+                    }
+                    groupedByMenu[menuTitle].push(item);
+                });
+                
+                for (const [menuTitle, menuItems] of Object.entries(groupedByMenu)) {
+                    html += `<div class="mb-4">`;
+                    html += `<p class="text-[#5c524a] text-xs mb-2 italic">${menuTitle}</p>`;
+                    html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-2">`;
+                    
+                    menuItems.forEach(item => {
+                        const price = parseFloat(item.price).toLocaleString();
+                        html += `
+                            <label class="flex items-center gap-2 p-2 border border-[#2d5a4a]/20 rounded-lg hover:bg-[#f4ede5] cursor-pointer transition-colors">
+                                <input type="checkbox" class="menu-item-checkbox" value="${item.name} - KSh ${price}">
+                                <span class="text-[#5c524a] text-sm">${item.name}</span>
+                                <span class="text-[#2d5a4a] text-xs ml-auto">KSh ${price}</span>
+                            </label>
+                        `;
+                    });
+                    
+                    html += `</div>`;
+                    html += `</div>`;
+                }
+                
+                html += `</div>`;
+            }
+            
+            // Render Regular Menu Items by category
+            if (regularMenuItems.length > 0) {
+                const groupedItems = {};
+                regularMenuItems.forEach(item => {
+                    const category = item.category_name || 'Other';
+                    if (!groupedItems[category]) {
+                        groupedItems[category] = [];
+                    }
+                    groupedItems[category].push(item);
+                });
+                
+                for (const [category, categoryItems] of Object.entries(groupedItems)) {
+                    html += `<div class="mb-4">`;
+                    html += `<h4 class="text-[#1e4d40] text-xs uppercase mb-2 font-semibold">${category}</h4>`;
+                    html += `<div class="grid grid-cols-1 md:grid-cols-2 gap-2">`;
+                    
+                    categoryItems.forEach(item => {
+                        const price = parseFloat(item.price).toLocaleString();
+                        html += `
+                            <label class="flex items-center gap-2 p-2 border border-[#2d5a4a]/20 rounded-lg hover:bg-[#f4ede5] cursor-pointer transition-colors">
+                                <input type="checkbox" class="menu-item-checkbox" value="${item.name} - KSh ${price}">
+                                <span class="text-[#5c524a] text-sm">${item.name}</span>
+                                <span class="text-[#2d5a4a] text-xs ml-auto">KSh ${price}</span>
+                            </label>
+                        `;
+                    });
+                    
+                    html += `</div>`;
+                    html += `</div>`;
+                }
+            }
+            
+            // If no items found
+            if (html === '') {
+                html = `<p class="text-[#1e4d40] text-sm text-center py-4">No menu items available for pre-order.</p>`;
             }
             
             container.innerHTML = html;

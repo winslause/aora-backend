@@ -666,6 +666,32 @@ switch ($action) {
         echo json_encode(['success' => true, 'dishes' => $dishes]);
         break;
         
+    case 'get_preorder_items':
+        // Get all menu items (including signature dishes)
+        $menuItems = getAllMenuItems($pdo);
+        
+        // Get sample menu items
+        $sampleMenus = getAllSampleMenus($pdo);
+        $sampleMenuItems = [];
+        foreach ($sampleMenus as $menu) {
+            foreach ($menu['items'] as $item) {
+                $sampleMenuItems[] = [
+                    'id' => 'sample_' . $item['id'],
+                    'name' => $item['name'],
+                    'price' => $item['price'],
+                    'category_name' => $menu['title'],
+                    'is_signature' => 0,
+                    'source' => 'sample_menu'
+                ];
+            }
+        }
+        
+        // Combine both arrays
+        $allItems = array_merge($menuItems, $sampleMenuItems);
+        
+        echo json_encode(['success' => true, 'items' => $allItems]);
+        break;
+        
     case 'get_dining_experiences':
         $experiences = getDiningExperiences($pdo);
         echo json_encode(['success' => true, 'experiences' => $experiences]);
