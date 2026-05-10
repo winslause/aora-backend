@@ -794,7 +794,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['inquiry_submitted']))
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
             <!-- Background Image - Celebration -->
             <div class="absolute inset-0 z-0">
-                <img src="https://okashhotel.com/wp-content/uploads/2025/02/Best-Event-Places-in-Nairobi-scaled.jpg" 
+                <img src="img2.jpeg" 
                      alt="Celebration at Aora" 
                      class="w-full h-full object-cover animate-drift">
                 <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>

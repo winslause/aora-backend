@@ -590,7 +590,7 @@ include 'header.php'; ?>
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
             <!-- Background Image - Stunning Resort Aerial -->
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                <img src="img16.jpeg" 
                      alt="Aora Resort Aerial View" 
                      class="w-full h-full object-cover animate-drift">
                 <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70"></div>

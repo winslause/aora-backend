@@ -204,7 +204,7 @@ $pageDescription = "Discover the story of AORA 45 45 luxury resort in Siaya Coun
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
             <!-- Background Image with Parallax -->
             <div class="absolute inset-0 z-0 parallax" id="parallaxBg">
-                <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                <img src="img11.jpeg" 
                      alt="African Landscape" 
                      class="w-full h-full object-cover scale-110 animate-drift">
                 <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent"></div>

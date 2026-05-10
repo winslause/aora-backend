@@ -862,3 +862,424 @@
     [action] => get_table_types
 )
 
+[31-Mar-2026 20:29:32 Europe/Berlin] API Request: action=get_bed_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_bed_types
+)
+
+[31-Mar-2026 20:29:32 Europe/Berlin] API Request: action=get_room_views, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_room_views
+)
+
+[31-Mar-2026 20:40:07 Europe/Berlin] API Request: action=get_room_views, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_room_views
+)
+
+[31-Mar-2026 20:40:07 Europe/Berlin] API Request: action=get_bed_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_bed_types
+)
+
+[31-Mar-2026 20:51:50 Europe/Berlin] API Request: action=get_room_views, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_room_views
+)
+
+[31-Mar-2026 20:51:50 Europe/Berlin] API Request: action=get_bed_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_bed_types
+)
+
+[31-Mar-2026 20:51:56 Europe/Berlin] API Request: action=get_room_views, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_room_views
+)
+
+[31-Mar-2026 20:51:56 Europe/Berlin] API Request: action=get_bed_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_bed_types
+)
+
+[31-Mar-2026 20:52:07 Europe/Berlin] API Request: action=get_bed_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_bed_types
+)
+
+[31-Mar-2026 20:52:07 Europe/Berlin] API Request: action=get_room_views, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_room_views
+)
+
+[31-Mar-2026 20:52:13 Europe/Berlin] API Request: action=get_bed_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_bed_types
+)
+
+[31-Mar-2026 20:52:13 Europe/Berlin] API Request: action=get_room_views, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_room_views
+)
+
+[31-Mar-2026 20:52:21 Europe/Berlin] API Request: action=get_room_views, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_room_views
+)
+
+[31-Mar-2026 20:52:21 Europe/Berlin] API Request: action=get_bed_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_bed_types
+)
+
+[29-Apr-2026 20:38:54 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[29-Apr-2026 20:38:54 Europe/Berlin] get_rooms called
+[29-Apr-2026 20:38:54 Europe/Berlin] Rooms found: 6
+[29-Apr-2026 20:38:54 Europe/Berlin] JSON created successfully, length: 6441
+[29-Apr-2026 20:49:15 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[29-Apr-2026 20:49:15 Europe/Berlin] get_rooms called
+[29-Apr-2026 20:49:15 Europe/Berlin] Rooms found: 6
+[29-Apr-2026 20:49:15 Europe/Berlin] JSON created successfully, length: 6441
+[29-Apr-2026 21:04:40 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[29-Apr-2026 21:04:40 Europe/Berlin] get_rooms called
+[29-Apr-2026 21:04:40 Europe/Berlin] Rooms found: 6
+[29-Apr-2026 21:04:40 Europe/Berlin] JSON created successfully, length: 6441
+[29-Apr-2026 21:07:20 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[29-Apr-2026 21:07:20 Europe/Berlin] get_rooms called
+[29-Apr-2026 21:07:20 Europe/Berlin] Rooms found: 6
+[29-Apr-2026 21:07:20 Europe/Berlin] JSON created successfully, length: 6441
+[29-Apr-2026 21:16:47 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[29-Apr-2026 21:16:47 Europe/Berlin] get_rooms called
+[29-Apr-2026 21:16:47 Europe/Berlin] Rooms found: 6
+[29-Apr-2026 21:16:47 Europe/Berlin] JSON created successfully, length: 6441
+[29-Apr-2026 21:18:01 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[29-Apr-2026 21:18:01 Europe/Berlin] get_rooms called
+[29-Apr-2026 21:18:01 Europe/Berlin] Rooms found: 6
+[29-Apr-2026 21:18:01 Europe/Berlin] JSON created successfully, length: 6441
+[30-Apr-2026 20:43:08 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[30-Apr-2026 20:43:08 Europe/Berlin] get_rooms called
+[30-Apr-2026 20:43:08 Europe/Berlin] Rooms found: 6
+[30-Apr-2026 20:43:08 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:38:27 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:38:27 Europe/Berlin] get_rooms called
+[09-May-2026 18:38:27 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:38:27 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:40:06 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:40:06 Europe/Berlin] get_rooms called
+[09-May-2026 18:40:06 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:40:06 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:43:06 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:43:06 Europe/Berlin] get_rooms called
+[09-May-2026 18:43:06 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:43:06 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:45:10 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:45:10 Europe/Berlin] get_rooms called
+[09-May-2026 18:45:10 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:45:10 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:46:00 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:46:00 Europe/Berlin] get_rooms called
+[09-May-2026 18:46:00 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:46:00 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:46:23 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:46:23 Europe/Berlin] get_rooms called
+[09-May-2026 18:46:23 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:46:23 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:47:27 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:47:27 Europe/Berlin] get_rooms called
+[09-May-2026 18:47:27 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:47:27 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:48:11 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:48:11 Europe/Berlin] get_rooms called
+[09-May-2026 18:48:11 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:48:11 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:49:30 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:49:30 Europe/Berlin] get_rooms called
+[09-May-2026 18:49:30 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:49:30 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:50:31 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:50:31 Europe/Berlin] get_rooms called
+[09-May-2026 18:50:31 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:50:31 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:52:49 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:52:49 Europe/Berlin] get_rooms called
+[09-May-2026 18:52:49 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:52:49 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:54:52 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:54:52 Europe/Berlin] get_rooms called
+[09-May-2026 18:54:52 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:54:52 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:55:24 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[09-May-2026 18:55:24 Europe/Berlin] get_rooms called
+[09-May-2026 18:55:24 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:55:24 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:56:06 Europe/Berlin] rooms.php accessed at 2026-05-09 18:56:06
+[09-May-2026 18:56:06 Europe/Berlin] rooms.php - pageTitle: Luxury Rooms & Suites in Siaya County, Kenya | AORA 45
+[09-May-2026 18:56:06 Europe/Berlin] rooms.php - pageDescription: Discover our elegant rooms and suites at AORA 45 resort in Siaya County. From standard rooms to luxury suites, book your stay with amenities like free WiFi, pool, spa, and fine dining.
+[09-May-2026 18:56:07 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+    [action] => get_rooms
+    [view] => all
+    [bed] => all
+    [sort] => price_asc
+)
+, POST=Array
+(
+)
+
+[09-May-2026 18:56:07 Europe/Berlin] get_rooms called
+[09-May-2026 18:56:07 Europe/Berlin] Rooms found: 6
+[09-May-2026 18:56:07 Europe/Berlin] JSON created successfully, length: 6441
+[09-May-2026 18:56:07 Europe/Berlin] API Request: action=get_filter_options, GET=Array
+(
+    [action] => get_filter_options
+)
+, POST=Array
+(
+)
+
+[09-May-2026 18:57:47 Europe/Berlin] API Request: action=get_preorder_items, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_preorder_items
+)
+
+[09-May-2026 18:57:47 Europe/Berlin] API Request: action=get_table_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_table_types
+)
+
+[09-May-2026 18:59:19 Europe/Berlin] API Request: action=get_table_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_table_types
+)
+
+[09-May-2026 18:59:19 Europe/Berlin] API Request: action=get_preorder_items, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_preorder_items
+)
+
+[10-May-2026 08:45:57 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[10-May-2026 08:45:57 Europe/Berlin] get_rooms called
+[10-May-2026 08:45:57 Europe/Berlin] Rooms found: 6
+[10-May-2026 08:45:57 Europe/Berlin] JSON created successfully, length: 6441

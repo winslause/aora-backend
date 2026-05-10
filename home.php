@@ -19,27 +19,27 @@ include 'header.php'; ?>
         <div class="cinema-showcase">
             <!-- Frame 1 - Resort Pool -->
             <div class="cinema-frame">
-                <img src="https://samburunationalreservekenya.com/wp-content/uploads/2024/04/IMG_0870.jpg" alt="Infinity Pool at Sunset" class="cinema-image">
+                <img src="img17.jpeg" alt="Infinity Pool at Sunset" class="cinema-image">
             </div>
             <!-- Frame 2 - Beach -->
             <div class="cinema-frame">
-                <img src="https://www.goseeko.com/blog/wp-content/uploads/2021/07/kermit-nicou-j7Eww2PvSvk-unsplash-scaled-1.jpg" alt="Private Beach Paradise" class="cinema-image">
+                <img src="img1.jpeg" alt="Private Beach Paradise" class="cinema-image">
             </div>
             <!-- Frame 3 - Luxury Suite -->
             <div class="cinema-frame">
-                <img src="https://m.media-amazon.com/images/I/81M-eUz7tTL._AC_UF894,1000_QL80_.jpg" alt="Oceanfront Suite" class="cinema-image">
+                <img src="img13.jpeg" alt="Oceanfront Suite" class="cinema-image">
             </div>
             <!-- Frame 4 - Restaurant -->
             <div class="cinema-frame">
-                <img src="https://cdn.prod.website-files.com/63a02e61e7ffb565c30bcfc7/677f90e23b8737da7632b66e_65852c6fbbbe0d60a85cedcb_patio%2520gazebo%2520ideas.webp" alt="Fine Dining Restaurant" class="cinema-image">
+                <img src="img21.jpeg" alt="Fine Dining Restaurant" class="cinema-image">
             </div>
             <!-- Frame 5 - Spa -->
             <div class="cinema-frame">
-                <img src="https://i0.wp.com/blog.education.nationalgeographic.org/wp-content/uploads/2013/10/29598.jpg" alt="Luxury Spa Treatment" class="cinema-image">
+                <img src="img8.jpeg" alt="Luxury Spa Treatment" class="cinema-image">
             </div>
             <!-- Frame 6 - Sunset -->
             <div class="cinema-frame">
-                <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Sunset Over Ocean" class="cinema-image">
+                <img src="img5.jpeg" alt="Sunset Over Ocean" class="cinema-image">
             </div>
         </div>
 
@@ -1524,7 +1524,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
     <!-- Background Image with Artistic Treatment -->
     <div class="absolute inset-0 z-0">
         <!-- Main Background Image -->
-        <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+        <img src="img14.jpeg" 
              alt="Riverside Sunset at AORA 45" 
              class="w-full h-full object-cover">
         
@@ -2520,7 +2520,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
         <!-- Section Header - Minimal -->
         <div class="text-center mb-12">
             <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Find Us</span>
-            <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">Our Location</h2>
+            <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">info@aora45.com</h2>
             <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
         </div>
 
@@ -2554,7 +2554,7 @@ function claimOffer(offerTitle, offerPrice, priceLabel) {
                         
                         <div class="flex items-center gap-4">
                             <i class="fas fa-phone-alt text-[#4a90a0] text-lg"></i>
-                            <a href="tel:+254700450450" class="font-['Montserrat'] text-[#5c524a] text-base hover:text-[#4a90a0]">+254 769 525 570</a>
+                            <a href="tel:+254700450450" class="font-['Montserrat'] text-[#5c524a] text-base hover:text-[#4a90a0]">+254 700450450</a>
                         </div>
                         
                         <div class="flex items-center gap-4">

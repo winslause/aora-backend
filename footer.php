@@ -2,7 +2,7 @@
 <footer class="relative py-16 px-6 overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+        <img src="img13.jpeg" 
              alt="African sunset landscape" 
              class="w-full h-full object-cover">
         <!-- Very light overlay to soften but not hide -->
@@ -157,19 +157,19 @@
                     <div class="pt-4">
                         <h4 class="text-xs uppercase tracking-wider text-[#1e3a2f] mb-3">Follow Us</h4>
                         <div class="flex gap-3">
-                            <a href="#" class="w-10 h-10 rounded-full bg-[#8fb89a]/20 hover:bg-[#8fb89a] flex items-center justify-center transition-all duration-300 group backdrop-blur-sm">
-                                <i class="fab fa-instagram text-[#1e3a2f] group-hover:text-white transition-colors"></i>
-                            </a>
-                            <a href="#" class="w-10 h-10 rounded-full bg-[#8fb89a]/20 hover:bg-[#8fb89a] flex items-center justify-center transition-all duration-300 group backdrop-blur-sm">
-                                <i class="fab fa-facebook-f text-[#1e3a2f] group-hover:text-white transition-colors"></i>
-                            </a>
-                            <a href="#" class="w-10 h-10 rounded-full bg-[#8fb89a]/20 hover:bg-[#8fb89a] flex items-center justify-center transition-all duration-300 group backdrop-blur-sm">
-                                <i class="fab fa-x-twitter text-[#1e3a2f] group-hover:text-white transition-colors"></i>
-                            </a>
-                            <a href="#" class="w-10 h-10 rounded-full bg-[#8fb89a]/20 hover:bg-[#8fb89a] flex items-center justify-center transition-all duration-300 group backdrop-blur-sm">
-                                <i class="fab fa-pinterest-p text-[#1e3a2f] group-hover:text-white transition-colors"></i>
-                            </a>
-                        </div>
+    <a href="https://www.instagram.com/aora45resortandrestaurant?igsh=MTV4YXMwN2V1bm9nOQ==" target="_blank" class="w-10 h-10 rounded-full bg-[#8fb89a]/20 hover:bg-[#8fb89a] flex items-center justify-center transition-all duration-300 group backdrop-blur-sm">
+        <i class="fab fa-instagram text-[#1e3a2f] group-hover:text-white transition-colors"></i>
+    </a>
+    <a href="https://www.facebook.com/share/1L93DDaZXR/" target="_blank" class="w-10 h-10 rounded-full bg-[#8fb89a]/20 hover:bg-[#8fb89a] flex items-center justify-center transition-all duration-300 group backdrop-blur-sm">
+        <i class="fab fa-facebook-f text-[#1e3a2f] group-hover:text-white transition-colors"></i>
+    </a>
+    <a href="https://x.com/m45resort" target="_blank" class="w-10 h-10 rounded-full bg-[#8fb89a]/20 hover:bg-[#8fb89a] flex items-center justify-center transition-all duration-300 group backdrop-blur-sm">
+        <i class="fab fa-x-twitter text-[#1e3a2f] group-hover:text-white transition-colors"></i>
+    </a>
+    <a href="https://www.tiktok.com/@aora45resort?_r=1&_t=ZS-95xdYaYI9n2" target="_blank" class="w-10 h-10 rounded-full bg-[#8fb89a]/20 hover:bg-[#8fb89a] flex items-center justify-center transition-all duration-300 group backdrop-blur-sm">
+        <i class="fab fa-tiktok text-[#1e3a2f] group-hover:text-white transition-colors"></i>
+    </a>
+</div>
                     </div>
                 </div>
             </div>

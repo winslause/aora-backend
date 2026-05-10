@@ -350,7 +350,7 @@ $sampleMenus = getAllSampleMenus($pdo);
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
             <!-- Background Image - Elegant Restaurant Ambiance -->
             <div class="absolute inset-0 z-0">
-                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                <img src="img4.jpeg" 
                      alt="Elegant Restaurant" 
                      class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>

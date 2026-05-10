@@ -50,6 +50,7 @@ if (!defined('BASE_PATH')) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Google Fonts for Luxury Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -105,10 +106,10 @@ if (!defined('BASE_PATH')) {
         "logo": "https://AORA45.com/logo1.jpeg",
         "image": ["https://images.unsplash.com/photo-1542314831-068cd1dbfeeb"],
         "sameAs": [
-            "https://www.facebook.com/AORA45Resort",
-            "https://www.instagram.com/AORA45Resort",
-            "https://twitter.com/AORA45Resort",
-            "https://www.pinterest.com/AORA45Resort"
+           "https://www.facebook.com/share/1L93DDaZXR/",
+"https://www.instagram.com/aora45resortandrestaurant?igsh=MTV4YXMwN2V1bm9nOQ==",
+"https://x.com/m45resort",
+"https://www.tiktok.com/@aora45resort?_r=1&_t=ZS-95xdYaYI9n2"
         ]
     }
     </script>
@@ -1396,9 +1397,18 @@ if (!defined('BASE_PATH')) {
                     <span class="flex items-center"><i class="far fa-clock mr-2 text-[#b09b88] text-xs"></i> Check-in: 2PM | Check-out: 12PM</span>
                 </div>
                 <div class="flex items-center space-x-5">
-                    <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="hover:text-[#5c4a38] transition-colors"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="https://www.instagram.com/aora45resortandrestaurant?igsh=MTV4YXMwN2V1bm9nOQ==" class="hover:text-[#5c4a38] transition-colors" target="_blank">
+    <i class="fab fa-instagram"></i>
+</a>
+<a href="https://www.facebook.com/share/1L93DDaZXR/" class="hover:text-[#5c4a38] transition-colors" target="_blank">
+    <i class="fab fa-facebook-f"></i>
+</a>
+<a href="https://x.com/m45resort" class="hover:text-[#5c4a38] transition-colors" target="_blank">
+    <i class="fab fa-x-twitter"></i>
+</a>
+<a href="https://www.tiktok.com/@aora45resort?_r=1&_t=ZS-95xdYaYI9n2" class="hover:text-[#5c4a38] transition-colors" target="_blank">
+    <i class="fab fa-tiktok"></i>
+</a>
                     <span class="text-[#b09b88]">|</span>
                     <span class="flex items-center"><i class="fas fa-phone-alt mr-2 text-[#b09b88] text-xs"></i> +254 700 450 450</span>
                 </div>

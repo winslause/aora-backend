@@ -76,6 +76,7 @@ $pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -497,12 +498,20 @@ $pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach 
             </div>
             
             <div class="max-w-7xl mx-auto relative z-10">
-                <!-- Section Header -->
-                <div class="text-center mb-16 reveal">
-                    <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Reach Us</span>
-                    <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#2c3e4a] mt-4 mb-6 font-light">Contact Information</h2>
-                    <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#2d5a4a] to-transparent mx-auto"></div>
-                </div>
+                 <!-- Section Header -->
+                 <div class="text-center mb-16 reveal">
+                     <span class="text-[#1e4d40] font-['Montserrat'] text-xs uppercase tracking-[0.35em] font-light">Find Us</span>
+                     <h2 class="font-['Cormorant_Garamond'] text-4xl md:text-5xl text-[#3f352e] mt-4 mb-6 font-light">Our Location</h2>
+                     <div class="w-16 h-px bg-gradient-to-r from-transparent via-[#4a90a0] to-transparent mx-auto"></div>
+                 </div>
+                 
+                 <!-- Location Badge - Floating Pin -->
+                 <div class="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm px-5 py-2.5 rounded-full border border-[#e0d6cc] shadow-sm mb-12">
+                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] flex items-center justify-center">
+                         <i class="fas fa-map-pin text-white text-sm"></i>
+                     </div>
+                     <span class="font-['Montserrat'] text-xs uppercase tracking-wider text-[#5c524a]">Proudly Siaya County</span>
+                 </div>
                 
                 <!-- Contact Info Grid -->
                 <div class="grid lg:grid-cols-3 gap-12">
@@ -517,8 +526,8 @@ $pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach 
                                 </div>
                                 <div>
                                     <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-1">Visit Us</p>
-                                    <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">109 River Nyandera, River Nyandera</p>
-                                    <p class="text-[#6b5d51]">Siaya County, Kenya 00100</p>
+                                     <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">Along River Nyandera, River Nyandera</p>
+                                     <p class="text-[#6b5d51]">Siaya County, Kenya 00100</p>
                                 </div>
                             </div>
                             
@@ -529,7 +538,7 @@ $pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach 
                                 </div>
                                 <div>
                                     <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-1">Call Us</p>
-                                    <a href="tel:+254769525570" class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl hover:text-[#2d5a4a]">+254 769 525 570</a>
+                                     <a href="tel:+254700450450" class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl hover:text-[#2d5a4a]">+254 700450450</a>
                                 </div>
                             </div>
                             
@@ -540,8 +549,8 @@ $pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach 
                                 </div>
                                 <div>
                                     <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-1">Email Us</p>
-                                    <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">concierge@aora.kenya</p>
-                                    <p class="text-[#6b5d51]">reservations@aora.kenya</p>
+                                     <p class="text-[#2c3e4a] font-['Cormorant_Garamond'] text-xl">info@aora45.com</p>
+                                    <!-- <p class="text-[#6b5d51]">reservations@aora.kenya</p> -->
                                 </div>
                             </div>
                         </div>
@@ -575,23 +584,23 @@ $pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach 
                             </div>
                             
                             <!-- Social Media -->
-                            <div class="pt-6">
-                                <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-4">Follow Us</p>
-                                <div class="flex gap-4">
-                                    <a href="#" class="social-icon">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                    <a href="#" class="social-icon">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="#" class="social-icon">
-                                        <i class="fab fa-x-twitter"></i>
-                                    </a>
-                                    <a href="#" class="social-icon">
-                                        <i class="fab fa-pinterest-p"></i>
-                                    </a>
-                                </div>
-                            </div>
+<div class="pt-6">
+    <p class="text-[#1e4d40] text-xs uppercase tracking-wider mb-4">Follow Us</p>
+    <div class="flex gap-4">
+        <a href="https://www.instagram.com/aora45resortandrestaurant?igsh=MTV4YXMwN2V1bm9nOQ==" class="social-icon" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.facebook.com/share/1L93DDaZXR/" class="social-icon" target="_blank">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://x.com/m45resort" class="social-icon" target="_blank">
+            <i class="fab fa-x-twitter"></i>
+        </a>
+        <a href="https://www.tiktok.com/@aora45resort?_r=1&_t=ZS-95xdYaYI9n2" class="social-icon" target="_blank">
+            <i class="fab fa-tiktok"></i>
+        </a>
+    </div>
+</div>
                         </div>
                     </div>
                     
@@ -606,7 +615,7 @@ $pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach 
                             
                             <!-- Live Chat / WhatsApp Button -->
                             <div class="mt-8">
-                                <a href="https://wa.me/254769525570" class="inline-flex items-center gap-3 px-6 py-3 bg-[#2d5a4a] text-white hover:bg-[#1e4d40] transition-all duration-300">
+                                <a href="https://wa.me/254700450450" class="inline-flex items-center gap-3 px-6 py-3 bg-[#2d5a4a] text-white hover:bg-[#1e4d40] transition-all duration-300">
                                     <i class="fab fa-whatsapp"></i>
                                     <span class="text-sm uppercase tracking-wider">WhatsApp Us</span>
                                 </a>
@@ -693,20 +702,49 @@ $pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach 
                         <h2 class="font-['Cormorant_Garamond'] text-3xl md:text-4xl text-[#2c3e4a] mb-3">Find Us Here</h2>
                         <div class="w-16 h-px bg-[#2d5a4a] mb-8"></div>
                         
-                        <div class="map-container">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.5!2d34.2!3d-0.05!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMDInNTkuNCJTIDM0wrAyMCcxMC4yIkU!5e0!3m2!1sen!2ske!4v1234567890123!5m2!1sen!2ske"
-                                width="100%" 
-                                height="400" 
-                                style="border:0; filter: grayscale(30%) sepia(10%) hue-rotate(350deg) brightness(1.05);" 
-                                allowfullscreen="" 
-                                loading="lazy">
-                            </iframe>
-                        </div>
+                         <div class="map-container">
+<iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.816661321392!2d34.482963999999996!3d0.052250099999999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177fffeec52159bf%3A0x8f5a21be3827600c!2sAora45%20Bar%20%26%20Restaurant!5e0!3m2!1sen!2ske!4v1774374960202!5m2!1sen!2ske"
+    width="100%" 
+    height="100%" 
+    style="border:0; filter: grayscale(20%) sepia(10%) hue-rotate(350deg) brightness(1.05);" 
+    allowfullscreen="" 
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    class="w-full h-full object-cover transition-all duration-7000 group-hover/map:scale-105"
+    title="Google Map showing AORA 45 Resort location in River Nyandera, Siaya County">
+</iframe>
+                     
+                     <!-- Artistic Overlay - Subtle Gradient (preserves map visibility) -->
+                     <div class="absolute inset-0 bg-gradient-to-t from-[#1e2f3a]/20 via-transparent to-transparent pointer-events-none"></div>
+ 
+                     <!-- Mini Info Card - Floating Address on Map -->
+                     <div class="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-lg">
+                         <div class="flex items-center justify-between">
+                             <div>
+                                 <p class="text-[#3f352e] font-['Cormorant_Garamond'] text-lg font-medium">AORA 45 Resort</p>
+                                 <p class="text-[#1e4d40] text-xs">Along River Nyandera, Siaya County</p>
+                                 <div class="flex items-center gap-2 mt-1">
+                                     <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                     <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                     <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                     <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                     <i class="fas fa-star text-[#4a90a0] text-[10px]"></i>
+                                     <span class="text-[#1e4d40] text-[10px] ml-1">(4.9)</span>
+                                 </div>
+                             </div>
+                             <a href="https://maps.app.goo.gl/PhZbvTuPgF5mSqAy9" 
+                                target="_blank"
+                                class="w-10 h-10 bg-gradient-to-br from-[#4a90a0] to-[#2d5a4a] rounded-full flex items-center justify-center hover:from-[#2d5a4a] hover:to-[#1e4d40] transition-all">
+                                 <i class="fas fa-directions text-white text-sm"></i>
+                             </a>
+                         </div>
+                     </div>
+                         </div>
                         
                         <!-- Get Directions Link -->
                         <div class="mt-4 flex justify-center">
-                            <a href="https://www.google.com/maps/dir//AORA+45+Resort+River+Nyandera+Siaya+County" 
+                            <a href="https://maps.app.goo.gl/PhZbvTuPgF5mSqAy9" 
                                target="_blank"
                                class="inline-flex items-center gap-2 px-6 py-3 bg-[#2d5a4a] text-white hover:bg-[#1e4d40] transition-all duration-300">
                                 <i class="fas fa-directions"></i>
@@ -714,11 +752,10 @@ $pageDescription = "Contact AORA 45 luxury resort in Siaya County, Kenya. Reach 
                             </a>
                         </div>
                         
-                        <!-- Map Note -->
-                        <p class="text-[#1e4d40] text-xs mt-4 text-center">
-                            <i class="fas fa-location-dot mr-1"></i> 
-                            109 River Nyandera, River Nyandera, Siaya County, Kenya
-                        </p>
+                         <!-- Map Attribution - Minimal -->
+                         <p class="text-center text-[#1e4d40] text-[10px] uppercase tracking-wider mt-3">
+                             Exact location • Google Maps integration
+                         </p>
                     </div>
                 </div>
             </div>
