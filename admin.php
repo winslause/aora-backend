@@ -113,6 +113,58 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             pointer-events: none;
             opacity: 0.7;
         }
+
+        .mobile-overlay {
+    display: none !important;
+}
+.mobile-overlay.open {
+    display: block !important;
+}
+
+@media (min-width: 1024px) {
+    .mobile-overlay {
+        display: none !important;
+    }
+    .mobile-menu {
+        display: none !important;
+    }
+}
+
+
+#mobileMenuBtn {
+    pointer-events: auto;
+}
+
+@media (min-width: 1024px) {
+    #mobileMenuBtn {
+        pointer-events: none !important;
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+/* Force hide mobile menu button on desktop - Chrome fix */
+@media (min-width: 1024px) {
+    #mobileMenuBtn {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        position: absolute !important;
+        z-index: -1 !important;
+    }
+}
+
+/* Ensure Tailwind lg:hidden works properly */
+@media (min-width: 1024px) {
+    .lg\:hidden {
+        display: none !important;
+    }
+}
     </style>
 </head>
 <body class="bg-gray-50">
@@ -1328,20 +1380,54 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             }
         });
 
-        // Mobile menu functionality
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileOverlay = document.getElementById('mobileOverlay');
+ // Mobile menu functionality - FIXED FOR CHROME
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileOverlay = document.getElementById('mobileOverlay');
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('open');
-            mobileOverlay.classList.add('open');
-        });
+// Function to check if we're on desktop
+function isDesktop() {
+    return window.innerWidth >= 1024;
+}
 
-        mobileOverlay.addEventListener('click', () => {
+// Only add event listeners if elements exist
+if (mobileMenuBtn) {
+    mobileMenuBtn.addEventListener('click', function(e) {
+        // Stop event propagation to prevent any weird bubbling
+        e.stopPropagation();
+        
+        // Only toggle menu on mobile
+        if (!isDesktop()) {
+            mobileMenu.classList.toggle('open');
+            mobileOverlay.classList.toggle('open');
+        }
+    });
+}
+
+if (mobileOverlay) {
+    mobileOverlay.addEventListener('click', function(e) {
+        if (!isDesktop()) {
             mobileMenu.classList.remove('open');
             mobileOverlay.classList.remove('open');
-        });
+        }
+    });
+}
+
+// On resize, close menu if desktop
+window.addEventListener('resize', function() {
+    if (isDesktop()) {
+        mobileMenu.classList.remove('open');
+        mobileOverlay.classList.remove('open');
+    }
+});
+
+// On page load, ensure overlay is hidden on desktop
+document.addEventListener('DOMContentLoaded', function() {
+    if (isDesktop()) {
+        mobileMenu.classList.remove('open');
+        mobileOverlay.classList.remove('open');
+    }
+});
 
         // Email Modal Functions
         function openEmailModal(bookingId, inquiryId, type) {
@@ -1489,33 +1575,47 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         }
         
-        document.getElementById('bedTypeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('bedTypeName').value.trim();
-            
-            if (!name) {
-                showToast('Please enter a bed type name', 'error');
-                return;
-            }
-            
-            const formData = new FormData();
-            formData.append('action', 'add_bed_type');
-            formData.append('name', name);
-            
-            fetch('api.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    document.getElementById('bedTypeForm').reset();
-                    loadBedTypesList();
-                }
-            });
-        });
-        
+ document.getElementById('bedTypeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#bedTypeForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const name = document.getElementById('bedTypeName').value.trim();
+    
+    if (!name) {
+        showToast('Please enter a bed type name', 'error');
+        if (submitBtn) setButtonLoading(submitBtn, false);
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('action', 'add_bed_type');
+    formData.append('name', name);
+    
+    fetch('api.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            document.getElementById('bedTypeForm').reset();
+            loadBedTypesList();
+        }
+    })
+    .catch(error => {
+        console.error('Error adding bed type:', error);
+        showToast('Error adding bed type: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
+
         function deleteBedType(id) {
             if (confirm('Are you sure you want to delete this bed type?')) {
                 const formData = new FormData();
@@ -1570,32 +1670,46 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         }
         
-        document.getElementById('viewForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('viewName').value.trim();
-            
-            if (!name) {
-                showToast('Please enter a view name', 'error');
-                return;
-            }
-            
-            const formData = new FormData();
-            formData.append('action', 'add_room_view');
-            formData.append('name', name);
-            
-            fetch('api.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    document.getElementById('viewForm').reset();
-                    loadViewsList();
-                }
-            });
-        });
+ document.getElementById('viewForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#viewForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const name = document.getElementById('viewName').value.trim();
+    
+    if (!name) {
+        showToast('Please enter a view name', 'error');
+        if (submitBtn) setButtonLoading(submitBtn, false);
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('action', 'add_room_view');
+    formData.append('name', name);
+    
+    fetch('api.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            document.getElementById('viewForm').reset();
+            loadViewsList();
+        }
+    })
+    .catch(error => {
+        console.error('Error adding view:', error);
+        showToast('Error adding view: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         
         function deleteView(id) {
             if (confirm('Are you sure you want to delete this view?')) {
@@ -1678,43 +1792,47 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             submitBtn.innerHTML = '<i class="fas fa-edit mr-2"></i>Update Category';
         }
         
-        document.getElementById('amenityCategoryForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('amenityCategoryName').value.trim();
-            const description = document.getElementById('amenityCategoryDescription').value.trim();
-            const editId = document.getElementById('amenityCategoryEditId')?.value;
-            
-            if (!name) {
-                showToast('Please enter a category name', 'error');
-                return;
-            }
-            
-            const formData = new FormData();
-            formData.append('action', editId ? 'update_amenity_category' : 'add_amenity_category');
-            if (editId) {
-                formData.append('id', editId);
-            }
-            formData.append('name', name);
-            formData.append('description', description);
-            
-            fetch('admin_process.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    document.getElementById('amenityCategoryForm').reset();
-                    // Remove edit ID and reset button
-                    const hiddenId = document.getElementById('amenityCategoryEditId');
-                    if (hiddenId) hiddenId.remove();
-                    const submitBtn = document.querySelector('#amenityCategoryForm button[type="submit"]');
-                    submitBtn.innerHTML = '<i class="fas fa-plus mr-2"></i>Add Category';
-                    loadAmenityCategoriesList();
-                }
-            });
-        });
+document.getElementById('amenityFeatureForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#amenityFeatureForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const featureName = document.getElementById('amenityFeatureName').value.trim();
+    
+    if (!featureName) {
+        showToast('Please enter a feature name', 'error');
+        if (submitBtn) setButtonLoading(submitBtn, false);
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('action', 'add_amenity_feature');
+    formData.append('feature', featureName);
+    
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            document.getElementById('amenityFeatureForm').reset();
+            loadAmenityFeaturesList();
+            loadAmenityFeaturesForForm();
+        }
+    })
+    .catch(error => {
+        console.error('Error adding feature:', error);
+        showToast('Error adding feature: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         
         function deleteAmenityCategory(id) {
             if (confirm('Are you sure you want to delete this category?')) {
@@ -1853,54 +1971,54 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         }
         
         // Event Venue Form Submit
-        document.getElementById('eventVenueForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData();
-            const id = document.getElementById('eventVenueId').value;
-            formData.append('action', id ? 'update_event_venue' : 'add_event_venue');
-            
-            if (id) {
-                formData.append('id', id);
-            }
-            
-            formData.append('name', document.getElementById('eventVenueName').value);
-            formData.append('capacity', document.getElementById('eventVenueCapacity').value);
-            formData.append('size', document.getElementById('eventVenueSize').value);
-            formData.append('description', document.getElementById('eventVenueDescription').value);
-            formData.append('long_description', document.getElementById('eventVenueLongDescription').value);
-            
-            // Handle image - prioritize file upload over URL
-            const imageFile = document.getElementById('eventVenueImage').files[0];
-            const imageUrl = document.getElementById('eventVenueImageUrl').value;
-            
-            if (imageFile) {
-                // Use the uploaded file
-                formData.append('image', imageFile);
-            } else if (imageUrl) {
-                // Use the URL if no file uploaded
-                formData.append('image', imageUrl);
-            }
-            // If neither, leave empty (will use default or existing)
+ document.getElementById('eventVenueForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#eventVenueForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('eventVenueId').value;
+    formData.append('action', id ? 'update_event_venue' : 'add_event_venue');
+    if (id) formData.append('id', id);
+    formData.append('name', document.getElementById('eventVenueName').value);
+    formData.append('capacity', document.getElementById('eventVenueCapacity').value);
+    formData.append('size', document.getElementById('eventVenueSize').value);
+    formData.append('description', document.getElementById('eventVenueDescription').value);
+    formData.append('long_description', document.getElementById('eventVenueLongDescription').value);
+    
+    const imageFile = document.getElementById('eventVenueImage').files[0];
+    const imageUrl = document.getElementById('eventVenueImageUrl').value;
+    
+    if (imageFile) {
+        formData.append('image', imageFile);
+    } else if (imageUrl) {
+        formData.append('image', imageUrl);
+    }
 
-            fetch('admin_process.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeEventVenueModal();
-                    loadEventVenues();
-                }
-            })
-            .catch(error => {
-                console.error('Error saving venue:', error);
-                showToast('Error saving venue: ' + error.message, 'error');
-            });
-        });
-        
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeEventVenueModal();
+            loadEventVenues();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving venue:', error);
+        showToast('Error saving venue: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
+
         function loadEventVenues() {
             const formData = new FormData();
             formData.append('action', 'get_all_event_venues');
@@ -2024,54 +2142,47 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         }
         
         // Live Event Form Submit
-        document.getElementById('liveEventForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.querySelector('#liveEventForm button[type="submit"]');
-            
-            const formData = new FormData();
-            const id = document.getElementById('liveEventId').value;
-            formData.append('action', id ? 'update_live_event' : 'add_live_event');
-            
-            if (id) {
-                formData.append('id', id);
-            }
-            
-            formData.append('description', document.getElementById('liveEventDescription').value);
-            formData.append('event_date', document.getElementById('liveEventDate').value);
-            // Automatically set posted_date to current date when creating new event
-            formData.append('posted_date', new Date().toISOString().split('T')[0]);
-            
-            // Handle image - file upload only
-            const imageFile = document.getElementById('liveEventImage').files[0];
-            
-            if (imageFile) {
-                formData.append('image', imageFile);
-            }
+document.getElementById('liveEventForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#liveEventForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('liveEventId').value;
+    formData.append('action', id ? 'update_live_event' : 'add_live_event');
+    if (id) formData.append('id', id);
+    formData.append('description', document.getElementById('liveEventDescription').value);
+    formData.append('event_date', document.getElementById('liveEventDate').value);
+    formData.append('posted_date', new Date().toISOString().split('T')[0]);
+    
+    const imageFile = document.getElementById('liveEventImage').files[0];
+    if (imageFile) {
+        formData.append('image', imageFile);
+    }
 
-            fetch('admin_process.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeLiveEventModal();
-                    loadLiveEvents();
-                }
-            })
-            .catch(error => {
-                console.error('Error saving live event:', error);
-                showToast('Error saving live event: ' + error.message, 'error');
-            })
-            .finally(() => {
-                // Ensure loading state is removed
-                if (submitBtn) {
-                    setButtonLoading(submitBtn, false);
-                }
-            });
-        });
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeLiveEventModal();
+            loadLiveEvents();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving live event:', error);
+        showToast('Error saving live event: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         
         function loadLiveEvents() {
             const formData = new FormData();
@@ -2602,196 +2713,199 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         }
         
         // Room Type Form Submit
-        document.getElementById('roomTypeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData();
-            const id = document.getElementById('roomTypeId').value;
-            formData.append('action', id ? 'update_room_type' : 'add_room_type');
-            if (id) {
-                formData.append('id', id);
-            }
-            formData.append('name', document.getElementById('roomTypeName').value);
-            formData.append('description', document.getElementById('roomTypeDescription').value);
-            formData.append('display_order', document.getElementById('roomTypeOrder').value);
+ document.getElementById('roomTypeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#roomTypeForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('roomTypeId').value;
+    formData.append('action', id ? 'update_room_type' : 'add_room_type');
+    if (id) {
+        formData.append('id', id);
+    }
+    formData.append('name', document.getElementById('roomTypeName').value);
+    formData.append('description', document.getElementById('roomTypeDescription').value);
+    formData.append('display_order', document.getElementById('roomTypeOrder').value);
 
-            fetch('admin_process.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    document.getElementById('roomTypeForm').reset();
-                    document.getElementById('roomTypeId').value = '';
-                    document.getElementById('roomTypeModalTitle').textContent = 'Add New Room Type';
-                    loadRoomTypesList();
-                    loadRoomTypesForRoom();
-                }
-            });
-        });
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            document.getElementById('roomTypeForm').reset();
+            document.getElementById('roomTypeId').value = '';
+            document.getElementById('roomTypeModalTitle').textContent = 'Add New Room Type';
+            loadRoomTypesList();
+            loadRoomTypesForRoom();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving room type:', error);
+        showToast('Error saving room type: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
 
         // Room Form Submit
-        document.getElementById('roomForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get selected amenities
-            const selectedAmenities = [];
-            document.querySelectorAll('input[name="roomAmenities"]:checked').forEach(cb => {
-                selectedAmenities.push(cb.value);
-            });
-            
-            // Get existing URL images (not base64)
-            const urlImages = roomImages.filter(img => img !== '' && (img.startsWith('http') || img.startsWith('uploads/')));
-            
-            const formData = new FormData();
-            formData.append('action', document.getElementById('roomId').value ? 'update_room' : 'add_room');
-            if (document.getElementById('roomId').value) {
-                formData.append('id', document.getElementById('roomId').value);
-            }
-            formData.append('room_type', document.getElementById('roomType').value);
-            formData.append('name', document.getElementById('roomName').value);
-            formData.append('price', document.getElementById('roomPrice').value);
-            formData.append('size', document.getElementById('roomSize').value);
-            formData.append('occupancy', document.getElementById('roomOccupancy').value);
-            formData.append('bed_type', document.getElementById('roomBedType').value);
-            formData.append('view', document.getElementById('roomView').value);
-            formData.append('badge', document.getElementById('roomBadge').value);
-            formData.append('amenities', JSON.stringify(selectedAmenities));
-            formData.append('images', JSON.stringify(urlImages));
-            formData.append('description', document.getElementById('roomDescription').value);
-            
-            // Add file uploads
-            for (let i = 0; i < uploadedFiles.length; i++) {
-                if (uploadedFiles[i]) {
-                    formData.append('roomImages[]', uploadedFiles[i]);
-                }
-            }
+ document.getElementById('roomForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#roomForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    // Get selected amenities
+    const selectedAmenities = [];
+    document.querySelectorAll('input[name="roomAmenities"]:checked').forEach(cb => {
+        selectedAmenities.push(cb.value);
+    });
+    
+    // Get existing URL images (not base64)
+    const urlImages = roomImages.filter(img => img !== '' && (img.startsWith('http') || img.startsWith('uploads/')));
+    
+    const formData = new FormData();
+    formData.append('action', document.getElementById('roomId').value ? 'update_room' : 'add_room');
+    if (document.getElementById('roomId').value) {
+        formData.append('id', document.getElementById('roomId').value);
+    }
+    formData.append('room_type', document.getElementById('roomType').value);
+    formData.append('name', document.getElementById('roomName').value);
+    formData.append('price', document.getElementById('roomPrice').value);
+    formData.append('size', document.getElementById('roomSize').value);
+    formData.append('occupancy', document.getElementById('roomOccupancy').value);
+    formData.append('bed_type', document.getElementById('roomBedType').value);
+    formData.append('view', document.getElementById('roomView').value);
+    formData.append('badge', document.getElementById('roomBadge').value);
+    formData.append('amenities', JSON.stringify(selectedAmenities));
+    formData.append('images', JSON.stringify(urlImages));
+    formData.append('description', document.getElementById('roomDescription').value);
+    
+    // Add file uploads
+    for (let i = 0; i < uploadedFiles.length; i++) {
+        if (uploadedFiles[i]) {
+            formData.append('roomImages[]', uploadedFiles[i]);
+        }
+    }
 
-            fetch('admin_process.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeRoomModal();
-                    loadRooms();
-                }
-            })
-            .catch(error => {
-                console.error('Error saving room:', error);
-                showToast('Error saving room: ' + error.message, 'error');
-            })
-            .finally(() => {
-                // Ensure loading state is removed
-                const submitBtn = document.querySelector('#roomForm button[type="submit"]');
-                if (submitBtn) {
-                    setButtonLoading(submitBtn, false);
-                }
-            });
-        });
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeRoomModal();
+            loadRooms();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving room:', error);
+        showToast('Error saving room: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
 
         // Amenity Form Submit
-        document.getElementById('amenityForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get selected features from checkboxes
-            const selectedFeatures = [];
-            document.querySelectorAll('input[name="amenityFeatures"]:checked').forEach(cb => {
-                selectedFeatures.push(cb.value);
-            });
-            
-            // Get existing URL images from the hidden field
-            let existingImages = JSON.parse(document.getElementById('existingAmenityImages').value || '[]');
-            
-            // Build new images array - start with existing, then replace with new uploads/URLs
-            let allExistingImages = [...existingImages];
-            
-            // Handle new file uploads - they replace at specific positions
-            for (let i = 0; i < 3; i++) {
-                if (amenityUploadedFiles[i]) {
-                    // New file uploaded - will be processed separately
-                    // For now, we'll handle this in the backend
-                }
-            }
-            
-            // Handle new URLs from form inputs - replace at specific positions
-            for (let i = 1; i <= 3; i++) {
-                const url = document.getElementById('amenityImageUrl' + i).value;
-                if (url) {
-                    // Replace at position i-1
-                    allExistingImages[i - 1] = url;
-                }
-            }
-            
-            // Also check amenityImages array for any direct URL changes (from preview removal)
-            for (let i = 0; i < amenityImages.length; i++) {
-                if (amenityImages[i] && amenityImages[i].startsWith('http') && amenityImages[i] !== existingImages[i]) {
-                    allExistingImages[i] = amenityImages[i];
-                }
-            }
-            
-            // Filter out empty values
-            allExistingImages = allExistingImages.filter(img => img && img.trim() !== '');
-            
-            const formData = new FormData();
-            formData.append('action', document.getElementById('amenityId').value ? 'update_amenity' : 'add_amenity');
-            if (document.getElementById('amenityId').value) {
-                formData.append('id', document.getElementById('amenityId').value);
-                formData.append('existingImages', JSON.stringify(allExistingImages));
-            }
-            formData.append('category_id', document.getElementById('amenityCategory').value);
-            formData.append('name', document.getElementById('amenityName').value);
-            formData.append('icon', 'fa-spa'); // Automatically set icon to fa-spa
-            formData.append('hours', document.getElementById('amenityHours').value);
-            formData.append('description', document.getElementById('amenityDescription').value);
-            formData.append('long_description', document.getElementById('amenityLongDescription').value);
-            formData.append('features', JSON.stringify(selectedFeatures));
-            
-            // Add URL inputs
-            for (let i = 1; i <= 3; i++) {
-                formData.append('amenityImageUrl' + i, document.getElementById('amenityImageUrl' + i).value);
-            }
-            
-            // Add file uploads
-            for (let i = 1; i <= 3; i++) {
-                if (amenityUploadedFiles[i-1]) {
-                    formData.append('amenityImage' + i, amenityUploadedFiles[i-1]);
-                }
-            }
+document.getElementById('amenityForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#amenityForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    // Get selected features from checkboxes
+    const selectedFeatures = [];
+    document.querySelectorAll('input[name="amenityFeatures"]:checked').forEach(cb => {
+        selectedFeatures.push(cb.value);
+    });
+    
+    let existingImages = JSON.parse(document.getElementById('existingAmenityImages').value || '[]');
+    let allExistingImages = [...existingImages];
+    
+    for (let i = 1; i <= 3; i++) {
+        const url = document.getElementById('amenityImageUrl' + i).value;
+        if (url) {
+            allExistingImages[i - 1] = url;
+        }
+    }
+    
+    for (let i = 0; i < amenityImages.length; i++) {
+        if (amenityImages[i] && amenityImages[i].startsWith('http') && amenityImages[i] !== existingImages[i]) {
+            allExistingImages[i] = amenityImages[i];
+        }
+    }
+    
+    allExistingImages = allExistingImages.filter(img => img && img.trim() !== '');
+    
+    const formData = new FormData();
+    formData.append('action', document.getElementById('amenityId').value ? 'update_amenity' : 'add_amenity');
+    if (document.getElementById('amenityId').value) {
+        formData.append('id', document.getElementById('amenityId').value);
+        formData.append('existingImages', JSON.stringify(allExistingImages));
+    }
+    formData.append('category_id', document.getElementById('amenityCategory').value);
+    formData.append('name', document.getElementById('amenityName').value);
+    formData.append('icon', 'fa-spa');
+    formData.append('hours', document.getElementById('amenityHours').value);
+    formData.append('description', document.getElementById('amenityDescription').value);
+    formData.append('long_description', document.getElementById('amenityLongDescription').value);
+    formData.append('features', JSON.stringify(selectedFeatures));
+    
+    for (let i = 1; i <= 3; i++) {
+        formData.append('amenityImageUrl' + i, document.getElementById('amenityImageUrl' + i).value);
+    }
+    
+    for (let i = 1; i <= 3; i++) {
+        if (amenityUploadedFiles[i-1]) {
+            formData.append('amenityImage' + i, amenityUploadedFiles[i-1]);
+        }
+    }
 
-            fetch('admin_process.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Server returned ' + res.status);
-                }
-                return res.text();
-            })
-            .then(text => {
-                console.log('Server response:', text);
-                if (!text || text.trim() === '') {
-                    throw new Error('Empty response from server');
-                }
-                return JSON.parse(text);
-            })
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeAmenityModal();
-                    loadAmenities();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showToast('Error: ' + error.message, 'error');
-            });
-        });
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('Server returned ' + res.status);
+        }
+        return res.text();
+    })
+    .then(text => {
+        if (!text || text.trim() === '') {
+            throw new Error('Empty response from server');
+        }
+        return JSON.parse(text);
+    })
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeAmenityModal();
+            loadAmenities();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('Error: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
 
         // Email Form Submit
         document.getElementById('emailForm').addEventListener('submit', function(e) {
@@ -3402,37 +3516,48 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             }
         });
 
-        document.getElementById('galleryAlbumForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData();
-            const id = document.getElementById('galleryAlbumId').value;
-            formData.append('action', id ? 'update_gallery_album' : 'add_gallery_album');
-            if (id) formData.append('id', id);
-            formData.append('title', document.getElementById('galleryAlbumTitle').value);
-            formData.append('description', document.getElementById('galleryAlbumDescription').value);
-            
-            // Handle cover image - use file if selected, otherwise use URL
-            const coverFile = document.getElementById('galleryAlbumCoverFile').files[0];
-            const coverUrl = document.getElementById('galleryAlbumCover').value;
-            if (coverFile) {
-                formData.append('cover_image_file', coverFile);
-            } else if (coverUrl) {
-                formData.append('cover_image', coverUrl);
-            }
-            formData.append('icon', 'fa-images'); // Always use fa-images automatically
-            formData.append('photo_count', document.getElementById('galleryAlbumCount').value);
+ document.getElementById('galleryAlbumForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#galleryAlbumForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('galleryAlbumId').value;
+    formData.append('action', id ? 'update_gallery_album' : 'add_gallery_album');
+    if (id) formData.append('id', id);
+    formData.append('title', document.getElementById('galleryAlbumTitle').value);
+    formData.append('description', document.getElementById('galleryAlbumDescription').value);
+    
+    const coverFile = document.getElementById('galleryAlbumCoverFile').files[0];
+    const coverUrl = document.getElementById('galleryAlbumCover').value;
+    if (coverFile) {
+        formData.append('cover_image_file', coverFile);
+    } else if (coverUrl) {
+        formData.append('cover_image', coverUrl);
+    }
+    formData.append('icon', 'fa-images');
+    formData.append('photo_count', document.getElementById('galleryAlbumCount').value);
 
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeGalleryAlbumModal();
-                    loadGalleryAlbums();
-                }
-            });
-        });
-
+    fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeGalleryAlbumModal();
+            loadGalleryAlbums();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving gallery album:', error);
+        showToast('Error saving gallery album: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         function loadGalleryAlbums() {
             const formData = new FormData();
             formData.append('action', 'get_all_gallery_albums');
@@ -3521,35 +3646,47 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             document.getElementById('galleryImageModal').classList.remove('open');
         }
 
-        document.getElementById('galleryImageForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData();
-            const id = document.getElementById('galleryImageId').value;
-            formData.append('action', id ? 'update_gallery_image' : 'add_gallery_image');
-            if (id) formData.append('id', id);
-            formData.append('album_id', document.getElementById('galleryImageAlbum').value);
-            formData.append('src', document.getElementById('galleryImageSrc').value);
-            formData.append('caption', document.getElementById('galleryImageCaption').value);
-            formData.append('category', document.getElementById('galleryImageCategory').value);
-            formData.append('grid_size', document.getElementById('galleryImageSize').value);
+ document.getElementById('galleryImageForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#galleryImageForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('galleryImageId').value;
+    formData.append('action', id ? 'update_gallery_image' : 'add_gallery_image');
+    if (id) formData.append('id', id);
+    formData.append('album_id', document.getElementById('galleryImageAlbum').value);
+    formData.append('src', document.getElementById('galleryImageSrc').value);
+    formData.append('caption', document.getElementById('galleryImageCaption').value);
+    formData.append('category', document.getElementById('galleryImageCategory').value);
+    formData.append('grid_size', document.getElementById('galleryImageSize').value);
 
-            // Add file if selected
-            const imageFile = document.getElementById('galleryImageFile').files[0];
-            if (imageFile) {
-                formData.append('imageFile', imageFile);
-            }
+    const imageFile = document.getElementById('galleryImageFile').files[0];
+    if (imageFile) {
+        formData.append('imageFile', imageFile);
+    }
 
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeGalleryImageModal();
-                    loadGalleryImages();
-                    loadGalleryAlbums();
-                }
-            });
-        });
+    fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeGalleryImageModal();
+            loadGalleryImages();
+            loadGalleryAlbums();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving gallery image:', error);
+        showToast('Error saving gallery image: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
 
         function loadGalleryImages(page = 1) {
             paginationState.galleryImages.page = page;
@@ -3648,60 +3785,70 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         }
         
-        function uploadAlbumImages() {
-            const albumId = document.getElementById('albumImagesAlbumId').value;
-            const fileInput = document.getElementById('albumNewImages');
-            const files = fileInput.files;
-            
-            if (files.length === 0) {
-                showToast('Please select images to upload', 'error');
-                return;
-            }
-            
-            let uploadedCount = 0;
-            
-            for (let i = 0; i < files.length; i++) {
-                const formData = new FormData();
-                formData.append('action', 'add_gallery_image');
-                formData.append('album_id', albumId);
-                formData.append('src', ''); // Will be set after upload
-                formData.append('imageFile', files[i]);
+ // Replace the existing uploadAlbumImages function
+function uploadAlbumImages() {
+    const albumId = document.getElementById('albumImagesAlbumId').value;
+    const fileInput = document.getElementById('albumNewImages');
+    const files = fileInput.files;
+    const btn = document.getElementById('uploadAlbumImagesBtn');
+    
+    if (files.length === 0) {
+        showToast('Please select images to upload', 'error');
+        return;
+    }
+    
+    setButtonLoading(btn, true, 'Uploading Images...');
+    
+    let uploadedCount = 0;
+    let totalFiles = files.length;
+    
+    for (let i = 0; i < files.length; i++) {
+        const uploadFormData = new FormData();
+        uploadFormData.append('action', 'upload_gallery_image');
+        uploadFormData.append('album_id', albumId);
+        uploadFormData.append('imageFile', files[i]);
+        
+        fetch('admin_process.php', { method: 'POST', body: uploadFormData, credentials: 'include' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const addFormData = new FormData();
+                addFormData.append('action', 'add_gallery_image');
+                addFormData.append('album_id', albumId);
+                addFormData.append('src', data.file_path);
+                addFormData.append('caption', '');
+                addFormData.append('category', '');
+                addFormData.append('grid_size', 'regular');
                 
-                // Upload file first
-                const uploadFormData = new FormData();
-                uploadFormData.append('action', 'upload_gallery_image');
-                uploadFormData.append('album_id', albumId);
-                uploadFormData.append('imageFile', files[i]);
-                
-                fetch('admin_process.php', { method: 'POST', body: uploadFormData, credentials: 'include' })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        // Now add to database
-                        const addFormData = new FormData();
-                        addFormData.append('action', 'add_gallery_image');
-                        addFormData.append('album_id', albumId);
-                        addFormData.append('src', data.file_path);
-                        addFormData.append('caption', '');
-                        addFormData.append('category', '');
-                        addFormData.append('grid_size', 'regular');
-                        
-                        fetch('admin_process.php', { method: 'POST', body: addFormData, credentials: 'include' })
-                        .then(res => res.json())
-                        .then(addData => {
-                            uploadedCount++;
-                            if (uploadedCount === files.length) {
-                                // All images uploaded successfully - show success toast
-                                showToast(`${uploadedCount} image(s) uploaded successfully!`, 'success');
-                                loadAlbumImages(albumId);
-                                loadGalleryAlbums();
-                                loadGalleryImages();
-                            }
-                        });
-                    }
-                });
+                return fetch('admin_process.php', { method: 'POST', body: addFormData, credentials: 'include' });
             }
-        }
+            return null;
+        })
+        .then(res => res ? res.json() : null)
+        .then(addData => {
+            if (addData && addData.success) {
+                uploadedCount++;
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+        })
+        .finally(() => {
+            // Check if all uploads are complete
+            if (uploadedCount === totalFiles) {
+                // If we're done, reset the button
+                if (btn) {
+                    setButtonLoading(btn, false);
+                }
+                showToast(`${uploadedCount} image(s) uploaded successfully!`, 'success');
+                loadAlbumImages(albumId);
+                loadGalleryAlbums();
+                loadGalleryImages();
+                fileInput.value = '';
+            }
+        });
+    }
+}
         
         function deleteAlbumImage(imageId, albumId) {
             if (confirm('Are you sure you want to delete this image?')) {
@@ -3744,27 +3891,40 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             document.getElementById('galleryVideoModal').classList.remove('open');
         }
 
-        document.getElementById('galleryVideoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData();
-            const id = document.getElementById('galleryVideoId').value;
-            formData.append('action', id ? 'update_gallery_video' : 'add_gallery_video');
-            if (id) formData.append('id', id);
-            formData.append('title', document.getElementById('galleryVideoTitle').value);
-            formData.append('description', document.getElementById('galleryVideoDescription').value);
-            formData.append('thumbnail', document.getElementById('galleryVideoThumbnail').value);
-            formData.append('video_url', document.getElementById('galleryVideoUrl').value);
+document.getElementById('galleryVideoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#galleryVideoForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('galleryVideoId').value;
+    formData.append('action', id ? 'update_gallery_video' : 'add_gallery_video');
+    if (id) formData.append('id', id);
+    formData.append('title', document.getElementById('galleryVideoTitle').value);
+    formData.append('description', document.getElementById('galleryVideoDescription').value);
+    formData.append('thumbnail', document.getElementById('galleryVideoThumbnail').value);
+    formData.append('video_url', document.getElementById('galleryVideoUrl').value);
 
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeGalleryVideoModal();
-                    loadGalleryVideos();
-                }
-            });
-        });
+    fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeGalleryVideoModal();
+            loadGalleryVideos();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving gallery video:', error);
+        showToast('Error saving gallery video: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
 
         function loadGalleryVideos() {
             const formData = new FormData();
@@ -3973,82 +4133,76 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             document.getElementById('offerModal').classList.remove('open');
         }
 
-        document.getElementById('offerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get selected inclusions from checkboxes
-            const selectedInclusions = [];
-            document.querySelectorAll('input[name="offerInclusions"]:checked').forEach(cb => {
-                selectedInclusions.push(cb.value);
-            });
-            
-            const formData = new FormData();
-            const id = document.getElementById('offerId').value;
-            formData.append('action', id ? 'update_offer' : 'add_offer');
-            if (id) formData.append('id', id);
-            formData.append('title', document.getElementById('offerTitle').value);
-            formData.append('subtitle', document.getElementById('offerSubtitle').value);
-            formData.append('description', document.getElementById('offerDescription').value);
-            formData.append('price', document.getElementById('offerPrice').value);
-            formData.append('price_label', document.getElementById('offerPriceLabel').value);
-            formData.append('icon', document.getElementById('offerIcon').value);
-            formData.append('icon_color', document.getElementById('offerIconColor').value);
-            
-            // Add display order - THIS WAS MISSING!
-            formData.append('display_order', document.getElementById('offerOrder').value || 0);
-            
-            // Add URL inputs (for backward compatibility)
-            // When updating, if URL input is empty but there's an existing image, use the existing
-            const existingImages = id ? JSON.parse(document.getElementById('existingOfferImages').value || '[]') : [];
-            for (let i = 0; i < 5; i++) {
-                const urlInput = document.getElementById('offerImage' + (i + 1)).value;
-                const fileInput = offerUploadedFiles[i];
-                
-                // Priority: 1) File uploaded, 2) URL provided, 3) Existing image (for updates), 4) Empty
-                if (fileInput) {
-                    // File was uploaded - don't add URL, the file will be processed separately
-                    formData.append('image' + (i + 1), '');
-                } else if (urlInput && urlInput.trim() !== '') {
-                    // URL provided
-                    formData.append('image' + (i + 1), urlInput);
-                } else if (id && existingImages[i]) {
-                    // No file and no URL, but we're updating - use existing
-                    formData.append('image' + (i + 1), existingImages[i]);
-                } else {
-                    // Nothing provided
-                    formData.append('image' + (i + 1), '');
-                }
-            }
-            
-            // Add file uploads
-            for (let i = 0; i < offerUploadedFiles.length; i++) {
-                if (offerUploadedFiles[i]) {
-                    formData.append('offerImageFile' + (i + 1), offerUploadedFiles[i]);
-                }
-            }
-            
-            formData.append('inclusions', JSON.stringify(selectedInclusions));
-            formData.append('start_date', document.getElementById('offerStartDate').value);
-            formData.append('end_date', document.getElementById('offerEndDate').value);
+ document.getElementById('offerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#offerForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    // Get selected inclusions from checkboxes
+    const selectedInclusions = [];
+    document.querySelectorAll('input[name="offerInclusions"]:checked').forEach(cb => {
+        selectedInclusions.push(cb.value);
+    });
+    
+    const formData = new FormData();
+    const id = document.getElementById('offerId').value;
+    formData.append('action', id ? 'update_offer' : 'add_offer');
+    if (id) formData.append('id', id);
+    formData.append('title', document.getElementById('offerTitle').value);
+    formData.append('subtitle', document.getElementById('offerSubtitle').value);
+    formData.append('description', document.getElementById('offerDescription').value);
+    formData.append('price', document.getElementById('offerPrice').value);
+    formData.append('price_label', document.getElementById('offerPriceLabel').value);
+    formData.append('icon', document.getElementById('offerIcon').value);
+    formData.append('icon_color', document.getElementById('offerIconColor').value);
+    formData.append('display_order', document.getElementById('offerOrder').value || 0);
+    
+    const existingImages = id ? JSON.parse(document.getElementById('existingOfferImages').value || '[]') : [];
+    for (let i = 0; i < 5; i++) {
+        const urlInput = document.getElementById('offerImage' + (i + 1)).value;
+        const fileInput = offerUploadedFiles[i];
+        
+        if (fileInput) {
+            formData.append('image' + (i + 1), '');
+        } else if (urlInput && urlInput.trim() !== '') {
+            formData.append('image' + (i + 1), urlInput);
+        } else if (id && existingImages[i]) {
+            formData.append('image' + (i + 1), existingImages[i]);
+        } else {
+            formData.append('image' + (i + 1), '');
+        }
+    }
+    
+    for (let i = 0; i < offerUploadedFiles.length; i++) {
+        if (offerUploadedFiles[i]) {
+            formData.append('offerImageFile' + (i + 1), offerUploadedFiles[i]);
+        }
+    }
+    
+    formData.append('inclusions', JSON.stringify(selectedInclusions));
+    formData.append('start_date', document.getElementById('offerStartDate').value);
+    formData.append('end_date', document.getElementById('offerEndDate').value);
 
-            console.log('Submitting offer with display_order:', document.getElementById('offerOrder').value);
-            
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                console.log('Offer save response:', data);
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeOfferModal();
-                    loadOffers();
-                }
-            })
-            .catch(err => {
-                console.error('Error saving offer:', err);
-                showToast('Error saving offer: ' + err.message, 'error');
-            });
-        });
-
+    fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeOfferModal();
+            loadOffers();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving offer:', error);
+        showToast('Error saving offer: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         function loadOffers(page = 1) {
             paginationState.offers.page = page;
             const formData = new FormData();
@@ -4144,32 +4298,46 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             });
         }
         
-        document.getElementById('inclusionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('inclusionName').value.trim();
-            
-            if (!name) {
-                showToast('Please enter an inclusion name', 'error');
-                return;
-            }
-            
-            const formData = new FormData();
-            formData.append('action', 'add_inclusion');
-            formData.append('name', name);
-            
-            fetch('admin_process.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    document.getElementById('inclusionForm').reset();
-                    loadInclusionsList();
-                }
-            });
-        });
+ document.getElementById('inclusionForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#inclusionForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const name = document.getElementById('inclusionName').value.trim();
+    
+    if (!name) {
+        showToast('Please enter an inclusion name', 'error');
+        if (submitBtn) setButtonLoading(submitBtn, false);
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('action', 'add_inclusion');
+    formData.append('name', name);
+    
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            document.getElementById('inclusionForm').reset();
+            loadInclusionsList();
+        }
+    })
+    .catch(error => {
+        console.error('Error adding inclusion:', error);
+        showToast('Error adding inclusion: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         
         function deleteInclusion(id) {
             if (confirm('Are you sure you want to delete this inclusion?')) {
@@ -4212,25 +4380,38 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             document.getElementById('menuCategoryModal').classList.remove('open');
         }
         
-        document.getElementById('menuCategoryForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData();
-            const id = document.getElementById('menuCategoryId').value;
-            formData.append('action', id ? 'update_menu_category' : 'add_menu_category');
-            if (id) formData.append('id', id);
-            formData.append('name', document.getElementById('menuCategoryName').value);
-            formData.append('description', document.getElementById('menuCategoryDescription').value);
-            
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeMenuCategoryModal();
-                    loadMenuCategories();
-                }
-            });
-        });
+ document.getElementById('menuCategoryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#menuCategoryForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('menuCategoryId').value;
+    formData.append('action', id ? 'update_menu_category' : 'add_menu_category');
+    if (id) formData.append('id', id);
+    formData.append('name', document.getElementById('menuCategoryName').value);
+    formData.append('description', document.getElementById('menuCategoryDescription').value);
+    
+    fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeMenuCategoryModal();
+            loadMenuCategories();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving menu category:', error);
+        showToast('Error saving menu category: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         
         function loadMenuCategories(page = 1) {
             paginationState.menuCategories.page = page;
@@ -4297,26 +4478,39 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             document.getElementById('sampleMenuModal').classList.remove('open');
         }
         
-        document.getElementById('sampleMenuForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData();
-            const id = document.getElementById('sampleMenuId').value;
-            formData.append('action', id ? 'update_sample_menu' : 'add_sample_menu');
-            if (id) formData.append('id', id);
-            formData.append('title', document.getElementById('sampleMenuTitle').value);
-            formData.append('description', document.getElementById('sampleMenuDescription').value);
-            formData.append('display_order', document.getElementById('sampleMenuOrder').value);
-            
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeSampleMenuModal();
-                    loadSampleMenus();
-                }
-            });
-        });
+document.getElementById('sampleMenuForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#sampleMenuForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('sampleMenuId').value;
+    formData.append('action', id ? 'update_sample_menu' : 'add_sample_menu');
+    if (id) formData.append('id', id);
+    formData.append('title', document.getElementById('sampleMenuTitle').value);
+    formData.append('description', document.getElementById('sampleMenuDescription').value);
+    formData.append('display_order', document.getElementById('sampleMenuOrder').value);
+    
+    fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeSampleMenuModal();
+            loadSampleMenus();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving sample menu:', error);
+        showToast('Error saving sample menu: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         
         function loadSampleMenus(page = 1) {
             paginationState.sampleMenus.page = page;
@@ -4436,29 +4630,50 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             document.getElementById('sampleMenuItemOrder').value = item.display_order || 0;
         }
         
-        document.getElementById('sampleMenuItemForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData();
-            const id = document.getElementById('sampleMenuItemId').value;
-            const menuId = document.getElementById('sampleMenuItemsMenuId').value;
-            
-            formData.append('action', id ? 'update_sample_menu_item' : 'add_sample_menu_item');
-            if (id) formData.append('id', id);
-            formData.append('menu_id', menuId);
-            formData.append('name', document.getElementById('sampleMenuItemName').value);
-            formData.append('price', document.getElementById('sampleMenuItemPrice').value);
-            formData.append('display_order', document.getElementById('sampleMenuItemOrder').value);
-            
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    resetSampleMenuItemForm();
-                    loadSampleMenuItems(menuId);
-                }
-            });
-        });
+document.getElementById('sampleMenuItemForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get the submit button
+    const submitBtn = document.querySelector('#sampleMenuItemForm button[type="submit"]');
+    
+    // Set loading state
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('sampleMenuItemId').value;
+    const menuId = document.getElementById('sampleMenuItemsMenuId').value;
+    
+    formData.append('action', id ? 'update_sample_menu_item' : 'add_sample_menu_item');
+    if (id) formData.append('id', id);
+    formData.append('menu_id', menuId);
+    formData.append('name', document.getElementById('sampleMenuItemName').value);
+    formData.append('price', document.getElementById('sampleMenuItemPrice').value);
+    formData.append('display_order', document.getElementById('sampleMenuItemOrder').value);
+    
+    fetch('admin_process.php', { 
+        method: 'POST', 
+        body: formData, 
+        credentials: 'include' 
+    })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            resetSampleMenuItemForm();
+            loadSampleMenuItems(menuId);
+        }
+    })
+    .catch(error => {
+        console.error('Error saving menu item:', error);
+        showToast('Error saving menu item: ' + error.message, 'error');
+    })
+    .finally(() => {
+        // ALWAYS clear loading state
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         
         function deleteSampleMenuItem(id) {
             if (confirm('Are you sure you want to delete this menu item?')) {
@@ -4506,35 +4721,47 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             document.getElementById('tableTypeModal').classList.remove('open');
         }
         
-        document.getElementById('tableTypeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData();
-            const id = document.getElementById('tableTypeId').value;
-            formData.append('action', id ? 'update_table_type' : 'add_table_type');
-            if (id) formData.append('id', id);
-            formData.append('name', document.getElementById('tableTypeName').value);
-            formData.append('description', document.getElementById('tableTypeDescription').value);
-            formData.append('max_people', document.getElementById('tableTypeMaxPeople').value);
-            formData.append('price', document.getElementById('tableTypePrice').value);
-            formData.append('display_order', document.getElementById('tableTypeOrder').value);
-            formData.append('image', document.getElementById('tableTypeImage').value);
-            
-            // Add file if selected
-            const imageFile = document.getElementById('tableTypeImageFile').files[0];
-            if (imageFile) {
-                formData.append('image', imageFile);
-            }
-            
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeTableTypeModal();
-                    loadTableTypes();
-                }
-            });
-        });
+ document.getElementById('tableTypeForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#tableTypeForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('tableTypeId').value;
+    formData.append('action', id ? 'update_table_type' : 'add_table_type');
+    if (id) formData.append('id', id);
+    formData.append('name', document.getElementById('tableTypeName').value);
+    formData.append('description', document.getElementById('tableTypeDescription').value);
+    formData.append('max_people', document.getElementById('tableTypeMaxPeople').value);
+    formData.append('price', document.getElementById('tableTypePrice').value);
+    formData.append('display_order', document.getElementById('tableTypeOrder').value);
+    formData.append('image', document.getElementById('tableTypeImage').value);
+    
+    const imageFile = document.getElementById('tableTypeImageFile').files[0];
+    if (imageFile) {
+        formData.append('image', imageFile);
+    }
+    
+    fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeTableTypeModal();
+            loadTableTypes();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving table type:', error);
+        showToast('Error saving table type: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         
         function loadTableTypes(page = 1) {
             paginationState.tableTypes.page = page;
@@ -4716,37 +4943,49 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             document.getElementById('menuItemModal').classList.remove('open');
         }
         
-        document.getElementById('menuItemForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData();
-            const id = document.getElementById('menuItemId').value;
-            formData.append('action', id ? 'update_menu_item' : 'add_menu_item');
-            if (id) formData.append('id', id);
-            formData.append('name', document.getElementById('menuItemName').value);
-            formData.append('category_id', document.getElementById('menuItemCategory').value);
-            formData.append('price', document.getElementById('menuItemPrice').value);
-            formData.append('description', document.getElementById('menuItemDescription').value);
-            formData.append('display_order', document.getElementById('menuItemOrder').value);
-            formData.append('is_signature', document.getElementById('menuItemSignature').value);
-            formData.append('is_available', document.getElementById('menuItemAvailable').value);
-            formData.append('image', document.getElementById('menuItemImage').value);
-            
-            // Add file if selected
-            const imageFile = document.getElementById('menuItemImageFile').files[0];
-            if (imageFile) {
-                formData.append('imageFile', imageFile);
-            }
+document.getElementById('menuItemForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('#menuItemForm button[type="submit"]');
+    setButtonLoading(submitBtn, true, 'Saving...');
+    
+    const formData = new FormData();
+    const id = document.getElementById('menuItemId').value;
+    formData.append('action', id ? 'update_menu_item' : 'add_menu_item');
+    if (id) formData.append('id', id);
+    formData.append('name', document.getElementById('menuItemName').value);
+    formData.append('category_id', document.getElementById('menuItemCategory').value);
+    formData.append('price', document.getElementById('menuItemPrice').value);
+    formData.append('description', document.getElementById('menuItemDescription').value);
+    formData.append('display_order', document.getElementById('menuItemOrder').value);
+    formData.append('is_signature', document.getElementById('menuItemSignature').value);
+    formData.append('is_available', document.getElementById('menuItemAvailable').value);
+    formData.append('image', document.getElementById('menuItemImage').value);
+    
+    const imageFile = document.getElementById('menuItemImageFile').files[0];
+    if (imageFile) {
+        formData.append('imageFile', imageFile);
+    }
 
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                showToast(data.message, data.success ? 'success' : 'error');
-                if (data.success) {
-                    closeMenuItemModal();
-                    loadSignatureDishes();
-                }
-            });
-        });
+    fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            closeMenuItemModal();
+            loadSignatureDishes();
+        }
+    })
+    .catch(error => {
+        console.error('Error saving menu item:', error);
+        showToast('Error saving menu item: ' + error.message, 'error');
+    })
+    .finally(() => {
+        if (submitBtn) {
+            setButtonLoading(submitBtn, false);
+        }
+    });
+});
         
         function loadMenuItems(page = 1, signatureOnly = false) {
             paginationState.menuItems.page = page;
@@ -4806,58 +5045,85 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         
         // Password form - only add listener if element exists
         const passwordForm = document.getElementById('passwordForm');
-        if (passwordForm) {
-            passwordForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const currentPassword = document.getElementById('currentPassword').value;
-                const newPassword = document.getElementById('newPassword').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
-                
-                if (newPassword !== confirmPassword) {
-                    showToast('New passwords do not match!', 'error');
-                    return;
-                }
-                
-                if (newPassword.length < 6) {
-                    showToast('Password must be at least 6 characters!', 'error');
-                    return;
-                }
-                
-                const formData = new FormData();
-                formData.append('action', 'update_admin_password');
-                formData.append('current_password', currentPassword);
-                formData.append('new_password', newPassword);
-                
-                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-                .then(res => res.json())
-                .then(data => {
-                    showToast(data.message, data.success ? 'success' : 'error');
-                    if (data.success) {
-                        document.getElementById('passwordForm').reset();
-                    }
-                });
-            });
+if (passwordForm) {
+    passwordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.querySelector('#passwordForm button[type="submit"]');
+        setButtonLoading(submitBtn, true, 'Updating...');
+        
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (newPassword !== confirmPassword) {
+            showToast('New passwords do not match!', 'error');
+            if (submitBtn) setButtonLoading(submitBtn, false);
+            return;
         }
+        
+        if (newPassword.length < 6) {
+            showToast('Password must be at least 6 characters!', 'error');
+            if (submitBtn) setButtonLoading(submitBtn, false);
+            return;
+        }
+        
+        const formData = new FormData();
+        formData.append('action', 'update_admin_password');
+        formData.append('current_password', currentPassword);
+        formData.append('new_password', newPassword);
+        
+        fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+        .then(res => res.json())
+        .then(data => {
+            showToast(data.message, data.success ? 'success' : 'error');
+            if (data.success) {
+                document.getElementById('passwordForm').reset();
+            }
+        })
+        .catch(error => {
+            console.error('Error updating password:', error);
+            showToast('Error updating password: ' + error.message, 'error');
+        })
+        .finally(() => {
+            if (submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
+        });
+    });
+}
         
         // Settings form - only add listener if element exists
         const settingsForm = document.getElementById('settingsForm');
-        if (settingsForm) {
-            settingsForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData();
-                formData.append('action', 'update_admin_settings');
-                formData.append('site_name', document.getElementById('siteName').value);
-                formData.append('contact_email', document.getElementById('contactEmail').value);
-                formData.append('contact_phone', document.getElementById('contactPhone').value);
-                
-                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-                .then(res => res.json())
-                .then(data => {
-                    showToast(data.message, data.success ? 'success' : 'error');
-                });
-            });
-        }
-
+ if (settingsForm) {
+    settingsForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const submitBtn = document.querySelector('#settingsForm button[type="submit"]');
+        setButtonLoading(submitBtn, true, 'Saving...');
+        
+        const formData = new FormData();
+        formData.append('action', 'update_admin_settings');
+        formData.append('site_name', document.getElementById('siteName').value);
+        formData.append('contact_email', document.getElementById('contactEmail').value);
+        formData.append('contact_phone', document.getElementById('contactPhone').value);
+        
+        fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
+        .then(res => res.json())
+        .then(data => {
+            showToast(data.message, data.success ? 'success' : 'error');
+        })
+        .catch(error => {
+            console.error('Error saving settings:', error);
+            showToast('Error saving settings: ' + error.message, 'error');
+        })
+        .finally(() => {
+            if (submitBtn) {
+                setButtonLoading(submitBtn, false);
+            }
+        });
+    });
+}
     </script>
     
     <!-- Toast Notification Container -->

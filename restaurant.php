@@ -527,12 +527,12 @@ $sampleMenus = getAllSampleMenus($pdo);
                         </div>
                         
                         <div class="space-y-3 mb-8">
-                            <?php foreach ($menu['items'] as $item): ?>
-                            <div class="menu-item">
-                                <span class="text-[#5c524a]"><?php echo htmlspecialchars($item['name']); ?></span>
-                                <span class="text-[#1e4d40] text-sm font-medium"><?php echo htmlspecialchars($item['price']); ?></span>
-                            </div>
-                            <?php endforeach; ?>
+                          <?php foreach ($menu['items'] as $item): ?>
+<div class="menu-item">
+    <span class="text-[#5c524a]"><?php echo htmlspecialchars($item['name']); ?></span>
+    <span class="text-[#1e4d40] text-sm font-medium">KSh <?php echo htmlspecialchars($item['price']); ?></span>
+</div>
+<?php endforeach; ?>
                         </div>
                         
                         <a href="menu-pdf.php" target="_blank" class="inline-flex items-center gap-2 text-[#2d5a4a] hover:text-[#1e4d40] transition-colors text-sm">
