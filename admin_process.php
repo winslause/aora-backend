@@ -1829,117 +1829,181 @@ switch ($action) {
         break;
     
     // Add menu item
-    case 'add_menu_item':
-        checkAdminSession();
-        $category_id = $_POST['category_id'] ?? null;
-        $name = $_POST['name'] ?? '';
-        $description = $_POST['description'] ?? '';
-        $price = $_POST['price'] ?? 0;
-        $image = $_POST['image'] ?? '';
-        $is_signature = $_POST['is_signature'] ?? 0;
-        $is_available = $_POST['is_available'] ?? 1;
-        $ingredients = $_POST['ingredients'] ?? '[]';
-        $allergens = $_POST['allergens'] ?? '[]';
+case 'add_menu_item':
+    checkAdminSession();
+    $category_id = $_POST['category_id'] ?? null;
+    $name = $_POST['name'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $price = $_POST['price'] ?? 0;
+    $is_signature = $_POST['is_signature'] ?? 0;
+    $is_available = $_POST['is_available'] ?? 1;
+    $ingredients = $_POST['ingredients'] ?? '[]';
+    $allergens = $_POST['allergens'] ?? '[]';
+    
+    // Get next display order
+    $stmt = $pdo->prepare("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM menu_items WHERE category_id = ?");
+    $stmt->execute([$category_id]);
+    $display_order = $stmt->fetch()['next_order'];
+    
+    // ====== FIXED: IMAGE HANDLING ======
+    $image = '';
+    $uploadSuccess = false;
+    
+    // Check for file upload with key 'imageFile' (matches JavaScript)
+    if (isset($_FILES['imageFile']) && $_FILES['imageFile']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = __DIR__ . '/uploads/menu/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
         
-        // Get next display order automatically for this category
-        $stmt = $pdo->prepare("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM menu_items WHERE category_id = ?");
-        $stmt->execute([$category_id]);
-        $display_order = $stmt->fetch()['next_order'];
+        $tmpName = $_FILES['imageFile']['tmp_name'];
+        $fileName = basename($_FILES['imageFile']['name']);
+        $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
         
-        // Handle image upload
-        if (!empty($_FILES['image']['name'])) {
-            $uploadDir = __DIR__ . '/uploads/menu/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
-            }
-            $tmpName = $_FILES['image']['tmp_name'];
-            $fileName = basename($_FILES['image']['name']);
-            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+        if (in_array($ext, $allowed)) {
             $newName = 'menu_' . uniqid() . '.' . $ext;
             $targetPath = $uploadDir . $newName;
             
             if (move_uploaded_file($tmpName, $targetPath)) {
                 $image = 'uploads/menu/' . $newName;
+                $uploadSuccess = true;
+                error_log("Image uploaded successfully: " . $image);
+            } else {
+                error_log("Failed to move uploaded file: " . $tmpName . " to " . $targetPath);
             }
+        } else {
+            error_log("Invalid file type: " . $ext);
         }
-        
-        try {
-            $stmt = $pdo->prepare("INSERT INTO menu_items (category_id, name, description, price, image, is_signature, is_available, display_order, ingredients, allergens) VALUES (:category_id, :name, :description, :price, :image, :is_signature, :is_available, :display_order, :ingredients, :allergens)");
-            $stmt->execute([
-                'category_id' => $category_id, 
-                'name' => $name, 
-                'description' => $description, 
-                'price' => $price, 
-                'image' => $image, 
-                'is_signature' => $is_signature, 
-                'is_available' => $is_available, 
-                'display_order' => $display_order, 
-                'ingredients' => $ingredients, 
-                'allergens' => $allergens
-            ]);
-            echo json_encode(['success' => true, 'message' => 'Menu item added successfully', 'id' => $pdo->lastInsertId()]);
-        } catch (PDOException $e) {
-            echo json_encode(['success' => false, 'message' => 'Error adding menu item']);
+    }
+    
+    // If no file uploaded, check for URL from form
+    if (!$uploadSuccess && !empty($_POST['image']) && filter_var($_POST['image'], FILTER_VALIDATE_URL)) {
+        $image = $_POST['image'];
+        error_log("Using URL image: " . $image);
+    }
+    
+    // LOG THE RESULT FOR DEBUGGING
+    error_log("Signature dish: " . $is_signature . ", Image: " . ($image ?: 'EMPTY') . ", Upload success: " . ($uploadSuccess ? 'YES' : 'NO'));
+    
+    // IMPORTANT: For signature dishes, only use placeholder if NO image was provided at all
+    // If user uploaded a file but it failed, we should NOT silently replace with placeholder
+    if (empty($image) && $is_signature == 1 && !$uploadSuccess) {
+        // Only use placeholder if user didn't try to upload or provide a URL
+        if (empty($_FILES['imageFile']['name']) && empty($_POST['image'])) {
+            $image = 'https://via.placeholder.com/300x200/f5f0eb/8a735b?text=Signature+Dish';
+            error_log("Using placeholder for signature dish (no image provided)");
+        } else {
+            // User tried to upload but it failed - return error
+            echo json_encode(['success' => false, 'message' => 'Image upload failed. Please try again.']);
+            break;
         }
-        break;
+    }
+    
+    try {
+        $stmt = $pdo->prepare("INSERT INTO menu_items (category_id, name, description, price, image, is_signature, is_available, display_order, ingredients, allergens) VALUES (:category_id, :name, :description, :price, :image, :is_signature, :is_available, :display_order, :ingredients, :allergens)");
+        $stmt->execute([
+            'category_id' => $category_id, 
+            'name' => $name, 
+            'description' => $description, 
+            'price' => $price, 
+            'image' => $image, 
+            'is_signature' => $is_signature, 
+            'is_available' => $is_available, 
+            'display_order' => $display_order, 
+            'ingredients' => $ingredients, 
+            'allergens' => $allergens
+        ]);
+        echo json_encode(['success' => true, 'message' => 'Menu item added successfully', 'id' => $pdo->lastInsertId(), 'image' => $image]);
+    } catch (PDOException $e) {
+        error_log('Error adding menu item: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error adding menu item: ' . $e->getMessage()]);
+    }
+    break;
     
     // Update menu item
-    case 'update_menu_item':
-        checkAdminSession();
-        $id = $_POST['id'];
-        $category_id = $_POST['category_id'] ?? null;
-        $name = $_POST['name'] ?? '';
-        $description = $_POST['description'] ?? '';
-        $price = $_POST['price'] ?? 0;
-        $is_signature = $_POST['is_signature'] ?? 0;
-        $is_available = $_POST['is_available'] ?? 1;
-        $display_order = $_POST['display_order'] ?? 0;
-        $ingredients = $_POST['ingredients'] ?? '[]';
-        $allergens = $_POST['allergens'] ?? '[]';
+case 'update_menu_item':
+    checkAdminSession();
+    $id = $_POST['id'];
+    $category_id = $_POST['category_id'] ?? null;
+    $name = $_POST['name'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $price = $_POST['price'] ?? 0;
+    $is_signature = $_POST['is_signature'] ?? 0;
+    $is_available = $_POST['is_available'] ?? 1;
+    $display_order = $_POST['display_order'] ?? 0;
+    $ingredients = $_POST['ingredients'] ?? '[]';
+    $allergens = $_POST['allergens'] ?? '[]';
+    
+    // Get existing image
+    $stmt = $pdo->prepare("SELECT image FROM menu_items WHERE id = ?");
+    $stmt->execute([$id]);
+    $existingItem = $stmt->fetch();
+    $image = $existingItem['image'] ?? '';
+    $uploadSuccess = false;
+    
+    // Check for file upload with key 'imageFile'
+    if (isset($_FILES['imageFile']) && $_FILES['imageFile']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = __DIR__ . '/uploads/menu/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
         
-        // Get existing image
-        $stmt = $pdo->prepare("SELECT image FROM menu_items WHERE id = ?");
-        $stmt->execute([$id]);
-        $existingItem = $stmt->fetch();
-        $image = $existingItem['image'] ?? '';
+        $tmpName = $_FILES['imageFile']['tmp_name'];
+        $fileName = basename($_FILES['imageFile']['name']);
+        $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
         
-        // Handle image upload
-        if (!empty($_FILES['image']['name'])) {
-            $uploadDir = __DIR__ . '/uploads/menu/';
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0755, true);
-            }
-            $tmpName = $_FILES['image']['tmp_name'];
-            $fileName = basename($_FILES['image']['name']);
-            $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+        if (in_array($ext, $allowed)) {
             $newName = 'menu_' . uniqid() . '.' . $ext;
             $targetPath = $uploadDir . $newName;
             
             if (move_uploaded_file($tmpName, $targetPath)) {
+                // Delete old image if exists and is local
+                if (!empty($image) && strpos($image, 'uploads/menu/') === 0) {
+                    $oldPath = __DIR__ . $image;
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                }
                 $image = 'uploads/menu/' . $newName;
+                $uploadSuccess = true;
+                error_log("Image updated successfully: " . $image);
+            } else {
+                error_log("Failed to move uploaded file: " . $tmpName . " to " . $targetPath);
             }
+        } else {
+            error_log("Invalid file type: " . $ext);
         }
-        
-        try {
-            $stmt = $pdo->prepare("UPDATE menu_items SET category_id = :category_id, name = :name, description = :description, price = :price, image = :image, is_signature = :is_signature, is_available = :is_available, display_order = :display_order, ingredients = :ingredients, allergens = :allergens WHERE id = :id");
-            $stmt->execute([
-                'category_id' => $category_id, 
-                'name' => $name, 
-                'description' => $description, 
-                'price' => $price, 
-                'image' => $image, 
-                'is_signature' => $is_signature, 
-                'is_available' => $is_available, 
-                'display_order' => $display_order, 
-                'ingredients' => $ingredients, 
-                'allergens' => $allergens,
-                'id' => $id
-            ]);
-            echo json_encode(['success' => true, 'message' => 'Menu item updated successfully']);
-        } catch (PDOException $e) {
-            echo json_encode(['success' => false, 'message' => 'Error updating menu item']);
-        }
-        break;
+    }
+    
+    // If no file uploaded, check for URL from form
+    if (!$uploadSuccess && !empty($_POST['image']) && filter_var($_POST['image'], FILTER_VALIDATE_URL)) {
+        $image = $_POST['image'];
+        error_log("Using URL image for update: " . $image);
+    }
+    
+    try {
+        $stmt = $pdo->prepare("UPDATE menu_items SET category_id = :category_id, name = :name, description = :description, price = :price, image = :image, is_signature = :is_signature, is_available = :is_available, display_order = :display_order, ingredients = :ingredients, allergens = :allergens WHERE id = :id");
+        $stmt->execute([
+            'category_id' => $category_id, 
+            'name' => $name, 
+            'description' => $description, 
+            'price' => $price, 
+            'image' => $image, 
+            'is_signature' => $is_signature, 
+            'is_available' => $is_available, 
+            'display_order' => $display_order, 
+            'ingredients' => $ingredients, 
+            'allergens' => $allergens,
+            'id' => $id
+        ]);
+        echo json_encode(['success' => true, 'message' => 'Menu item updated successfully', 'image' => $image]);
+    } catch (PDOException $e) {
+        error_log('Error updating menu item: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'Error updating menu item: ' . $e->getMessage()]);
+    }
+    break;
     
     // Delete menu item
     case 'delete_menu_item':

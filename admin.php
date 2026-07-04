@@ -5117,10 +5117,13 @@ document.getElementById('menuItemForm').addEventListener('submit', function(e) {
     formData.append('is_available', document.getElementById('menuItemAvailable').value);
     formData.append('image', document.getElementById('menuItemImage').value);
     
-    const imageFile = document.getElementById('menuItemImageFile').files[0];
-    if (imageFile) {
-        formData.append('imageFile', imageFile);
-    }
+ // In your menu item form submit handler
+const imageFile = document.getElementById('menuItemImageFile').files[0];
+if (imageFile) {
+    formData.append('imageFile', imageFile);  // ← Must match 'imageFile' in PHP
+}
+// Send URL as fallback
+formData.append('image', document.getElementById('menuItemImage').value);
 
     fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
     .then(res => res.json())
