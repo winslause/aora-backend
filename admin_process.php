@@ -1723,15 +1723,14 @@ switch ($action) {
         checkAdminSession();
         $name = $_POST['name'] ?? '';
         $description = $_POST['description'] ?? '';
-        $icon = $_POST['icon'] ?? 'fa-utensils';
         
         // Get next display order automatically
         $stmt = $pdo->query("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM menu_categories");
         $display_order = $stmt->fetch()['next_order'];
         
         try {
-            $stmt = $pdo->prepare("INSERT INTO menu_categories (name, description, icon, display_order) VALUES (:name, :description, :icon, :display_order)");
-            $stmt->execute(['name' => $name, 'description' => $description, 'icon' => $icon, 'display_order' => $display_order]);
+            $stmt = $pdo->prepare("INSERT INTO menu_categories (name, description, display_order) VALUES (:name, :description, :display_order)");
+            $stmt->execute(['name' => $name, 'description' => $description, 'display_order' => $display_order]);
             echo json_encode(['success' => true, 'message' => 'Category added successfully', 'id' => $pdo->lastInsertId()]);
         } catch (PDOException $e) {
             echo json_encode(['success' => false, 'message' => 'Error adding category']);
@@ -1744,12 +1743,11 @@ switch ($action) {
         $id = $_POST['id'];
         $name = $_POST['name'] ?? '';
         $description = $_POST['description'] ?? '';
-        $icon = $_POST['icon'] ?? 'fa-utensils';
         $display_order = $_POST['display_order'] ?? 0;
         
         try {
-            $stmt = $pdo->prepare("UPDATE menu_categories SET name = :name, description = :description, icon = :icon, display_order = :display_order WHERE id = :id");
-            $stmt->execute(['name' => $name, 'description' => $description, 'icon' => $icon, 'display_order' => $display_order, 'id' => $id]);
+            $stmt = $pdo->prepare("UPDATE menu_categories SET name = :name, description = :description, display_order = :display_order WHERE id = :id");
+            $stmt->execute(['name' => $name, 'description' => $description, 'display_order' => $display_order, 'id' => $id]);
             echo json_encode(['success' => true, 'message' => 'Category updated successfully']);
         } catch (PDOException $e) {
             echo json_encode(['success' => false, 'message' => 'Error updating category']);
@@ -1760,6 +1758,12 @@ switch ($action) {
     case 'delete_menu_category':
         checkAdminSession();
         $id = $_POST['id'];
+        
+        // Delete associated menu items first to avoid foreign key constraint violation
+        $stmt = $pdo->prepare("DELETE FROM menu_items WHERE category_id = ?");
+        $stmt->execute([$id]);
+        
+        // Then delete the category
         $stmt = $pdo->prepare("DELETE FROM menu_categories WHERE id = ?");
         $stmt->execute([$id]);
         echo json_encode(['success' => true, 'message' => 'Category deleted successfully']);

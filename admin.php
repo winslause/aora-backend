@@ -1041,36 +1041,39 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
         </div>
     </div>
 
-    <!-- Menu Category Modal -->
-    <div id="menuCategoryModal" class="modal">
-        <div class="modal-content" style="max-width: 500px;">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="menuCategoryModalTitle" class="text-xl font-semibold">Add New Category</h3>
-                <button onclick="closeMenuCategoryModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="fas fa-times text-xl"></i>
+ <!-- Menu Category Modal -->
+<!-- Menu Category Modal -->
+<div id="menuCategoryModal" class="modal">
+    <div class="modal-content" style="max-width: 500px;">
+        <div class="flex justify-between items-center mb-4">
+            <h3 id="menuCategoryModalTitle" class="text-xl font-semibold">Add New Category</h3>
+            <button onclick="closeMenuCategoryModal()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <form id="menuCategoryForm">
+            <input type="hidden" id="menuCategoryId" value="">
+            <div class="mb-3">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Category Name</label>
+                <input type="text" id="menuCategoryName" class="admin-input" placeholder="e.g., Breakfast, Lunch, Dinner" required>
+            </div>
+            <div class="mb-3">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                <textarea id="menuCategoryDescription" class="admin-input" rows="2" placeholder="Brief description..."></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
+                <input type="number" id="menuCategoryOrder" class="admin-input" value="0">
+            </div>
+            <div class="flex gap-3">
+                <button type="button" onclick="closeMenuCategoryModal()" class="admin-btn-secondary flex-1">Cancel</button>
+                <button type="submit" class="admin-btn-primary flex-1">
+                    <i class="fas fa-save mr-2"></i>Save Category
                 </button>
             </div>
-            <form id="menuCategoryForm">
-                <input type="hidden" id="menuCategoryId">
-                <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Category Name</label>
-                    <input type="text" id="menuCategoryName" class="admin-input" placeholder="e.g., Breakfast, Lunch, Dinner" >
-                </div>
-                <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                    <textarea id="menuCategoryDescription" class="admin-input" rows="2" placeholder="Brief description..."></textarea>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
-                    <input type="number" id="menuCategoryOrder" class="admin-input" value="0" readonly>
-                </div>
-                <div class="flex gap-3">
-                    <button type="button" onclick="closeMenuCategoryModal()" class="admin-btn-secondary flex-1">Cancel</button>
-                    <button type="submit" class="admin-btn-primary flex-1"><i class="fas fa-save mr-2"></i>Save Category</button>
-                </div>
-            </form>
-        </div>
+        </form>
     </div>
+</div>
 
     <!-- Menu Item Modal -->
     <div id="menuItemModal" class="modal">
@@ -4359,42 +4362,93 @@ document.getElementById('galleryVideoForm').addEventListener('submit', function(
 
         // ==================== MENU MANAGEMENT ====================
         
-        // Menu Category Functions
-        function openMenuCategoryModal(category = null) {
-            if (category) {
-                document.getElementById('menuCategoryModalTitle').textContent = 'Edit Category';
-                document.getElementById('menuCategoryId').value = category.id;
-                document.getElementById('menuCategoryName').value = category.name || '';
-                document.getElementById('menuCategoryDescription').value = category.description || '';
-                document.getElementById('menuCategoryOrder').value = category.display_order || 0;
-            } else {
-                document.getElementById('menuCategoryModalTitle').textContent = 'Add New Category';
-                document.getElementById('menuCategoryForm').reset();
-                document.getElementById('menuCategoryId').value = '';
-                document.getElementById('menuCategoryOrder').value = '0';
-            }
-            document.getElementById('menuCategoryModal').classList.add('open');
-        }
-        
-        function closeMenuCategoryModal() {
-            document.getElementById('menuCategoryModal').classList.remove('open');
-        }
-        
- document.getElementById('menuCategoryForm').addEventListener('submit', function(e) {
+ // ==================== MENU CATEGORY MANAGEMENT ====================
+let currentCategoryId = null;
+
+function openMenuCategoryModal(category = null) {
+    const modal = document.getElementById('menuCategoryModal');
+    const title = document.getElementById('menuCategoryModalTitle');
+    const idField = document.getElementById('menuCategoryId');
+    const nameField = document.getElementById('menuCategoryName');
+    const descField = document.getElementById('menuCategoryDescription');
+    const orderField = document.getElementById('menuCategoryOrder');
+    const submitBtn = document.querySelector('#menuCategoryForm button[type="submit"]');
+    
+    // Reset form
+    document.getElementById('menuCategoryForm').reset();
+    idField.value = '';
+    currentCategoryId = null;
+    
+    if (category && category.id) {
+        title.textContent = 'Edit Category';
+        idField.value = category.id;
+        currentCategoryId = category.id;
+        nameField.value = category.name || '';
+        descField.value = category.description || '';
+        orderField.value = category.display_order || 0;
+        submitBtn.innerHTML = '<i class="fas fa-save mr-2"></i>Update Category';
+    } else {
+        title.textContent = 'Add New Category';
+        submitBtn.innerHTML = '<i class="fas fa-save mr-2"></i>Save Category';
+    }
+    
+    modal.classList.add('open');
+}
+
+function closeMenuCategoryModal() {
+    document.getElementById('menuCategoryModal').classList.remove('open');
+    document.getElementById('menuCategoryForm').reset();
+    document.getElementById('menuCategoryId').value = '';
+    currentCategoryId = null;
+}
+
+// Menu Category Form Submit - Updated with better error handling
+document.getElementById('menuCategoryForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
     const submitBtn = document.querySelector('#menuCategoryForm button[type="submit"]');
+    const originalHtml = submitBtn.innerHTML;
+    
+    // Set loading state
     setButtonLoading(submitBtn, true, 'Saving...');
     
-    const formData = new FormData();
     const id = document.getElementById('menuCategoryId').value;
+    const name = document.getElementById('menuCategoryName').value.trim();
+    const description = document.getElementById('menuCategoryDescription').value.trim();
+    const displayOrder = document.getElementById('menuCategoryOrder').value || 0;
+    
+    if (!name) {
+        showToast('Please enter a category name', 'error');
+        setButtonLoading(submitBtn, false);
+        return;
+    }
+    
+    const formData = new FormData();
     formData.append('action', id ? 'update_menu_category' : 'add_menu_category');
     if (id) formData.append('id', id);
-    formData.append('name', document.getElementById('menuCategoryName').value);
-    formData.append('description', document.getElementById('menuCategoryDescription').value);
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('display_order', displayOrder);
     
-    fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-    .then(res => res.json())
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Server returned ' + response.status);
+        }
+        return response.text();
+    })
+    .then(text => {
+        // Try to parse JSON, but handle cases where response might not be JSON
+        try {
+            return JSON.parse(text);
+        } catch (e) {
+            throw new Error('Invalid response from server: ' + text.substring(0, 100));
+        }
+    })
     .then(data => {
         showToast(data.message, data.success ? 'success' : 'error');
         if (data.success) {
@@ -4404,58 +4458,159 @@ document.getElementById('galleryVideoForm').addEventListener('submit', function(
     })
     .catch(error => {
         console.error('Error saving menu category:', error);
-        showToast('Error saving menu category: ' + error.message, 'error');
+        showToast('Error saving category: ' + error.message, 'error');
     })
     .finally(() => {
-        if (submitBtn) {
-            setButtonLoading(submitBtn, false);
-        }
+        // Restore button
+        setButtonLoading(submitBtn, false);
     });
 });
-        
-        function loadMenuCategories(page = 1) {
-            paginationState.menuCategories.page = page;
-            const formData = new FormData();
-            formData.append('action', 'get_all_menu_categories');
-            formData.append('page', page);
-            fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    paginationState.menuCategories.totalPages = data.total_pages || 1;
-                    const tbody = document.getElementById('menuCategoriesTableBody');
-                    if (tbody) {
-                        tbody.innerHTML = data.categories.map(cat => `
+
+function loadMenuCategories(page = 1) {
+    paginationState.menuCategories = paginationState.menuCategories || { page: 1, totalPages: 1 };
+    paginationState.menuCategories.page = page;
+    
+    const formData = new FormData();
+    formData.append('action', 'get_all_menu_categories');
+    formData.append('page', page);
+    
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Server returned ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            paginationState.menuCategories.totalPages = data.total_pages || 1;
+            const tbody = document.getElementById('menuCategoriesTableBody');
+            if (tbody) {
+                if (data.categories && data.categories.length > 0) {
+                    tbody.innerHTML = data.categories.map(cat => {
+                        // Properly escape JSON for onclick - use a different approach
+                        const catId = cat.id;
+                        const catName = cat.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                        const catDesc = (cat.description || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                        const catOrder = cat.display_order || 0;
+                        
+                        return `
                             <tr>
-                                <td class="font-medium">${cat.name}</td>
-                                <td>${cat.description || '-'}</td>
+                                <td class="font-medium">${escapeHtml(cat.name)}</td>
+                                <td>${escapeHtml(cat.description || '-')}</td>
                                 <td>${cat.display_order || 0}</td>
                                 <td>
-                                    <button onclick='openMenuCategoryModal(${JSON.stringify(cat).replace(/'/g, "'")})' class="text-[#b89a78] hover:text-[#8a735b] mr-3"><i class="fas fa-edit"></i></button>
-                                    <button onclick="deleteMenuCategory(${cat.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                    <button onclick="openMenuCategoryModalWithData(${catId}, '${catName}', '${catDesc}', ${catOrder})" class="text-[#b89a78] hover:text-[#8a735b] mr-3">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="deleteMenuCategory(${cat.id})" class="text-gray-400 hover:text-red-500">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </td>
                             </tr>
-                        `).join('');
-                    }
-                    renderPagination('menuCategoriesPagination', paginationState.menuCategories.page, paginationState.menuCategories.totalPages, 'loadMenuCategories');
+                        `;
+                    }).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500 py-4">No categories found. Add your first category!</td></tr>';
                 }
-            });
-        }
-        
-        function deleteMenuCategory(id) {
-            if (confirm('Are you sure you want to delete this category?')) {
-                const formData = new FormData();
-                formData.append('action', 'delete_menu_category');
-                formData.append('id', id);
-                fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
-                .then(res => res.json())
-                .then(data => {
-                    showToast(data.message, data.success ? 'success' : 'error');
-                    if (data.success) loadMenuCategories();
-                });
             }
+            renderPagination('menuCategoriesPagination', paginationState.menuCategories.page, paginationState.menuCategories.totalPages, 'loadMenuCategories');
+        } else {
+            showToast(data.message || 'Error loading categories', 'error');
         }
-        
+    })
+    .catch(error => {
+        console.error('Error loading menu categories:', error);
+        showToast('Error loading categories: ' + error.message, 'error');
+    });
+}
+
+
+
+
+// New function to handle opening the modal with proper data
+function openMenuCategoryModalWithData(id, name, description, displayOrder) {
+    const modal = document.getElementById('menuCategoryModal');
+    const title = document.getElementById('menuCategoryModalTitle');
+    const idField = document.getElementById('menuCategoryId');
+    const nameField = document.getElementById('menuCategoryName');
+    const descField = document.getElementById('menuCategoryDescription');
+    const orderField = document.getElementById('menuCategoryOrder');
+    const submitBtn = document.querySelector('#menuCategoryForm button[type="submit"]');
+    
+    // Reset form
+    document.getElementById('menuCategoryForm').reset();
+    idField.value = '';
+    currentCategoryId = null;
+    
+    if (id) {
+        title.textContent = 'Edit Category';
+        idField.value = id;
+        currentCategoryId = id;
+        nameField.value = name || '';
+        descField.value = description || '';
+        orderField.value = displayOrder || 0;
+        submitBtn.innerHTML = '<i class="fas fa-save mr-2"></i>Update Category';
+    } else {
+        title.textContent = 'Add New Category';
+        submitBtn.innerHTML = '<i class="fas fa-save mr-2"></i>Save Category';
+    }
+    
+    modal.classList.add('open');
+}
+ 
+
+function deleteMenuCategory(id) {
+    if (!confirm('Are you sure you want to delete this category? This will also remove all menu items in this category.')) {
+        return;
+    }
+    
+    const formData = new FormData();
+    formData.append('action', 'delete_menu_category');
+    formData.append('id', id);
+    
+    fetch('admin_process.php', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Server returned ' + response.status);
+        }
+        return response.text();
+    })
+    .then(text => {
+        // Try to parse JSON, but handle cases where response might not be JSON
+        try {
+            return JSON.parse(text);
+        } catch (e) {
+            throw new Error('Invalid response from server: ' + text.substring(0, 100));
+        }
+    })
+    .then(data => {
+        showToast(data.message, data.success ? 'success' : 'error');
+        if (data.success) {
+            loadMenuCategories();
+        }
+    })
+    .catch(error => {
+        console.error('Error deleting category:', error);
+        showToast('Error deleting category: ' + error.message, 'error');
+    });
+}
+
+// Helper function to escape HTML
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
         // ==================== SAMPLE MENUS MANAGEMENT ====================
         
         function openSampleMenuModal(menu = null) {
