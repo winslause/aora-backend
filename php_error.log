@@ -1344,3 +1344,92 @@
 [04-Jul-2026 18:57:57 Europe/Berlin] Signature dish: 1, Image: /uploads/menu/menu_6a493b95aa788.png, Upload success: YES
 [04-Jul-2026 19:01:41 Europe/Berlin] Image uploaded successfully: /uploads/menu/menu_6a493c75e68e0.png
 [04-Jul-2026 19:01:41 Europe/Berlin] Signature dish: 1, Image: /uploads/menu/menu_6a493c75e68e0.png, Upload success: YES
+[06-Jul-2026 20:40:03 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[06-Jul-2026 20:40:03 Europe/Berlin] get_rooms called
+[06-Jul-2026 20:40:03 Europe/Berlin] Rooms found: 6
+[06-Jul-2026 20:40:03 Europe/Berlin] JSON created successfully, length: 6441
+[06-Jul-2026 20:42:15 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[06-Jul-2026 20:42:15 Europe/Berlin] get_rooms called
+[06-Jul-2026 20:42:15 Europe/Berlin] Rooms found: 6
+[06-Jul-2026 20:42:15 Europe/Berlin] JSON created successfully, length: 6441
+[06-Jul-2026 20:43:43 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[06-Jul-2026 20:43:43 Europe/Berlin] get_rooms called
+[06-Jul-2026 20:43:43 Europe/Berlin] Rooms found: 6
+[06-Jul-2026 20:43:43 Europe/Berlin] JSON created successfully, length: 6441
+[06-Jul-2026 20:44:00 Europe/Berlin] Using URL image for update: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrbQgqiEZy3kSi099kZAksqjoVjubO0IcIQGaWa6Y8_VoBNxPCyvnFGA8&s=10
+[06-Jul-2026 20:44:00 Europe/Berlin] Error updating menu item: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`aora`.`menu_items`, CONSTRAINT `menu_items_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `menu_categories` (`id`))
+[06-Jul-2026 20:44:05 Europe/Berlin] Using URL image for update: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrbQgqiEZy3kSi099kZAksqjoVjubO0IcIQGaWa6Y8_VoBNxPCyvnFGA8&s=10
+[06-Jul-2026 20:44:05 Europe/Berlin] Error updating menu item: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`aora`.`menu_items`, CONSTRAINT `menu_items_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `menu_categories` (`id`))
+[06-Jul-2026 20:44:15 Europe/Berlin] Using URL image for update: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrbQgqiEZy3kSi099kZAksqjoVjubO0IcIQGaWa6Y8_VoBNxPCyvnFGA8&s=10
+[06-Jul-2026 20:44:15 Europe/Berlin] Error updating menu item: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`aora`.`menu_items`, CONSTRAINT `menu_items_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `menu_categories` (`id`))
+[06-Jul-2026 20:46:38 Europe/Berlin] API Request: action=get_preorder_items, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_preorder_items
+)
+
+[06-Jul-2026 20:46:38 Europe/Berlin] API Request: action=get_table_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_table_types
+)
+
+[06-Jul-2026 21:15:20 Europe/Berlin] Using URL image for update: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrbQgqiEZy3kSi099kZAksqjoVjubO0IcIQGaWa6Y8_VoBNxPCyvnFGA8&s=10
+[06-Jul-2026 21:15:45 Europe/Berlin] Image updated successfully: uploads/menu/menu_6a4bfee129f86.png
+[06-Jul-2026 21:15:57 Europe/Berlin] Image updated successfully: uploads/menu/menu_6a4bfeed1a5c5.png
+[06-Jul-2026 21:16:09 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[06-Jul-2026 21:16:09 Europe/Berlin] get_rooms called
+[06-Jul-2026 21:16:09 Europe/Berlin] Rooms found: 6
+[06-Jul-2026 21:16:09 Europe/Berlin] JSON created successfully, length: 6441
+[06-Jul-2026 21:16:41 Europe/Berlin] API Request: action=get_table_types, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_table_types
+)
+
+[06-Jul-2026 21:16:41 Europe/Berlin] API Request: action=get_preorder_items, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_preorder_items
+)
+

@@ -1832,13 +1832,28 @@ switch ($action) {
 case 'add_menu_item':
     checkAdminSession();
     $category_id = $_POST['category_id'] ?? null;
+    
+    if (empty($category_id)) {
+        echo json_encode(['success' => false, 'message' => 'Please select a valid category']);
+        break;
+    }
+    
+    $stmt = $pdo->prepare("SELECT id FROM menu_categories WHERE id = ?");
+    $stmt->execute([$category_id]);
+    if (!$stmt->fetch()) {
+        echo json_encode(['success' => false, 'message' => 'Selected category does not exist']);
+        break;
+    }
+    
     $name = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
     $price = $_POST['price'] ?? 0;
     $is_signature = $_POST['is_signature'] ?? 0;
     $is_available = $_POST['is_available'] ?? 1;
-    $ingredients = $_POST['ingredients'] ?? '[]';
+    $ingredients = $_POST['ingredients'] ?? '';
     $allergens = $_POST['allergens'] ?? '[]';
+    $spice_level = $_POST['spice_level'] ?? 'Medium';
+    $dietary_info = $_POST['dietary_info'] ?? '';
     
     // Get next display order
     $stmt = $pdo->prepare("SELECT COALESCE(MAX(display_order), 0) + 1 as next_order FROM menu_items WHERE category_id = ?");
@@ -1901,7 +1916,7 @@ case 'add_menu_item':
     }
     
     try {
-        $stmt = $pdo->prepare("INSERT INTO menu_items (category_id, name, description, price, image, is_signature, is_available, display_order, ingredients, allergens) VALUES (:category_id, :name, :description, :price, :image, :is_signature, :is_available, :display_order, :ingredients, :allergens)");
+        $stmt = $pdo->prepare("INSERT INTO menu_items (category_id, name, description, price, image, is_signature, is_available, display_order, ingredients, spice_level, dietary_info, allergens) VALUES (:category_id, :name, :description, :price, :image, :is_signature, :is_available, :display_order, :ingredients, :spice_level, :dietary_info, :allergens)");
         $stmt->execute([
             'category_id' => $category_id, 
             'name' => $name, 
@@ -1912,6 +1927,8 @@ case 'add_menu_item':
             'is_available' => $is_available, 
             'display_order' => $display_order, 
             'ingredients' => $ingredients, 
+            'spice_level' => $spice_level,
+            'dietary_info' => $dietary_info,
             'allergens' => $allergens
         ]);
         echo json_encode(['success' => true, 'message' => 'Menu item added successfully', 'id' => $pdo->lastInsertId(), 'image' => $image]);
@@ -1926,14 +1943,29 @@ case 'update_menu_item':
     checkAdminSession();
     $id = $_POST['id'];
     $category_id = $_POST['category_id'] ?? null;
+    
+    if (empty($category_id)) {
+        echo json_encode(['success' => false, 'message' => 'Please select a valid category']);
+        break;
+    }
+    
+    $stmt = $pdo->prepare("SELECT id FROM menu_categories WHERE id = ?");
+    $stmt->execute([$category_id]);
+    if (!$stmt->fetch()) {
+        echo json_encode(['success' => false, 'message' => 'Selected category does not exist']);
+        break;
+    }
+    
     $name = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
     $price = $_POST['price'] ?? 0;
     $is_signature = $_POST['is_signature'] ?? 0;
     $is_available = $_POST['is_available'] ?? 1;
     $display_order = $_POST['display_order'] ?? 0;
-    $ingredients = $_POST['ingredients'] ?? '[]';
+    $ingredients = $_POST['ingredients'] ?? '';
     $allergens = $_POST['allergens'] ?? '[]';
+    $spice_level = $_POST['spice_level'] ?? 'Medium';
+    $dietary_info = $_POST['dietary_info'] ?? '';
     
     // Get existing image
     $stmt = $pdo->prepare("SELECT image FROM menu_items WHERE id = ?");
@@ -1984,7 +2016,7 @@ case 'update_menu_item':
     }
     
     try {
-        $stmt = $pdo->prepare("UPDATE menu_items SET category_id = :category_id, name = :name, description = :description, price = :price, image = :image, is_signature = :is_signature, is_available = :is_available, display_order = :display_order, ingredients = :ingredients, allergens = :allergens WHERE id = :id");
+        $stmt = $pdo->prepare("UPDATE menu_items SET category_id = :category_id, name = :name, description = :description, price = :price, image = :image, is_signature = :is_signature, is_available = :is_available, display_order = :display_order, ingredients = :ingredients, spice_level = :spice_level, dietary_info = :dietary_info, allergens = :allergens WHERE id = :id");
         $stmt->execute([
             'category_id' => $category_id, 
             'name' => $name, 
@@ -1995,6 +2027,8 @@ case 'update_menu_item':
             'is_available' => $is_available, 
             'display_order' => $display_order, 
             'ingredients' => $ingredients, 
+            'spice_level' => $spice_level,
+            'dietary_info' => $dietary_info,
             'allergens' => $allergens,
             'id' => $id
         ]);

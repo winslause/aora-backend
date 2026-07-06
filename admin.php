@@ -1105,10 +1105,30 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                         <label class="block text-sm font-medium text-gray-700 mb-2">Display Order</label>
                         <input type="number" id="menuItemOrder" class="admin-input" value="0" readonly>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                    <textarea id="menuItemDescription" class="admin-input" rows="2" placeholder="Item description..."></textarea>
+                    <div class="mb-3 col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <textarea id="menuItemDescription" class="admin-input" rows="2" placeholder="Item description..."></textarea>
+                    </div>
+                    <div class="mb-3 col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Ingredients</label>
+                        <textarea id="menuItemIngredients" class="admin-input" rows="2" placeholder="e.g., Fish, Lemon, Herbs, Garlic (comma separated)"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Spice Level</label>
+                        <select id="menuItemSpiceLevel" class="admin-input">
+                            <option value="">Select Spice Level</option>
+                            <option value="None">None</option>
+                            <option value="Mild">Mild</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Medium-Hot">Medium-Hot</option>
+                            <option value="Hot">Hot</option>
+                            <option value="Extra Hot">Extra Hot</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Dietary Info</label>
+                        <input type="text" id="menuItemDietaryInfo" class="admin-input" placeholder="e.g., Gluten-free, Vegan">
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Image (Upload or URL)</label>
@@ -5053,9 +5073,9 @@ document.getElementById('sampleMenuItemForm').addEventListener('submit', functio
         
         // Menu Item Functions
         function openMenuItemModal(item = null) {
-            // Load categories first
             const formData = new FormData();
             formData.append('action', 'get_all_menu_categories');
+            
             fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
@@ -5063,35 +5083,42 @@ document.getElementById('sampleMenuItemForm').addEventListener('submit', functio
                     const select = document.getElementById('menuItemCategory');
                     select.innerHTML = '<option value="">Select Category</option>' + 
                         data.categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
+                    
+                    if (item) {
+                        document.getElementById('menuItemModalTitle').textContent = 'Edit Menu Item';
+                        document.getElementById('menuItemId').value = item.id;
+                        document.getElementById('menuItemName').value = item.name || '';
+                        document.getElementById('menuItemPrice').value = item.price || '';
+                        document.getElementById('menuItemDescription').value = item.description || '';
+                        document.getElementById('menuItemOrder').value = item.display_order || 0;
+                        document.getElementById('menuItemSignature').value = item.is_signature || 0;
+                        document.getElementById('menuItemAvailable').value = item.is_available || 1;
+                        document.getElementById('menuItemIngredients').value = item.ingredients || '';
+                        document.getElementById('menuItemSpiceLevel').value = item.spice_level || '';
+                        document.getElementById('menuItemDietaryInfo').value = item.dietary_info || '';
+                        document.getElementById('menuItemImage').value = item.image || '';
+                        if (item.image) {
+                            document.getElementById('previewMenuItemImage').innerHTML = `<img src="${item.image}" class="w-32 h-20 object-cover rounded">`;
+                        }
+                        select.value = item.category_id || '';
+                    } else {
+                        document.getElementById('menuItemModalTitle').textContent = 'Add New Menu Item';
+                        document.getElementById('menuItemForm').reset();
+                        document.getElementById('menuItemId').value = '';
+                        document.getElementById('menuItemOrder').value = '0';
+                        document.getElementById('menuItemSignature').value = '0';
+                        document.getElementById('menuItemAvailable').value = '1';
+                        document.getElementById('menuItemIngredients').value = '';
+                        document.getElementById('menuItemSpiceLevel').value = '';
+                        document.getElementById('menuItemDietaryInfo').value = '';
+                        document.getElementById('previewMenuItemImage').innerHTML = '';
+                    }
+                    document.getElementById('menuItemModal').classList.add('open');
                 }
+            })
+            .catch(error => {
+                showToast('Error loading categories: ' + error.message, 'error');
             });
-            
-            if (item) {
-                document.getElementById('menuItemModalTitle').textContent = 'Edit Menu Item';
-                document.getElementById('menuItemId').value = item.id;
-                document.getElementById('menuItemName').value = item.name || '';
-                document.getElementById('menuItemPrice').value = item.price || '';
-                document.getElementById('menuItemDescription').value = item.description || '';
-                document.getElementById('menuItemOrder').value = item.display_order || 0;
-                document.getElementById('menuItemSignature').value = item.is_signature || 0;
-                document.getElementById('menuItemAvailable').value = item.is_available || 1;
-                document.getElementById('menuItemImage').value = item.image || '';
-                if (item.image) {
-                    document.getElementById('previewMenuItemImage').innerHTML = `<img src="${item.image}" class="w-32 h-20 object-cover rounded">`;
-                }
-                setTimeout(() => {
-                    document.getElementById('menuItemCategory').value = item.category_id || '';
-                }, 100);
-            } else {
-                document.getElementById('menuItemModalTitle').textContent = 'Add New Menu Item';
-                document.getElementById('menuItemForm').reset();
-                document.getElementById('menuItemId').value = '';
-                document.getElementById('menuItemOrder').value = '0';
-                document.getElementById('menuItemSignature').value = '0';
-                document.getElementById('menuItemAvailable').value = '1';
-                document.getElementById('previewMenuItemImage').innerHTML = '';
-            }
-            document.getElementById('menuItemModal').classList.add('open');
         }
         
         function closeMenuItemModal() {
@@ -5104,27 +5131,34 @@ document.getElementById('menuItemForm').addEventListener('submit', function(e) {
     const submitBtn = document.querySelector('#menuItemForm button[type="submit"]');
     setButtonLoading(submitBtn, true, 'Saving...');
     
+    const category_id = document.getElementById('menuItemCategory').value;
+    if (!category_id) {
+        showToast('Please select a category', 'error');
+        setButtonLoading(submitBtn, false);
+        return;
+    }
+    
     const formData = new FormData();
     const id = document.getElementById('menuItemId').value;
     formData.append('action', id ? 'update_menu_item' : 'add_menu_item');
     if (id) formData.append('id', id);
+    formData.append('category_id', category_id);
     formData.append('name', document.getElementById('menuItemName').value);
-    formData.append('category_id', document.getElementById('menuItemCategory').value);
     formData.append('price', document.getElementById('menuItemPrice').value);
     formData.append('description', document.getElementById('menuItemDescription').value);
     formData.append('display_order', document.getElementById('menuItemOrder').value);
     formData.append('is_signature', document.getElementById('menuItemSignature').value);
     formData.append('is_available', document.getElementById('menuItemAvailable').value);
+    formData.append('ingredients', document.getElementById('menuItemIngredients').value);
+    formData.append('spice_level', document.getElementById('menuItemSpiceLevel').value);
+    formData.append('dietary_info', document.getElementById('menuItemDietaryInfo').value);
     formData.append('image', document.getElementById('menuItemImage').value);
     
- // In your menu item form submit handler
-const imageFile = document.getElementById('menuItemImageFile').files[0];
-if (imageFile) {
-    formData.append('imageFile', imageFile);  // ← Must match 'imageFile' in PHP
-}
-// Send URL as fallback
-formData.append('image', document.getElementById('menuItemImage').value);
-
+    const imageFile = document.getElementById('menuItemImageFile').files[0];
+    if (imageFile) {
+        formData.append('imageFile', imageFile);
+    }
+    
     fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
     .then(res => res.json())
     .then(data => {

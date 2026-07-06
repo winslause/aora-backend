@@ -476,7 +476,7 @@ $sampleMenus = getAllSampleMenus($pdo);
                     <?php 
                     $delay = 0.1;
                     foreach ($signatureDishes as $index => $dish): 
-                        $dishKey = strtolower(str_replace(' ', '', $dish['name']));
+                        $dishKey = preg_replace('/[^a-z0-9]/', '', strtolower($dish['name']));
                     ?>
                     <div class="dish-item group h-[400px] relative reveal" style="transition-delay: <?php echo $delay; ?>s;" onclick="openDishModal('<?php echo $dishKey; ?>')">
                         <img src="<?php echo htmlspecialchars($dish['image']); ?>" 
@@ -747,16 +747,21 @@ $sampleMenus = getAllSampleMenus($pdo);
     <script>
         // Dynamic dish data from PHP database
         const dishData = {};
-        <?php foreach ($signatureDishes as $dish): ?>
-        dishData['<?php echo strtolower(str_replace(' ', '', $dish['name'])); ?>'] = {
-            name: '<?php echo addslashes($dish['name']); ?>',
-            description: '<?php echo addslashes($dish['description']); ?>',
-            longDescription: '<?php echo addslashes($dish['description']); ?>',
+        <?php foreach ($signatureDishes as $dish): 
+            $dishKey = preg_replace('/[^a-z0-9]/', '', strtolower($dish['name']));
+            $ingredients = isset($dish['ingredients']) && $dish['ingredients'] !== '' 
+                ? array_map('trim', explode(',', $dish['ingredients'])) 
+                : [];
+        ?>
+        dishData['<?php echo $dishKey; ?>'] = {
+            name: <?php echo json_encode($dish['name']); ?>,
+            description: <?php echo json_encode($dish['description']); ?>,
+            longDescription: <?php echo json_encode($dish['description']); ?>,
             price: 'KSh <?php echo number_format($dish['price']); ?>',
-            image: '<?php echo addslashes($dish['image']); ?>',
-            ingredients: '<?php echo addslashes($dish['ingredients'] ?? ''); ?>'.split(',').filter(i => i.trim()),
-            spiceLevel: '<?php echo addslashes($dish['spice_level'] ?? 'Medium'); ?>',
-            dietary: '<?php echo addslashes($dish['dietary_info'] ?? ''); ?>'
+            image: <?php echo json_encode($dish['image']); ?>,
+            ingredients: <?php echo json_encode($ingredients); ?>,
+            spiceLevel: <?php echo json_encode($dish['spice_level'] ?? 'Medium'); ?>,
+            dietary: <?php echo json_encode($dish['dietary_info'] ?? ''); ?>
         };
         <?php endforeach; ?>
 

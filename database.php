@@ -227,7 +227,18 @@ function getAllMenuCategories($pdo) {
 function getMenuItemsByCategory($pdo, $categoryId) {
     $stmt = $pdo->prepare("SELECT * FROM menu_items WHERE category_id = :category_id AND is_available = 1 ORDER BY is_signature DESC, name ASC");
     $stmt->execute([':category_id' => $categoryId]);
-    return $stmt->fetchAll();
+    $items = $stmt->fetchAll();
+    
+    foreach ($items as &$item) {
+        if (isset($item['ingredients']) && is_string($item['ingredients'])) {
+            $item['ingredients'] = str_replace(["\r", "\n"], ' ', $item['ingredients']);
+        }
+        if (isset($item['description']) && is_string($item['description'])) {
+            $item['description'] = str_replace(["\r", "\n"], ' ', $item['description']);
+        }
+    }
+    
+    return $items;
 }
 
 // Function to get all menu items
@@ -236,7 +247,18 @@ function getAllMenuItems($pdo) {
                            LEFT JOIN menu_categories mc ON mi.category_id = mc.id 
                            WHERE mi.is_available = 1 
                            ORDER BY mc.display_order ASC, mi.is_signature DESC, mi.name ASC");
-    return $stmt->fetchAll();
+    $items = $stmt->fetchAll();
+    
+    foreach ($items as &$item) {
+        if (isset($item['ingredients']) && is_string($item['ingredients'])) {
+            $item['ingredients'] = str_replace(["\r", "\n"], ' ', $item['ingredients']);
+        }
+        if (isset($item['description']) && is_string($item['description'])) {
+            $item['description'] = str_replace(["\r", "\n"], ' ', $item['description']);
+        }
+    }
+    
+    return $items;
 }
 
 // Function to get signature dishes
@@ -246,7 +268,18 @@ function getSignatureDishes($pdo) {
                            WHERE mi.is_signature = 1 AND mi.is_available = 1 
                            ORDER BY mi.name ASC");
     $stmt->execute();
-    return $stmt->fetchAll();
+    $dishes = $stmt->fetchAll();
+    
+    foreach ($dishes as &$dish) {
+        if (isset($dish['ingredients']) && is_string($dish['ingredients'])) {
+            $dish['ingredients'] = str_replace(["\r", "\n"], ' ', $dish['ingredients']);
+        }
+        if (isset($dish['description']) && is_string($dish['description'])) {
+            $dish['description'] = str_replace(["\r", "\n"], ' ', $dish['description']);
+        }
+    }
+    
+    return $dishes;
 }
 
 // Function to get all dining experiences
