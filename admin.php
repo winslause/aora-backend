@@ -471,21 +471,21 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                         <div class="border border-gray-200 rounded-lg p-3">
                             <p class="text-xs text-gray-500 mb-2">Image 1 (Main)</p>
                             <input type="file" id="amenityImage1" class="amenity-image-upload w-full text-xs" accept="image/*" data-index="1">
-                            <input type="url" id="amenityImageUrl1" class="admin-input mt-2 text-sm" placeholder="Or paste URL...">
+                            <input type="text" id="amenityImageUrl1" class="admin-input mt-2 text-sm" placeholder="Or paste URL...">
                             <div id="previewAmenityImage1" class="mt-2 preview-container"></div>
                         </div>
                         <!-- Image 2 -->
                         <div class="border border-gray-200 rounded-lg p-3">
                             <p class="text-xs text-gray-500 mb-2">Image 2</p>
                             <input type="file" id="amenityImage2" class="amenity-image-upload w-full text-xs" accept="image/*" data-index="2">
-                            <input type="url" id="amenityImageUrl2" class="admin-input mt-2 text-sm" placeholder="Or paste URL...">
+                            <input type="text" id="amenityImageUrl2" class="admin-input mt-2 text-sm" placeholder="Or paste URL...">
                             <div id="previewAmenityImage2" class="mt-2 preview-container"></div>
                         </div>
                         <!-- Image 3 -->
                         <div class="border border-gray-200 rounded-lg p-3">
                             <p class="text-xs text-gray-500 mb-2">Image 3</p>
                             <input type="file" id="amenityImage3" class="amenity-image-upload w-full text-xs" accept="image/*" data-index="3">
-                            <input type="url" id="amenityImageUrl3" class="admin-input mt-2 text-sm" placeholder="Or paste URL...">
+                            <input type="text" id="amenityImageUrl3" class="admin-input mt-2 text-sm" placeholder="Or paste URL...">
                             <div id="previewAmenityImage3" class="mt-2 preview-container"></div>
                         </div>
                     </div>
@@ -766,7 +766,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
                     <input type="file" id="galleryAlbumCoverFile" class="admin-input mb-2" accept="image/*">
-                    <input type="url" id="galleryAlbumCover" class="admin-input" placeholder="Or paste URL">
+                    <input type="text" id="galleryAlbumCover" class="admin-input" placeholder="Or paste URL">
                     <div id="previewGalleryAlbumCover" class="mt-2"></div>
                 </div>
                 <div class="mb-3">
@@ -812,7 +812,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Image (Upload or URL)</label>
                     <input type="file" id="galleryImageFile" class="admin-input mb-2" accept="image/*">
-                    <input type="url" id="galleryImageSrc" class="admin-input" placeholder="Or paste URL" >
+                    <input type="text" id="galleryImageSrc" class="admin-input" placeholder="Or paste URL" >
                     <div id="previewGalleryImage" class="mt-2"></div>
                 </div>
                 <div class="mb-3">
@@ -895,12 +895,12 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 </div>
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Thumbnail URL</label>
-                    <input type="url" id="galleryVideoThumbnail" class="admin-input" placeholder="https://example.com/thumbnail.jpg">
+                    <input type="text" id="galleryVideoThumbnail" class="admin-input" placeholder="https://example.com/thumbnail.jpg">
                     <div id="previewGalleryVideoThumb" class="mt-2"></div>
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Video URL</label>
-                    <input type="url" id="galleryVideoUrl" class="admin-input" placeholder="https://www.youtube.com/watch?v=..." >
+                    <input type="text" id="galleryVideoUrl" class="admin-input" placeholder="https://www.youtube.com/watch?v=..." >
                 </div>
                 <div class="flex gap-3">
                     <button type="button" onclick="closeGalleryVideoModal()" class="admin-btn-secondary flex-1">Cancel</button>
@@ -1055,7 +1055,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
             <input type="hidden" id="menuCategoryId" value="">
             <div class="mb-3">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Category Name</label>
-                <input type="text" id="menuCategoryName" class="admin-input" placeholder="e.g., Breakfast, Lunch, Dinner" required>
+                <input type="text" id="menuCategoryName" class="admin-input" placeholder="e.g., Breakfast, Lunch, Dinner" >
             </div>
             <div class="mb-3">
                 <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
@@ -1084,7 +1084,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <form id="menuItemForm">
+            <form id="menuItemForm" novalidate>
                 <input type="hidden" id="menuItemId">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="mb-3">
@@ -1133,7 +1133,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Image (Upload or URL)</label>
                     <input type="file" id="menuItemImageFile" class="admin-input mb-2" accept="image/*">
-                    <input type="url" id="menuItemImage" class="admin-input" placeholder="Or paste image URL">
+                    <input type="text" id="menuItemImage" class="admin-input" placeholder="Or paste image URL">
                     <div id="previewMenuItemImage" class="mt-2"></div>
                 </div>
                 <div class="grid grid-cols-2 gap-4 mb-4">
@@ -1333,7 +1333,7 @@ $current_tab = isset($_GET['tab']) ? $_GET['tab'] : 'dashboard';
                 <div class="mb-3">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Image (Upload or URL)</label>
                     <input type="file" id="tableTypeImageFile" class="admin-input mb-2" accept="image/*">
-                    <input type="url" id="tableTypeImage" class="admin-input" placeholder="Or paste image URL">
+                    <input type="text" id="tableTypeImage" class="admin-input" placeholder="Or paste image URL">
                     <div id="previewTableTypeImage" class="mt-2"></div>
                 </div>
                 <div class="flex gap-3">

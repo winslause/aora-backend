@@ -1785,15 +1785,15 @@ switch ($action) {
             // Decode JSON columns if they exist and are valid JSON
             if (isset($item['ingredients']) && $item['ingredients']) {
                 $decoded = json_decode($item['ingredients'], true);
-                $item['ingredients'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
+                $item['ingredients'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? implode(', ', $decoded) : $item['ingredients'];
             } else {
-                $item['ingredients'] = [];
+                $item['ingredients'] = '';
             }
             if (isset($item['allergens']) && $item['allergens']) {
                 $decoded = json_decode($item['allergens'], true);
-                $item['allergens'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
+                $item['allergens'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? implode(', ', $decoded) : $item['allergens'];
             } else {
-                $item['allergens'] = [];
+                $item['allergens'] = '';
             }
         }
         echo json_encode(['success' => true, 'items' => $items, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
@@ -1814,15 +1814,15 @@ switch ($action) {
         foreach ($items as &$item) {
             if (isset($item['ingredients']) && $item['ingredients']) {
                 $decoded = json_decode($item['ingredients'], true);
-                $item['ingredients'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
+                $item['ingredients'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? implode(', ', $decoded) : $item['ingredients'];
             } else {
-                $item['ingredients'] = [];
+                $item['ingredients'] = '';
             }
             if (isset($item['allergens']) && $item['allergens']) {
                 $decoded = json_decode($item['allergens'], true);
-                $item['allergens'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? $decoded : [];
+                $item['allergens'] = (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) ? implode(', ', $decoded) : $item['allergens'];
             } else {
-                $item['allergens'] = [];
+                $item['allergens'] = '';
             }
         }
         echo json_encode(['success' => true, 'items' => $items, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
