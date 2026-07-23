@@ -1778,13 +1778,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     const container = document.getElementById('amenityCategoriesList');
                     container.innerHTML = data.categories.map(cat => `
-                        <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                        <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded" data-id="${cat.id}" data-order="${cat.display_order}">
                             <div class="flex-1">
                                 <span class="font-medium text-sm">${cat.name}</span>
                                 ${cat.description ? `<span class="text-xs text-gray-500 ml-2">${cat.description}</span>` : ''}
                             </div>
                             <div>
-                                <button onclick="editAmenityCategory(${cat.id}, '${cat.name}', '${cat.description || ''}')" class="text-[#b89a78] hover:text-[#8a735b] mr-2">
+                                <button onclick="editAmenityCategory(${cat.id}, '${cat.name}', '${cat.description || ''}', ${cat.display_order})" class="text-[#b89a78] hover:text-[#8a735b] mr-2">
                                     <i class="fas fa-edit text-xs"></i>
                                 </button>
                                 <button onclick="deleteAmenityCategory(${cat.id})" class="text-gray-400 hover:text-red-500">
@@ -1797,7 +1797,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        function editAmenityCategory(id, name, description) {
+        function editAmenityCategory(id, name, description, order) {
             document.getElementById('amenityCategoryName').value = name;
             document.getElementById('amenityCategoryDescription').value = description || '';
             // Add hidden input for ID if not exists
@@ -1809,11 +1809,80 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('amenityCategoryForm').appendChild(hiddenId);
             }
             hiddenId.value = id;
+            // Add hidden input for display_order if not exists
+            let hiddenOrder = document.getElementById('amenityCategoryEditOrder');
+            if (!hiddenOrder) {
+                hiddenOrder = document.createElement('input');
+                hiddenOrder.type = 'hidden';
+                hiddenOrder.id = 'amenityCategoryEditOrder';
+                document.getElementById('amenityCategoryForm').appendChild(hiddenOrder);
+            }
+            hiddenOrder.value = order;
             
             // Change button text
             const submitBtn = document.querySelector('#amenityCategoryForm button[type="submit"]');
             submitBtn.innerHTML = '<i class="fas fa-edit mr-2"></i>Update Category';
         }
+        
+        // Amenity Category Form Submit
+        document.getElementById('amenityCategoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.querySelector('#amenityCategoryForm button[type="submit"]');
+            setButtonLoading(submitBtn, true, 'Saving...');
+            
+            const name = document.getElementById('amenityCategoryName').value.trim();
+            const description = document.getElementById('amenityCategoryDescription').value.trim();
+            const editId = document.getElementById('amenityCategoryEditId')?.value;
+            const displayOrder = document.getElementById('amenityCategoryEditOrder')?.value;
+            
+            if (!name) {
+                showToast('Please enter a category name', 'error');
+                if (submitBtn) setButtonLoading(submitBtn, false);
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('action', editId ? 'update_amenity_category' : 'add_amenity_category');
+            formData.append('name', name);
+            formData.append('description', description);
+            if (editId) {
+                formData.append('id', editId);
+                if (displayOrder) {
+                    formData.append('display_order', displayOrder);
+                }
+            }
+            
+            fetch('admin_process.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                showToast(data.message, data.success ? 'success' : 'error');
+                if (data.success) {
+                    document.getElementById('amenityCategoryForm').reset();
+                    const hiddenId = document.getElementById('amenityCategoryEditId');
+                    if (hiddenId) hiddenId.remove();
+                    const hiddenOrder = document.getElementById('amenityCategoryEditOrder');
+                    if (hiddenOrder) hiddenOrder.remove();
+                    const submitBtn = document.querySelector('#amenityCategoryForm button[type="submit"]');
+                    submitBtn.innerHTML = '<i class="fas fa-plus mr-2"></i>Add Category';
+                    closeAmenityCategoryModal();
+                    loadAmenityCategoriesList();
+                    loadAmenityCategoriesForForm();
+                }
+            })
+            .catch(error => {
+                console.error('Error saving category:', error);
+                showToast('Error saving category: ' + error.message, 'error');
+            })
+            .finally(() => {
+                if (submitBtn) {
+                    setButtonLoading(submitBtn, false);
+                }
+            });
+        });
         
 document.getElementById('amenityFeatureForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -5074,7 +5143,7 @@ document.getElementById('sampleMenuItemForm').addEventListener('submit', functio
         // Menu Item Functions
         function openMenuItemModal(item = null) {
             const formData = new FormData();
-            formData.append('action', 'get_all_menu_categories');
+            formData.append('action', 'get_menu_categories_for_select');
             
             fetch('admin_process.php', { method: 'POST', body: formData, credentials: 'include' })
             .then(res => res.json())

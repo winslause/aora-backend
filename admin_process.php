@@ -1718,6 +1718,14 @@ switch ($action) {
         echo json_encode(['success' => true, 'categories' => $categories, 'total' => $total, 'page' => $page, 'total_pages' => ceil($total / $limit)]);
         break;
     
+    // Get all menu categories (no pagination, for dropdowns)
+    case 'get_menu_categories_for_select':
+        checkAdminSession();
+        $stmt = $pdo->query("SELECT * FROM menu_categories ORDER BY display_order ASC");
+        $categories = $stmt->fetchAll();
+        echo json_encode(['success' => true, 'categories' => $categories]);
+        break;
+    
     // Add menu category
     case 'add_menu_category':
         checkAdminSession();

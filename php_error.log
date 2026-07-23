@@ -1433,3 +1433,15 @@
     [action] => get_preorder_items
 )
 
+[23-Jul-2026 10:21:42 Europe/Berlin] API Request: action=get_rooms, GET=Array
+(
+)
+, POST=Array
+(
+    [action] => get_rooms
+    [limit] => 8
+)
+
+[23-Jul-2026 10:21:42 Europe/Berlin] get_rooms called
+[23-Jul-2026 10:21:42 Europe/Berlin] Rooms found: 6
+[23-Jul-2026 10:21:42 Europe/Berlin] JSON created successfully, length: 6441
